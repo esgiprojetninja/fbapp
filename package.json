@@ -14,5 +14,22 @@
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3"
-  }
+  },
+  "name": "fbapp",
+  "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img width=\"150\"src=\"https://laravel.com/laravel.png\"></a></p>",
+  "version": "0.0.1",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esgiprojetninja/fbapp.git"
+  },
+  "author": "Esgi Ninja Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esgiprojetninja/fbapp/issues"
+  },
+  "homepage": "https://github.com/esgiprojetninja/fbapp#readme"
 }
