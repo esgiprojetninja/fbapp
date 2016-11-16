@@ -5,7 +5,7 @@
         <title>FB APP</title>
     </head>
     <body>
-        <h1>Toto</h1>
+        <div id="fbapp"></div>
         <script src="{{ elixir('js/dist/bundle.js') }}"></script>
     </body>
 </html>
