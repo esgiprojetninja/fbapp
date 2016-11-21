@@ -18,7 +18,7 @@ elixir((mix) => {
         "app.scss",
         "main.scss"
     ])
-       .webpack('app.js')
+       //.webpack('app.js')
        .webpack(
            './resources/assets/js/lib/app.js',
            './public/js/dist'

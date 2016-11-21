@@ -9,7 +9,7 @@ module.exports = {
     './resources/assets/js/lib/main.js'
   ],
   output: {
-    path: path.join(__dirname, 'public/js'),
+    path: path.join(__dirname, 'public/js/dist'),
     filename: 'bundle.js',
     publicPath: '/public/'
   },
