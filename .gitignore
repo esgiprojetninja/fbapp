@@ -8,3 +8,5 @@ Homestead.yaml
 .env
 public/css/*.css.map
 public/js/dist/bundle.js
+public/js/bundle.js
+public/js/dist/bundle.js.map
