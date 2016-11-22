@@ -27,9 +27,15 @@ export const checkLoginStatus = (status) => {
         dispatch(requestLoginStatus(status));
         return facebookLoader.getLoginStatus((response) => {
             if (response.status === "connected") {
-                facebookLoader.getMe((me) => {
-                    dispatch(loginSuccess(me));
-                });
+                facebookLoader.checkPermissions(granted => {
+                    if (granted) {
+                        facebookLoader.getMe((me) => {
+                            dispatch(loginSuccess(me));
+                        });
+                    } else {
+                        dispatch(login());
+                    }
+                })
             } else {
                 dispatch(recieveNotLoggedStatus());
             }

@@ -11,29 +11,35 @@ export default class Loginfb extends React.PureComponent {
         return (
             <div>
                 {this.renderTitle()}
-                <FlatButton
-                    label="Connect with facebook"
-                    primary={true}
-                    onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
-                />
+                {this.renderButton()}
+            </div>
+        );
+    }
+
+    renderButton() {
+        if (this.props.isConnected) {
+            return (
                 <FlatButton
                     label="Logout"
                     secondary={true}
                     onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
                 />
-            </div>
+            );
+        }
+        return (
+            <FlatButton
+                label="Connect with facebook"
+                primary={true}
+                onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
+            />
         );
     }
 
     renderTitle() {
         if (this.props.isConnected) {
-            return (
-                <h1>{this.props.data.name}</h1>
-            )
+            return (<h1>{this.props.data.name}</h1>);
         }
-        return (
-            <h1>Please log in</h1>
-        )
+        return (<h1>Please log in</h1>);
     }
 }
 
