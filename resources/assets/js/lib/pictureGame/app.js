@@ -13,7 +13,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const pictureGameApp = {
-    startApp: (fbObject) => {
+    startApp: () => {
         let store = createStore(
             pictureGameReducers,
             applyMiddleware(thunk)

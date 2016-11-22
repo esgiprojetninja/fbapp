@@ -1,5 +1,4 @@
 import FacebookLoader from "./FacebookLoader";
-import fetch from "isomorphic-fetch";
 
 
 /* Wait FB global before starting app */
