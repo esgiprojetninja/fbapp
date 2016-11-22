@@ -7,3 +7,4 @@ Homestead.json
 Homestead.yaml
 .env
 public/css/*.css.map
+public/js/dist/bundle.js
