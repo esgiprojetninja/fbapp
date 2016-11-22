@@ -18,6 +18,8 @@ const pictureGameApp = {
             pictureGameReducers,
             applyMiddleware(thunk)
         );
+        const logChange = () => {console.info(store.getState());}
+        store.subscribe(logChange);
         render(
             <MuiThemeProvider>
                 <Provider store={store}>

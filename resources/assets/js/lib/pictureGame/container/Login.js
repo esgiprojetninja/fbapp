@@ -1,27 +1,36 @@
 import {connect} from "react-redux";
-import {checkLoginStatus} from "../actions";
+import {
+    checkLoginStatus,
+    login,
+    logout
+} from "../actions";
 import Loginfb from "../ui/LoginFb";
 import FacebookLoader from "../FacebookLoader";
 
 
 const mapStateToProps = (state) => {
-    if (!state.user.isConnected) {
+    // TODO : move this upper
+    if (!state.user.isConnected && !state.user.isFetching) {
         return {
-            user: {
-                isConnected: false,
-                isFetching: false
-            }
-        };
+            ...state.user,
+            isConnected: false,
+            isFetching: false,
+            data: {}
+        }
     }
-    return {
-        user: state.user
-    };
+    return state.user;
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onReady: () => {
-            dispatch(checkLoginStatus());
+        onReady: (status) => {
+            dispatch(checkLoginStatus(status));
+        },
+        onLogoutClicked: (status) => {
+            dispatch(logout(status));
+        },
+        onLoginClicked: (status) => {
+            dispatch(login(status));
         }
     };
 }

@@ -28,8 +28,22 @@ export default class FacebookLoader {
     }
 
     getLoginStatus(callback) {
-        return this.initFbScript().then(() => {
-            return FB.getLoginStatus(callback, true);
-        });
+        return this.initFbScript().then(() => FB.getLoginStatus(callback));
+    }
+
+    login(callback) {
+        return this.initFbScript().then(() => FB.login((response) => {
+            if (response.authResponse) {
+                return FB.api("/me", callback);
+            }
+        }));
+    }
+
+    logout(callback) {
+        return this.initFbScript().then(() => FB.logout(callback));
+    }
+
+    getMe(callback) {
+        return this.initFbScript().then(() => FB.api("/me", callback));
     }
 }
