@@ -1,21 +1,20 @@
 import FacebookLoader from "./FacebookLoader";
+import * as actionTypes from "./actionTypes";
 
 
 /* Wait FB global before starting app */
 const facebookLoader = new FacebookLoader();
 
-export const REQUEST_LOGIN_SATUS = "REQUEST_LOGIN_SATUS";
 export const requestLoginStatus = (status) => {
     return {
-        type: REQUEST_LOGIN_SATUS,
+        type: actionTypes.REQUEST_LOGIN_SATUS,
         status: status
     };
 };
 
-export const RECIEVE_NOT_LOGGED_STATUS = "RECIEVE_NOT_LOGGED_STATUS";
 export const recieveNotLoggedStatus = () => {
     return {
-        type: RECIEVE_NOT_LOGGED_STATUS,
+        type: actionTypes.RECIEVE_NOT_LOGGED_STATUS,
         status: false
     };
 };
@@ -44,27 +43,24 @@ export const checkLoginStatus = (status) => {
 
 // TODO : handle errors on checkLoginStatus
 
-export const REQUEST_LOGIN = "REQUEST_LOGIN";
 export const requestLogin = () => {
     return {
-        type: REQUEST_LOGIN,
+        type: actionTypes.REQUEST_LOGIN,
         isFetching: true
     };
 }
 
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const loginSuccess = (data) => {
     return {
-        type: LOGIN_SUCCESS,
+        type: actionTypes.LOGIN_SUCCESS,
         data: data,
         isFetching: false
     };
 }
 
-export const LOGIN_ERROR = "LOGIN_ERROR";
 export const loginError = (error) => {
     return {
-        type: LOGIN_ERROR,
+        type: actionTypes.LOGIN_ERROR,
         error: error,
         isFetching: false
     };
@@ -82,25 +78,23 @@ export const login = (status) => {
     };
 }
 
-export const REQUEST_LOGOUT = "REQUEST_LOGOUT";
 export const requestLogout = () => {
     return {
-        type: REQUEST_LOGOUT,
+        type: actionTypes.REQUEST_LOGOUT,
         isFetching: true
     };
 }
 
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const logoutSuccess = () => {
     return {
-        type: LOGOUT_SUCCESS,
+        type: actionTypes.LOGOUT_SUCCESS,
+        isFetching: false
     };
 }
 
-export const LOGOUT_ERROR = "LOGOUT_ERROR";
 export const logoutError = (error) => {
     return {
-        type: LOGOUT_ERROR,
+        type: actionTypes.LOGOUT_ERROR,
         error: error,
         isFetching: false
     };

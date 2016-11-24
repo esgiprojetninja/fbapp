@@ -19,7 +19,6 @@ elixir((mix) => {
         "app.scss",
         "main.scss"
     ])
-       //.webpack('app.js')
        .webpack(
            './lib/app.js',
            './public/js/dist'
@@ -39,9 +38,6 @@ Elixir.webpack.mergeConfig({
       filename: 'bundle.min.js',
       publicPath: '/public/'
   },
-  // plugins: [
-  //   new webpack.HotModuleReplacementPlugin()
-  // ],
   module: {
     loaders: [{
       test: /\.jsx?$/,
