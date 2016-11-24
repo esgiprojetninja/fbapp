@@ -10,3 +10,5 @@ public/css/*.css.map
 public/js/dist/bundle.js
 public/js/bundle.js
 public/js/dist/bundle.js.map
+public/js/dist/bundle.min.js
+public/js/dist/bundle.min.js.map
