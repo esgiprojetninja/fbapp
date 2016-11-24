@@ -1,17 +1,18 @@
 var path = require('path');
 var webpack = require('webpack');
 
+const libRoot = "./resources/assets/js/lib/"
 
 module.exports = {
   devtool: 'eval',
   entry: [
-    //'http://localhost:3000',
-    './resources/assets/js/lib/main.js'
+    "babel-polyfill",
+    libRoot + "main.js"
   ],
   output: {
-    path: path.join(__dirname, 'public/js/dist'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
+      path: path.join(__dirname, 'public/js/dist'),
+      filename: 'bundle.min.js',
+      publicPath: '/public/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
@@ -20,6 +21,10 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       loaders: ['babel'],
+      query: {
+        presets: ["es2015", "react"],
+        plugins: ["transform-object-rest-spread"]
+      },
       include: path.join(__dirname, 'public/js/lib')
     }]
   }
