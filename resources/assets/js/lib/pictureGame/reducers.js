@@ -1,7 +1,15 @@
 import {combineReducers} from "redux";
 import * as actionTypes from "./actionTypes";
 
-const user = (state = {}, action) => {
+const initialSate = {
+    user : {
+        isConnected: false,
+        isFetching: false,
+        data: {}
+    }
+};
+
+export const user = (state = initialSate, action) => {
         switch (action.type) {
             case actionTypes.REQUEST_LOGIN_SATUS:
                 return {
