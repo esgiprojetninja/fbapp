@@ -8,12 +8,12 @@ Show what the library does as concisely as possible, developers should be able t
 
 ## Motivation
 
-This is as school but real project.
+This is as school (but real) project.
 
 ## Installation
 
 ```sh
-$ cd [whereever/you/cloned/this]
+$ cd [wherever/you/cloned/this]
 $ composer install
 $ npm install
 $ gulp
