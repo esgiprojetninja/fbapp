@@ -1,8 +1,9 @@
 import React from "react";
-import { createStore } from "redux";
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import AppContainer from "./ui/appContainer";
+import AppWrapper from "./ui/AppWrapper";
 import pictureGameReducers from "./reducers";
 /* Material ui stuff */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -13,11 +14,16 @@ injectTapEventPlugin();
 
 const pictureGameApp = {
     startApp: () => {
-        let store = createStore(pictureGameReducers);
+        let store = createStore(
+            pictureGameReducers,
+            applyMiddleware(thunk)
+        );
+        const logChange = () => {console.info(store.getState());}
+        store.subscribe(logChange);
         render(
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <AppContainer />
+                    <AppWrapper />
                 </Provider>
             </MuiThemeProvider>,
             document.getElementById("fbapp")

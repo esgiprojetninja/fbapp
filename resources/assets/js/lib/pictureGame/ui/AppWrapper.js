@@ -1,15 +1,17 @@
 import React from "react";
 import AppBar from 'material-ui/AppBar';
+import Login from "../container/Login";
 
-const AppContainer = () => {
+const AppWrapper = () => {
     return (
         <div>
             <AppBar
                 title="FB app"
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
             />
+            <Login />
         </div>
     );
 };
 
-export default AppContainer;
+export default AppWrapper;

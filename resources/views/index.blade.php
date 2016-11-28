@@ -7,6 +7,6 @@
     </head>
     <body>
         <div id="fbapp"></div>
-        <script src="{{ elixir('js/dist/bundle.js') }}"></script>
+        <script src="{{ elixir('js/dist/bundle.min.js') }}"></script>
     </body>
 </html>
