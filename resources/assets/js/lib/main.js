@@ -1,7 +1,4 @@
 import React from "react";
+import pictureGameApp from "./pictureGame/app";
 
-const tachatte = (chatte) => {
-    console.debug(chatte);
-};
-
-tachatte("tachatte");
+pictureGameApp.startApp();

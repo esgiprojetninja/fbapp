@@ -1,4 +1,5 @@
 const elixir = require('laravel-elixir');
+var path = require('path');
 
 require('laravel-elixir-vue-2');
 
@@ -14,10 +15,38 @@ require('laravel-elixir-vue-2');
  */
 
 elixir((mix) => {
-    mix.sass('app.scss')
-       .webpack('app.js')
+    mix.sass([
+        "app.scss",
+        "main.scss"
+    ])
        .webpack(
-           './resources/assets/js/lib/app.js',
+           './lib/app.js',
            './public/js/dist'
        );
+});
+
+const libRoot = "./resources/assets/js/lib/"
+
+Elixir.webpack.mergeConfig({
+  devtool: 'eval',
+  entry: [
+    "babel-polyfill",
+    libRoot + "main.js"
+  ],
+  output: {
+      path: path.join(__dirname, 'public/js/dist'),
+      filename: 'bundle.min.js',
+      publicPath: '/public/'
+  },
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['babel'],
+      query: {
+        presets: ["es2015", "react"],
+        plugins: ["transform-object-rest-spread"]
+      },
+      include: path.join(__dirname, 'public/js/lib')
+    }]
+  }
 });
