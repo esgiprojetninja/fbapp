@@ -13,18 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
+/*
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-/*Route::get('/concours', function (Request $request) {
-    return $request->concours();
-})->middleware('auth:api')*/
-
-Route::get('/concours', function () {
-    return "Liste des concours";
+*/
+Route::get('/{apiVersion}/{apiKey}/contests',function($apiVersion,$akiKey){
+  return "Retourne la liste des concours ";
 });
 
-Route::get('/concours/{id}', function ($id) {
-    return "Résumé du concours ".$id;
+
+Route::get('/{apiVersion}/{apiKey}/contest/{id}',function($apiVersion,$apiKey,$id){
+  return "Retourne le concours qui a pour id : ".$id;
 })->where('id','[0-9]+');
