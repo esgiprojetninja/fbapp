@@ -27,7 +27,8 @@ class Contest extends Controller
   */
   public function show($id)
   {
-    return "contest".$id;
+    $contest = DB::table('contests')->where('id','=',$id)->get();
+    return $contest->toJson();
   }
 
 }

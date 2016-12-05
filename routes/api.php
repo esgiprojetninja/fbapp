@@ -25,8 +25,6 @@ Route::group(['prefix' => '/v1'], function () {
   //Route::get('contests',      'Api\v1\UserController@index');
   //Route::get('contest/{id}', 'Api\v1\UserController@show');
   Route::get('/contests','Api\v1\Contest@index');
-
-
   Route::get('/contest/{id}','Api\v1\Contest@show');
 
 });
