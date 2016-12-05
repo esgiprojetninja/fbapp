@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use DB;
 
 class Contest extends Controller
 {
@@ -15,7 +16,8 @@ class Contest extends Controller
   */
   public function index()
   {
-    return "all contest";
+    $contests = DB::table('contests')->get();
+    return $contests->toJson();
   }
 
   /**
