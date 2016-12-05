@@ -22,9 +22,6 @@ $ gulp
 -- Dev --
 ```sh
 $ gulp watch
-$ vagrant global-status
-$ vagrant init id
-$ vagrant up (dans le dossier Homestead, pour lancer le serveur)
 ```
 
 ## Tests
