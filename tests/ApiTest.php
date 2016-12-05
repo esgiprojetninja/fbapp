@@ -9,8 +9,8 @@ class ApiTest extends TestCase
 
   public function testAllContests()
   {
-    $this->visit('/api/v1.3/SEXUEL/contests')
-    ->see('Retourne la liste des concours');
+    $this->visit('/api/v1/contests')
+    ->see('<body><p>all contest</p></body>');
     /*
     $this->get('/contests')
     ->seeJsonStructure([
@@ -23,8 +23,8 @@ class ApiTest extends TestCase
 
   public function testContestById()
   {
-    $this->visit('/api/v1.3/SEXUEL/contest/34')
-    ->see('Retourne le concours qui a pour id : 34');
+    $this->visit('/api/v1/contest/34')
+    ->see('<body><p>contest34</p></body>');
   }
 
 }
