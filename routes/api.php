@@ -15,15 +15,18 @@ use Illuminate\Http\Request;
 
 /*
 Route::get('/user', function (Request $request) {
-    return $request->user();
+return $request->user();
 })->middleware('auth:api');
 
 */
-Route::get('/{apiVersion}/{apiKey}/contests',function($apiVersion,$akiKey){
-  return "Retourne la liste des concours ";
+
+
+Route::group(['prefix' => '/v1'], function () {
+  //Route::get('contests',      'Api\v1\UserController@index');
+  //Route::get('contest/{id}', 'Api\v1\UserController@show');
+  Route::get('/contests','Api\v1\Contest@index');
+
+
+  Route::get('/contest/{id}','Api\v1\Contest@show');
+
 });
-
-
-Route::get('/{apiVersion}/{apiKey}/contest/{id}',function($apiVersion,$apiKey,$id){
-  return "Retourne le concours qui a pour id : ".$id;
-})->where('id','[0-9]+');
