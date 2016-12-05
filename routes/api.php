@@ -16,3 +16,15 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+/*Route::get('/concours', function (Request $request) {
+    return $request->concours();
+})->middleware('auth:api')*/
+
+Route::get('/concours', function () {
+    return "Liste des concours";
+});
+
+Route::get('/concours/{id}', function ($id) {
+    return "Résumé du concours ".$id;
+})->where('id','[0-9]+');
