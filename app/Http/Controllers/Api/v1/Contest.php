@@ -65,7 +65,7 @@ class Contest extends Controller
       'id_winner' => 0 ,
       'start_date' => $_POST['start_date'] ,
       'end_date' => $_POST['end_date'] ,
-      'state' => $_POST['state'] ,
+      'state' => 1 ,
       'description' => $_POST['description'] ,
       'end_msg' => $_POST['end_msg'] ,
       'title' => $_POST['title'] ,
