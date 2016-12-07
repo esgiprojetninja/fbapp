@@ -7,24 +7,54 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ApiTest extends TestCase
 {
 
-  public function testAllContests()
+  public function testGetAllContests()
   {
-    $this->visit('/api/v1/contests')
-    ->see('<body><p>all contest</p></body>');
-    /*
-    $this->get('/contests')
-    ->seeJsonStructure([
-    '*' => [
-    'id', 'name', 'email'
-  ]
-]);
-*/
+    $this->get('/api/v1/contests')
+    ->seeJson([
+      "error"=> false,
+      "response"=> "[GET] show all contests",
+      "status_code"=> 200
+    ]);
   }
 
-  public function testContestById()
+  public function testGetContestById()
   {
-    $this->visit('/api/v1/contest/34')
-    ->see('<body><p>contest34</p></body>');
+    $this->get('/api/v1/contest/32')
+    ->seeJson([
+      "error"=> false,
+      "response"=> "[GET] show one contest by id",
+      "status_code"=> 200
+    ]);
+  }
+
+  public function testUpdateContestById()
+  {
+    $this->post('/api/v1/contest/32')
+    ->seeJson([
+      "error"=> false,
+      "response"=> "[POST] update one contest by id",
+      "status_code"=> 200
+    ]);
+  }
+
+  public function testCreateContest()
+  {
+    $this->post('/api/v1/contest')
+    ->seeJson([
+      "error"=> false,
+      "response"=> "[POST] contest created",
+      "status_code"=> 200
+    ]);
+  }
+
+  public function testDeleteContestById()
+  {
+    $this->delete('/api/v1/contest/32')
+    ->seeJson([
+      "error"=> false,
+      "response"=> "[DELETE] Delete one contest by id",
+      "status_code"=> 200
+    ]);
   }
 
 }
