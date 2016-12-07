@@ -19,6 +19,7 @@ class Contest extends Controller
   public function index()
   {
     //return DB::table('contests')->get()->toJson();
+
     return response()->json([
       'error' => false,
       'response' => "[GET] show all contests",

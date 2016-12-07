@@ -9,52 +9,37 @@ class ApiTest extends TestCase
 
   public function testGetAllContests()
   {
-    $this->get('/api/v1/contests')
-    ->seeJson([
-      "error"=> false,
-      "response"=> "[GET] show all contests",
-      "status_code"=> 200
-    ]);
+    $response = $this->call('GET', 'api/v1/contests');
+    $data = json_decode($response);
+    $this->assertEquals(false, $data['error']);
   }
 
   public function testGetContestById()
   {
-    $this->get('/api/v1/contest/32')
-    ->seeJson([
-      "error"=> false,
-      "response"=> "[GET] show one contest by id",
-      "status_code"=> 200
-    ]);
+    $response = $this->call('GET', 'api/v1/contest/32');
+    $data = json_decode($response);
+    $this->assertEquals(false, $data['error']);
   }
 
   public function testUpdateContestById()
   {
-    $this->put('/api/v1/contest/32')
-    ->seeJson([
-      'error' => false,
-      'response' => "[PUT] update one contest by id",
-      'status_code' => 200
-    ]);
+    $response = $this->call('PUT', 'api/v1/contest/32');
+    $data = json_decode($response);
+    $this->assertEquals(false, $data['error']);
   }
 
   public function testCreateContest()
   {
-    $this->post('/api/v1/contest')
-    ->seeJson([
-      "error"=> false,
-      "response"=> "[POST] contest created",
-      "status_code"=> 200
-    ]);
+    $response = $this->call('POST', 'api/v1/contests');
+    $data = json_decode($response);
+    $this->assertEquals(false, $data['error']);
   }
 
   public function testDeleteContestById()
   {
-    $this->delete('/api/v1/contest/32')
-    ->seeJson([
-      "error"=> false,
-      "response"=> "[DELETE] Delete one contest by id",
-      "status_code"=> 200
-    ]);
+    $response = $this->call('DELETE', 'api/v1/contest/43');
+    $data = json_decode($response);
+    $this->assertEquals(false, $data['error']);
   }
 
 }
