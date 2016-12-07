@@ -15,9 +15,15 @@ class CheckIsAdmin
   */
   public function handle($request, Closure $next)
   {
+    /*
+
+    Rajouter ici la verif is Admin
+
     if ($request->isAdmin == 0) {
       return redirect('home');
     }
+
+    */
     return $next($request);
   }
 }
