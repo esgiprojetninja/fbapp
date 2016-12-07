@@ -20,7 +20,7 @@ class CheckIsAdmin
     Rajouter ici la verif is Admin
 
     if ($request->isAdmin == 0) {
-      return redirect('home');
+      return redirect('/');
     }
 
     */

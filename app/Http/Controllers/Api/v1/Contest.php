@@ -16,11 +16,11 @@ class Contest extends Controller
   */
   public function index()
   {
-    //return DB::table('contests')->get()->toJson();
+    $response = DB::table('contests')->get();
 
     return response()->json([
       'error' => false,
-      'response' => "[GET] show all contests",
+      'response' => $response,
       'status_code' => 200
     ]);
   }
@@ -32,10 +32,10 @@ class Contest extends Controller
   */
   public function show($id)
   {
-    //return DB::table('contests')->where('id','=',$id)->get()->toJson();
+    $response = DB::table('contests')->where('id','=',$id)->get();
     return response()->json([
       'error' => false,
-      'response' => "[GET] show one contest by id",
+      'response' => $response,
       'status_code' => 200
     ]);
   }
@@ -61,9 +61,21 @@ class Contest extends Controller
   */
   public function create()
   {
+    $response = DB::table('contests')->insert([
+      'id_winner' => $_POST['id_winner'] ,
+      'start_date' => $_POST['start_date'] ,
+      'end_date' => $_POST['end_date'] ,
+      'state' => $_POST['state'] ,
+      'description' => $_POST['description'] ,
+      'end_msg' => $_POST['end_msg'] ,
+      'title' => $_POST['title'] ,
+      'id_creator' => $_POST['id_creator'] ,
+      'id_theme' => $_POST['id_theme'] ,
+    ]);
+
     return response()->json([
       'error' => false,
-      'response' => "[POST] contest created",
+      'response' => $response,
       'status_code' => 200
     ]);
   }
@@ -75,9 +87,12 @@ class Contest extends Controller
   */
   public function delete($id)
   {
+
+    $response = DB::table('contests')->where('id','=',$id)->delete();
+
     return response()->json([
       'error' => false,
-      'response' => "[DELETE] Delete one contest by id",
+      'response' => $response,
       'status_code' => 200
     ]);
   }
