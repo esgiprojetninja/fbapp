@@ -1,1 +1,0 @@
-{"virtualbox":{"/home/vagrant/fbapp":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/fbapp","hostpath":"/Users/GoRFy/dev/vagrant-lamp/src/fbapp","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/GoRFy/dev/vagrant-lamp/src/fbapp","disabled":false,"__vagrantfile":true}}}
