@@ -62,7 +62,7 @@ class Contest extends Controller
   public function create()
   {
     $response = DB::table('contests')->insert([
-      'id_winner' => $_POST['id_winner'] ,
+      'id_winner' => 0 ,
       'start_date' => $_POST['start_date'] ,
       'end_date' => $_POST['end_date'] ,
       'state' => $_POST['state'] ,
