@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
+/*
 Route::get('/user', function (Request $request) {
-    return $request->user();
+return $request->user();
 })->middleware('auth:api');
+
+*/
+
+
+Route::group(['prefix' => '/v1'], function () {
+  //Route::get('contests',      'Api\v1\UserController@index');
+  //Route::get('contest/{id}', 'Api\v1\UserController@show');
+  Route::get('/contests','Api\v1\Contest@index');
+  Route::get('/contest/{id}','Api\v1\Contest@show');
+  Route::put('/contest/{id}','Api\v1\Contest@update');
+  Route::post('/contest','Api\v1\Contest@create');
+  Route::delete('/contest/{id}','Api\v1\Contest@delete');
+});
