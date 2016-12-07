@@ -50,7 +50,7 @@ class Contest extends Controller
   {
     return response()->json([
       'error' => false,
-      'response' => "[POST] update one contest by id",
+      'response' => "[PUT] update one contest by id",
       'status_code' => 200
     ]);
   }

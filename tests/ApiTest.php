@@ -29,11 +29,11 @@ class ApiTest extends TestCase
 
   public function testUpdateContestById()
   {
-    $this->post('/api/v1/contest/32')
+    $this->put('/api/v1/contest/32')
     ->seeJson([
-      "error"=> false,
-      "response"=> "[POST] update one contest by id",
-      "status_code"=> 200
+      'error' => false,
+      'response' => "[PUT] update one contest by id",
+      'status_code' => 200
     ]);
   }
 

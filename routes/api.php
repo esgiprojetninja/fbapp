@@ -26,7 +26,7 @@ Route::group(['prefix' => '/v1'], function () {
   //Route::get('contest/{id}', 'Api\v1\UserController@show');
   Route::get('/contests','Api\v1\Contest@index');
   Route::get('/contest/{id}','Api\v1\Contest@show');
-  Route::post('/contest/{id}','Api\v1\Contest@update');
+  Route::put('/contest/{id}','Api\v1\Contest@update');
   Route::post('/contest','Api\v1\Contest@create');
   Route::delete('/contest/{id}','Api\v1\Contest@delete');
 });
