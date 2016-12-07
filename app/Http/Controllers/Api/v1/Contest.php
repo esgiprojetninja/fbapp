@@ -9,8 +9,6 @@ use DB;
 class Contest extends Controller
 {
 
-
-
   /**
   * Show all the contests.
   *
