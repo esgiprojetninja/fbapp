@@ -101,7 +101,7 @@ class Contest extends Controller
   }
 
   /**
-  * Show all contests added by an id creator.
+  * Show all contests by an id creator.
   *
   * @return Response
   */
@@ -116,15 +116,35 @@ class Contest extends Controller
   }
 
   /**
+  * Return the contests by an id winner.
+  *
+  * @return Response
+  */
+  public function getContestByIdWinner($idWinner)
+  {
+    $response = DB::table('contests')->where('id_winner', '=',$idWinner)->get();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
   * Update one contest.
   *
   * @return Response
   */
   public function update($id)
   {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $response = DB::table('contests')->where('id', '=',$id)->update($data);
+
     return response()->json([
       'error' => false,
-      'response' => "[PUT] update one contest by id",
+      'response' =>$response,
       'status_code' => 200
     ]);
   }
@@ -166,10 +186,19 @@ class Contest extends Controller
 
     $response = DB::table('contests')->where('id','=',$id)->delete();
 
+    if($response == 1 ){
+      $error = false;
+      $response = true;
+      $status = 200;
+    }else{
+      $error = true;
+      $response = false;
+      $status = 500;
+    }
     return response()->json([
-      'error' => false,
+      'error' => $error,
       'response' => $response,
-      'status_code' => 200
+      'status_code' => $status
     ]);
   }
 
