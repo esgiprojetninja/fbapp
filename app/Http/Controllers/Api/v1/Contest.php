@@ -41,6 +41,81 @@ class Contest extends Controller
   }
 
   /**
+  * Show the first contest.
+  *
+  * @return Response
+  */
+  public function getFirst()
+  {
+    $response = DB::table('contests')->orderBy('id', 'asc')->first();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
+  * Show the last contest.
+  *
+  * @return Response
+  */
+  public function getLast()
+  {
+    $response = DB::table('contests')->orderBy('id', 'desc')->first();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
+  * Show all contests ended.
+  *
+  * @return Response
+  */
+  public function getEnded()
+  {
+    $response = DB::table('contests')->where('state', '=','0')->first();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
+  * Show in progress contest.
+  *
+  * @return Response
+  */
+  public function getCurrent()
+  {
+    $response = DB::table('contests')->where('state', '=','1')->get();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
+  * Show all contests added by an id creator.
+  *
+  * @return Response
+  */
+  public function getContestsByIdCreator($idCreator)
+  {
+    $response = DB::table('contests')->where('id_creator', '=',$idCreator)->get();
+    return response()->json([
+      'error' => false,
+      'response' => $response,
+      'status_code' => 200
+    ]);
+  }
+
+  /**
   * Update one contest.
   *
   * @return Response
@@ -71,6 +146,7 @@ class Contest extends Controller
       'title' => $_POST['title'] ,
       'id_creator' => $_POST['id_creator'] ,
       'id_theme' => $_POST['id_theme'] ,
+      'created_at' => \Carbon\Carbon::now()
     ]);
 
     return response()->json([

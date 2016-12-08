@@ -25,6 +25,11 @@ Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
   //Route::get('contests',      'Api\v1\UserController@index');
   //Route::get('contest/{id}', 'Api\v1\UserController@show');
   Route::get('/contests','Api\v1\Contest@index');
+  Route::get('/contest/first','Api\v1\Contest@getFirst');
+  Route::get('/contest/last','Api\v1\Contest@getLast');
+  Route::get('/contests/ended','Api\v1\Contest@getEnded');
+  Route::get('/contest/current','Api\v1\Contest@getCurrent');
+  Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
   Route::get('/contest/{id}','Api\v1\Contest@show');
   Route::put('/contest/{id}','Api\v1\Contest@update');
   Route::post('/contest','Api\v1\Contest@create');
