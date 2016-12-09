@@ -4,8 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import { Router, Route, browserHistory } from 'react-router';
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import AppWrapper from "./ui/AppWrapper";
-import pictureGameReducers from "./reducers";
+import LoginWrapper from "./ui/LoginWrapper";
+import loginReducers from "./reducers/loginReducers";
 /* Material ui stuff */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -16,7 +16,7 @@ injectTapEventPlugin();
 const pictureGameApp = {
     startApp: () => {
         let store = createStore(
-            pictureGameReducers,
+            loginReducers,
             applyMiddleware(thunk)
         );
         const logChange = () => {console.info(store.getState());}
@@ -25,7 +25,7 @@ const pictureGameApp = {
             <MuiThemeProvider>
                 <Provider store={store}>
                     <Router history={browserHistory}>
-                        <Route path="/" component={AppWrapper} />
+                        <Route path="/" component={LoginWrapper} />
                     </Router>
                 </Provider>
             </MuiThemeProvider>,

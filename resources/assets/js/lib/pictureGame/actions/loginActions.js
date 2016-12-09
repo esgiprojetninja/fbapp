@@ -1,5 +1,5 @@
-import FacebookLoader from "./FacebookLoader";
-import * as actionTypes from "./actionTypes";
+import FacebookLoader from "../FacebookLoader";
+import * as actionTypes from "./loginTypes";
 
 
 /* Wait FB global before starting app */

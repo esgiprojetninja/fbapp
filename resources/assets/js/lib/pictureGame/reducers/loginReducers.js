@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import * as actionTypes from "./actionTypes";
+import * as loginTypes from "../actions/loginTypes";
 
 const initialSate = {
     user : {
@@ -11,50 +11,50 @@ const initialSate = {
 
 export const user = (state = initialSate, action) => {
         switch (action.type) {
-            case actionTypes.REQUEST_LOGIN_SATUS:
+            case loginTypes.REQUEST_LOGIN_SATUS:
                 return {
                     ...state,
                     isConnected: action.status,
                     isFetching: true
                 };
-            case actionTypes.RECIEVE_NOT_LOGGED_STATUS:
+            case loginTypes.RECIEVE_NOT_LOGGED_STATUS:
                 return {
                     ...state,
                     isConnected: action.status,
                     isFetching: false,
                     data: {}
                 };
-            case actionTypes.REQUEST_LOGIN:
+            case loginTypes.REQUEST_LOGIN:
                 return {
                     ...state,
                     isFetching: true
                 };
-            case actionTypes.LOGIN_SUCCESS:
+            case loginTypes.LOGIN_SUCCESS:
                 return {
                     ...state,
                     isFetching: false,
                     isConnected: true,
                     data: action.data
                 };
-            case actionTypes.LOGIN_ERROR:
+            case loginTypes.LOGIN_ERROR:
                 return {
                     ...state,
                     isFetching: false,
                     error: action.error
                 };
-            case actionTypes.REQUEST_LOGOUT:
+            case loginTypes.REQUEST_LOGOUT:
                 return {
                     ...state,
                     isFetching: true
                 };
-            case actionTypes.LOGOUT_SUCCESS:
+            case loginTypes.LOGOUT_SUCCESS:
                 return {
                     ...state,
                     isFetching: false,
                     isConnected: false,
                     data: {}
                 };
-            case actionTypes.LOGOUT_ERROR:
+            case loginTypes.LOGOUT_ERROR:
                 return {
                     ...state,
                     isFetching: false,
@@ -65,6 +65,6 @@ export const user = (state = initialSate, action) => {
         }
 }
 
-const pictureGameReducers = combineReducers({user});
+const loginReducer = combineReducers({user});
 
-export default pictureGameReducers;
+export default loginReducer;

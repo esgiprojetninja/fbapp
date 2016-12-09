@@ -3,7 +3,7 @@ import {
     checkLoginStatus,
     login,
     logout
-} from "../actions";
+} from "../actions/loginActions";
 import Loginfb from "../ui/LoginFb";
 import FacebookLoader from "../FacebookLoader";
 
