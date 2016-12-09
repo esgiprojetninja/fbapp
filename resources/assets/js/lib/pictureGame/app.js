@@ -1,6 +1,7 @@
 import React from "react";
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware } from "redux";
+import { Router, Route, browserHistory } from 'react-router';
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import AppWrapper from "./ui/AppWrapper";
@@ -23,7 +24,9 @@ const pictureGameApp = {
         render(
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <AppWrapper />
+                    <Router history={browserHistory}>
+                        <Route path="/" component={AppWrapper} />
+                    </Router>
                 </Provider>
             </MuiThemeProvider>,
             document.getElementById("fbapp")
