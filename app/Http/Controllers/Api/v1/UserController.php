@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\User;
 use App\Http\Controllers\Controller;
 use DB;
@@ -24,29 +26,32 @@ class UserController extends Controller
     }
 
     /**
-    * Create one contest.
+    * Create one user.
     *
     * @return Response
     */
-    public function create()
+    public function create($data)
     {
-        $response = DB::table('contests')->insert([
-            'id_winner' => 0 ,
-            'start_date' => $_POST['start_date'] ,
-            'end_date' => $_POST['end_date'] ,
-            'state' => 1 ,
-            'description' => $_POST['description'] ,
-            'end_msg' => $_POST['end_msg'] ,
-            'title' => $_POST['title'] ,
-            'id_creator' => $_POST['id_creator'] ,
-            'id_theme' => $_POST['id_theme'] ,
+        $response = User::create([
+            'email' => $data['email'],
+            'fb_id' => $data['fb_id'],
+            'name' => $data['name'],
             'created_at' => \Carbon\Carbon::now()
         ]);
 
         return response()->json([
-            'error' => false,
-            'response' => $response,
-            'status_code' => 200
+            'status_code' => 200,
+            'response' => $response
         ]);
+    }
+
+    public function login() {
+        if (Auth::attempt(['email' => $_POST['email'], 'fb_id' => $_POST['fb_id']])) {
+            return response()->json([
+                'logged' => 200
+            ]);
+        } else {
+            return $this->create($_POST);
+        }
     }
 }

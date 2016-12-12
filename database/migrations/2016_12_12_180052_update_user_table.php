@@ -15,7 +15,8 @@ class UpdateUserTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_admin')->default(false);
-            $table->integer('fb_id');
+            $table->bigInteger('fb_id');
+            $table->string('password')->nullable()->change();
         });
     }
 
