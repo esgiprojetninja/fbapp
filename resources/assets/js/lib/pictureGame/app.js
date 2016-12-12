@@ -4,8 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import { Router, Route, browserHistory } from 'react-router';
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import LoginWrapper from "./ui/LoginWrapper";
 import loginReducers from "./reducers/loginReducers";
+import App from "./ui/App";
 /* Material ui stuff */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -25,7 +25,7 @@ const pictureGameApp = {
             <MuiThemeProvider>
                 <Provider store={store}>
                     <Router history={browserHistory}>
-                        <Route path="/" component={LoginWrapper} />
+                        <Route path="/" component={App} />
                     </Router>
                 </Provider>
             </MuiThemeProvider>,

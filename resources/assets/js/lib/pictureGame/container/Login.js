@@ -5,8 +5,6 @@ import {
     logout
 } from "../actions/loginActions";
 import Loginfb from "../ui/LoginFb";
-import FacebookLoader from "../FacebookLoader";
-
 
 const mapStateToProps = (state) => {
     // TODO : move this upper
