@@ -45,13 +45,35 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+    * Log a user in.
+    *
+    * @return [User] $user
+    */
     public function login() {
-        if (Auth::attempt(['email' => $_POST['email'], 'fb_id' => $_POST['fb_id']])) {
+        $user = User::where('fb_id', $_POST['fb_id'])->first();
+        var_dump($user);
+        if ($user->email == $_POST['email']) {
+            Auth::login($user, true);
             return response()->json([
-                'logged' => 200
+                'status_code' => 200,
+                'response' => $user
             ]);
         } else {
             return $this->create($_POST);
         }
+    }
+
+    /**
+    * Log a user out.
+    *
+    * @return [array]
+    */
+    public function logout() {
+        Auth::logout();
+        return response()->json([
+            'status_code' => 200
+        ]);
     }
 }
