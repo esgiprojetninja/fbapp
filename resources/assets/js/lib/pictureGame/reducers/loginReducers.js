@@ -9,7 +9,7 @@ const initialSate = {
     }
 };
 
-export const user = (state = initialSate, action) => {
+export const user = (state = initialSate.user, action) => {
         switch (action.type) {
             case loginTypes.REQUEST_LOGIN_SATUS:
                 return {

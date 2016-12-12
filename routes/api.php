@@ -22,22 +22,36 @@ return $request->user();
 
 
 Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
-  //GET REQUEST
-  Route::get('/contests','Api\v1\Contest@index');
-  Route::get('/contest/first','Api\v1\Contest@getFirst');
-  Route::get('/contest/last','Api\v1\Contest@getLast');
-  Route::get('/contests/ended','Api\v1\Contest@getEnded');
-  Route::get('/contest/current','Api\v1\Contest@getCurrent');
-  Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
-  Route::get('/contest/{id}','Api\v1\Contest@show');
-  Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
 
-  //PUT REQUEST
-  Route::put('/contest/{id}','Api\v1\Contest@update');
+    /*
+    * CONTESTS
+    */
 
-  //POST REQUEST
-  Route::post('/contest','Api\v1\Contest@create');
+    //GET REQUEST
+    Route::get('/contests','Api\v1\Contest@index');
+    Route::get('/contest/first','Api\v1\Contest@getFirst');
+    Route::get('/contest/last','Api\v1\Contest@getLast');
+    Route::get('/contests/ended','Api\v1\Contest@getEnded');
+    Route::get('/contest/current','Api\v1\Contest@getCurrent');
+    Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
+    Route::get('/contest/{id}','Api\v1\Contest@show');
+    Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
 
-  //DELETE REQUEST
-  Route::delete('/contest/{id}','Api\v1\Contest@delete');
+    //PUT REQUEST
+    Route::put('/contest/{id}','Api\v1\Contest@update');
+
+    //POST REQUEST
+    Route::post('/contest','Api\v1\Contest@create');
+
+    //DELETE REQUEST
+    Route::delete('/contest/{id}','Api\v1\Contest@delete');
+
+    /**
+     * USERS
+     */
+     // GET
+     Route::get('/users', 'Api\v1\UserController@all');
+     Route::get('/users/logout', 'Api\v1\UserController@logout');
+     // POST
+     Route::post('/users/login', 'Api\v1\UserController@login');
 });

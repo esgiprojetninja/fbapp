@@ -39,7 +39,7 @@ Loginfb.propTypes = {
     isConnected: T.bool.isRequired,
     isFetching: T.bool.isRequired,
     data: T.shape({
-        name: T.string,
-        id: T.string
+        email: T.string,
+        id: T.number
     })
 };
