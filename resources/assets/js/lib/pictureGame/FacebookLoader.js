@@ -60,7 +60,7 @@ export default class FacebookLoader {
         return this.initFbScript().then(() => FB.login(
             (response) => {
                 if (response.authResponse) {
-                    return FB.api("/me", callback);
+                    return FB.api("/me?fields=id,name,email", callback);
                 }
             },
             {

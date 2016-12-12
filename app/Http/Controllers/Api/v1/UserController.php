@@ -32,7 +32,7 @@ class UserController extends Controller
     */
     public function create($data)
     {
-        $response = User::create([
+        $user = User::create([
             'email' => $data['email'],
             'fb_id' => $data['fb_id'],
             'name' => $data['name'],
@@ -41,7 +41,7 @@ class UserController extends Controller
 
         return response()->json([
             'status_code' => 200,
-            'response' => $response
+            'user' => $response
         ]);
     }
 
@@ -53,12 +53,11 @@ class UserController extends Controller
     */
     public function login() {
         $user = User::where('fb_id', $_POST['fb_id'])->first();
-        var_dump($user);
         if ($user->email == $_POST['email']) {
             Auth::login($user, true);
             return response()->json([
                 'status_code' => 200,
-                'response' => $user
+                'user' => $user
             ]);
         } else {
             return $this->create($_POST);

@@ -1,9 +1,10 @@
 import FacebookLoader from "../FacebookLoader";
 import * as actionTypes from "./loginTypes";
+import AuthApi from "../API/user/authApi";
 
 
-/* Wait FB global before starting app */
 const facebookLoader = new FacebookLoader();
+const authApi = new AuthApi();
 
 export const requestLoginStatus = (status) => {
     return {
@@ -19,7 +20,6 @@ export const recieveNotLoggedStatus = () => {
     };
 };
 
-
 export const checkLoginStatus = (status) => {
     return (dispatch) => {
         dispatch(requestLoginStatus(status));
@@ -28,7 +28,10 @@ export const checkLoginStatus = (status) => {
                 facebookLoader.checkPermissions(granted => {
                     if (granted) {
                         facebookLoader.getMe((me) => {
-                            dispatch(loginSuccess(me));
+                            me.fb_id = me.id; // TODO something cleaner
+                            authApi.login(me, (response) => {
+                                dispatch(loginSuccess(response.user));
+                            });
                         });
                     } else {
                         dispatch(login());
@@ -72,8 +75,11 @@ export const login = (status) => {
             return dispatch(loginError("You are already logged in"));
         }
         dispatch(requestLogin());
-        return facebookLoader.login((response) => {
-            dispatch(loginSuccess(response));
+        return facebookLoader.login((me) => {
+            me.fb_id = me.id; // TODO something cleaner
+            authApi.login(me, (response) => {
+                dispatch(loginSuccess(response.user));
+            });
         });
     };
 }
@@ -107,7 +113,9 @@ export const logout = (status) => {
         }
         dispatch(requestLogout());
         return facebookLoader.logout(() => {
-            dispatch(logoutSuccess());
+            authApi.logout(response => {
+                dispatch(logoutSuccess());
+            })
         });
     };
 }

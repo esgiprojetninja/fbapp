@@ -51,7 +51,7 @@ Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
      */
      // GET
      Route::get('/users', 'Api\v1\UserController@all');
-
+     Route::get('/users/logout', 'Api\v1\UserController@logout');
      // POST
      Route::post('/users/login', 'Api\v1\UserController@login');
 });
