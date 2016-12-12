@@ -75,6 +75,6 @@ export default class FacebookLoader {
     }
 
     getMe(callback) {
-        return this.initFbScript().then(() => FB.api("/me", callback));
+        return this.initFbScript().then(() => FB.api("/me?fields=id,name,email", callback));
     }
 }
