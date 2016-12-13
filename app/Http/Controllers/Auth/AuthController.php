@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\User;
 use Socialite;
 
 class AuthController extends Controller
@@ -13,7 +17,11 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->fields([
+            'id', 'name', 'email',
+        ])->scopes([
+            'email', 'public_profile'
+        ])->redirect();
     }
 
     /**
@@ -21,10 +29,16 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
-        $user = Socialite::driver('facebook')->user();
-
-        // $user->token;
+        $fbUser = Socialite::driver('facebook')->user();
+        $user = new User($fbUser->user);
+        if (!$user = User::where('email', $fbUser->getEmail())->first()) {
+            $user->setFbId($fbUser->getId());
+            $user->setToken($fbUser->token);
+            $user->save();
+        }
+        Auth::login($user, true);
+        return redirect()->route('home', '/');
     }
 }

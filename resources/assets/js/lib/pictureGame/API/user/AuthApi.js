@@ -2,7 +2,7 @@ import $ from "jquery";
 
 export default class AuthApi {
     constructor () {
-        this.authBaseUrl = "/api/v1/users/";
+        this.authBaseUrl = "/api/v1/auth/";
     }
 
     login (data, callback) {
@@ -19,6 +19,15 @@ export default class AuthApi {
         return $.ajax({
             method: "GET",
             url: this.authBaseUrl + "logout"
+        }).done(response => {
+            callback(response);
+        })
+    }
+
+    getMe (callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.authBaseUrl + "me"
         }).done(response => {
             callback(response);
         })

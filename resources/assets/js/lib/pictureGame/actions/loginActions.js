@@ -23,24 +23,27 @@ export const recieveNotLoggedStatus = () => {
 export const checkLoginStatus = (status) => {
     return (dispatch) => {
         dispatch(requestLoginStatus(status));
-        return facebookLoader.getLoginStatus((response) => {
-            if (response.status === "connected") {
-                facebookLoader.checkPermissions(granted => {
-                    if (granted) {
-                        facebookLoader.getMe((me) => {
-                            me.fb_id = me.id; // TODO something cleaner
-                            authApi.login(me, (response) => {
-                                dispatch(loginSuccess(response.user));
-                            });
-                        });
-                    } else {
-                        dispatch(login());
-                    }
-                })
-            } else {
-                dispatch(recieveNotLoggedStatus());
-            }
+        authApi.getMe(response => {
+            console.debug(response);
         });
+        // return facebookLoader.getLoginStatus((response) => {
+        //     if (response.status === "connected") {
+        //         facebookLoader.checkPermissions(granted => {
+        //             if (granted) {
+        //                 facebookLoader.getMe((me) => {
+        //                     me.fb_id = me.id; // TODO something cleaner
+        //                     authApi.login(me, (response) => {
+        //                         dispatch(loginSuccess(response.user));
+        //                     });
+        //                 });
+        //             } else {
+        //                 dispatch(login());
+        //             }
+        //         })
+        //     } else {
+        //         dispatch(recieveNotLoggedStatus());
+        //     }
+        // });
     };
 }
 
