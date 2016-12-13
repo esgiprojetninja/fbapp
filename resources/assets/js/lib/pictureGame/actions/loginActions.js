@@ -1,9 +1,7 @@
-import FacebookLoader from "../FacebookLoader";
 import * as actionTypes from "./loginTypes";
 import AuthApi from "../API/user/authApi";
 
 
-const facebookLoader = new FacebookLoader();
 const authApi = new AuthApi();
 
 export const requestLoginStatus = (status) => {
@@ -24,7 +22,7 @@ export const checkLoginStatus = (status) => {
     return (dispatch) => {
         dispatch(requestLoginStatus(status));
         authApi.getMe(response => {
-            if(response.user.id) {
+            if(response.user) {
                 dispatch(loginSuccess(response.user));
             }
             else {
@@ -59,17 +57,6 @@ export const loginError = (error) => {
     };
 }
 
-// export const login = (status) => {
-//     return (dispatch) => {
-//         if (status) {
-//             return dispatch(loginError("You are already logged in"));
-//         }
-//         dispatch(requestLogin());
-//         authApi.getMe((response) => {
-//             dispatch(loginSuccess(response.user));
-//         });
-//     };
-// }
 
 export const requestLogout = () => {
     return {

@@ -1,7 +1,6 @@
 import {connect} from "react-redux";
 import {
     checkLoginStatus,
-    login,
     logout
 } from "../actions/loginActions";
 import Loginfb from "../ui/LoginFb";
