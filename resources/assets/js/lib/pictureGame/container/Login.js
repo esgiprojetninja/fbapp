@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(checkLoginStatus(status));
         },
         onLogoutClicked: (status) => {
-            window.location.href = "auth/logout";
+            dispatch(logout(status));
         },
         onLoginClicked: (status) => {
             window.location.href = "auth/facebook";

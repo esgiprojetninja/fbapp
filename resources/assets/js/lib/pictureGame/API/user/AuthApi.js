@@ -5,16 +5,6 @@ export default class AuthApi {
         this.authBaseUrl = "/api/v1/auth/";
     }
 
-    login (data, callback) {
-        return $.ajax({
-            method: "POST",
-            url: this.authBaseUrl + "login",
-            data: data
-        }).done(response => {
-            callback(response);
-        });
-    }
-
     logout (callback) {
         return $.ajax({
             method: "GET",

@@ -54,5 +54,6 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     */
     // GET
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
+    Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
 
 });

@@ -29,7 +29,7 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback(Request $request)
+    public function handleProviderCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
         $user = new User($fbUser->user);
