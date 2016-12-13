@@ -46,12 +46,14 @@ Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
     //DELETE REQUEST
     Route::delete('/contest/{id}','Api\v1\Contest@delete');
 
+});
+
+Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     /**
-     * USERS
-     */
-     // GET
-     Route::get('/users', 'Api\v1\UserController@all');
-     Route::get('/users/logout', 'Api\v1\UserController@logout');
-     // POST
-     Route::post('/users/login', 'Api\v1\UserController@login');
+    * USERS
+    */
+    // GET
+    Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
+    Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
+
 });

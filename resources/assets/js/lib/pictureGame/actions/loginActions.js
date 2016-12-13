@@ -1,9 +1,7 @@
-import FacebookLoader from "../FacebookLoader";
 import * as actionTypes from "./loginTypes";
 import AuthApi from "../API/user/authApi";
 
 
-const facebookLoader = new FacebookLoader();
 const authApi = new AuthApi();
 
 export const requestLoginStatus = (status) => {
@@ -23,21 +21,11 @@ export const recieveNotLoggedStatus = () => {
 export const checkLoginStatus = (status) => {
     return (dispatch) => {
         dispatch(requestLoginStatus(status));
-        return facebookLoader.getLoginStatus((response) => {
-            if (response.status === "connected") {
-                facebookLoader.checkPermissions(granted => {
-                    if (granted) {
-                        facebookLoader.getMe((me) => {
-                            me.fb_id = me.id; // TODO something cleaner
-                            authApi.login(me, (response) => {
-                                dispatch(loginSuccess(response.user));
-                            });
-                        });
-                    } else {
-                        dispatch(login());
-                    }
-                })
-            } else {
+        authApi.getMe(response => {
+            if(response.user) {
+                dispatch(loginSuccess(response.user));
+            }
+            else {
                 dispatch(recieveNotLoggedStatus());
             }
         });
@@ -69,20 +57,6 @@ export const loginError = (error) => {
     };
 }
 
-export const login = (status) => {
-    return (dispatch) => {
-        if (status) {
-            return dispatch(loginError("You are already logged in"));
-        }
-        dispatch(requestLogin());
-        return facebookLoader.login((me) => {
-            me.fb_id = me.id; // TODO something cleaner
-            authApi.login(me, (response) => {
-                dispatch(loginSuccess(response.user));
-            });
-        });
-    };
-}
 
 export const requestLogout = () => {
     return {
@@ -112,10 +86,12 @@ export const logout = (status) => {
             return dispatch(logoutError("You are not logged in !"));
         }
         dispatch(requestLogout());
-        return facebookLoader.logout(() => {
-            authApi.logout(response => {
+        authApi.logout(response => {
+            if (response.logged_out === true) {
                 dispatch(logoutSuccess());
-            })
+            } else {
+                dispatch(logoutError("Error while logged you out"));
+            }
         });
     };
 }

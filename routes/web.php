@@ -11,8 +11,13 @@
 |
 */
 
-Route::get('{slug}', function() {
-    return view('index');
-})
-->where('slug', '(?!api)([A-z\d-\/_.]+)?');
+Route::group(['middleware' => ['web']], function () {
 
+    Route::get('{slug}', ['as' => 'home', function() {
+        return view('index');
+    }])
+    ->where('slug', '(?!auth)([A-z\d-\/_.]+)?');
+
+    Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
+});

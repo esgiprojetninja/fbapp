@@ -24,6 +24,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'remember_token', 'is_admin'
+        'remember_token', 'is_admin', 'token'
     ];
+
+    public function setFbId($fb_id) {
+        $this->fb_id = $fb_id;
+    }
+
+    public function setToken($token) {
+        $this->token = $token;
+    }
 }

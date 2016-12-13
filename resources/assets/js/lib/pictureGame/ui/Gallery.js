@@ -33,7 +33,7 @@ export default class Gallery extends React.PureComponent {
                         key={index}
                         actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                     >
-                        <img src="https://static.pexels.com/photos/194087/pexels-photo-194087.jpeg" />
+                        <img src="http://tattoospedia.com/wp-content/uploads/2013/12/Chest%20Tattoos/Tattoo%20Designs%20For%20Girls%20Chest%202.jpg" />
                     </GridTile>
                 ))}
             </GridList>

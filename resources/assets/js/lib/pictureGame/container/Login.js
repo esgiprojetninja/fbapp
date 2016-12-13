@@ -1,7 +1,6 @@
 import {connect} from "react-redux";
 import {
     checkLoginStatus,
-    login,
     logout
 } from "../actions/loginActions";
 import Loginfb from "../ui/LoginFb";
@@ -28,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(logout(status));
         },
         onLoginClicked: (status) => {
-            dispatch(login(status));
+            window.location.href = "auth/facebook";
         }
     };
 }
