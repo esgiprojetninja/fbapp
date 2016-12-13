@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('{slug}', function() {
+Route::get('pictureGameApp/{slug}', function() {
     return view('index');
 })
 ->where('slug', '(?!api)([A-z\d-\/_.]+)?');
 
+Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
