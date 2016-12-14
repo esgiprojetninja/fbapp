@@ -12,7 +12,7 @@ export default class AdminContests extends React.PureComponent {
 
     renderRows () {
         return this.props.contests.map(contest => (
-            <TableRow>
+            <TableRow key={contest.id}>
                 <TableRowColumn>{contest.id}</TableRowColumn>
                 <TableRowColumn>{contest.title}</TableRowColumn>
                 <TableRowColumn>{contest.description}</TableRowColumn>

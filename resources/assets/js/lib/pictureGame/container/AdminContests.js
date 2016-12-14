@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getContests());
         },
-        onCreateContestSubmit: (data) => {
-            dispatch(createContest(data));
+        onCreateContestSubmit: () => {
+            dispatch(createContest());
         },
         onCreateModalOpenClick: () => {
             dispatch(toggleCreateModal());

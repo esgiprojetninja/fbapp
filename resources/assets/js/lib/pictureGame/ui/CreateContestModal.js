@@ -7,9 +7,15 @@ import Toggle from 'material-ui/Toggle';
 export default class CreateContestModal extends React.PureComponent {
 
     newContestChange (ev) {
+        let value;
+        if (ev.target.type === "checkbox") {
+            value = ev.target.value === true ? 1 : 0;
+        } else {
+            value = ev.target.value;
+        }
         this.props.onNewContestChange(
             ev.target.name,
-            ev.target.type == "checkbox" ? ev.target.checked : ev.target.checked
+            value
         );
     }
 

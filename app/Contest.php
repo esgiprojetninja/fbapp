@@ -22,4 +22,13 @@ class Contest extends Model
         'id_creator',
         'id_theme'
     ];
+
+    public function setIdCreator ($id) {
+        $this->id_creator = $id;
+    }
+
+    public function setDates () { // For testing purpose
+        $this->start_date = new \DateTime();
+        $this->end_date = new \DateTime();
+    }
 }

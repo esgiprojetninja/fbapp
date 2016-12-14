@@ -18,7 +18,7 @@ export const recieveError = (error) => {
 
 export const recieveContests = (contests) => {
     return {
-        type: actionTypes.REQUEST_CONTESTS,
+        type: actionTypes.RECIEVE_CONTESTS,
         contests: contests
     }
 }
@@ -26,7 +26,8 @@ export const recieveContests = (contests) => {
 export const createContest = (data) => {
     return (dispatch, getState) => {
         dispatch(requestContests());
-        contestApi.create(getState().newContest, (response) => {
+        dispatch(toggleCreateModal()); // TODO move this away
+        contestApi.create(getState().contest.newContest, (response) => {
             if (!response.error) {
                 dispatch(recieveContests(response.contests));
             } else {

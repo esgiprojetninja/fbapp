@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
@@ -15,9 +16,7 @@ class ContestController extends Controller
      */
     public function index()
     {
-        // var_dump("Va chier");
-        // die;
-        $constests = Contest::all();
+        $contests = Contest::all();
         return response()->json([
             'contests' => $contests
         ]);
@@ -30,8 +29,14 @@ class ContestController extends Controller
      */
     public function create(Request $request)
     {
-        var_dump($request);
-        die;
+        $contest = new Contest($request->all());
+        $contest->setIdCreator(Auth::user()->id);
+        $contest->setDates();
+        if($contest->save()) {
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        }
     }
 
     /**

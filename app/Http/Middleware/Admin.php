@@ -17,7 +17,7 @@ class Admin
     public function handle($request, Closure $next)
         {
         $user = Auth::user();
-        if (!$user->isAdmin()) {
+        if (!$user || !$user->isAdmin()) {
             return response()->json([
               'error' => 'Permission Denied'
           ], 401);

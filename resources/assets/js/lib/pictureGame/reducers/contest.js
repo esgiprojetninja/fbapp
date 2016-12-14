@@ -5,7 +5,7 @@ const initialSate = {
     newContest: {
         title: "",
         description: "",
-        state: "",
+        state: 1,
     },
     isFetching: false,
     createModalOpen: false,
@@ -37,6 +37,7 @@ const contest = (state = initialSate, action) => {
                 error: false
             }
         case actionTypes.RECIEVE_CONTESTS:
+            console.debug(action.contests);
             return {
                 ...state,
                 contests: action.contests,
@@ -50,7 +51,6 @@ const contest = (state = initialSate, action) => {
             }
         case actionTypes.NEW_CONTEST_CHANGE:
             state.newContest[action.attr] = action.value;
-            console.debug(state.newContest);
             return state;
         default:
             return state;
