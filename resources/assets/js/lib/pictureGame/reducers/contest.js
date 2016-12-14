@@ -2,7 +2,14 @@ import * as actionTypes from "../actions/contestTypes";
 
 const initialSate = {
     contests: [],
-    isFetching: false
+    newContest: {
+        title: "",
+        description: "",
+        state: "",
+    },
+    isFetching: false,
+    createModalOpen: false,
+    error: false
 };
 
 const contest = (state = initialSate, action) => {
@@ -19,7 +26,7 @@ const contest = (state = initialSate, action) => {
                 isFetching: false,
                 error: action.error
             }
-        case action.RECIEVE_CONTEST:
+        case actionTypes.RECIEVE_CONTEST:
             return {
                 ...state,
                 contests: [
@@ -29,13 +36,22 @@ const contest = (state = initialSate, action) => {
                 isFetching: false,
                 error: false
             }
-        case action.RECIEVE_CONTESTS:
+        case actionTypes.RECIEVE_CONTESTS:
             return {
                 ...state,
                 contests: action.contests,
                 isFetching: false,
                 error: false
             }
+        case actionTypes.TOGGLE_CREATE_MODAL:
+            return {
+                ...state,
+                createModalOpen: !state.createModalOpen
+            }
+        case actionTypes.NEW_CONTEST_CHANGE:
+            state.newContest[action.attr] = action.value;
+            console.debug(state.newContest);
+            return state;
         default:
             return state;
     }

@@ -13,4 +13,14 @@ export default class ContestApi {
             callback(response);
         });
     }
+
+    create(data, callback) {
+        return $.ajax({
+            methos: "POST",
+            url: this.apiBaseUrl + "create",
+            data: data
+        }).done(response => {
+            callback(response);
+        });
+    }
 }

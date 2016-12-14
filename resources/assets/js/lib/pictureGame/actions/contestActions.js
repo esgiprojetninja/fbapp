@@ -23,6 +23,19 @@ export const recieveContests = (contests) => {
     }
 }
 
+export const createContest = (data) => {
+    return (dispatch, getState) => {
+        dispatch(requestContests());
+        contestApi.create(getState().newContest, (response) => {
+            if (!response.error) {
+                dispatch(recieveContests(response.contests));
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
+    }
+}
+
 export const getContests = () => {
     return (dispatch) => {
         dispatch(requestContests());
@@ -32,6 +45,20 @@ export const getContests = () => {
             } else {
                 dispatch(recieveError(response.error));
             }
-        })
-    }
+        });
+    };
+}
+
+export const toggleCreateModal = () => {
+    return {
+        type: actionTypes.TOGGLE_CREATE_MODAL
+    };
+}
+
+export const newContestChange = (attr, value) => {
+    return {
+        type: actionTypes.NEW_CONTEST_CHANGE,
+        attr: attr,
+        value: value
+    };
 }

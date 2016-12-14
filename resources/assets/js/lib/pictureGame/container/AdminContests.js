@@ -1,5 +1,10 @@
 import {connect} from "react-redux";
-import {getContests} from "../actions/contestActions";
+import {
+    getContests,
+    toggleCreateModal,
+    newContestChange,
+    createContest
+} from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
 const mapStateToProps = (state) => {
@@ -10,6 +15,15 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onReady: () => {
             dispatch(getContests());
+        },
+        onCreateContestSubmit: (data) => {
+            dispatch(createContest(data));
+        },
+        onCreateModalOpenClick: () => {
+            dispatch(toggleCreateModal());
+        },
+        onNewContestChange: (attr, value) => {
+            dispatch(newContestChange(attr, value))
         }
     }
 }
