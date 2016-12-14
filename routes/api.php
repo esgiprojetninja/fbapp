@@ -24,7 +24,7 @@ return $request->user();
 
 // Admin API routes
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
-    Route::resource('contest', 'Api\v1\ContestController', ['only' => [
+    Route::resource('contests', 'Api\v1\ContestController', ['only' => [
             'create', 'store', 'index', 'update'
         ]]);
 });

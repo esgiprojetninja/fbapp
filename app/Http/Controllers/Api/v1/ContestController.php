@@ -15,6 +15,8 @@ class ContestController extends Controller
      */
     public function index()
     {
+        // var_dump("Va chier");
+        // die;
         $constests = Contest::all();
         return response()->json([
             'contests' => $contests
