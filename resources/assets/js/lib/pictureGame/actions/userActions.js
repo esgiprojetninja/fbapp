@@ -1,4 +1,4 @@
-import * as actionTypes from "./loginTypes";
+import * as actionTypes from "./userTypes";
 import AuthApi from "../API/user/authApi";
 
 

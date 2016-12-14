@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {
     checkLoginStatus,
     logout
-} from "../actions/loginActions";
+} from "../actions/userActions";
 import Loginfb from "../ui/LoginFb";
 
 const mapStateToProps = (state) => {

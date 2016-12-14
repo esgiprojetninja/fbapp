@@ -8,9 +8,13 @@ export default class AppNavBar extends React.PureComponent {
     render () {
         return (
             <AppBar
-                title="Pardon Maman: the game"
+                title={this.props.title}
                 iconElementRight={<Login />}
             />
         )
     }
+}
+
+AppNavBar.propTypes = {
+    title: T.string.isRequired
 }
