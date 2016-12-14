@@ -22,7 +22,12 @@ return $request->user();
 */
 
 
-
+// Admin API routes
+Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
+    Route::resource('contest', 'Api\v1\ContestController', ['only' => [
+            'create', 'store', 'index', 'update'
+        ]]);
+});
 
 
 // API routes
@@ -32,14 +37,14 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     */
 
     //GET REQUEST
-    Route::get('/contests','Api\v1\Contest@index');
-    Route::get('/contest/first','Api\v1\Contest@getFirst');
-    Route::get('/contest/last','Api\v1\Contest@getLast');
-    Route::get('/contests/ended','Api\v1\Contest@getEnded');
-    Route::get('/contest/current','Api\v1\Contest@getCurrent');
-    Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
-    Route::get('/contest/{id}','Api\v1\Contest@show');
-    Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
+    // Route::get('/contests','Api\v1\Contest@index');
+    // Route::get('/contest/first','Api\v1\Contest@getFirst');
+    // Route::get('/contest/last','Api\v1\Contest@getLast');
+    // Route::get('/contests/ended','Api\v1\Contest@getEnded');
+    // Route::get('/contest/current','Api\v1\Contest@getCurrent');
+    // Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
+    // Route::get('/contest/{id}','Api\v1\Contest@show');
+    // Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
     /**
     * USERS
     */
@@ -47,11 +52,4 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
 
-});
-
-// Admin API routes
-Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
-    Route::resource('contest', 'Api\v1\ContestController', ['only' => [
-            'create', 'store', 'index', 'update'
-        ]]);
 });

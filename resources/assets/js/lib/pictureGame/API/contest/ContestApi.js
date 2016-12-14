@@ -16,7 +16,7 @@ export default class ContestApi {
 
     create(data, callback) {
         return $.ajax({
-            methos: "POST",
+            methos: "GET",
             url: this.apiBaseUrl + "create",
             data: data
         }).done(response => {
