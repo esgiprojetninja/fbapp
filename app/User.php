@@ -34,4 +34,8 @@ class User extends Authenticatable
     public function setToken($token) {
         $this->token = $token;
     }
+
+    public function isAdmin() {
+        return $this->isAdmin();
+    }
 }

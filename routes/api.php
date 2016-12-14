@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,8 +22,11 @@ return $request->user();
 */
 
 
-Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
 
+
+
+// API routes
+Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     /*
     * CONTESTS
     */
@@ -36,19 +40,6 @@ Route::group(['middleware' => 'checkAdmin','prefix' => '/v1'], function () {
     Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
     Route::get('/contest/{id}','Api\v1\Contest@show');
     Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
-
-    //PUT REQUEST
-    Route::put('/contest/{id}','Api\v1\Contest@update');
-
-    //POST REQUEST
-    Route::post('/contest','Api\v1\Contest@create');
-
-    //DELETE REQUEST
-    Route::delete('/contest/{id}','Api\v1\Contest@delete');
-
-});
-
-Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     /**
     * USERS
     */
@@ -56,4 +47,11 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
 
+});
+
+// Admin API routes
+Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
+    Route::resource('contest', 'Api\v1\ContestController', ['only' => [
+            'create', 'store', 'index', 'update'
+        ]]);
 });

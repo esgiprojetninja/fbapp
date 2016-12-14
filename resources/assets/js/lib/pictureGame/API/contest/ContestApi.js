@@ -1,14 +1,14 @@
 import $ from "jquery";
 
-export default class AdminApi {
+export default class ContestApi {
     constructor () {
-        this.apiBaseUrl = "/api/v1/admin/";
+        this.apiBaseUrl = "/api/v1/contests/";
     }
 
-    amIAdmin (callback) {
+    getAll (callback) {
         return $.ajax({
             method: "GET",
-            url: this.apiBaseUrl + "isAdmin"
+            url: this.apiBaseUrl
         }).done(response => {
             callback(response);
         });

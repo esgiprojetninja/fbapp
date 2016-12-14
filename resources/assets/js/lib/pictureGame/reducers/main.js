@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
 import user from "./user";
+import contest from "./contest";
 
 const Main = combineReducers({
-    user
+    user,
+    contest
 });
 
 export default Main;

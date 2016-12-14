@@ -95,3 +95,41 @@ export const logout = (status) => {
         });
     };
 }
+
+export const requestAdminStatus = () => {
+    return {
+        type: actionTypes.REQUEST_ADMIN_STATUS
+    };
+}
+
+export const recieveIsAdmin = () => {
+    return {
+        type: actionTypes.RECIEVE_IS_ADMIN
+    };
+}
+
+export const recieveIsNotAdmin = () => {
+    return {
+        type: actionTypes.RECIEVE_IS_NOT_ADMIN
+    };
+}
+
+export const recieveError = (error) => {
+    return {
+        type: actionTypes.RECIEVE_ERROR,
+        error: error
+    }
+}
+
+export const checkAdminStatus = () => {
+    return (dispatch) => {
+        dispatch(requestAdminStatus);
+        authApi.amIAdmin(response => {
+            if(respone.isAdmin) {
+                dispatch(recieveIsAdmin());
+            } else {
+                dispatch(recieveIsNotAdmin());
+            }
+        });
+    };
+}
