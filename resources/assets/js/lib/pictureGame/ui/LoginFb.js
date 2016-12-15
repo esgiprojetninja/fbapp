@@ -9,11 +9,29 @@ export default class Loginfb extends React.PureComponent {
 
     render() {
         return (
-            this.renderButton()
+            <div>
+                <FlatButton
+                    label="Home"
+                    href="/"
+                />
+                {this.renderAdminButton()}
+                {this.renderLoginButton()}
+            </div>
         );
     }
 
-    renderButton() {
+    renderAdminButton () {
+        if (this.props.data.is_admin) {
+            return (
+                <FlatButton
+                    label="Admin"
+                    href="/admin"
+                />
+            );
+        }
+    }
+
+    renderLoginButton() {
         if (this.props.isConnected) {
             return (
                 <FlatButton

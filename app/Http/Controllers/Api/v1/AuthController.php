@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Socialite;
 
 use App\Http\Controllers\Controller;
 
@@ -23,6 +21,14 @@ class AuthController extends Controller
         Auth::logout();
         return response()->json([
             'logged_out' => true
+        ]);
+    }
+
+    public function isAdmin()
+    {
+        $isAdmin = Auth::user()->isAdmin();
+        return response()->json([
+            'isAdmin' => $isAdmin
         ]);
     }
 }

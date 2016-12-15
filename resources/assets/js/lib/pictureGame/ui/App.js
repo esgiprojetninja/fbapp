@@ -6,7 +6,7 @@ export default class App extends React.PureComponent {
     render () {
         return (
             <div>
-                <AppNavBar />
+                <AppNavBar title="Pardon Maman: the game"/>
                 <Gallery />
             </div>
         );

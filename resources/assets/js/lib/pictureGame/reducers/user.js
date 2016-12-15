@@ -1,70 +1,93 @@
-import {combineReducers} from "redux";
-import * as loginTypes from "../actions/loginTypes";
+import * as types from "../actions/userTypes";
 
 const initialSate = {
     user : {
         isConnected: false,
         isFetching: false,
+        isAdmin: false,
         data: {}
     }
 };
 
-export const user = (state = initialSate.user, action) => {
+const user = (state = initialSate.user, action) => {
         switch (action.type) {
-            case loginTypes.REQUEST_LOGIN_SATUS:
+            case types.REQUEST_LOGIN_SATUS:
                 return {
                     ...state,
                     isConnected: action.status,
                     isFetching: true
                 };
-            case loginTypes.RECIEVE_NOT_LOGGED_STATUS:
+            case types.RECIEVE_NOT_LOGGED_STATUS:
                 return {
                     ...state,
                     isConnected: action.status,
                     isFetching: false,
                     data: {}
                 };
-            case loginTypes.REQUEST_LOGIN:
+            case types.REQUEST_LOGIN:
                 return {
                     ...state,
                     isFetching: true
                 };
-            case loginTypes.LOGIN_SUCCESS:
+            case types.LOGIN_SUCCESS:
                 return {
                     ...state,
                     isFetching: false,
                     isConnected: true,
                     data: action.data
                 };
-            case loginTypes.LOGIN_ERROR:
+            case types.LOGIN_ERROR:
                 return {
                     ...state,
                     isFetching: false,
                     error: action.error
                 };
-            case loginTypes.REQUEST_LOGOUT:
+            case types.REQUEST_LOGOUT:
                 return {
                     ...state,
                     isFetching: true
                 };
-            case loginTypes.LOGOUT_SUCCESS:
+            case types.LOGOUT_SUCCESS:
                 return {
                     ...state,
                     isFetching: false,
                     isConnected: false,
                     data: {}
                 };
-            case loginTypes.LOGOUT_ERROR:
+            case types.LOGOUT_ERROR:
                 return {
                     ...state,
                     isFetching: false,
                     error: action.error
                 };
+            case types.REQUEST_ADMIN_STATUS:
+                return {
+                    ...state,
+                    isFetching: true,
+                    isAdmin: false
+                }
+            case types.RECIEVE_IS_ADMIN:
+                return {
+                    ...state,
+                    isFetching: false,
+                    isAdmin: true
+                }
+            case types.RECIEVE_IS_NOT_ADMIN:
+                return {
+                    ...state,
+                    isFetching: false,
+                    isAdmin: false
+                }
+            case types.RECIEVE_ERROR:
+                return {
+                    ...state,
+                    isFetching: false,
+                    isAdmin: false,
+                    error: action.error
+                }
             default:
                 return state;
         }
 }
 
-const loginReducer = combineReducers({user});
-
-export default loginReducer;
+export default user;

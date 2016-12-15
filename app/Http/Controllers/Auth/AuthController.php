@@ -32,13 +32,16 @@ class AuthController extends Controller
     public function handleProviderCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
-        $user = new User($fbUser->user);
-        if (!$user = User::where('email', $fbUser->getEmail())->first()) {
+        $query = User::where('email', $fbUser->email)->get();
+        if ($query->isEmpty()) {
+            $user = new User($fbUser->user);
             $user->setFbId($fbUser->getId());
             $user->setToken($fbUser->token);
             $user->save();
+            Auth::login($user, true);
+        } else {
+            Auth::login($query->first(), true);
         }
-        Auth::login($user, true);
         return redirect()->route('home', '/');
     }
 }
