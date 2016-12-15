@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'fb_id'
+        'name', 'email', 'fb_id', 'is_admin'
     ];
 
     /**
@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'remember_token', 'is_admin', 'token'
+        'remember_token', 'token'
     ];
 
     public function setFbId($fb_id) {
