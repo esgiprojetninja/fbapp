@@ -37,7 +37,6 @@ const contest = (state = initialSate, action) => {
                 error: false
             }
         case actionTypes.RECIEVE_CONTESTS:
-            console.debug(action.contests);
             return {
                 ...state,
                 contests: action.contests,

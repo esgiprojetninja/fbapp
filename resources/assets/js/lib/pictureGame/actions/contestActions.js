@@ -29,7 +29,7 @@ export const createContest = (data) => {
         dispatch(toggleCreateModal()); // TODO move this away
         contestApi.create(getState().contest.newContest, (response) => {
             if (!response.error) {
-                dispatch(recieveContests(response.contests));
+                dispatch(getContests());
             } else {
                 dispatch(recieveError(response.error));
             }
