@@ -31,14 +31,15 @@ export default class CreateContestModal extends React.PureComponent {
                 primary={true}
                 keyboardFocused={true}
                 onTouchTap={this.props.save}
+                type="submit"
             />,
         ];
         return (
             <Dialog
                 title="Create a new contest"
-                actions={actions}
                 modal={false}
                 open={this.props.open} >
+                <form onSubmit={this.props.save}>
                     <TextField
                         onChange={this.newContestChange.bind(this)}
                         name="title"
@@ -57,6 +58,18 @@ export default class CreateContestModal extends React.PureComponent {
                         defaultToggled={true}
                         name="state"
                     />
+                    <FlatButton
+                        label="Close"
+                        secondary={true}
+                        onTouchTap={this.props.handleClose}
+                    />
+                    <FlatButton
+                        label="Save"
+                        primary={true}
+                        keyboardFocused={true}
+                        type="submit"
+                    />
+                </form>
             </Dialog>
         )
     }

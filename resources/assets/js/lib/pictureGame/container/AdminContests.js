@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getContests());
         },
-        onCreateContestSubmit: () => {
+        onCreateContestSubmit: (ev) => {
+            ev.preventDefault();
             dispatch(createContest());
         },
         onCreateModalOpenClick: () => {
