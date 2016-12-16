@@ -88,7 +88,7 @@ export const logout = (status) => {
         dispatch(requestLogout());
         authApi.logout(response => {
             if (response.logged_out === true) {
-                dispatch(logoutSuccess());
+                window.location.href = "/";
             } else {
                 dispatch(logoutError("Error while logged you out"));
             }
