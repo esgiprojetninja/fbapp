@@ -53,6 +53,10 @@ export default class AdminContests extends React.PureComponent {
                             <TableHeaderColumn>ID</TableHeaderColumn>
                             <TableHeaderColumn>Title</TableHeaderColumn>
                             <TableHeaderColumn>Description</TableHeaderColumn>
+                            <TableHeaderColumn>From</TableHeaderColumn>
+                            <TableHeaderColumn>To</TableHeaderColumn>
+                            <TableHeaderColumn>End message</TableHeaderColumn>
+                            <TableHeaderColumn>Winner</TableHeaderColumn>
                             <TableHeaderColumn>Active</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
@@ -71,6 +75,10 @@ export default class AdminContests extends React.PureComponent {
                 <TableRowColumn>{contest.id}</TableRowColumn>
                 <TableRowColumn>{contest.title}</TableRowColumn>
                 <TableRowColumn>{contest.description}</TableRowColumn>
+                <TableRowColumn>{contest.start_date}</TableRowColumn>
+                <TableRowColumn>{contest.end_date}</TableRowColumn>
+                <TableRowColumn>{contest.end_msg}</TableRowColumn>
+                <TableRowColumn>{contest.id_winner}</TableRowColumn>
                 <TableRowColumn>{contest.status}</TableRowColumn>
             </TableRow>
         ));
@@ -86,6 +94,7 @@ export default class AdminContests extends React.PureComponent {
                     handleClose={this.props.onCreateModalOpenClick}
                     onNewContestChange={this.props.onNewContestChange}
                     save={this.props.onCreateContestSubmit}
+                    newContest={this.props.newContest}
                 />
             </div>
         );

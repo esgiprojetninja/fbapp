@@ -3,20 +3,39 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
+import SelectField from 'material-ui/SelectField';
+import DatePicker from 'material-ui/DatePicker';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 export default class CreateContestModal extends React.PureComponent {
 
-    newContestChange (ev) {
+    newContestChange (ev, val, attr) {
         let value;
-        if (ev.target.type === "checkbox") {
+        if (typeof val.getMonth === "function" || attr === "id_winner") {
+            value = val;
+        }
+        else if (ev != null && ev.target.type === "checkbox") {
             value = ev.target.value === true ? 1 : 0;
         } else {
             value = ev.target.value;
         }
         this.props.onNewContestChange(
-            ev.target.name,
+            attr ? attr : ev.target.name,
             value
         );
+    }
+
+    startDateChange(ev, val) {
+        this.newContestChange(ev, val, "start_date");
+    }
+
+    endDateChange(ev, val) {
+        this.newContestChange(ev, val, "end_date");
+    }
+
+    idWinnerChange(ev, key, val) {
+        this.newContestChange(null, val, "id_winner");
     }
 
     render () {
@@ -49,8 +68,41 @@ export default class CreateContestModal extends React.PureComponent {
                     <TextField
                         onChange={this.newContestChange.bind(this)}
                         name="description"
+                        multiLine={true}
+                        rows={2}
                         hintText="description"
                     />
+                    <br />
+                    <TextField
+                        onChange={this.newContestChange.bind(this)}
+                        name="end_msg"
+                        multiLine={true}
+                        rows={2}
+                        hintText="End message"
+                    />
+                    <br />
+                    <DatePicker
+                        onChange={this.startDateChange.bind(this)}
+                        hintText="Start date"
+                        name="start_date"
+                    />
+                    <br />
+                    <DatePicker
+                        onChange={this.endDateChange.bind(this)}
+                        hintText="End date"
+                        name="end_date"
+                    />
+                    <br />
+                    <SelectField
+                        onChange={this.idWinnerChange.bind(this)}
+                        value={this.props.newContest.id_winner}
+                        floatingLabelText="Winner"
+                        name="id_winner"
+                        >
+                        <MenuItem value={1} primaryText="Please" />
+                        <MenuItem value={2} primaryText="Change" />
+                        <MenuItem value={3} primaryText="Me" />
+                    </SelectField>
                     <br />
                     <Toggle
                         onToggle={this.newContestChange.bind(this)}
@@ -58,6 +110,7 @@ export default class CreateContestModal extends React.PureComponent {
                         defaultToggled={true}
                         name="state"
                     />
+                    <br />
                     <FlatButton
                         label="Close"
                         secondary={true}
@@ -78,5 +131,6 @@ export default class CreateContestModal extends React.PureComponent {
 CreateContestModal.propTypes = {
     onNewContestChange: T.func.isRequired,
     handleClose: T.func.isRequired,
-    open: T.bool.isRequired
+    open: T.bool.isRequired,
+    newContest: T.shape()
 };
