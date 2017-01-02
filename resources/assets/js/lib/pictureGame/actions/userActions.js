@@ -1,5 +1,5 @@
 import * as actionTypes from "./userTypes";
-import AuthApi from "../API/user/authApi";
+import AuthApi from "../API/user/AuthApi";
 
 
 const authApi = new AuthApi();
