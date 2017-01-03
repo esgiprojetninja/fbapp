@@ -62,7 +62,7 @@ export default class SubMenu extends React.PureComponent {
                 </div>
 
                 <div className="col-md-2">
-                    <img className="img-cover" src="subMenuLogo.png"/>
+                    <img className="sub-menu-img-cover" src="subMenuLogo.png"/>
                 </div>
 
                 <div className="right-div col-md-3">
