@@ -9,7 +9,7 @@ const initialSate = {
         description: "",
         title: "",
         id_winner: 0,
-        active: false
+        state: false
     },
     isFetching: false,
     createModalOpen: false,
