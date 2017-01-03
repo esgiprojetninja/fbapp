@@ -1,6 +1,6 @@
 import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
-import HomeCarousel from "./HomeCarousel";
+import HomeCarousel from "../container/HomeCarousel";
 import SubMenu from "./SubMenu";
 import Gallery from "../container/Gallery";
 
