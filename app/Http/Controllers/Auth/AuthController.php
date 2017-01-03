@@ -11,24 +11,24 @@ use Socialite;
 class AuthController extends Controller
 {
     /**
-     * Redirect the user to the Facebook authentication page.
-     *
-     * @return Response
-     */
+    * Redirect the user to the Facebook authentication page.
+    *
+    * @return Response
+    */
     public function redirectToProvider()
     {
         return Socialite::driver('facebook')->fields([
             'id', 'name', 'email',
-        ])->scopes([
-            'email', 'public_profile'
-        ])->redirect();
+            ])->scopes([
+                'email', 'public_profile'
+                ])->redirect();
     }
 
     /**
-     * Obtain the user information from Facebook.
-     *
-     * @return Response
-     */
+    * Obtain the user information from Facebook.
+    *
+    * @return Response
+    */
     public function handleProviderCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
@@ -43,5 +43,17 @@ class AuthController extends Controller
             Auth::login($query->first(), true);
         }
         return redirect()->route('home', '/');
+    }
+
+    /**
+    * Redirect the user to the Facebook authentication page with more scopes.
+    *
+    * @return Response
+    */
+    public function redirectToProviderJoiningContest()
+    {
+        return Socialite::driver('facebook')->scopes([
+                'email', 'public_profile','user_photos'
+                ])->redirect();
     }
 }
