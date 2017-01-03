@@ -1,33 +1,33 @@
 .sub-menu{
-  padding: 25px 15px;
-  height: 22vh;
-  .left-div{
-    h1{
-      text-transform: uppercase;
-      padding:0;
+    padding: 25px 15px;
+    height: 22vh;
+    .left-div{
+        h1{
+            text-transform: uppercase;
+            padding:0;
+        }
+        span{
+            line-height: 30px;
+        }
+        .sub-menu-search{
+            position:absolute;
+            left:0;
+            bottom:10px;
+            opacity:.6;
+        }
+        .sub-menu-autocomplete{
+            padding-left:35px;
+        }
     }
-    span{
-      line-height: 30px;
-    }
-    .sub-menu-search{
-        position:absolute;
-        left:0;
-        bottom:10px;
-        opacity:.6;
-    }
-    .sub-menu-autocomplete{
-      padding-left:35px;
-    }
-  }
 
-  .right-div{
-    h4{
-      font-weight: 800;
-      text-transform: uppercase;
+    .right-div{
+        h4{
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        ul{
+            padding:5px 14px;
+            text-align:left;
+        }
     }
-    ul{
-      padding:5px 14px;
-      text-align:left;
-    }
-  }
 }
