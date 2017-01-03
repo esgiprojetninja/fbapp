@@ -5,26 +5,11 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Picture from "./Picture";
 
-const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-    overflowY: 'auto',
-  }
-};
-
-
 export default class Gallery extends React.PureComponent {
     render () {
         return (
             <GridList
                 cellHeight={180}
-                style={styles.gridList}
             >
                 {this.props.pictures.map((picture, index) => (
                     <GridTile
