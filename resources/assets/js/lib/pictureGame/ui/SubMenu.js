@@ -51,13 +51,16 @@ export default class SubMenu extends React.PureComponent {
         <div className="left-div col-md-7">
           <h1 className="col-md-6">NOM CONCOURS</h1>
           <span className="col-md-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-          <AutoComplete
-            floatingLabelText="Rechercher une photo, un photographe"
-            fullWidth={true}
-            className="sub-menu-autocomplete"
-            filter={AutoComplete.caseInsensitiveFilter}
-            dataSource={colors}
-          />
+          <div className="relative">
+            <Search className="sub-menu-search"/>
+            <AutoComplete
+              floatingLabelText="Rechercher une photo, un photographe"
+              fullWidth={true}
+              className="sub-menu-autocomplete"
+              filter={AutoComplete.caseInsensitiveFilter}
+              dataSource={colors}
+            />
+          </div>
         </div>
 
         <div className="col-md-2">
