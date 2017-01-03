@@ -14,10 +14,10 @@ export default class ContestApi {
         });
     }
 
-    create(data, callback) {
+    store(data, callback) {
         return $.ajax({
-            methos: "GET",
-            url: this.apiBaseUrl + "create",
+            method: "POST",
+            url: this.apiBaseUrl,
             data: data
         }).done(response => {
             callback(response);

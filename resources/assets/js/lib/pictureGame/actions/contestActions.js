@@ -3,6 +3,18 @@ import ContestApi from "../API/contest/ContestApi";
 
 const contestApi = new ContestApi();
 
+const generateFreshContest = () => {
+    return {
+        start_date: new Date(),
+        end_date: new Date(),
+        end_msg: "",
+        description: "",
+        title: "",
+        id_winner: 0,
+        active: false
+    }
+}
+
 export const requestContests = () => {
     return {
         type: actionTypes.REQUEST_CONTESTS
@@ -23,17 +35,17 @@ export const recieveContests = (contests) => {
     }
 }
 
-export const createContest = (data) => {
+export const storeContest = () => {
     return (dispatch, getState) => {
         dispatch(requestContests());
-        dispatch(toggleCreateModal()); // TODO move this away
-        contestApi.create(getState().contest.newContest, (response) => {
+        contestApi.store(getState().contest.newContest, (response) => {
             if (!response.error) {
                 dispatch(getContests());
             } else {
                 dispatch(recieveError(response.error));
             }
         });
+        dispatch(toggleCreateModal()); // TODO move this away
     }
 }
 
@@ -50,9 +62,13 @@ export const getContests = () => {
     };
 }
 
-export const toggleCreateModal = () => {
+export const toggleCreateModal = (contest) => {
+    if (!contest) {
+        contest = generateFreshContest();
+    }
     return {
-        type: actionTypes.TOGGLE_CREATE_MODAL
+        type: actionTypes.TOGGLE_CREATE_MODAL,
+        newContest: contest
     };
 }
 

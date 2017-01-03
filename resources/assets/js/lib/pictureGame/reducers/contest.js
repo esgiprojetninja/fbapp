@@ -3,9 +3,13 @@ import * as actionTypes from "../actions/contestTypes";
 const initialSate = {
     contests: [],
     newContest: {
-        title: "",
+        start_date: new Date(),
+        end_date: new Date(),
+        end_msg: "",
         description: "",
-        state: 1,
+        title: "",
+        id_winner: 0,
+        active: false
     },
     isFetching: false,
     createModalOpen: false,
@@ -46,11 +50,16 @@ const contest = (state = initialSate, action) => {
         case actionTypes.TOGGLE_CREATE_MODAL:
             return {
                 ...state,
-                createModalOpen: !state.createModalOpen
+                createModalOpen: !state.createModalOpen,
+                newContest: action.newContest
             }
         case actionTypes.NEW_CONTEST_CHANGE:
-            state.newContest[action.attr] = action.value;
-            return state;
+            const contest = Object.assign({}, state.newContest);
+            contest[action.attr] = action.value;
+            return {
+                ...state,
+                newContest: contest
+            };
         default:
             return state;
     }

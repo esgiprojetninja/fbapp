@@ -1,6 +1,6 @@
 import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
-import CreateContestModal from "./CreateContestModal";
+import ContestModalForm from "../container/ContestModalForm";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
@@ -58,6 +58,7 @@ export default class AdminContests extends React.PureComponent {
                             <TableHeaderColumn>End message</TableHeaderColumn>
                             <TableHeaderColumn>Winner</TableHeaderColumn>
                             <TableHeaderColumn>Active</TableHeaderColumn>
+                            <TableHeaderColumn>Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -80,6 +81,16 @@ export default class AdminContests extends React.PureComponent {
                 <TableRowColumn>{contest.end_msg}</TableRowColumn>
                 <TableRowColumn>{contest.id_winner}</TableRowColumn>
                 <TableRowColumn>{contest.status}</TableRowColumn>
+                <TableRowColumn>
+                    <RaisedButton
+                        label="Primary"
+                        primary={true}
+                        data-contest={contest}
+                        onTouchTap={(ev) => {
+                            this.props.onCreateModalOpenClick(ev, contest);
+                        }}
+                    />
+                </TableRowColumn>
             </TableRow>
         ));
     }
@@ -89,12 +100,9 @@ export default class AdminContests extends React.PureComponent {
             <div>
                 <AppNavBar title="Admin"/>
                 {this.renderContent()}
-                <CreateContestModal
-                    open={this.props.createModalOpen}
+                <ContestModalForm
                     handleClose={this.props.onCreateModalOpenClick}
-                    onNewContestChange={this.props.onNewContestChange}
-                    save={this.props.onCreateContestSubmit}
-                    newContest={this.props.newContest}
+                    open={this.props.createModalOpen}
                 />
             </div>
         );

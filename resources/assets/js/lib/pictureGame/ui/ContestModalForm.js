@@ -57,16 +57,18 @@ export default class CreateContestModal extends React.PureComponent {
             <Dialog
                 title="Create a new contest"
                 modal={false}
-                open={this.props.open} >
-                <form onSubmit={this.props.save}>
+                open={this.props.createModalOpen} >
+                <form onSubmit={this.props.onCreateContestSubmit}>
                     <TextField
                         onChange={this.newContestChange.bind(this)}
+                        value={this.props.newContest.title}
                         name="title"
                         hintText="Title"
                     />
                     <br />
                     <TextField
                         onChange={this.newContestChange.bind(this)}
+                        value={this.props.newContest.description}
                         name="description"
                         multiLine={true}
                         rows={2}
@@ -75,6 +77,7 @@ export default class CreateContestModal extends React.PureComponent {
                     <br />
                     <TextField
                         onChange={this.newContestChange.bind(this)}
+                        value={this.props.newContest.end_msg}
                         name="end_msg"
                         multiLine={true}
                         rows={2}
@@ -83,12 +86,14 @@ export default class CreateContestModal extends React.PureComponent {
                     <br />
                     <DatePicker
                         onChange={this.startDateChange.bind(this)}
+                        value={new Date(this.props.newContest.start_date)}
                         hintText="Start date"
                         name="start_date"
                     />
                     <br />
                     <DatePicker
                         onChange={this.endDateChange.bind(this)}
+                        value={new Date(this.props.newContest.end_date)}
                         hintText="End date"
                         name="end_date"
                     />
@@ -106,6 +111,7 @@ export default class CreateContestModal extends React.PureComponent {
                     <br />
                     <Toggle
                         onToggle={this.newContestChange.bind(this)}
+                        value={this.props.newContest.active}
                         label="Active"
                         defaultToggled={true}
                         name="state"

@@ -1,9 +1,7 @@
 import {connect} from "react-redux";
 import {
     getContests,
-    toggleCreateModal,
-    newContestChange,
-    createContest
+    toggleCreateModal
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -16,15 +14,8 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getContests());
         },
-        onCreateContestSubmit: (ev) => {
-            ev.preventDefault();
-            dispatch(createContest());
-        },
-        onCreateModalOpenClick: () => {
-            dispatch(toggleCreateModal());
-        },
-        onNewContestChange: (attr, value) => {
-            dispatch(newContestChange(attr, value))
+        onCreateModalOpenClick: (ev, contest) => {
+            dispatch(toggleCreateModal(contest));
         }
     }
 }
