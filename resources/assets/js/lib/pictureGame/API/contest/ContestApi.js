@@ -23,4 +23,13 @@ export default class ContestApi {
             callback(response);
         });
     }
+
+    delete(id, callback) {
+        return $.ajax({
+            method: "DELETE",
+            url: this.apiBaseUrl + id
+        }).done(response => {
+            callback(response);
+        });
+    }
 }

@@ -98,6 +98,6 @@ class ContestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contest::destroy($id);
     }
 }

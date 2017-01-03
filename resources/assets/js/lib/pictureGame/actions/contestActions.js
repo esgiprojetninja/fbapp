@@ -62,6 +62,18 @@ export const getContests = () => {
     };
 }
 
+export const deleteContest = (id) => {
+    return (dispatch) => {
+        contestApi.delete(id, (response) => {
+            if(!response.error) {
+                dispatch(getContests());
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        })
+    }
+}
+
 export const toggleCreateModal = (contest) => {
     if (!contest) {
         contest = generateFreshContest();

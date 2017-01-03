@@ -52,13 +52,11 @@ export default class AdminContests extends React.PureComponent {
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
                             <TableHeaderColumn>Title</TableHeaderColumn>
-                            <TableHeaderColumn>Description</TableHeaderColumn>
+                            <TableHeaderColumn>Actions</TableHeaderColumn>
                             <TableHeaderColumn>From</TableHeaderColumn>
                             <TableHeaderColumn>To</TableHeaderColumn>
-                            <TableHeaderColumn>End message</TableHeaderColumn>
                             <TableHeaderColumn>Winner</TableHeaderColumn>
                             <TableHeaderColumn>Active</TableHeaderColumn>
-                            <TableHeaderColumn>Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -74,23 +72,30 @@ export default class AdminContests extends React.PureComponent {
         return this.props.contests.map(contest => (
             <TableRow key={contest.id}>
                 <TableRowColumn>{contest.id}</TableRowColumn>
+                <TableRowColumn>
+                    <div>
+                        <RaisedButton
+                            label="Edit"
+                            primary={true}
+                            data-contest={contest}
+                            onTouchTap={(ev) => {
+                                this.props.onCreateModalOpenClick(ev, contest);
+                            }}
+                        />
+                        <RaisedButton
+                            label="Delete"
+                            secondary={true}
+                            onTouchTap={() => {
+                                this.props.onDeleteContestClick(contest.id);
+                            }}
+                        />
+                    </div>
+                </TableRowColumn>
                 <TableRowColumn>{contest.title}</TableRowColumn>
-                <TableRowColumn>{contest.description}</TableRowColumn>
                 <TableRowColumn>{contest.start_date}</TableRowColumn>
                 <TableRowColumn>{contest.end_date}</TableRowColumn>
-                <TableRowColumn>{contest.end_msg}</TableRowColumn>
                 <TableRowColumn>{contest.id_winner}</TableRowColumn>
                 <TableRowColumn>{contest.status}</TableRowColumn>
-                <TableRowColumn>
-                    <RaisedButton
-                        label="Primary"
-                        primary={true}
-                        data-contest={contest}
-                        onTouchTap={(ev) => {
-                            this.props.onCreateModalOpenClick(ev, contest);
-                        }}
-                    />
-                </TableRowColumn>
             </TableRow>
         ));
     }
