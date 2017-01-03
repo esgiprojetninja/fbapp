@@ -57,6 +57,7 @@ export default class CreateContestModal extends React.PureComponent {
             <Dialog
                 title="Create a new contest"
                 modal={false}
+                autoScrollBodyContent={true}
                 open={this.props.createModalOpen} >
                 <form onSubmit={this.props.onCreateContestSubmit}>
                     <TextField
@@ -72,7 +73,7 @@ export default class CreateContestModal extends React.PureComponent {
                         name="description"
                         multiLine={true}
                         rows={2}
-                        hintText="description"
+                        hintText="Description"
                     />
                     <br />
                     <TextField
