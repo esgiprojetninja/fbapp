@@ -20,6 +20,13 @@
         }
     }
 
+    .sub-menu-img-cover{
+        display: block;
+        max-width: 100%;
+        margin: 0 auto;
+        object-fit: cover;
+    }
+
     .right-div{
         h4{
             font-weight: 800;
