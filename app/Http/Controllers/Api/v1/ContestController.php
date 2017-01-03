@@ -29,14 +29,7 @@ class ContestController extends Controller
      */
     public function create(Request $request)
     {
-        $contest = new Contest($request->all());
-        $contest->setIdCreator(Auth::user()->id);
-        $contest->setDates();
-        if($contest->save()) {
-            return response()->json([
-                'status' => 'ok'
-            ]);
-        }
+        //
     }
 
     /**
@@ -47,7 +40,20 @@ class ContestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (array_key_exists('id', $request->all())) {
+            $contest = Contest::find($request->all()['id']);
+            $contest->fill($request->all());
+        }
+        else {
+            $contest = new Contest($request->all());
+            $contest->setIdCreator(Auth::user()->id);
+            $contest->setDates();
+        }
+        if($contest->save()) {
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        }
     }
 
     /**
@@ -92,6 +98,6 @@ class ContestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Contest::destroy($id);
     }
 }
