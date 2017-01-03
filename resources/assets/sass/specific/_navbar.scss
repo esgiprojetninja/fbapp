@@ -1,0 +1,13 @@
+.navbar-mui-wrapper{
+
+    .navbar-mui-open-wrapper{
+      position: absolute;
+      top:0;
+      right:0;
+      z-index:10;
+    }
+
+    .navbar-mui{
+      display:none !important;
+    }
+}

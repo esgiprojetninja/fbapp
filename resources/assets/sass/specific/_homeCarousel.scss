@@ -1,0 +1,30 @@
+.home-carousel{
+  position: relative;
+  overflow: hidden;
+
+  .title-wrapper{
+    color: white;
+    position: absolute;
+    z-index: 1;
+  }
+
+  h1{
+    font-size: 45px;
+    font-weight: 800;
+    display: block;
+    text-align: center;
+  }
+
+  .home-carousel-button{
+    margin: 12px;
+  }
+
+  .image-wrapper{
+    height: 78vh;
+
+    img{
+      object-fit: cover;
+      width:100%;
+    }
+  }
+}

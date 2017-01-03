@@ -1,0 +1,24 @@
+.sub-menu{
+  padding: 25px 15px;
+  height: 22vh;
+  .left-div{
+    h1{
+      text-transform: uppercase;
+      padding:0;
+    }
+    span{
+      line-height: 30px;
+    }
+  }
+
+  .right-div{
+    h4{
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    ul{
+      padding:5px 14px;
+      text-align:left;
+    }
+  }
+}

@@ -6,40 +6,9 @@ import AddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
 import Slider from 'react-slick';
 import IconButton from 'material-ui/IconButton';
 
-const styles = {
-  button: {
-    margin: 12
-  },
-  wrapper: {
-    position: 'relative'
-  },
-  titleWrapper: {
-    height: '100%',
-    width: '100%',
-    color: 'white',
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1
-  },
-  thisTitle: {
-    fontSize: '45px',
-    fontWeight: 800,
-    display: 'block'
-  },
-  imgWrapper: {
-    height: '80vh'
-  },
-  img: {
-    objectFit: 'cover',
-    width: '100%'
-  }
-};
-
 export default class HomeCarousel extends React.PureComponent {
     render () {
-      var settings = {
+      const settings = {
         infinite: true,
         speed: 4000,
         slidesToShow: 1,
@@ -48,28 +17,30 @@ export default class HomeCarousel extends React.PureComponent {
         pauseOnHover: true
       };
       return (
-        <div style={styles.wrapper}>
-          <div style={styles.titleWrapper}>
+        <div className="home-carousel">
+          <div className="title-wrapper full-height full-width vertical-align">
             <div>
-              <h1 style={styles.thisTitle}>PARDON MAMAN</h1>
-              <RaisedButton
-                label="CONTEST GALLERY"
-                labelPosition="before"
-                style={styles.button}
-                containerElement="label"
-              />
-              <RaisedButton
-                label="ADD A PHOTO"
-                labelPosition="before"
-                primary={true}
-                icon={<AddAPhoto />}
-                style={styles.button}
-              />
+              <h1>PARDON MAMAN</h1>
+              <div className="vertical-align">
+                <RaisedButton
+                  label="GALERIE CONCOURS"
+                  labelPosition="before"
+                  className="home-carousel-button"
+                  containerElement="label"
+                />
+                <RaisedButton
+                  label="AJOUTER UNE PHOTO"
+                  labelPosition="before"
+                  primary={true}
+                  icon={<AddAPhoto />}
+                  className="home-carousel-button"
+                />
+              </div>
             </div>
           </div>
           <Slider {...settings}>
-            <div style={styles.imgWrapper}><img style={styles.img} src="homeCarousel.jpg" /></div>
-            <div style={styles.imgWrapper}><img style={styles.img} src="homeCarousel2.jpg" /></div>
+            <div className="image-wrapper"><img className="img-cover" src="homeCarousel.jpg" /></div>
+            <div className="image-wrapper"><img className="img-cover" src="homeCarousel2.jpg" /></div>
           </Slider>
         </div>
       )
