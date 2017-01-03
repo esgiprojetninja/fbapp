@@ -20,4 +20,5 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
+    Route::get('auth/facebook/joinContest', 'Auth\AuthController@redirectToProviderJoiningContest');
 });
