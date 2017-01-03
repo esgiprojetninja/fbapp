@@ -67,20 +67,20 @@ export default class SubMenu extends React.PureComponent {
 
                 <div className="right-div col-md-3">
                     <h4>Découverte</h4>
-                <ul>
-                    <li>
-                        Participer au jeu concours
-                    </li>
-                    <li>
-                        Partager l'application
-                    </li>
-                    <li>
-                        Règlement
-                    </li>
-                    <li>
-                        Conditions Générales d'Utilisation
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                            Participer au jeu concours
+                        </li>
+                        <li>
+                            Partager l'application
+                        </li>
+                        <li>
+                            Règlement
+                        </li>
+                        <li>
+                            Conditions Générales d'Utilisation
+                        </li>
+                    </ul>
                 </div>
             </div>
         )
