@@ -51,8 +51,8 @@ export default class AdminContests extends React.PureComponent {
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
-                            <TableHeaderColumn>Title</TableHeaderColumn>
                             <TableHeaderColumn>Actions</TableHeaderColumn>
+                            <TableHeaderColumn>Title</TableHeaderColumn>
                             <TableHeaderColumn>From</TableHeaderColumn>
                             <TableHeaderColumn>To</TableHeaderColumn>
                             <TableHeaderColumn>Winner</TableHeaderColumn>
@@ -95,7 +95,7 @@ export default class AdminContests extends React.PureComponent {
                 <TableRowColumn>{contest.start_date}</TableRowColumn>
                 <TableRowColumn>{contest.end_date}</TableRowColumn>
                 <TableRowColumn>{contest.id_winner}</TableRowColumn>
-                <TableRowColumn>{contest.status}</TableRowColumn>
+                <TableRowColumn>{contest.state}</TableRowColumn>
             </TableRow>
         ));
     }

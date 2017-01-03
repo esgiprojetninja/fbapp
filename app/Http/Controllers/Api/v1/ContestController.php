@@ -57,14 +57,94 @@ class ContestController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Show one contest.
+    *
+    * @return Response
+    */
     public function show($id)
     {
-        //
+      $contest = Contest::find($id);
+      return response()->json([
+          'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Show the first contest.
+    *
+    * @return Response
+    */
+    public function getFirst()
+    {
+      $contest = Contest::orderBy('id', 'asc')->first();
+      return response()->json([
+        'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Show the last contest.
+    *
+    * @return Response
+    */
+    public function getLast()
+    {
+      $contest = Contest::orderBy('id', 'desc')->first();
+      return response()->json([
+        'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Show all contests ended.
+    *
+    * @return Response
+    */
+    public function getEnded()
+    {
+      $contest = Contest::where('state', '=','0')->first();
+      return response()->json([
+        'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Show in progress contest.
+    *
+    * @return Response
+    */
+    public function getCurrent()
+    {
+      $contest = Contest::where('state', '=','1')->get();
+      return response()->json([
+        'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Show all contests by an id creator.
+    *
+    * @return Response
+    */
+    public function getContestsByIdCreator($idCreator)
+    {
+      $contest = Contest::where('id_creator', '=',$idCreator)->get();
+      return response()->json([
+        'contest' => $contest
+      ]);
+    }
+
+    /**
+    * Return the contests by an id winner.
+    *
+    * @return Response
+    */
+    public function getContestByIdWinner($idWinner)
+    {
+      $contest = Contest::where('id_winner', '=',$idWinner)->get();
+      return response()->json([
+        'contest' => $contest
+      ]);
     }
 
     /**
