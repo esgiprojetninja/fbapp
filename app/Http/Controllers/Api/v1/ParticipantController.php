@@ -91,6 +91,19 @@ class ParticipantController extends Controller
     }
 
     /**
+    * Show one contest.
+    *
+    * @return Response
+    */
+    public function getPhotoByParticipant($id)
+    {
+        $photos = Participant::find($id)->pluck('id_fb_photo');
+        return response()->json([
+            'photos' => $photos
+        ]);
+    }
+
+    /**
     * Show all participants of one contest.
     *
     * @return Response

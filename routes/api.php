@@ -51,8 +51,9 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     // Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
 
     //Route::get('/participants/{id}','Api\v1\ParticipantController@show');
+    Route::get('/participants/{id}/photos','Api\v1\ParticipantController@getPhotoByParticipant');
     //Route::get('/participants/contest/{idContest}','Api\v1\ParticipantController@contest');
-    Route::get('/participants/contest/{idContest}/photos','Api\v1\ParticipantController@photoByContest');
+    //Route::get('/participants/contest/{idContest}/photos','Api\v1\ParticipantController@photoByContest');
 
     /**
     * USERS
