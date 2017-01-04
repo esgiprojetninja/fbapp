@@ -8,6 +8,21 @@ import IconButton from 'material-ui/IconButton';
 
 export default class HomeCarousel extends React.PureComponent {
 
+    renderPlayButton () {
+        if (this.props.user.isConnected) {
+            return (
+                <RaisedButton
+                    label="AJOUTER UNE PHOTO"
+                    labelPosition="before"
+                    primary={true}
+                    icon={<AddAPhoto />}
+                    className="home-carousel-button"
+                    onTouchTap={this.props.startPlaying}
+                />
+            );
+        }
+    }
+    
     render () {
         const settings = {
             infinite: true,
@@ -17,6 +32,7 @@ export default class HomeCarousel extends React.PureComponent {
             arrows: true,
             pauseOnHover: true
         };
+
 
         return (
         <div className="home-carousel">
@@ -30,14 +46,7 @@ export default class HomeCarousel extends React.PureComponent {
                             className="home-carousel-button"
                             containerElement="label"
                         />
-                        <RaisedButton
-                            label="AJOUTER UNE PHOTO"
-                            labelPosition="before"
-                            primary={true}
-                            icon={<AddAPhoto />}
-                            className="home-carousel-button"
-                            onTouchTap={this.props.startPlaying}
-                        />
+                        {this.renderPlayButton()}
                     </div>
                 </div>
             </div>

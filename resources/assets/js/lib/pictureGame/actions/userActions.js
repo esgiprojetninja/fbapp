@@ -158,17 +158,21 @@ export const getPhotoScope = (rerequest = true) => {
     return (dispatch, getState) => {
         dispatch(requestPhotoScope());
         const accessToken = getState().user.data.token;
-        facebookLoader.checkPhotoPermission(accessToken, status => {
-            if (status) {
-                dispatch(grantPhotoScope());
-            } else {
-                dispatch(denyPhotoScope());
-                if (rerequest === true) {
-                    facebookLoader.getPhotoScope(() => {
-                        dispatch(getPhotoScope(false));
-                    });
+        if (!getState().user.isConnected) {
+            dispatch(denyPhotoScope())
+        } else {
+            facebookLoader.checkPhotoPermission(accessToken, status => {
+                if (status) {
+                    dispatch(grantPhotoScope());
+                } else {
+                    dispatch(denyPhotoScope());
+                    if (rerequest === true) {
+                        facebookLoader.getPhotoScope(() => {
+                            dispatch(getPhotoScope(false));
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     };
 }
