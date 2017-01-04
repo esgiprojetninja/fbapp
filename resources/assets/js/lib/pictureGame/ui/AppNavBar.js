@@ -41,9 +41,9 @@ export default class AppNavBar extends React.PureComponent {
                     </IconButton>
                 </div>
                 <AppBar
-                className="navbar-mui"
-                title={this.props.title}
-                iconElementRight={<Login />}
+                    className="navbar-mui"
+                    title={this.props.title}
+                    iconElementRight={<Login />}
                 />
             </div>
         )
