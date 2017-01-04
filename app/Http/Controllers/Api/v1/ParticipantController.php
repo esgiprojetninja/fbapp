@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Http\Controllers\Api\v1;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Participant;
+
+class ParticipantController extends Controller
+{
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index()
+    {
+        $participants = Participant::all();
+        return response()->json([
+            'participants' => $participants
+        ]);
+    }
+
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create(Request $request)
+    {
+        //
+    }
+
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request)
+    {
+
+    }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy($id)
+    {
+        Participant::destroy($id);
+    }
+
+    /**
+    * Show one contest.
+    *
+    * @return Response
+    */
+    public function show($id)
+    {
+        $participant = Participant::find($id);
+        return response()->json([
+            'participant' => $participant
+        ]);
+    }
+
+    /**
+    * Show all participants of one contest.
+    *
+    * @return Response
+    */
+    public function contest($idContest)
+    {
+        $participant = Participant::where('id_contest', $idContest)->get();
+        return response()->json([
+            'participant' => $participant
+        ]);
+    }
+
+    /**
+    * Show all photos of one contest.
+    *
+    * @return Response
+    */
+    public function photoByContest($idContest)
+    {
+        $photos = Participant::where('id_contest', $idContest)->get()->pluck('id_fb_photo');
+        return response()->json([
+            'photos' => $photos
+        ]);
+    }
+}
