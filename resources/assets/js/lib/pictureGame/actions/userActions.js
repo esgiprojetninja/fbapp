@@ -161,13 +161,14 @@ export const getPhotoScope = (rerequest = true) => {
         if (!getState().user.isConnected) {
             dispatch(denyPhotoScope())
         } else {
-            facebookLoader.checkPhotoPermission(accessToken, status => {
+            facebookLoader.setPlayerScope();
+            facebookLoader.checkPermissions(accessToken, status => {
                 if (status) {
                     dispatch(grantPhotoScope());
                 } else {
                     dispatch(denyPhotoScope());
                     if (rerequest === true) {
-                        facebookLoader.getPhotoScope(() => {
+                        facebookLoader.login(() => {
                             dispatch(getPhotoScope(false));
                         });
                     }

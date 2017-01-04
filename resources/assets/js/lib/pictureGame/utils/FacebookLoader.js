@@ -39,8 +39,8 @@ export default class FacebookLoader {
         return this.initFbScript().then(() => FB.getLoginStatus(callback));
     }
 
-    checkPermissions(callback) {
-        return this.initFbScript().then(() => FB.api("/me/permissions", (perms) => {
+    checkPermissions(access_token, callback) {
+        return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             let granted = true;
             const permissionsGranted = perms.data.reduce((grant, perm) => {
                 if (perm.status === "granted") {
@@ -58,26 +58,10 @@ export default class FacebookLoader {
         }));
     }
 
-    getPhotoScope(callback) {
-        this.scope.push("user_photos");
-        this.login(() => {
-            callback();
-        });
-    }
-
-    checkPhotoPermission(access_token, callback) {
-        return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
-            if (!perms.data) {
-                callback(false);
-            } else {
-                const granted = perms.data.filter(perm => perm.permission === "user_photos");
-                if (granted.length === 0 || granted[0].status === "declined") {
-                    callback(false);
-                } else {
-                    callback(true);
-                }
-            }
-        }));
+    setPlayerScope () {
+        if(this.scope.length < 4) {
+            this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        }
     }
 
     login(callback) {
