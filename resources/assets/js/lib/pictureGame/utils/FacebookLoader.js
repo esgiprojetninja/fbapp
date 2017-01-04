@@ -66,10 +66,17 @@ export default class FacebookLoader {
 
     checkPhotoPermission(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
-            const granted = perms.data.filter(perm => {
-                return perm.permission === "user_photos"
-            });
-            callback(granted[0].status);
+            if (!perms.data) {
+                this.scope.push("user_photos");
+                this.login((res) => {
+                    console.debug(res);
+                });
+            } else {
+                const granted = perms.data.filter(perm => {
+                    return perm.permission === "user_photos"
+                });
+                callback(granted[0].status);
+            }
         }));
     }
 
