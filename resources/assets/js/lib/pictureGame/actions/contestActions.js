@@ -76,6 +76,7 @@ export const deleteContest = (id) => {
 
 export const activateContest = (id) => {
     return (dispatch) => {
+        dispatch(requestContests());
         contestApi.activate(id, (response) => {
             if(!response.error) {
                 dispatch(getContests());

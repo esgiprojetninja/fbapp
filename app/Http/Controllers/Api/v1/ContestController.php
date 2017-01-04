@@ -40,9 +40,9 @@ class ContestController extends Controller
     */
     public function store(Request $request)
     {
-        //Si le concours doit être actif on vérifie qu'il n'y en a pas déjà un sinon on le passe en inactif
+        //If the contest need to be active then we check if there is allready one and update it to inactive
         if(isset($request->all()['state']) && $request->all()['state'] == 1){
-            if(ContestController::activeCurrently()){
+            if(ContestController::currentlyActive()){
                 ContestController::setInactiveAll();
             }
         }
@@ -122,7 +122,7 @@ class ContestController extends Controller
     */
     public function getCurrent()
     {
-        $contest = Contest::where('state','1')->get();
+        $contest = Contest::where('state', '1')->get();
         return response()->json([
             'contest' => $contest
         ]);
@@ -133,9 +133,9 @@ class ContestController extends Controller
     *
     * @return boolean
     */
-    public static function activeCurrently()
+    public static function currentlyActive()
     {
-        $contest = Contest::where('state','1')->get();
+        $contest = Contest::where('state', '1')->get();
         if(!empty($contest->toArray())){
             return TRUE;
         }else{
@@ -195,7 +195,7 @@ class ContestController extends Controller
     */
     public static function setInactiveAll()
     {
-        Contest::where('state',1)->update(['state'=>0]);
+        Contest::where('state','1')->update(['state'=>0]);
     }
 
 
