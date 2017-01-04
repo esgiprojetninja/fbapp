@@ -10,22 +10,34 @@ export default class Loginfb extends React.PureComponent {
     render() {
         return (
             <div>
-                <FlatButton
-                    label="Home"
-                    href="/"
-                />
-                {this.renderAdminButton()}
-                {this.renderLoginButton()}
+            <FlatButton
+            label="Home"
+            href="/"
+            />
+            {this.renderJoinButton()}
+            {this.renderAdminButton()}
+            {this.renderLoginButton()}
             </div>
         );
+    }
+
+    renderJoinButton () {
+        if (!this.props.isAllreadyInContect) {
+            return(
+                <FlatButton
+                label="Join"
+                onClick={(e) => this.props.onJoinClicked(this.props.isConnected)}
+                />
+            );
+        }
     }
 
     renderAdminButton () {
         if (this.props.data.is_admin) {
             return (
                 <FlatButton
-                    label="Admin"
-                    href="/admin"
+                label="Admin"
+                href="/admin"
                 />
             );
         }
@@ -35,16 +47,16 @@ export default class Loginfb extends React.PureComponent {
         if (this.props.isConnected) {
             return (
                 <FlatButton
-                    label="Logout"
-                    secondary={true}
-                    onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
+                label="Logout"
+                secondary={true}
+                onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
                 />
             );
         }
         return (
             <FlatButton
-                label="Connect with facebook"
-                onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
+            label="Connect with facebook"
+            onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
             />
         );
     }
@@ -54,6 +66,7 @@ Loginfb.propTypes = {
     onReady: T.func.isRequired,
     onLogoutClicked: T.func.isRequired,
     onLoginClicked: T.func.isRequired,
+    onJoinClicked: T.func.isRequired,
     isConnected: T.bool.isRequired,
     isFetching: T.bool.isRequired,
     data: T.shape({
