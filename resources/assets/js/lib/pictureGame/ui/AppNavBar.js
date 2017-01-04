@@ -9,8 +9,8 @@ import Login from "../container/Login";
 
 const styles = {
     mediumIcon : {
-    height: 48,
-    width: 48
+        height: 48,
+        width: 48
     },
     medium: {
         width: 80,
@@ -38,6 +38,7 @@ export default class AppNavBar extends React.PureComponent {
             <AppBar
                 className={this.myClass}
                 title={this.props.title}
+                showMenuIconButton={false}
                 iconElementRight={<Login />}
             />
         )

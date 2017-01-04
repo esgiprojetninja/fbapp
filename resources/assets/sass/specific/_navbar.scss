@@ -5,6 +5,17 @@
     z-index:1000;
     width:100%;
 
+    .navbar-mui-right{
+        margin: -8px 0 0 0 !important;
+        padding-right: 65px !important;
+        line-height: 64px !important;
+        color:white !important;
+
+        span{
+            color:white !important;
+        }
+    }
+
     .navbar-mui-open-wrapper{
         position:absolute;
         top:0;
@@ -16,6 +27,7 @@
         position:fixed !important;
         top:0 !important;
         width:100% !important;
+        height:64px;
     }
 
     .navbar-mui.navbar-mui-out{
