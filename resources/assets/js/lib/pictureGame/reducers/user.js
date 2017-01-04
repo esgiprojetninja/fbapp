@@ -85,6 +85,24 @@ const user = (state = initialSate.user, action) => {
                     isAdmin: false,
                     error: action.error
                 }
+            case types.REQUEST_PHOTO_SCOPE:
+                return {
+                    ...state,
+                    isFetching: true,
+                    photoScopeGranted: false
+                }
+            case types.GRANT_PHOTO_SCOPE:
+                return {
+                    ...state,
+                    isFetching: false,
+                    photoScopeGranted: true
+                }
+            case types.DENY_PHOTO_SCOPE:
+                return {
+                    ...state,
+                    isFetching: false,
+                    photoScopeGranted: false
+                }
             default:
                 return state;
         }

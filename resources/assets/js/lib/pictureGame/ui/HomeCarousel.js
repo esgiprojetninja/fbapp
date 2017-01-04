@@ -7,6 +7,22 @@ import Slider from 'react-slick';
 import IconButton from 'material-ui/IconButton';
 
 export default class HomeCarousel extends React.PureComponent {
+
+    renderPlayButton () {
+        if (this.props.user.isConnected) {
+            return (
+                <RaisedButton
+                    label="AJOUTER UNE PHOTO"
+                    labelPosition="before"
+                    primary={true}
+                    icon={<AddAPhoto />}
+                    className="home-carousel-button"
+                    onTouchTap={this.props.startPlaying}
+                />
+            );
+        }
+    }
+    
     render () {
         const settings = {
             infinite: true,
@@ -17,6 +33,7 @@ export default class HomeCarousel extends React.PureComponent {
             pauseOnHover: true
         };
 
+
         return (
         <div className="home-carousel">
             <div className="title-wrapper full-height full-width vertical-align">
@@ -24,18 +41,12 @@ export default class HomeCarousel extends React.PureComponent {
                     <h1>PARDON MAMAN</h1>
                     <div className="vertical-align">
                         <RaisedButton
-                        label="GALERIE CONCOURS"
-                        labelPosition="before"
-                        className="home-carousel-button"
-                        containerElement="label"
+                            label="GALERIE CONCOURS"
+                            labelPosition="before"
+                            className="home-carousel-button"
+                            containerElement="label"
                         />
-                        <RaisedButton
-                        label="AJOUTER UNE PHOTO"
-                        labelPosition="before"
-                        primary={true}
-                        icon={<AddAPhoto />}
-                        className="home-carousel-button"
-                        />
+                        {this.renderPlayButton()}
                     </div>
                 </div>
             </div>
@@ -47,3 +58,8 @@ export default class HomeCarousel extends React.PureComponent {
         )
     }
 }
+
+HomeCarousel.proptypes = {
+    startPlaying: T.func.isRequired,
+    user: T.shape().isRequired
+};

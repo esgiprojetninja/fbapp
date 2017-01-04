@@ -40,6 +40,9 @@ class AuthController extends Controller
             $user->save();
             Auth::login($user, true);
         } else {
+            $user = $query->first();
+            $user->setToken($fbUser->token);
+            $user->save();
             Auth::login($query->first(), true);
         }
         return redirect()->route('home', '/');
