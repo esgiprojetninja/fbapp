@@ -60,6 +60,7 @@ export const getCurrentContest = () => {
     return (dispatch) => {
         dispatch(requestContests());
         contestApi.getCurrent(response => {
+            console.debug(response);
             if (!response.error) {
                 dispatch(recieveCurrentContest(response.contest));
             } else {

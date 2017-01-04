@@ -122,7 +122,7 @@ class ContestController extends Controller
     */
     public function getCurrent()
     {
-        $contest = Contest::where('state', '1')->get();
+        $contest = Contest::where('state', '1')->get()->first();
         return response()->json([
             'contest' => $contest
         ]);

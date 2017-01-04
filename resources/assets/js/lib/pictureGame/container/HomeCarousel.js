@@ -2,6 +2,9 @@ import {connect} from "react-redux";
 import {
     getPhotoScope
 } from "../actions/userActions";
+import {
+    getCurrentContest
+} from "../actions/contestActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
 const mapStateToProps = (state) => {
