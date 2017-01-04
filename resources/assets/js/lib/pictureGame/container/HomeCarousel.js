@@ -10,6 +10,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onReady: () => {
+            dispatch(getCurrentContest());
+        },
         startPlaying: () => {
             dispatch(getPhotoScope());
         }

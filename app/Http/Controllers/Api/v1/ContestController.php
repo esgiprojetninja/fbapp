@@ -116,7 +116,7 @@ class ContestController extends Controller
     }
 
     /**
-    * Show in progress contest.
+    * Show in current contest.
     *
     * @return Response
     */

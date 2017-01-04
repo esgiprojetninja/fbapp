@@ -41,4 +41,13 @@ export default class ContestApi {
             callback(response);
         });
     }
+
+    getCurrent(callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.apiBaseUrl + "current"
+        }).done(response => {
+            callback(response);
+        });
+    }
 }
