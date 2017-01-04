@@ -73,6 +73,7 @@ export default class FacebookLoader {
 
     checkPhotoPermission(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
+            console.debug(perms);
             if (!perms.data) {
                 callback(false);
             } else {
@@ -90,7 +91,7 @@ export default class FacebookLoader {
         return this.initFbScript().then(() => FB.login(
             (response) => {
                 if (response.authResponse) {
-                    return FB.api("/me?fields=id,name,email", callback(response));
+                    return FB.api("/me?fields=id,name,email", callback);
                 }
             },
             {

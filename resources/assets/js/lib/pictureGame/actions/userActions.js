@@ -154,7 +154,7 @@ const denyPhotoScope = () => {
     };
 }
 
-export const getPhotoScope = () => {
+export const getPhotoScope = (rerequest = true) => {
     return (dispatch, getState) => {
         dispatch(requestPhotoScope());
         const accessToken = getState().user.data.token;
@@ -163,9 +163,11 @@ export const getPhotoScope = () => {
                 dispatch(grantPhotoScope());
             } else {
                 dispatch(denyPhotoScope());
-                facebookLoader.getPhotoScope(() => {
-                    getPhotoScope();
-                });
+                if (rerequest === true) {
+                    facebookLoader.getPhotoScope(() => {
+                        dispatch(getPhotoScope(false));
+                    });
+                }
             }
         });
     };

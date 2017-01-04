@@ -7,6 +7,7 @@ import Slider from 'react-slick';
 import IconButton from 'material-ui/IconButton';
 
 export default class HomeCarousel extends React.PureComponent {
+
     render () {
         const settings = {
             infinite: true,
@@ -48,3 +49,8 @@ export default class HomeCarousel extends React.PureComponent {
         )
     }
 }
+
+HomeCarousel.proptypes = {
+    startPlaying: T.func.isRequired,
+    user: T.shape().isRequired
+};
