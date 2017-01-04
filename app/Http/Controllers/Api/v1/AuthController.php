@@ -26,11 +26,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function isAdmin()
-    {
-        $isAdmin = Auth::user()->isAdmin();
-        return response()->json([
-            'isAdmin' => $isAdmin
-        ]);
-    }
 }
