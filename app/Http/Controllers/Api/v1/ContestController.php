@@ -150,7 +150,10 @@ class ContestController extends Controller
     public function setActiveContestById($idContest)
     {
         Contest::where('state','=',1)->update(['state'=>0]);
-        $contest = Contest::find($idContest)->update(['state'=>1]);
+        $contest = Contest::find($idContest);
+        if($contest){
+            $contest->update(['state'=>1]);
+        }
         return response()->json([
             'contest' => $contest
         ]);
