@@ -1,17 +1,24 @@
 .navbar-mui-wrapper{
+    position: fixed;
+    top:0;
+    right:0;
+    z-index:1000;
+    width:100%;
 
     .navbar-mui-open-wrapper{
-        position: absolute;
+        position:absolute;
         top:0;
         right:0;
-        z-index:10;
-        display:none;
+        z-index:2000;
     }
 
     .navbar-mui{
         position:fixed !important;
         top:0 !important;
         width:100% !important;
-        z-index:1 !important;
+    }
+
+    .navbar-mui.navbar-mui-out{
+        transform: translateY(-110%) !important;
     }
 }

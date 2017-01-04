@@ -1,7 +1,7 @@
 .sub-menu{
     padding: 25px 15px;
-    height: 22vh;
     .left-div{
+        margin-bottom: 15px;
         h1{
             text-transform: uppercase;
             padding:0;
@@ -17,6 +17,7 @@
         }
         .sub-menu-autocomplete{
             padding-left:35px;
+            overflow:hidden;
         }
     }
 
