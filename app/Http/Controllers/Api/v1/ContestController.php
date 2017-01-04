@@ -40,6 +40,13 @@ class ContestController extends Controller
     */
     public function store(Request $request)
     {
+        //Si le concours doit être actif on vérifie qu'il n'y en a pas déjà un sinon on le passe en inactif
+        if(isset($request->all()['state']) && $request->all()['state'] == 1){
+            if(ContestController::activeCurrently()){
+                ContestController::setInactiveAll();
+            }
+        }
+
         if (array_key_exists('id', $request->all())) {
             $contest = Contest::find($request->all()['id']);
             $contest->fill($request->all());
@@ -102,7 +109,7 @@ class ContestController extends Controller
     */
     public function getEnded()
     {
-        $contest = Contest::where('state', '=','0')->first();
+        $contest = Contest::where('state', '0')->first();
         return response()->json([
             'contest' => $contest
         ]);
@@ -115,10 +122,25 @@ class ContestController extends Controller
     */
     public function getCurrent()
     {
-        $contest = Contest::where('state', '=','1')->get();
+        $contest = Contest::where('state','1')->get();
         return response()->json([
             'contest' => $contest
         ]);
+    }
+
+    /**
+    * Return true if there is a contest currently.
+    *
+    * @return boolean
+    */
+    public static function activeCurrently()
+    {
+        $contest = Contest::where('state','1')->get();
+        if(!empty($contest->toArray())){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 
     /**
@@ -128,7 +150,7 @@ class ContestController extends Controller
     */
     public function getContestsByIdCreator($idCreator)
     {
-        $contest = Contest::where('id_creator', '=',$idCreator)->get();
+        $contest = Contest::where('id_creator', $idCreator)->get();
         return response()->json([
             'contest' => $contest
         ]);
@@ -141,15 +163,21 @@ class ContestController extends Controller
     */
     public function getContestByIdWinner($idWinner)
     {
-        $contest = Contest::where('id_winner', '=',$idWinner)->get();
+        $contest = Contest::where('id_winner', $idWinner)->get();
         return response()->json([
             'contest' => $contest
         ]);
     }
 
+
+    /**
+    * Set active the contest by it id and put the other as inactive
+    *
+    * @return contest
+    */
     public function setActiveContestById($idContest)
     {
-        Contest::where('state','=',1)->update(['state'=>0]);
+        ContestController::setInactiveAll();
         $contest = Contest::find($idContest);
         if($contest){
             $contest->update(['state'=>1]);
@@ -158,6 +186,18 @@ class ContestController extends Controller
             'contest' => $contest
         ]);
     }
+
+
+    /**
+    * Set all contests inactive
+    *
+    * @return contest
+    */
+    public static function setInactiveAll()
+    {
+        Contest::where('state',1)->update(['state'=>0]);
+    }
+
 
     /**
     * Show the form for editing the specified resource.
