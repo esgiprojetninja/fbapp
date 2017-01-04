@@ -64,6 +64,13 @@ export default class FacebookLoader {
         });
     }
 
+    getPhotoScope(callback) {
+        this.scope.push("user_photos");
+        this.login(() => {
+            callback();
+        });
+    }
+
     checkPhotoPermission(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             if (!perms.data) {
@@ -82,7 +89,6 @@ export default class FacebookLoader {
     login(callback) {
         return this.initFbScript().then(() => FB.login(
             (response) => {
-                console.debug(response);
                 if (response.authResponse) {
                     return FB.api("/me?fields=id,name,email", callback(response));
                 }
