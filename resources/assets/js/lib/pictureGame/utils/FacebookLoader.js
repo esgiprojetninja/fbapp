@@ -67,15 +67,14 @@ export default class FacebookLoader {
     checkPhotoPermission(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             if (!perms.data) {
-                this.scope.push("user_photos");
-                this.login((res) => {
-                    console.debug(res);
-                });
+                callback(false);
             } else {
-                const granted = perms.data.filter(perm => {
-                    return perm.permission === "user_photos"
-                });
-                callback(granted[0].status);
+                const granted = perms.data.filter(perm => perm.permission === "user_photos");
+                if (granted.length === 0 || granted[0].status === "declined") {
+                    callback(false);
+                } else {
+                    callback(true);
+                }
             }
         }));
     }
@@ -83,8 +82,9 @@ export default class FacebookLoader {
     login(callback) {
         return this.initFbScript().then(() => FB.login(
             (response) => {
+                console.debug(response);
                 if (response.authResponse) {
-                    return FB.api("/me?fields=id,name,email", callback);
+                    return FB.api("/me?fields=id,name,email", callback(response));
                 }
             },
             {
