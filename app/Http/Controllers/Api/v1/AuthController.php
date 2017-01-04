@@ -33,11 +33,4 @@ class AuthController extends Controller
             'isAdmin' => $isAdmin
         ]);
     }
-
-    public function getToken () {
-        $fbUser = Socialite::driver('facebook')->user();
-        return response()->json([
-            'token' => $fbUser->token
-        ]);
-    }
 }

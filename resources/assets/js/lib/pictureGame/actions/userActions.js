@@ -155,9 +155,10 @@ const denyPhotoScope = () => {
 }
 
 export const getPhotoScope = () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(requestPhotoScope());
-        facebookLoader.checkPhotoPermission(status => {
+        const accessToken = getState().user.data.token;
+        facebookLoader.checkPhotoPermission(accessToken, status => {
             if(status === "granted") {
                 dispatch(grantPhotoScope());
             } else {
