@@ -39,7 +39,8 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     // Route::get('/contest/first','Api\v1\Contest@getFirst');
     // Route::get('/contest/last','Api\v1\Contest@getLast');
     // Route::get('/contests/ended','Api\v1\Contest@getEnded');
-    // Route::get('/contest/current','Api\v1\Contest@getCurrent');
+    Route::get('/contests/current','Api\v1\ContestController@getCurrent');
+    Route::put('/contests/{id}/activate','Api\v1\ContestController@setActiveContestById');
     // Route::get('/contests/creator/{idCreator}','Api\v1\Contest@getContestsByIdCreator');
     // Route::get('/contest/{id}','Api\v1\Contest@show');
     // Route::get('/contest/winner/{idWinner}','Api\v1\Contest@getContestByIdWinner');
