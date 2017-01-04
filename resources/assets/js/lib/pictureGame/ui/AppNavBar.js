@@ -30,28 +30,38 @@ export default class AppNavBar extends React.PureComponent {
     toggleNavbar(){
         this.hide = !this.hide;
         this.hide ? this.myClass = 'navbar-mui' : this.myClass = 'navbar-mui navbar-mui-out';
-        console.log(this.hide);
-        console.log(this.myClass);
         this.forceUpdate();
+    }
+
+    renderAppNavBar(){
+        return (
+            <AppBar
+                className={this.myClass}
+                title={this.props.title}
+                iconElementRight={<Login />}
+            />
+        )
+    }
+
+    renderToggleButton(){
+        return (
+            <div className="navbar-mui-open-wrapper">
+                <IconButton
+                    iconStyle={styles.mediumIcon}
+                    style={styles.medium}
+                    onClick={this.toggleNavbar}
+                >
+                    <MenuIcon color="white"/>
+                </IconButton>
+            </div>
+        )
     }
 
     render () {
         return (
             <div className='navbar-mui-wrapper'>
-                <AppBar
-                    className={this.myClass}
-                    title={this.props.title}
-                    iconElementRight={<Login />}
-                />
-                <div className="navbar-mui-open-wrapper">
-                    <IconButton
-                        iconStyle={styles.mediumIcon}
-                        style={styles.medium}
-                        onClick={this.toggleNavbar}
-                    >
-                        <MenuIcon color="white"/>
-                    </IconButton>
-                </div>
+                {this.renderAppNavBar()}
+                {this.renderToggleButton()}
             </div>
         )
     }
