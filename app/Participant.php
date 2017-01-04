@@ -20,4 +20,12 @@ class Participant extends Model
         'accepted_cgu'
     ];
 
+    /**
+    * Get the user record associated.
+    */
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
+
 }
