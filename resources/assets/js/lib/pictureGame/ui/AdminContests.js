@@ -81,12 +81,19 @@ export default class AdminContests extends React.PureComponent {
                             onTouchTap={(ev) => {
                                 this.props.onCreateModalOpenClick(ev, contest);
                             }}
-                        />
+                        /><br />
                         <RaisedButton
                             label="Delete"
                             secondary={true}
                             onTouchTap={() => {
                                 this.props.onDeleteContestClick(contest.id);
+                            }}
+                        /><br />
+                        <RaisedButton
+                            label="Activate"
+                            backgroundColor = "#e4e3e3"
+                            onTouchTap={() => {
+                                this.props.onActivateContestClick(contest.id);
                             }}
                         />
                     </div>
