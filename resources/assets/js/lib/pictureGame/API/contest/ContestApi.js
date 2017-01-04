@@ -32,4 +32,13 @@ export default class ContestApi {
             callback(response);
         });
     }
+
+    activate(id, callback) {
+        return $.ajax({
+            method: "PUT",
+            url: this.apiBaseUrl + id + "/activate"
+        }).done(response => {
+            callback(response);
+        });
+    }
 }

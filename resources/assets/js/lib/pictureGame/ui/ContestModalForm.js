@@ -12,11 +12,12 @@ export default class CreateContestModal extends React.PureComponent {
 
     newContestChange (ev, val, attr) {
         let value;
+
         if (typeof val.getMonth === "function" || attr === "id_winner") {
             value = val;
         }
         else if (ev != null && ev.target.type === "checkbox") {
-            value = ev.target.value === true ? 1 : 0;
+            value = ev.target.checked === true ? 1 : 0;
         } else {
             value = ev.target.value;
         }
@@ -112,9 +113,9 @@ export default class CreateContestModal extends React.PureComponent {
                     <br />
                     <Toggle
                         onToggle={this.newContestChange.bind(this)}
-                        value={this.props.newContest.active}
+                        value={this.props.newContest.state}
                         label="Active"
-                        defaultToggled={true}
+                        defaultToggled={false}
                         name="state"
                     />
                     <br />
