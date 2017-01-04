@@ -1,3 +1,5 @@
+import AuthApi from "../API/user/AuthApi";
+
 export default class FacebookLoader {
 
     constructor() {
@@ -56,8 +58,15 @@ export default class FacebookLoader {
         }));
     }
 
+    getCurrentToken() {
+        return AuthApi.getToken(response => {
+
+        });
+    }
+
     checkPhotoPermission(callback) {
-        return this.initFbScript().then(() => FB.api("/me/mpermissions", (perms) => {
+        return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
+            console.debug(perms);
             const granted = perms.data.filter(perm => {
                 return perm.permission === "user_photos"
             });

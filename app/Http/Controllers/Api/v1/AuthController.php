@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
 
+use Socialite;
+
 class AuthController extends Controller
 {
     public function getMe()
@@ -29,6 +31,13 @@ class AuthController extends Controller
         $isAdmin = Auth::user()->isAdmin();
         return response()->json([
             'isAdmin' => $isAdmin
+        ]);
+    }
+
+    public function getToken () {
+        $fbUser = Socialite::driver('facebook')->user();
+        return response()->json([
+            'token' => $fbUser->token
         ]);
     }
 }

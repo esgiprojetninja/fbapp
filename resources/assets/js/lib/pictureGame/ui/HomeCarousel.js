@@ -24,17 +24,18 @@ export default class HomeCarousel extends React.PureComponent {
                     <h1>PARDON MAMAN</h1>
                     <div className="vertical-align">
                         <RaisedButton
-                        label="GALERIE CONCOURS"
-                        labelPosition="before"
-                        className="home-carousel-button"
-                        containerElement="label"
+                            label="GALERIE CONCOURS"
+                            labelPosition="before"
+                            className="home-carousel-button"
+                            containerElement="label"
                         />
                         <RaisedButton
-                        label="AJOUTER UNE PHOTO"
-                        labelPosition="before"
-                        primary={true}
-                        icon={<AddAPhoto />}
-                        className="home-carousel-button"
+                            label="AJOUTER UNE PHOTO"
+                            labelPosition="before"
+                            primary={true}
+                            icon={<AddAPhoto />}
+                            className="home-carousel-button"
+                            onTouchTap={this.props.startPlaying}
                         />
                     </div>
                 </div>

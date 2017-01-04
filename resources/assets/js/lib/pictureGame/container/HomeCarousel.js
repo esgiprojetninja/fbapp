@@ -1,4 +1,7 @@
 import {connect} from "react-redux";
+import {
+    getPhotoScope
+} from "../actions/userActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
 const mapStateToProps = (state) => {
@@ -6,7 +9,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        startPlaying: () => {
+            dispatch(getPhotoScope());
+        }
+    };
 }
 
 const HomeCarousel = connect(
