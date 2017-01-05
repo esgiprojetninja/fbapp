@@ -118,6 +118,7 @@ export const recieveIsNotAdmin = () => {
 }
 
 export const recieveError = (error) => {
+    console.warn(error); // TODO remove this on prod
     return {
         type: actionTypes.RECIEVE_ERROR,
         error: error
@@ -192,4 +193,32 @@ export const getCurrentPhotoPermissions = () => {
             }
         })
     }
+}
+
+const requestFbPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_FB_PHOTOS
+    };
+}
+
+const recieveFbPhoto = (photos) => {
+    return {
+        type: actionTypes.RECIEVE_FB_PHOTOS,
+        isFetching: false,
+        photos: photos
+    };
+}
+
+export const getFbPhotos = () => {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.data.token;
+        dispatch(requestFbPhotos());
+        facebookLoader.getMyPictures(accessToken, (response) => {
+            if (response.error) {
+                dispatch(recieveError(response.error.message));
+            } else {
+                dispatch(recieveFbPhoto(response.data));
+            }
+        });
+    };
 }

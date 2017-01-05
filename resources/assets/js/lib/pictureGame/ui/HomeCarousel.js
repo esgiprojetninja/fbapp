@@ -7,8 +7,38 @@ import Slider from 'react-slick';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+
+// Grid list
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 export default class HomeCarousel extends React.PureComponent {
+
+    constructor () {
+        this.styles = {
+            gridRoot: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                overflowY: 'auto',
+            },
+            spinerContainer: {
+                position: "relative",
+                width: "40px",
+                margin: "0 auto"
+            },
+            spinerRefresh: {
+                display: "inline-block",
+                position: "relative",
+            }
+        };
+    }
 
     componentWillMount () {
         this.props.onReady();
@@ -17,13 +47,47 @@ export default class HomeCarousel extends React.PureComponent {
     playButtonAction () {
         if (this.props.user.photoScopeGranted) {
             this.props.toggleSubmitPhotoModal();
+            this.props.getFbPhotos();
         } else {
             this.props.startPlaying()
         }
     }
 
+    renderSpinner () {
+        return (
+            <div style={this.styles.spinerContainer}>
+                <RefreshIndicator
+                    size={40}
+                    left={10}
+                    top={40}
+                    status="loading"
+                    style={this.styles.spinerRefresh}
+                />
+            </div>
+        );
+    }
+
     renderPictures () {
-        
+        if(this.props.user.isFetching) {
+            return this.renderSpinner();
+        } else if (this.props.user.data.photos) {
+            return (
+                <div style={this.styles.gridRoot}>
+                    <GridList >
+                        {this.props.user.data.photos.map((photo, key) => (
+                            <GridTile
+                                key={photo.id}
+                                title="toto"
+                                subtitle={<span>by <b>toto</b></span>}
+                                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                                >
+                                    <img src={photo.images[4].source} />
+                            </GridTile>
+                        ))}
+                    </GridList>
+                </div>
+            );
+        }
     }
 
     renderModal () {
@@ -48,7 +112,7 @@ export default class HomeCarousel extends React.PureComponent {
                 open={this.props.participant.modalOpen}
                 onRequestClose={this.props.toggleSubmitPhotoModal}
                 autoScrollBodyContent={true}
-                >
+            >
                 {this.renderPictures()}
             </Dialog>
         );

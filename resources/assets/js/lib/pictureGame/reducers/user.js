@@ -103,6 +103,20 @@ const user = (state = initialSate.user, action) => {
                     isFetching: false,
                     photoScopeGranted: false
                 }
+            case types.REQUEST_PHOTO_SCOPE:
+                return {
+                    ...state,
+                    isFetching: true,
+                }
+            case types.RECIEVE_FB_PHOTOS:
+                return {
+                    ...state,
+                    isFetching: false,
+                    data: {
+                        ...state.data,
+                        photos: action.photos
+                    }
+                }
             default:
                 return state;
         }

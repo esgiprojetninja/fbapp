@@ -1,7 +1,8 @@
 import {connect} from "react-redux";
 import {
     getPhotoScope,
-    getCurrentPhotoPermissions
+    getCurrentPhotoPermissions,
+    getFbPhotos
 } from "../actions/userActions";
 import {
     getCurrentContest
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         toggleSubmitPhotoModal: () => {
             dispatch(toggleSubmitPhotoModal());
+        },
+        getFbPhotos: () => {
+            dispatch(getFbPhotos());
         }
     };
 }

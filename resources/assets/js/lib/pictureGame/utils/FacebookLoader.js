@@ -90,4 +90,12 @@ export default class FacebookLoader {
     getMe(callback) {
         return this.initFbScript().then(() => FB.api("/me?fields=id,name,email", callback));
     }
+
+    getMyPictures (access_token, callback) {
+        return this.initFbScript().then(() => FB.api(
+            "/me/photos?fields=images",
+            {access_token: access_token},
+            callback)
+        );
+    }
 }
