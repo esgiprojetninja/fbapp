@@ -13,7 +13,7 @@ export default class App extends React.PureComponent {
                     <HomeCarousel/>
                     <SubMenu/>
                 </section>
-                <section className="gallery-wrapper">
+                <section>
                     <Gallery/>
                 </section>
             </div>
