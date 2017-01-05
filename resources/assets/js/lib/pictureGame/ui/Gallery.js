@@ -22,19 +22,28 @@ export default class Gallery extends React.PureComponent {
         } = this.state;
 
         return (
-            <div className="gridLayout">
-                <div className="gridRow">
+            <div className="grid-layout">
+                <div className="grid-row">
                     {this.props.pictures.map((picture, index) => (
                     <div
-                        className="gridItem"
+                        className="grid-item"
                         key={index}
                         onClick={() => this.setState({ isOpen: true, photoIndex: index})}
                     >
-                        <div className="gridWell">
+                        <div className="grid-well">
                             <img
-                                className="img-cover"
+                                className="img-cover-no-height"
                                 src={picture.src}
                             />
+                            <div>
+                                <div className="grid-gradient">
+                                </div>
+                                <div className="grid-desc">
+                                    <span className="grid-desc-title">{picture.title}</span>
+                                    <span className="grid-desc-caption">{picture.caption}</span>
+                                    <span className="grid-desc-author">Par {picture.author}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     ))}
