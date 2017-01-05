@@ -9,14 +9,14 @@ export default class Loginfb extends React.PureComponent {
 
     render() {
         return (
-            <div>
-            <FlatButton
-            label="Home"
-            href="/"
-            />
-            {this.renderJoinButton()}
-            {this.renderAdminButton()}
-            {this.renderLoginButton()}
+            <div className="navbar-mui-right">
+                <FlatButton
+                    label="Home"
+                    href="/"
+                />
+                {this.renderJoinButton()}
+                {this.renderAdminButton()}
+                {this.renderLoginButton()}
             </div>
         );
     }
