@@ -47,7 +47,7 @@ export default class HomeCarousel extends React.PureComponent {
     playButtonAction () {
         if (this.props.user.photoScopeGranted) {
             this.props.toggleSubmitPhotoModal();
-            this.props.getFbPhotos();
+            this.props.getFbPhotos(null);
         } else {
             this.props.startPlaying()
         }
@@ -67,14 +67,18 @@ export default class HomeCarousel extends React.PureComponent {
         );
     }
 
+    loadMorePhotos () {
+        this.props.getFbPhotos(this.props.user.loadMoreFbPhotosLink)
+    }
+
     renderPictures () {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
-        } else if (this.props.user.data.photos) {
+        } else if (this.props.user.photos) {
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
-                        {this.props.user.data.photos.map((photo, key) => (
+                        {this.props.user.photos.filter(p => p.images.length > 4).map((photo, key) => (
                             <GridTile
                                 key={photo.id}
                                 title="toto"
@@ -85,6 +89,11 @@ export default class HomeCarousel extends React.PureComponent {
                             </GridTile>
                         ))}
                     </GridList>
+                    <FlatButton
+                        label="load more"
+                        primary={true}
+                        onTouchTap={this.loadMorePhotos.bind(this)}
+                    />
                 </div>
             );
         }
@@ -176,6 +185,7 @@ export default class HomeCarousel extends React.PureComponent {
 HomeCarousel.propTypes = {
     startPlaying: T.func.isRequired,
     onReady: T.func.isRequired,
+    getFbPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,

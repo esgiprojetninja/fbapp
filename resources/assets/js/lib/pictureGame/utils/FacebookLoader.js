@@ -91,11 +91,12 @@ export default class FacebookLoader {
         return this.initFbScript().then(() => FB.api("/me?fields=id,name,email", callback));
     }
 
-    getMyPictures (access_token, callback) {
+    getMyPictures (access_token, link, callback) {
+        const url = link ? link : "/me/photos?fields=images,link&type=uploaded";
         return this.initFbScript().then(() => FB.api(
-            "/me/photos?fields=images",
+            url,
             {access_token: access_token},
-            callback)
-        );
+            callback
+        ));
     }
 }

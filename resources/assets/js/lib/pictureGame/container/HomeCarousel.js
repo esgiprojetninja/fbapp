@@ -27,8 +27,8 @@ const mapDispatchToProps = (dispatch) => {
         toggleSubmitPhotoModal: () => {
             dispatch(toggleSubmitPhotoModal());
         },
-        getFbPhotos: () => {
-            dispatch(getFbPhotos());
+        getFbPhotos: (link) => {
+            dispatch(getFbPhotos(link));
         }
     };
 }

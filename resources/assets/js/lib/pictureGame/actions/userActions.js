@@ -201,23 +201,24 @@ const requestFbPhotos = () => {
     };
 }
 
-const recieveFbPhoto = (photos) => {
+const recieveFbPhoto = (res) => {
     return {
         type: actionTypes.RECIEVE_FB_PHOTOS,
         isFetching: false,
-        photos: photos
+        photos: res.data,
+        next: res.paging.next
     };
 }
 
-export const getFbPhotos = () => {
+export const getFbPhotos = (link) => {
     return (dispatch, getState) => {
         const accessToken = getState().user.data.token;
         dispatch(requestFbPhotos());
-        facebookLoader.getMyPictures(accessToken, (response) => {
+        facebookLoader.getMyPictures(accessToken, link, (response) => {
             if (response.error) {
                 dispatch(recieveError(response.error.message));
             } else {
-                dispatch(recieveFbPhoto(response.data));
+                dispatch(recieveFbPhoto(response));
             }
         });
     };
