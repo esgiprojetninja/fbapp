@@ -1,8 +1,10 @@
 import * as actionTypes from "./userTypes";
 import AuthApi from "../API/user/AuthApi";
+import FacebookLoader from "../utils/FacebookLoader";
 
 
 const authApi = new AuthApi();
+const facebookLoader = new FacebookLoader();
 
 export const requestLoginStatus = (status) => {
     return {
@@ -131,5 +133,46 @@ export const checkAdminStatus = () => {
                 dispatch(recieveIsNotAdmin());
             }
         });
+    };
+}
+
+const requestPhotoScope = () => {
+    return {
+        type: actionTypes.REQUEST_PHOTO_SCOPE
+    };
+}
+
+const grantPhotoScope = () => {
+    return {
+        type: actionTypes.GRANT_PHOTO_SCOPE
+    };
+}
+
+const denyPhotoScope = () => {
+    return {
+        type: actionTypes.DENY_PHOTO_SCOPE
+    };
+}
+
+export const getPhotoScope = (rerequest = true) => {
+    return (dispatch, getState) => {
+        dispatch(requestPhotoScope());
+        const accessToken = getState().user.data.token;
+        if (!getState().user.isConnected) {
+            dispatch(denyPhotoScope())
+        } else {
+            facebookLoader.checkPhotoPermission(accessToken, status => {
+                if (status) {
+                    dispatch(grantPhotoScope());
+                } else {
+                    dispatch(denyPhotoScope());
+                    if (rerequest === true) {
+                        facebookLoader.getPhotoScope(() => {
+                            dispatch(getPhotoScope(false));
+                        });
+                    }
+                }
+            });
+        }
     };
 }

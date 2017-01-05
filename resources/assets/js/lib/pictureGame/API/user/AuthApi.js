@@ -22,4 +22,13 @@ export default class AuthApi {
             callback(response);
         })
     }
+
+    getToken (callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.authBaseUrl + token
+        }).done(response => {
+            callback(response);
+        });
+    }
 }
