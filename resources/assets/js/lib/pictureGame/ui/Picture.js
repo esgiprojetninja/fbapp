@@ -4,14 +4,14 @@ export default class Picture extends React.PureComponent {
     render () {
         return (
             <div>
-                <p>{this.props.url}</p>
-                <p>{this.props.user}</p>
+                <p>{this.props.src}</p>
+                <p>{this.props.author}</p>
+                <p>{this.props.title}</p>
             </div>
         );
     }
 }
 
 Picture.propTypes = {
-    url: T.string.isRequired,
-    user: T.string.isRequired
+    src: T.string.isRequired
 };

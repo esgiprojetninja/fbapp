@@ -26,6 +26,7 @@ export const checkLoginStatus = (status) => {
         authApi.getMe(response => {
             if(response.user) {
                 dispatch(loginSuccess(response.user));
+                dispatch(getCurrentPhotoPermissions());
             }
             else {
                 dispatch(recieveNotLoggedStatus());
@@ -117,6 +118,7 @@ export const recieveIsNotAdmin = () => {
 }
 
 export const recieveError = (error) => {
+    console.warn(error); // TODO remove this on prod
     return {
         type: actionTypes.RECIEVE_ERROR,
         error: error
@@ -161,18 +163,69 @@ export const getPhotoScope = (rerequest = true) => {
         if (!getState().user.isConnected) {
             dispatch(denyPhotoScope())
         } else {
-            facebookLoader.checkPhotoPermission(accessToken, status => {
+            facebookLoader.setPlayerScope(true);
+            facebookLoader.checkPermissions(accessToken, status => {
                 if (status) {
                     dispatch(grantPhotoScope());
                 } else {
                     dispatch(denyPhotoScope());
                     if (rerequest === true) {
-                        facebookLoader.getPhotoScope(() => {
+                        facebookLoader.login(() => {
                             dispatch(getPhotoScope(false));
                         });
                     }
                 }
             });
         }
+    };
+}
+
+export const getCurrentPhotoPermissions = () => {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.data.token;
+        dispatch(requestPhotoScope());
+        facebookLoader.setPlayerScope(true);
+        facebookLoader.checkPermissions(accessToken, status => {
+            if (status) {
+                dispatch(grantPhotoScope());
+            } else {
+                dispatch(denyPhotoScope());
+            }
+        })
+    }
+}
+
+const requestFbPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_FB_PHOTOS
+    };
+}
+
+export const resetPhotos = () => {
+    return {
+        type: actionTypes.RESET_PHOTOS
+    };
+}
+
+const recieveFbPhoto = (res) => {
+    return {
+        type: actionTypes.RECIEVE_FB_PHOTOS,
+        isFetching: false,
+        photos: res.data,
+        next: res.paging.next
+    };
+}
+
+export const getFbPhotos = (link) => {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.data.token;
+        dispatch(requestFbPhotos());
+        facebookLoader.getMyPictures(accessToken, link, (response) => {
+            if (response.error) {
+                dispatch(recieveError(response.error.message));
+            } else {
+                dispatch(recieveFbPhoto(response));
+            }
+        });
     };
 }
