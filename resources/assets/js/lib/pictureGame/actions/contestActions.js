@@ -32,7 +32,14 @@ export const recieveContests = (contests) => {
     return {
         type: actionTypes.RECIEVE_CONTESTS,
         contests: contests
-    }
+    };
+}
+
+export const recieveCurrentContest = (contest) => {
+    return {
+        type: actionTypes.RECIEVE_CURRENT_CONTEST,
+        contest: contest
+    };
 }
 
 export const storeContest = () => {
@@ -46,6 +53,19 @@ export const storeContest = () => {
             }
         });
         dispatch(toggleCreateModal()); // TODO move this away
+    }
+}
+
+export const getCurrentContest = () => {
+    return (dispatch) => {
+        dispatch(requestContests());
+        contestApi.getCurrent(response => {
+            if (!response.error) {
+                dispatch(recieveCurrentContest(response.contest));
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        })
     }
 }
 

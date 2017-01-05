@@ -60,6 +60,12 @@ const contest = (state = initialSate, action) => {
                 ...state,
                 newContest: contest
             };
+        case actionTypes.RECIEVE_CURRENT_CONTEST:
+            return {
+                ...state,
+                isFetching: false,
+                currentContest: action.contest
+            };
         default:
             return state;
     }

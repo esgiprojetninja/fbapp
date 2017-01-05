@@ -116,13 +116,13 @@ class ContestController extends Controller
     }
 
     /**
-    * Show in progress contest.
+    * Show in current contest.
     *
     * @return Response
     */
     public function getCurrent()
     {
-        $contest = Contest::where('state', '1')->get();
+        $contest = Contest::where('state', '1')->get()->first();
         return response()->json([
             'contest' => $contest
         ]);

@@ -14,11 +14,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Admin API routes
-Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
-    Route::resource('contests', 'Api\v1\ContestController');
-    Route::resource('participants', 'Api\v1\ParticipantController');
-});
 
 // Participants API routes
 Route::group(['middleware' => ['api'], ['only' => ['index', 'show']], 'prefix' => '/v1'], function () {
@@ -31,4 +26,10 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::put('/contests/{id}/activate','Api\v1\ContestController@setActiveContestById');
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
+});
+
+// Admin API routes
+Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
+    Route::resource('contests', 'Api\v1\ContestController');
+    Route::resource('participants', 'Api\v1\ParticipantController');
 });

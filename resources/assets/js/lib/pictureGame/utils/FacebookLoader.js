@@ -39,8 +39,8 @@ export default class FacebookLoader {
         return this.initFbScript().then(() => FB.getLoginStatus(callback));
     }
 
-    checkPermissions(callback) {
-        return this.initFbScript().then(() => FB.api("/me/permissions", (perms) => {
+    checkPermissions(access_token, callback) {
+        return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             let granted = true;
             const permissionsGranted = perms.data.reduce((grant, perm) => {
                 if (perm.status === "granted") {
@@ -58,26 +58,15 @@ export default class FacebookLoader {
         }));
     }
 
-    getPhotoScope(callback) {
-        this.scope.push("user_photos");
-        this.login(() => {
-            callback();
-        });
-    }
-
-    checkPhotoPermission(access_token, callback) {
-        return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
-            if (!perms.data) {
-                callback(false);
-            } else {
-                const granted = perms.data.filter(perm => perm.permission === "user_photos");
-                if (granted.length === 0 || granted[0].status === "declined") {
-                    callback(false);
-                } else {
-                    callback(true);
-                }
-            }
-        }));
+    setPlayerScope (player = false) {
+        if(this.scope.length < 4 && player) {
+            this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        } else {
+            this.scope = [
+                "public_profile",
+                "email"
+            ];
+        }
     }
 
     login(callback) {
@@ -100,5 +89,14 @@ export default class FacebookLoader {
 
     getMe(callback) {
         return this.initFbScript().then(() => FB.api("/me?fields=id,name,email", callback));
+    }
+
+    getMyPictures (access_token, link, callback) {
+        const url = link ? link : "/me/photos?fields=images,link&type=uploaded";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            {access_token: access_token},
+            callback
+        ));
     }
 }

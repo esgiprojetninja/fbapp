@@ -5,7 +5,9 @@ const initialSate = {
         isConnected: false,
         isFetching: false,
         isAdmin: false,
-        data: {}
+        data: {},
+        photos: [],
+        loadMoreFbPhotosLink: ""
     }
 };
 
@@ -21,8 +23,7 @@ const user = (state = initialSate.user, action) => {
                 return {
                     ...state,
                     isConnected: action.status,
-                    isFetching: false,
-                    data: {}
+                    isFetching: false
                 };
             case types.REQUEST_LOGIN:
                 return {
@@ -102,6 +103,26 @@ const user = (state = initialSate.user, action) => {
                     ...state,
                     isFetching: false,
                     photoScopeGranted: false
+                }
+            case types.REQUEST_PHOTO_SCOPE:
+                return {
+                    ...state,
+                    isFetching: true,
+                }
+            case types.RESET_PHOTOS:
+                return {
+                    ...state,
+                    photos: []
+                }
+            case types.RECIEVE_FB_PHOTOS:
+                return {
+                    ...state,
+                    isFetching: false,
+                    photos: [
+                        ...state.photos,
+                        ...action.photos
+                    ],
+                    loadMoreFbPhotosLink: action.next
                 }
             default:
                 return state;
