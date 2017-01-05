@@ -6,6 +6,9 @@ import {
 import {
     getCurrentContest
 } from "../actions/contestActions";
+import {
+    toggleSubmitPhotoModal
+} from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
 const mapStateToProps = (state) => {
@@ -19,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         startPlaying: () => {
             dispatch(getPhotoScope());
+        },
+        toggleSubmitPhotoModal: () => {
+            dispatch(toggleSubmitPhotoModal());
         }
     };
 }
