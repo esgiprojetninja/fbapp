@@ -1,0 +1,20 @@
+.gridLayout{
+    .gridRow {
+     -moz-column-width: 18em;
+     -webkit-column-width: 18em;
+     -moz-column-gap: 1em;
+     -webkit-column-gap:1em;
+
+    }
+
+    .gridItem {
+     display: inline-block;
+     padding:  .25rem;
+     width:  100%;
+    }
+
+    .gridWell {
+     position:relative;
+     display: block;
+    }
+}
