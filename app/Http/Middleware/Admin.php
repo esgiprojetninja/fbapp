@@ -15,9 +15,10 @@ class Admin
     * @param  \Closure  $next
     */
     public function handle($request, Closure $next)
-        {
+    {
         $user = Auth::user();
-        if (!$user || !$user->isAdmin()) {
+
+        if (!$user || !\App\Http\Controllers\Api\v1\AuthController::isAdmin()) {
             return response()->json([
               'error' => 'Permission Denied'
           ], 401);
