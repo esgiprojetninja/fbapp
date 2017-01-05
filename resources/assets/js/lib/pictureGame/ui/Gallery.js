@@ -54,6 +54,9 @@ export default class Gallery extends React.PureComponent {
                {isOpen &&
                    <Lightbox
                        mainSrc={this.props.pictures[photoIndex].src}
+                       imageTitle={this.props.pictures[photoIndex].title}
+                       imagePadding={35}
+                       imageCaption={this.props.pictures[photoIndex].caption}
                        nextSrc={this.props.pictures[(photoIndex + 1) % this.props.pictures.length].src}
                        prevSrc={this.props.pictures[(photoIndex + this.props.pictures.length - 1) % this.props.pictures.length].src}
                        onCloseRequest={() => this.setState({ isOpen: false })}
@@ -82,6 +85,7 @@ export default class Gallery extends React.PureComponent {
 Gallery.propTypes = {
     pictures: T.arrayOf(
         T.shape({
+            title: T.string.isRequired,
             src: T.string.isRequired
         }).isRequired
     ).isRequired
