@@ -80,7 +80,7 @@ export default class HomeCarousel extends React.PureComponent {
                     <GridList >
                         {this.props.user.photos.filter(p => p.images.length > 4).map((photo, key) => (
                             <GridTile
-                                key={photo.id}
+                                key={key}
                                 title="toto"
                                 subtitle={<span>by <b>toto</b></span>}
                                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
@@ -119,8 +119,8 @@ export default class HomeCarousel extends React.PureComponent {
                 actions={actions}
                 modal={false}
                 open={this.props.participant.modalOpen}
-                onRequestClose={this.props.toggleSubmitPhotoModal}
                 autoScrollBodyContent={true}
+                onRequestClose={this.props.toggleSubmitPhotoModal}
             >
                 {this.renderPictures()}
             </Dialog>
@@ -186,6 +186,7 @@ HomeCarousel.propTypes = {
     startPlaying: T.func.isRequired,
     onReady: T.func.isRequired,
     getFbPhotos: T.func.isRequired,
+    refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,

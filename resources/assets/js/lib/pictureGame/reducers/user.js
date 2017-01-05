@@ -109,6 +109,11 @@ const user = (state = initialSate.user, action) => {
                     ...state,
                     isFetching: true,
                 }
+            case types.RESET_PHOTOS:
+                return {
+                    ...state,
+                    photos: []
+                }
             case types.RECIEVE_FB_PHOTOS:
                 return {
                     ...state,

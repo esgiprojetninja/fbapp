@@ -201,6 +201,12 @@ const requestFbPhotos = () => {
     };
 }
 
+export const resetPhotos = () => {
+    return {
+        type: actionTypes.RESET_PHOTOS
+    };
+}
+
 const recieveFbPhoto = (res) => {
     return {
         type: actionTypes.RECIEVE_FB_PHOTOS,

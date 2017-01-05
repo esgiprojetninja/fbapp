@@ -2,7 +2,8 @@ import {connect} from "react-redux";
 import {
     getPhotoScope,
     getCurrentPhotoPermissions,
-    getFbPhotos
+    getFbPhotos,
+    resetPhotos
 } from "../actions/userActions";
 import {
     getCurrentContest
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getFbPhotos: (link) => {
             dispatch(getFbPhotos(link));
+        },
+        refreshPhotos: () => {
+            dispatch(resetPhotos());
         }
     };
 }
