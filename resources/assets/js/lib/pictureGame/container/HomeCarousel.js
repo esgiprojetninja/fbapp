@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {
-    getPhotoScope
+    getPhotoScope,
+    getCurrentPhotoPermissions
 } from "../actions/userActions";
 import {
     getCurrentContest

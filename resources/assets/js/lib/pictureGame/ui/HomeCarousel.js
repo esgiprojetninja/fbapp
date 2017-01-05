@@ -12,6 +12,14 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.onReady();
     }
 
+    playButtonAction () {
+        if (this.props.user.photoScopeGranted) {
+            console.debug("MODALE !");
+        } else {
+            this.props.startPlaying()
+        }
+    }
+
     renderPlayButton () {
         if (this.props.user.isConnected) {
             return (
@@ -21,7 +29,7 @@ export default class HomeCarousel extends React.PureComponent {
                     primary={true}
                     icon={<AddAPhoto />}
                     className="home-carousel-button"
-                    onTouchTap={this.props.startPlaying}
+                    onTouchTap={this.playButtonAction.bind(this)}
                 />
             );
         }

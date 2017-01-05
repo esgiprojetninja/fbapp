@@ -26,6 +26,7 @@ export const checkLoginStatus = (status) => {
         authApi.getMe(response => {
             if(response.user) {
                 dispatch(loginSuccess(response.user));
+                dispatch(getCurrentPhotoPermissions());
             }
             else {
                 dispatch(recieveNotLoggedStatus());
@@ -161,7 +162,7 @@ export const getPhotoScope = (rerequest = true) => {
         if (!getState().user.isConnected) {
             dispatch(denyPhotoScope())
         } else {
-            facebookLoader.setPlayerScope();
+            facebookLoader.setPlayerScope(true);
             facebookLoader.checkPermissions(accessToken, status => {
                 if (status) {
                     dispatch(grantPhotoScope());
@@ -176,4 +177,19 @@ export const getPhotoScope = (rerequest = true) => {
             });
         }
     };
+}
+
+export const getCurrentPhotoPermissions = () => {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.data.token;
+        dispatch(requestPhotoScope());
+        facebookLoader.setPlayerScope(true);
+        facebookLoader.checkPermissions(accessToken, status => {
+            if (status) {
+                dispatch(grantPhotoScope());
+            } else {
+                dispatch(denyPhotoScope());
+            }
+        })
+    }
 }

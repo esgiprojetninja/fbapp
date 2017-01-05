@@ -58,9 +58,14 @@ export default class FacebookLoader {
         }));
     }
 
-    setPlayerScope () {
-        if(this.scope.length < 4) {
+    setPlayerScope (player = false) {
+        if(this.scope.length < 4 && player) {
             this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        } else {
+            this.scope = [
+                "public_profile",
+                "email"
+            ];
         }
     }
 
