@@ -11,6 +11,13 @@ export default class AdminContests extends React.PureComponent {
         this.props.onReady();
     }
 
+    addIfInferior(num) {
+        return (parseInt(num) < 10) ? "0"+num : num
+    }
+    uiDateFormater(d) {
+        return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
+    }
+
     renderSpinner () {
         const style = {
             container: {
@@ -99,8 +106,8 @@ export default class AdminContests extends React.PureComponent {
                     </div>
                 </TableRowColumn>
                 <TableRowColumn>{contest.title}</TableRowColumn>
-                <TableRowColumn>{contest.start_date}</TableRowColumn>
-                <TableRowColumn>{contest.end_date}</TableRowColumn>
+                <TableRowColumn>{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
+                <TableRowColumn>{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
                 <TableRowColumn>{contest.id_winner}</TableRowColumn>
                 <TableRowColumn>{contest.state}</TableRowColumn>
             </TableRow>
