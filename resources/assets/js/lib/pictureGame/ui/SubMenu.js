@@ -41,14 +41,12 @@ const fruit = [
 ];
 
 export default class SubMenu extends React.PureComponent {
-
-    render () {
-
+    renderCurrentContest() {
         return (
             <div className="sub-menu container vertical-align">
                 <div className="left-div col-md-8">
-                    <h1 className="col-md-6 col-xs-12 col-sm-12 text-center">NOM CONCOURS</h1>
-                    <span className="col-md-6 col-xs-12 col-sm-12 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                    <h1 className="col-md-6 col-xs-12 col-sm-12 text-center">{this.props.contest.currentContest.title}</h1>
+                    <span className="col-md-6 col-xs-12 col-sm-12 text-center">{this.props.contest.currentContest.description}</span>
                     <div className="relative">
                         <Search className="sub-menu-search"/>
                         <AutoComplete
@@ -65,6 +63,19 @@ export default class SubMenu extends React.PureComponent {
                     <img className="sub-menu-img-cover" src="subMenuLogo.png"/>
                 </div>
             </div>
+        )
+    }
+
+    renderNoCurrentContest() {
+        return(
+            <div>AUCUN CONCOURS EN COURS POUR LE MOMENT</div>
+        )
+    }
+    render () {
+
+        return (
+            ( this.props.contest.currentContest !== undefined ) ? this.renderCurrentContest() : this.renderNoCurrentContest()
+            
         )
     }
 }
