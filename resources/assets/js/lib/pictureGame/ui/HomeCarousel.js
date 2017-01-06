@@ -37,6 +37,12 @@ export default class HomeCarousel extends React.PureComponent {
             spinerRefresh: {
                 display: "inline-block",
                 position: "relative",
+            },
+            hr: {
+                width: "100%",
+                maxWidth: "450px",
+                minWidth: "110px",
+                padding: "0 15px 10px 15px"
             }
         };
     }
@@ -47,6 +53,14 @@ export default class HomeCarousel extends React.PureComponent {
 
     scrollToAnchor (selector) {
         jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
+    }
+
+    fadeButton () {
+        jQuery(window).scroll(function(){
+            if (jQuery(window).scrollTop() > 30){
+                //jQuery('.home-carousel-btn-wrapper').fadeOut();
+            }
+        });
     }
 
     playButtonAction () {
@@ -161,13 +175,15 @@ export default class HomeCarousel extends React.PureComponent {
 
         return (
             <div>
+            {this.fadeButton()}
                 <div className="home-carousel">
                     <div className="title-wrapper full-height full-width vertical-align">
                         <div>
                             <h1>PARDON MAMAN</h1>
-                            <div className="vertical-align">
+                            <img style={this.styles.hr} src="homeCarouselHr.png" />
+                            <div className="home-carousel-btn-wrapper vertical-align">
                                 <RaisedButton
-                                    label="GALERIE CONCOURS"
+                                    label="VOIR LA GALERIE"
                                     labelPosition="before"
                                     className="home-carousel-button"
                                     containerElement="label"
