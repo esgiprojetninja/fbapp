@@ -18,10 +18,10 @@ class Admin
     {
         $user = Auth::user();
 
-        if (!$user || !\App\Http\Controllers\Api\v1\AuthController::isAdmin()) {
+        if (!$user || !$user->isAdmin()) {
             return response()->json([
-              'error' => 'Permission Denied'
-          ], 401);
+                'error' => 'Permission Denied'
+            ], 401);
         }
         return $next($request);
     }
