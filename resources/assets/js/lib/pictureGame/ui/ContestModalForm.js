@@ -27,6 +27,11 @@ export default class CreateContestModal extends React.PureComponent {
         );
     }
 
+    dateFormater(date) {
+        const addIfInferior = (num) => (parseInt(num) < 10) ? "0"+num : num
+        return addIfInferior(date.getDate()) + "/" + addIfInferior(parseInt(date.getMonth())+1) + "/" + date.getFullYear()
+    }
+
     startDateChange(ev, val) {
         this.newContestChange(ev, val, "start_date");
     }
@@ -91,6 +96,8 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.start_date)}
                         hintText="Start date"
                         name="start_date"
+                        locale="FR"
+                        formatDate={this.dateFormater}
                     />
                     <br />
                     <DatePicker
@@ -98,6 +105,8 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.end_date)}
                         hintText="End date"
                         name="end_date"
+                        locale="FR"
+                        formatDate={this.dateFormater}
                     />
                     <br />
                     <SelectField
