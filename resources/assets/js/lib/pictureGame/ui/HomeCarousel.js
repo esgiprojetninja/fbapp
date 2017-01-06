@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import jQuery from 'jquery';
+import $ from 'jquery';
 
 // Grid list
 import IconButton from 'material-ui/IconButton';
@@ -52,13 +52,13 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     scrollToAnchor (selector) {
-        jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
+        $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
     }
 
     fadeButton () {
-        jQuery(window).scroll(function(){
-            if (jQuery(window).scrollTop() > 30){
-                //jQuery('.home-carousel-btn-wrapper').fadeOut();
+        $(window).scroll(function(){
+            if ($(window).scrollTop() > 30){
+                //$('.home-carousel-btn-wrapper').fadeOut();
             }
         });
     }
