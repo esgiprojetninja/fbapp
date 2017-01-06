@@ -33,7 +33,7 @@ export default class Loginfb extends React.PureComponent {
     }
 
     renderAdminButton () {
-        if (this.props.data.is_admin) {
+        if (this.props.isAdmin) {
             return (
                 <FlatButton
                 label="Admin"

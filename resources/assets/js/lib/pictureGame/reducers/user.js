@@ -64,7 +64,7 @@ const user = (state = initialSate.user, action) => {
                 return {
                     ...state,
                     isFetching: true,
-                    isAdmin: true
+                    isAdmin: false
                 }
             case types.RECIEVE_IS_ADMIN:
                 return {
@@ -76,7 +76,7 @@ const user = (state = initialSate.user, action) => {
                 return {
                     ...state,
                     isFetching: false,
-                    isAdmin: true
+                    isAdmin: false
                 }
             case types.RECIEVE_ERROR:
                 return {

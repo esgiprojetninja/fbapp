@@ -127,7 +127,7 @@ export const checkAdminStatus = () => {
     return (dispatch) => {
         dispatch(requestAdminStatus);
         authApi.amIAdmin(response => {
-            if(response) {
+            if(response.admin) {
                 dispatch(recieveIsAdmin());
             } else {
                 dispatch(recieveIsNotAdmin());

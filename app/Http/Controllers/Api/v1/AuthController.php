@@ -42,10 +42,14 @@ class AuthController extends Controller
 
         foreach ($isAdmin['data'] as $user) {
             if($user['user'] == $idUser && $user['role'] == 'administrators'){
-                return true;
+                return response()->json([
+                    'admin' => TRUE
+                ]);
             }
         }
-        return false;
+        return response()->json([
+            'admin' => FALSE
+        ]);
     }
 
 }

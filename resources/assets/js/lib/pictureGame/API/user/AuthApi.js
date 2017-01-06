@@ -37,8 +37,7 @@ export default class AuthApi {
             method: "GET",
             url: this.authBaseUrl + "isAdmin"
         }).done(response => {
-            console.log(response);
             callback(response);
-        });
+        })
     }
 }
