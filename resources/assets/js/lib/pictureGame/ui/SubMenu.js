@@ -68,7 +68,7 @@ export default class SubMenu extends React.PureComponent {
 
     renderNoCurrentContest() {
         return(
-            <div>AUCUN CONCOURS EN COURS POUR LE MOMENT</div>
+            <div className="full-width"><p className="full-width text-center">AUCUN CONCOURS EN COURS POUR LE MOMENT</p></div>
         )
     }
     render () {
