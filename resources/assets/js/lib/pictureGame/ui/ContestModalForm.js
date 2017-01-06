@@ -96,7 +96,7 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.start_date)}
                         hintText="Start date"
                         name="start_date"
-                        locale="FR"
+                        locale="en-US"
                         formatDate={this.dateFormater}
                     />
                     <br />
@@ -105,7 +105,7 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.end_date)}
                         hintText="End date"
                         name="end_date"
-                        locale="FR"
+                        locale="en-US"
                         formatDate={this.dateFormater}
                     />
                     <br />
