@@ -31,4 +31,13 @@ export default class AuthApi {
             callback(response);
         });
     }
+
+    amIAdmin (callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.authBaseUrl + "isAdmin"
+        }).done(response => {
+            callback(response);
+        })
+    }
 }

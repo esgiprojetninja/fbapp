@@ -1,7 +1,8 @@
 import {connect} from "react-redux";
 import {
     checkLoginStatus,
-    logout
+    logout,
+    checkAdminStatus
 } from "../actions/userActions";
 import Loginfb from "../ui/LoginFb";
 
@@ -22,6 +23,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onReady: (status) => {
             dispatch(checkLoginStatus(status));
+            dispatch(checkAdminStatus(status));
         },
         onLogoutClicked: (status) => {
             dispatch(logout(status));
