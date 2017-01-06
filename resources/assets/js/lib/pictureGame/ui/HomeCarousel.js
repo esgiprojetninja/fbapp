@@ -8,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import jQuery from 'jquery';
 
 // Grid list
 import IconButton from 'material-ui/IconButton';
@@ -42,6 +43,10 @@ export default class HomeCarousel extends React.PureComponent {
 
     componentWillMount () {
         this.props.onReady();
+    }
+
+    scrollToAnchor (selector) {
+        jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
     }
 
     playButtonAction () {
@@ -166,6 +171,7 @@ export default class HomeCarousel extends React.PureComponent {
                                     labelPosition="before"
                                     className="home-carousel-button"
                                     containerElement="label"
+                                    onClick={() => this.scrollToAnchor('.grid-layout')}
                                 />
                                 {this.renderPlayButton()}
                             </div>
