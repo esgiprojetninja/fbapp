@@ -1,4 +1,4 @@
-## Nina FB App
+## Ninja FB App
 
 NFB lets you create and manage drawing contests using Facebook api.
 
