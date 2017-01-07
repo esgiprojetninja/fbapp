@@ -67,6 +67,7 @@ export default class HomeCarousel extends React.PureComponent {
         if (this.props.user.photoScopeGranted) {
             this.props.toggleSubmitPhotoModal();
             this.props.getFbPhotos(null);
+            this.props.getFbAlbums();
         } else {
             this.props.startPlaying()
         }
@@ -94,6 +95,7 @@ export default class HomeCarousel extends React.PureComponent {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.photos) {
+            console.debug(this.props.user)
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
@@ -208,6 +210,7 @@ HomeCarousel.propTypes = {
     startPlaying: T.func.isRequired,
     onReady: T.func.isRequired,
     getFbPhotos: T.func.isRequired,
+    getFbAlbums: T.func.isRequired,
     refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired

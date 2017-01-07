@@ -3,6 +3,7 @@ import {
     getPhotoScope,
     getCurrentPhotoPermissions,
     getFbPhotos,
+    getFbAlbums,
     resetPhotos
 } from "../actions/userActions";
 import {
@@ -33,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         refreshPhotos: () => {
             dispatch(resetPhotos());
+        },
+        getFbAlbums: () => {
+            dispatch(getFbAlbums())
         }
     };
 }

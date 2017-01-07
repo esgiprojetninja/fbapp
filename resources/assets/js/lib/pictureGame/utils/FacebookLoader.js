@@ -99,4 +99,23 @@ export default class FacebookLoader {
             callback
         ));
     }
+
+    getMyAlbums (access_token, callback) {
+        console.debug("getMyAlbums args: ", arguments)
+        /*FB.api(
+            "/{user-id}/albums",
+            function (response) {
+              if (response && !response.error) {
+                // handle the result
+              }
+            }
+        );*/
+        // 10211344637310646
+        const url = "/10211344637310646/albums";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            callback,
+            {access_token: access_token}
+        ));
+    }
 }
