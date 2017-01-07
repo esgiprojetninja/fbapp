@@ -230,7 +230,6 @@ export const getFbPhotos = (link) => {
     };
 }
 
-
 const receiveFbAlbums = (res) => {
     return {
         type: actionTypes.RECEIVE_FB_ALBUMS,
@@ -243,8 +242,6 @@ const requestFbAlbums = () => {
         type: actionTypes.REQUEST_FB_ALBUMS
     };
 }
-
-
 export const getFbAlbums = () => {
     return (dispatch, getState) => {
         const accessToken = getState().user.data.token
@@ -252,7 +249,6 @@ export const getFbAlbums = () => {
         facebookLoader.getMyAlbums(
             accessToken, 
             (response) => {
-                console.debug("received fb response !", response)
                 if (response.error) {
                     dispatch(recieveError(response.error.message));
                 } else {
@@ -261,5 +257,4 @@ export const getFbAlbums = () => {
             }
         );
     }
-    
 }

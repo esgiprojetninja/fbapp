@@ -7,6 +7,7 @@ const initialSate = {
         isAdmin: false,
         data: {},
         photos: [],
+        albums: [],
         loadMoreFbPhotosLink: ""
     }
 };
@@ -124,9 +125,23 @@ const user = (state = initialSate.user, action) => {
                     ],
                     loadMoreFbPhotosLink: action.next
                 }
+            case types.RECEIVE_FB_ALBUMS:
+                return {
+                    ...state,
+                    isFetching: false,
+                    albums: [
+                        ...state.albums,
+                        ...action.albums
+                    ]
+                }
+            case types.REQUEST_FB_ALBUMS:
+                return {
+                    ...state,
+                    isFetching: true
+                }
+
             default:
                 return state;
         }
 }
-
 export default user;

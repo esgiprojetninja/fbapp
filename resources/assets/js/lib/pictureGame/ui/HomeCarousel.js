@@ -29,6 +29,10 @@ export default class HomeCarousel extends React.PureComponent {
                 height: 450,
                 overflowY: 'auto',
             },
+            gridTile: {
+                width: 66,
+                height: 100
+            },
             spinerContainer: {
                 position: "relative",
                 width: "40px",
@@ -53,6 +57,10 @@ export default class HomeCarousel extends React.PureComponent {
 
     scrollToAnchor (selector) {
         jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
+    }
+
+    uiDateFormater(d) {
+        return d
     }
 
     fadeButton () {
@@ -94,8 +102,7 @@ export default class HomeCarousel extends React.PureComponent {
     renderPictures () {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
-        } else if (this.props.user.photos) {
-            console.debug(this.props.user)
+        } else if (this.props.user.photos){
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
@@ -115,6 +122,37 @@ export default class HomeCarousel extends React.PureComponent {
                         primary={true}
                         onTouchTap={this.loadMorePhotos.bind(this)}
                     />
+                </div>
+            );
+        }
+    }
+    renderAlbum (album, key) {
+        const imgStyle = {
+            height: 100,
+            width: 66
+        };
+        console.debug("trying to render album: ",album)
+        return (
+            <GridList
+                className="wtfChibar"
+                key={key}
+                title={album.name}
+                subtitle={<span>le <b>chibar</b></span>}
+                style={this.styles.gridTile}
+                >
+                <img style={imgStyle} src="" alt="CHIBAR"/>
+            </GridList>
+        )
+    }
+    renderAlbums () {
+        if(this.props.user.isFetching) {
+            return this.renderSpinner();
+        } else if (this.props.user.albums.length > 0) {
+            return (
+                <div style={this.styles.gridRoot}>
+                    <GridList>
+                        {this.props.user.albums.forEach((a, k) => this.renderAlbum(a, k))}
+                    </GridList>
                 </div>
             );
         }
@@ -143,7 +181,7 @@ export default class HomeCarousel extends React.PureComponent {
                 autoScrollBodyContent={true}
                 onRequestClose={this.props.toggleSubmitPhotoModal}
             >
-                {this.renderPictures()}
+                {this.renderAlbums()}
             </Dialog>
         );
 

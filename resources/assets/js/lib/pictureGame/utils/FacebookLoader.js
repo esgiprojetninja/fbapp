@@ -101,17 +101,7 @@ export default class FacebookLoader {
     }
 
     getMyAlbums (access_token, callback) {
-        console.debug("getMyAlbums args: ", arguments)
-        /*FB.api(
-            "/{user-id}/albums",
-            function (response) {
-              if (response && !response.error) {
-                // handle the result
-              }
-            }
-        );*/
-        // 10211344637310646
-        const url = "/10211344637310646/albums";
+        const url = "/me/albums";
         return this.initFbScript().then(() => FB.api(
             url,
             callback,
