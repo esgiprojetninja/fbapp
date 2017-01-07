@@ -72,9 +72,8 @@ export default class SubMenu extends React.PureComponent {
         )
     }
     render () {
-
         return (
-            ( this.props.contest.currentContest !== undefined ) ? this.renderCurrentContest() : this.renderNoCurrentContest()
+            ( this.props.contest.currentContest ) ? this.renderCurrentContest() : this.renderNoCurrentContest()
             
         )
     }
