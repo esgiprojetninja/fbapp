@@ -59,8 +59,12 @@ export default class HomeCarousel extends React.PureComponent {
         jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
     }
 
+    addIfInferior(num) {
+        return (parseInt(num) < 10) ? "0"+num : num
+    }
     uiDateFormater(d) {
-        return d
+        d = new Date(d.substr(0, 10));
+        return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
     }
 
     fadeButton () {
@@ -128,33 +132,39 @@ export default class HomeCarousel extends React.PureComponent {
     }
     renderAlbum (album, key) {
         const imgStyle = {
-            height: 100,
-            width: 66
+            width: "100%",
+            height: "auto",
+            maxWidth: 100
         };
-        console.debug("trying to render album: ",album)
         return (
-            <GridList
-                className="wtfChibar"
+            <GridTile
                 key={key}
                 title={album.name}
-                subtitle={<span>le <b>chibar</b></span>}
-                style={this.styles.gridTile}
+                subtitle={<span>Crée le <b>{this.uiDateFormater(album.created_time)}</b></span>}
+                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                 >
-                <img style={imgStyle} src="" alt="CHIBAR"/>
-            </GridList>
+                    <img style={imgStyle} src="homeCarouselHr.png" />
+            </GridTile>
         )
     }
     renderAlbums () {
+        const imgStyle = {
+            width: "100%",
+            height: "auto",
+            maxWidth: 100
+        };
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {
             return (
                 <div style={this.styles.gridRoot}>
-                    <GridList>
-                        {this.props.user.albums.forEach((a, k) => this.renderAlbum(a, k))}
+                    <GridList >
+                        {this.props.user.albums.map((album, key) => (
+                            this.renderAlbum(album, key)
+                        ))}
                     </GridList>
                 </div>
-            );
+            )
         }
     }
 

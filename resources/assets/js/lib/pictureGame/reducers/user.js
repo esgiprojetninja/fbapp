@@ -130,7 +130,6 @@ const user = (state = initialSate.user, action) => {
                     ...state,
                     isFetching: false,
                     albums: [
-                        ...state.albums,
                         ...action.albums
                     ]
                 }
