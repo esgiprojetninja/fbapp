@@ -15,12 +15,13 @@ class Admin
     * @param  \Closure  $next
     */
     public function handle($request, Closure $next)
-        {
+    {
         $user = Auth::user();
+
         if (!$user || !$user->isAdmin()) {
             return response()->json([
-              'error' => 'Permission Denied'
-          ], 401);
+                'error' => 'Permission Denied'
+            ], 401);
         }
         return $next($request);
     }

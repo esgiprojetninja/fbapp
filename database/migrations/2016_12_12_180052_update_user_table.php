@@ -14,7 +14,6 @@ class UpdateUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false);
             $table->bigInteger('fb_id');
             $table->string('token');
             $table->string('password')->nullable()->change();
@@ -29,7 +28,6 @@ class UpdateUserTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
             $table->dropColumn('fb_id');
         });
     }
