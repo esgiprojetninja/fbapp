@@ -158,6 +158,9 @@ export default class HomeCarousel extends React.PureComponent {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {
+
+            const modalTitle = document.getElementById("choose-picture-modal-title");
+            modalTitle.innerHTML = "Vos albums";
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
@@ -186,7 +189,7 @@ export default class HomeCarousel extends React.PureComponent {
         ];
         return (
             <Dialog
-                title="Scrollable Dialog"
+                title={<h3 id="choose-picture-modal-title">Scrollable Dialog</h3>}
                 actions={actions}
                 modal={false}
                 open={this.props.participant.modalOpen}
