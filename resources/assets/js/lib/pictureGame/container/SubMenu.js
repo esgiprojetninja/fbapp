@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import SubMenuComponent from "../ui/SubMenu";
 
 const mapStateToProps = (state) => {
-    return Object.assign({}, state);
+    return {...state};
 }
 
 const mapDispatchToProps = (dispatch) => {
