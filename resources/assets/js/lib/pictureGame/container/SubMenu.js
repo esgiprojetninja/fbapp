@@ -15,4 +15,4 @@ const SubMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(SubMenuComponent);
-export default SubMenu
+export default SubMenu;
