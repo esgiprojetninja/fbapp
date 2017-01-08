@@ -141,6 +141,7 @@ export default class HomeCarousel extends React.PureComponent {
             height: "auto",
             maxWidth: "100%"
         };
+        // Au cas où la cover n'a pas été trouvée par le call API
         const imgSrc = album.cover.url || "homeCarouselHr.png";
         return (
             <GridTile
