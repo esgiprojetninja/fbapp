@@ -54,6 +54,9 @@ export default class HomeCarousel extends React.PureComponent {
     componentWillMount () {
         this.props.onReady();
     }
+    componentDidUpdate(prevProps, prevState) {
+        // console.log('Component DID UPDATE!', this.props)
+    }
 
     scrollToAnchor (selector) {
         jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
@@ -80,8 +83,11 @@ export default class HomeCarousel extends React.PureComponent {
             this.props.toggleSubmitPhotoModal();
             this.props.getFbPhotos(null);
             this.props.getFbAlbums();
+            console.debug("playButtonAction IF: ", this.props);
         } else {
+            // Checking for photo access permissions
             this.props.startPlaying()
+            console.debug("playButtonAction ELSE: ", this.props);
         }
     }
 
@@ -132,10 +138,10 @@ export default class HomeCarousel extends React.PureComponent {
     }
     renderAlbum (album, key) {
         const imgStyle = {
-            width: "100%",
             height: "auto",
-            maxWidth: 100
+            maxWidth: "100%"
         };
+        const imgSrc = album.cover.url || "homeCarouselHr.png";
         return (
             <GridTile
                 key={key}
@@ -143,16 +149,11 @@ export default class HomeCarousel extends React.PureComponent {
                 subtitle={<span>Crée le <b>{this.uiDateFormater(album.created_time)}</b></span>}
                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                 >
-                    <img style={imgStyle} src="homeCarouselHr.png" />
+                <img style={imgStyle} src={imgSrc} />
             </GridTile>
         )
     }
     renderAlbums () {
-        const imgStyle = {
-            width: "100%",
-            height: "auto",
-            maxWidth: 100
-        };
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {

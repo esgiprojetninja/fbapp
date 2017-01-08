@@ -4,6 +4,7 @@ import {
     getCurrentPhotoPermissions,
     getFbPhotos,
     getFbAlbums,
+    getFbAlbumCover,
     resetPhotos
 } from "../actions/userActions";
 import {

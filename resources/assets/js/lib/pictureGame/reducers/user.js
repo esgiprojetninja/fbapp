@@ -138,7 +138,6 @@ const user = (state = initialSate.user, action) => {
                     ...state,
                     isFetching: true
                 }
-
             default:
                 return state;
         }

@@ -104,8 +104,44 @@ export default class FacebookLoader {
         const url = "/me/albums";
         return this.initFbScript().then(() => FB.api(
             url,
-            callback,
+            (response) => {
+                if (response.error) {
+                    callback(response)
+                } else {
+                    const formatedAlbums = [];
+                    const albumsToTreat = response.data.length;
+                    let albumsTreated = 0;
+                    const finalCallBack = (albumCoverData) => {
+                        const treatedAlbum = response.data.filter( (a) => a.id === albumCoverData.albId )[0];
+                        if ( !albumCoverData.res.hasOwnProperty("error") ) {
+                            treatedAlbum.cover = albumCoverData.res.data;
+                        }
+                        formatedAlbums.push(treatedAlbum);
+                        albumsTreated++;
+                        if ( albumsTreated === albumsToTreat ) {
+                            response.data = formatedAlbums;
+                            callback(response)
+                        }
+                    }
+                    response.data.map( (alb, key) => {
+                        this._getAlbumCover(access_token, alb.id)
+                        .then((albCoverResponse)=>finalCallBack(albCoverResponse))
+                    });
+                }
+            },
             {access_token: access_token}
         ));
+    }
+
+    /* No direct access to this method, it is "private" */
+    _getAlbumCover (access_token, album_id) {
+        return new Promise ((resolve, reject) => {
+            const url = "/"+ album_id +"/picture";
+            this.initFbScript().then(() => FB.api(
+                url,
+                (res) => {resolve({res, albId: album_id})},
+                {access_token: access_token}
+            ));
+        });
     }
 }
