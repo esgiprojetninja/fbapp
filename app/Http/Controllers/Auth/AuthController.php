@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function handleProviderCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
-        $query = User::where('email', $fbUser->email)->get();
+        $query = User::where('fb_id', $fbUser->id)->get();
         if ($query->isEmpty()) {
             $user = new User($fbUser->user);
             $user->setFbId($fbUser->getId());
