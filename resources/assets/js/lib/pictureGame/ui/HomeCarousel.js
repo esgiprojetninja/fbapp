@@ -83,11 +83,9 @@ export default class HomeCarousel extends React.PureComponent {
             this.props.toggleSubmitPhotoModal();
             this.props.getFbPhotos(null);
             this.props.getFbAlbums();
-            console.debug("playButtonAction IF: ", this.props);
         } else {
             // Checking for photo access permissions
             this.props.startPlaying()
-            console.debug("playButtonAction ELSE: ", this.props);
         }
     }
 
@@ -147,7 +145,7 @@ export default class HomeCarousel extends React.PureComponent {
             <GridTile
                 key={key}
                 title={album.name}
-                subtitle={<span>Crée le <b>{this.uiDateFormater(album.created_time)}</b></span>}
+                subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                 >
                 <img style={imgStyle} src={imgSrc} />

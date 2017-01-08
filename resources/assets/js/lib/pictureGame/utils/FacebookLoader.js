@@ -7,6 +7,12 @@ export default class FacebookLoader {
             "public_profile",
             "email"
         ];
+        this.playerScope = [
+            "user_photos", 
+            "publish_actions"
+        ];
+        this.checkPermissions = this.checkPermissions.bind(this);
+        this.setPlayerScope = this.setPlayerScope.bind(this);
     }
 
     initFbScript() {
@@ -59,14 +65,17 @@ export default class FacebookLoader {
     }
 
     setPlayerScope (player = false) {
-        if(this.scope.length < 4 && player) {
-            this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        if( player ) {
+            if ( this.scope.filter( curScope => this.playerScope.indexOf(curScope) > -1 ).length !== this.playerScope.length ){
+                this.scope = this.scope.concat(this.playerScope);
+            }
         } else {
             this.scope = [
                 "public_profile",
                 "email"
             ];
         }
+        this.scope = this.scope.filter( (item, pos) => this.scope.indexOf(item) == pos);
     }
 
     login(callback) {

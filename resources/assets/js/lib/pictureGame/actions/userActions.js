@@ -164,7 +164,7 @@ export const getPhotoScope = (rerequest = true) => {
             dispatch(denyPhotoScope())
         } else {
             facebookLoader.setPlayerScope(true);
-            facebookLoader.checkPermissions(accessToken, status => {
+            facebookLoader.checkPermissions(accessToken, (status) => {
                 if (status) {
                     dispatch(grantPhotoScope());
                 } else {
@@ -231,7 +231,6 @@ export const getFbPhotos = (link) => {
 }
 
 const receiveFbAlbums = (res) => {
-    console.debug("received albums !!!", res)
     return {
         type: actionTypes.RECEIVE_FB_ALBUMS,
         isFetching: false,
@@ -250,7 +249,6 @@ export const getFbAlbums = () => {
         facebookLoader.getMyAlbums(
             accessToken, 
             (response) => {
-                console
                 if (response.error) {
                     dispatch(recieveError(response.error.message));
                 } else {
@@ -260,34 +258,3 @@ export const getFbAlbums = () => {
         );
     }
 }
-
-/*const receiveFbAlbumCover = (res) => {
-    console.debug("received album cover !!!", res)
-    return {
-        type: actionTypes.RECEIVE_FB_ALBUM_COVER,
-        isFetching: false
-    };
-}
-const requestAlbumCover = () => {
-    return {
-        type: actionTypes.REQUEST_FB_ALBUM_COVER
-    }
-}
-export const getFbAlbumCover = (album_id) => {
-    console.debug("calling getFbAlbumCooooveeer with: ", album_id)
-    return (dispatch, getState) => {
-        const accessToken = getState().user.data.token
-        dispatch(requestAlbumCover())
-        facebookLoader.getAlbumCover(
-            accessToken,
-            album_id,
-            (response) => {
-                if (response.error) {
-                    dispatch(recieveError(response.error.message));
-                } else {
-                    dispatch(receiveFbAlbumCover(response));
-                }
-            }
-        );
-    }
-}*/
