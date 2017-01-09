@@ -258,3 +258,34 @@ export const getFbAlbums = () => {
         );
     }
 }
+
+const receiveFbAlbumPhotos = ({response, album_id}) => {
+    return {
+        type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
+        isFetching: false,
+        album_id,
+        photos: response.data
+    };
+}
+const requestFbAlbumPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_FB_ALBUM_PHOTOS
+    };
+}
+export const getFbAlbumPhotos = (album_id) => {
+    return (dispatch, getState) => {
+        const accessToken = getState().user.data.token
+        dispatch(requestFbAlbums())
+        facebookLoader.getAlbumPhotos(
+            accessToken,
+            album_id,
+            (response) => {
+                if (response.error) {
+                    dispatch(recieveError(response.error.message));
+                } else {
+                    dispatch(receiveFbAlbumPhotos({response, album_id}));
+                }
+            }
+        );
+    }
+}

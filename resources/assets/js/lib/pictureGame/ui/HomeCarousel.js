@@ -134,31 +134,45 @@ export default class HomeCarousel extends React.PureComponent {
             );
         }
     }
+    albumClickHandler(album, clcikedEl) {
+        this.props.getFbAlbumPhotos(album.id);
+    }
     renderAlbum (album, key) {
         const imgStyle = {
             height: "auto",
             maxWidth: "100%"
         };
-        // Au cas où la cover n'a pas été trouvée par le call API
+        const iconStyle = {
+            "iconHoverColor": {
+                background: "#fff"
+            },
+            color: "#fff",
+            transition: "background .2s, color .2s"
+        };
+        // Au cas où la cover n'ait pas été trouvée par le call API
         const imgSrc = album.cover.url || "homeCarouselHr.png";
         return (
             <GridTile
                 key={key}
                 title={album.name}
                 subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
-                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Montrer album" touch={true} tooltipPosition="top-left" style={iconStyle} onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
                 >
                 <img style={imgStyle} src={imgSrc} />
             </GridTile>
         )
     }
-    renderAlbums () {
+    renderPictures () {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {
 
             const modalTitle = document.getElementById("choose-picture-modal-title");
             modalTitle.innerHTML = "Vos albums";
+            const displaidAlbum = this.props.user.albums.filter( album => album.photos !== undefined );
+            if  ( displaidAlbum.length === 1 ) {
+                console.debug("currently displaying :", displaidAlbum)
+            }
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
@@ -170,7 +184,6 @@ export default class HomeCarousel extends React.PureComponent {
             )
         }
     }
-
     renderModal () {
         const actions = [
             <FlatButton
@@ -193,8 +206,9 @@ export default class HomeCarousel extends React.PureComponent {
                 open={this.props.participant.modalOpen}
                 autoScrollBodyContent={true}
                 onRequestClose={this.props.toggleSubmitPhotoModal}
+                className="fbapp-pardonmaman-modal-participate-post"
             >
-                {this.renderAlbums()}
+                {this.renderPictures()}
             </Dialog>
         );
 
@@ -262,6 +276,7 @@ HomeCarousel.propTypes = {
     onReady: T.func.isRequired,
     getFbPhotos: T.func.isRequired,
     getFbAlbums: T.func.isRequired,
+    getFbAlbumPhotos: T.func.isRequired,
     refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired

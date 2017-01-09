@@ -142,6 +142,15 @@ export default class FacebookLoader {
         ));
     }
 
+    getAlbumPhotos(access_token, album_id, callback) {
+        const url = "/"+album_id+"/photos?fields=link,source";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            {access_token: access_token},
+            callback
+        ));
+    }
+
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {
         return new Promise ((resolve, reject) => {
