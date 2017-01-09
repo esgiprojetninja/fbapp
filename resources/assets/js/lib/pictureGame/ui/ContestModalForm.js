@@ -21,10 +21,23 @@ export default class CreateContestModal extends React.PureComponent {
         } else {
             value = ev.target.value;
         }
+        /* TODO: this mofo needs improvement */
+        if ( value && typeof value === "object" && value instanceof Date ){
+            value = this.sendableDateFormater(value)
+        }
         this.props.onNewContestChange(
             attr ? attr : ev.target.name,
             value
         );
+    }
+    addIfInferior(num) {
+        return (parseInt(num) < 10) ? "0"+num : num
+    }
+    sendableDateFormater(d) {
+        return d.getFullYear() + "-" + this.addIfInferior(parseInt(d.getMonth())+1) + "-" + this.addIfInferior(d.getDate()) + " " + this.addIfInferior(d.getHours()) + ":" + this.addIfInferior(d.getMinutes()) + ":" + this.addIfInferior(d.getSeconds())
+    }
+    uiDateFormater(d) {
+        return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
     }
 
     startDateChange(ev, val) {
@@ -91,6 +104,8 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.start_date)}
                         hintText="Start date"
                         name="start_date"
+                        locale="en-US"
+                        formatDate={this.uiDateFormater.bind(this)}
                     />
                     <br />
                     <DatePicker
@@ -98,6 +113,8 @@ export default class CreateContestModal extends React.PureComponent {
                         value={new Date(this.props.newContest.end_date)}
                         hintText="End date"
                         name="end_date"
+                        locale="en-US"
+                        formatDate={this.uiDateFormater.bind(this)}
                     />
                     <br />
                     <SelectField
