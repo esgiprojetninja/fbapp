@@ -28,25 +28,25 @@ class AuthController extends Controller
 
     public static function isAdmin()
     {
-        $fb = new \Facebook\Facebook([
-            'app_id' => '1200139990052440',
-            'app_secret' => '7ed0f55fd08612a805b851fa6fbde893',
-            'default_graph_version' => 'v2.8',
-        ]);
-
-        $isAdmin = $fb->get('/app/roles', "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI");
-        $isAdmin = $isAdmin->getDecodedBody();
-
         $user = Auth::user();
-        $idUser = $user->getAttributes()['fb_id'];
-
-        foreach ($isAdmin['data'] as $user) {
-            if($user['user'] == $idUser && $user['role'] == 'administrators'){
-                return response()->json([
-                    'admin' => TRUE
-                ]);
+        if ( $user !== null && !empty($user) ) {
+            $fb = new \Facebook\Facebook([
+                'app_id' => '1200139990052440',
+                'app_secret' => '7ed0f55fd08612a805b851fa6fbde893',
+                'default_graph_version' => 'v2.8',
+            ]);
+            $isAdmin = $fb->get('/app/roles', "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI");
+            $isAdmin = $isAdmin->getDecodedBody();            
+            $idUser = $user->getAttributes()['fb_id'];
+            foreach ($isAdmin['data'] as $user) {
+                if($user['user'] == $idUser && $user['role'] == 'administrators'){
+                    return response()->json([
+                        'admin' => TRUE
+                    ]);
+                }
             }
         }
+        
         return response()->json([
             'admin' => FALSE
         ]);
