@@ -47,8 +47,13 @@ export default class HomeCarousel extends React.PureComponent {
                 maxWidth: "450px",
                 minWidth: "110px",
                 padding: "0 15px 10px 15px"
+            },
+            imgStyle: {
+                height: "auto",
+                maxWidth: "100%"
             }
         };
+        this.modalTitle = false;
     }
 
     componentWillMount () {
@@ -62,12 +67,57 @@ export default class HomeCarousel extends React.PureComponent {
         jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
     }
 
-    addIfInferior(num) {
+    getDeployedAlbum () {
+        const activeAlbum = this.props.user.albums.filter( album => album.photos !== undefined );
+        return (activeAlbum.length === 1) ? activeAlbum[0] : false;
+    }
+
+    addIfInferior (num) {
         return (parseInt(num) < 10) ? "0"+num : num
     }
-    uiDateFormater(d) {
+
+    uiDateFormater (d) {
         d = new Date(d.substr(0, 10));
         return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
+    }
+
+    getSeparatePhotoReactions (photo) {
+        const like = []; 
+        const love = []; 
+        const sad = []; 
+        const angry = []; 
+        const haha = [];
+        if ( photo.reactions && photo.reactions.data ) {
+            const l = photo.reactions.data.length;
+            for ( let i = 0; i < l; i++ ) {
+                const r = photo.reactions.data[i];
+                switch ( r.type.toUpperCase() ) {
+                    case "LIKE":
+                       like.push(r);
+                       break;
+                    case "LOVE":
+                        love.push(r);
+                        break;
+                    case "SAD":
+                        sad.push(r);
+                        break;
+                    case "ANGRY":
+                        angry.push(r);
+                        break;
+                    case "HAHA":
+                        haha.push(r);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return {like, love, sad, angry, haha};
+    }
+
+    changeDialogTitle (newTitle) {
+        if ( this.modalTitle === false ) { this.modalTitle = document.getElementById("choose-picture-modal-title") }
+        this.modalTitle.innerHTML = newTitle;
     }
 
     fadeButton () {
@@ -107,48 +157,50 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.getFbPhotos(this.props.user.loadMoreFbPhotosLink)
     }
 
-    renderPictures () {
-        if(this.props.user.isFetching) {
-            return this.renderSpinner();
-        } else if (this.props.user.photos){
-            return (
-                <div style={this.styles.gridRoot}>
-                    <GridList >
-                        {this.props.user.photos.filter(p => p.images.length > 4).map((photo, key) => (
-                            <GridTile
-                                key={key}
-                                title="toto"
-                                subtitle={<span>by <b>toto</b></span>}
-                                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-                                >
-                                    <img src={photo.images[4].source} />
-                            </GridTile>
-                        ))}
-                    </GridList>
-                    <FlatButton
-                        label="load more"
-                        primary={true}
-                        onTouchTap={this.loadMorePhotos.bind(this)}
-                    />
-                </div>
-            );
-        }
+    photoClickHandler (photo, clickedEl) {
+        // this.props.getFbAlbumPhotos(album.id);
+        console.debug("you chose: ", photo, clickedEl)
     }
-    albumClickHandler(album, clcikedEl) {
+    albumClickHandler (album, clickedEl) {
         this.props.getFbAlbumPhotos(album.id);
     }
+
+    renderAlbumPhoto (photo, key) {
+        // HAHA, ANGRY, SAD, LOVE, LIKE
+        const imgSrc = photo.source || "homeCarouselHr.png";
+        console.debug("about to render photo: ", photo);
+        const {like, love, sad, angry, haha} = this.getSeparatePhotoReactions(photo);
+        return (
+            <GridTile
+                key={key}
+                title={photo.name}
+                titlePosition="top"
+                cols={1}
+                subtitle={<span><b>{like.length+ "like" || 0}</b></span>}
+                children={<img style={this.styles.imgStyle} src={imgSrc} />}
+                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoClickHandler(photo, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
+                >
+            </GridTile>
+        )
+    }
+
+    renderDisplaydAlbum (album) {
+        console.debug("displayd album: ", album);
+        this.changeDialogTitle(album.name);
+        return (
+            <div style={this.styles.gridRoot}>
+                <GridList 
+                    cols={2}
+                    children={album.photos.map((photo, key) => (
+                        this.renderAlbumPhoto(photo, key)
+                    ))}
+                >
+                </GridList>
+            </div>
+        )
+    }
+
     renderAlbum (album, key) {
-        const imgStyle = {
-            height: "auto",
-            maxWidth: "100%"
-        };
-        const iconStyle = {
-            "iconHoverColor": {
-                background: "#fff"
-            },
-            color: "#fff",
-            transition: "background .2s, color .2s"
-        };
         // Au cas où la cover n'ait pas été trouvée par le call API
         const imgSrc = album.cover.url || "homeCarouselHr.png";
         return (
@@ -156,23 +208,18 @@ export default class HomeCarousel extends React.PureComponent {
                 key={key}
                 title={album.name}
                 subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
-                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Montrer album" touch={true} tooltipPosition="top-left" style={iconStyle} onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
+                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
                 >
-                <img style={imgStyle} src={imgSrc} />
+                <img style={this.styles.imgStyle} src={imgSrc} />
             </GridTile>
         )
     }
-    renderPictures () {
+
+    renderAlbums () {
         if(this.props.user.isFetching) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {
-
-            const modalTitle = document.getElementById("choose-picture-modal-title");
-            modalTitle.innerHTML = "Vos albums";
-            const displaidAlbum = this.props.user.albums.filter( album => album.photos !== undefined );
-            if  ( displaidAlbum.length === 1 ) {
-                console.debug("currently displaying :", displaidAlbum)
-            }
+            this.changeDialogTitle("Vos albums");
             return (
                 <div style={this.styles.gridRoot}>
                     <GridList >
@@ -184,6 +231,7 @@ export default class HomeCarousel extends React.PureComponent {
             )
         }
     }
+    
     renderModal () {
         const actions = [
             <FlatButton
@@ -198,6 +246,8 @@ export default class HomeCarousel extends React.PureComponent {
                 onTouchTap={this.props.toggleSubmitPhotoModal}
             />,
         ];
+        const curAlbum = this.getDeployedAlbum();
+        const uiToRender = ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaydAlbum.bind(this);
         return (
             <Dialog
                 title={<h3 id="choose-picture-modal-title">Scrollable Dialog</h3>}
@@ -208,10 +258,9 @@ export default class HomeCarousel extends React.PureComponent {
                 onRequestClose={this.props.toggleSubmitPhotoModal}
                 className="fbapp-pardonmaman-modal-participate-post"
             >
-                {this.renderPictures()}
+                {uiToRender(curAlbum)}
             </Dialog>
         );
-
     }
 
     renderPlayButton () {
