@@ -142,7 +142,7 @@ const user = (state = initialSate.user, action) => {
                 const oldState = {...state};
                 const albumToHydrate = state.albums.map( (album, key) => { 
                     if (album.id == action.album_id) {
-                        oldState.albums[key] = {...state.albums[key], photos: action.photos}
+                        oldState.albums[key] = {...state.albums[key], photos: action.photos, next: action.next}
                     } else if ( album.photos ) {
                         delete oldState.albums[key].photos;
                     }

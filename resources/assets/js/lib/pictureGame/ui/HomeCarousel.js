@@ -4,7 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import AddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
 import Slider from 'react-slick';
-import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
@@ -13,7 +12,15 @@ import jQuery from 'jquery';
 // Grid list
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
+// Icons & SVG
+import LocationSearch from 'material-ui/svg-icons/device/location-searching';
+import Upload from 'material-ui/svg-icons/file/file-upload';
+import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import Love from 'material-ui/svg-icons/action/favorite';
+import Happy from 'material-ui/svg-icons/social/mood';
+import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
 export default class HomeCarousel extends React.PureComponent {
 
@@ -154,10 +161,11 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     loadMorePhotos () {
-        this.props.getFbPhotos(this.props.user.loadMoreFbPhotosLink)
+        console.debug("eh waaay il faut charger plus de photos mon con")
+        // this.props.getFbPhotos(this.props.user.loadMoreFbPhotosLink)
     }
 
-    photoClickHandler (photo, clickedEl) {
+    photoAlbumClickHandler (photo, clickedEl) {
         // this.props.getFbAlbumPhotos(album.id);
         console.debug("you chose: ", photo, clickedEl)
     }
@@ -165,28 +173,109 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.getFbAlbumPhotos(album.id);
     }
 
-    renderAlbumPhoto (photo, key) {
+
+    renderOldAlbumPhoto (photo, key) {
+        const titleStyle = {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flexFlow: "row wrap"
+        };
+        const iconStyle = {
+            display: "inline-block",
+            color: "rgba(0, 0, 0, 0.870588)",
+            height: "16px",
+            width: "16px",
+            fill: "fakePropToMakeClassesApplyTheirColor",
+            transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+            userSelect: "none"
+        }
         // HAHA, ANGRY, SAD, LOVE, LIKE
         const imgSrc = photo.source || "homeCarouselHr.png";
-        console.debug("about to render photo: ", photo);
+        // console.debug("about to render photo: ", photo);
         const {like, love, sad, angry, haha} = this.getSeparatePhotoReactions(photo);
+        console.debug("buya: ",like, love, sad, angry, haha);
         return (
             <GridTile
                 key={key}
-                title={photo.name}
-                titlePosition="top"
+                title=" "
+                titlePosition="bottom"
+                style={titleStyle}
                 cols={1}
-                subtitle={<span><b>{like.length+ "like" || 0}</b></span>}
+                titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.2) 100%)"
+                subtitle={
+                    <div className="album-photo-icons-container full-height full-width display-flex-row justify-start">
+                        <div className="relative margin-reset width-3">
+                            <ThumbUp
+                                className="photo_album_icon photo_album_icon_like fill-primary" 
+                                color="white"
+                                style={iconStyle}
+                            />
+                            <span className="absolute color-fb title-7">{like.length}</span>
+                        </div>
+                        <div className="relative margin-reset width-3">
+                            <Love
+                                className="photo_album_icon photo_album_icon_like" 
+                                color="white"
+                                style={iconStyle}
+                            />
+                            <span className="absolute title-7">{love.length}</span>
+                        </div>
+                        <div className="relative margin-reset width-3">
+                            <Happy
+                                className="photo_album_icon photo_album_icon_like" 
+                                color="white"
+                                style={iconStyle}
+                            />
+                            <span className="absolute title-7">{haha.length}</span>
+                        </div>
+                        <div className="relative margin-reset width-3">
+                            <Sad
+                                className="photo_album_icon photo_album_icon_like" 
+                                color="white"
+                                style={iconStyle}
+                            />
+                            <span className="absolute title-7">{sad.length}</span>
+                        </div>
+                    </div>
+                }
                 children={<img style={this.styles.imgStyle} src={imgSrc} />}
-                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoClickHandler(photo, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
                 >
             </GridTile>
         )
     }
 
-    renderDisplaydAlbum (album) {
+    renderAlbumPhoto (photo, key) {
+        const imgSrc = photo.source || "homeCarouselHr.png";
+        console.debug("rendering photo ",photo);
+        return (
+            <GridTile
+                key={key}
+                title={photo.name || " "}
+                subtitle={<span>Photo postée le <b>{this.uiDateFormater(photo.created_time)}</b></span>}
+                cols={1}
+                actionIcon={
+                    <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoAlbumClickHandler(photo, e)}.bind(this)}
+                        children={<Upload color="white"/>}
+                    />
+                }
+                children={<img style={this.styles.imgStyle} src={imgSrc} />}
+                >
+            </GridTile>
+        )
+    }
+
+    renderDisplaidAlbum (album) {
         console.debug("displayd album: ", album);
         this.changeDialogTitle(album.name);
+        const loadNextPhotos = ( album.next ) ? 
+            <div className="sexesexe" onClick={function(e){this.loadMorePhotos()}.bind(this)}>
+                <Refresh color="red"/>
+            </div>
+            :
+            <b></b>;
         return (
             <div style={this.styles.gridRoot}>
                 <GridList 
@@ -196,6 +285,7 @@ export default class HomeCarousel extends React.PureComponent {
                     ))}
                 >
                 </GridList>
+                {loadNextPhotos}
             </div>
         )
     }
@@ -208,7 +298,12 @@ export default class HomeCarousel extends React.PureComponent {
                 key={key}
                 title={album.name}
                 subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
-                actionIcon={<IconButton iconClassName="fb-ninja-icon" tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}><StarBorder color="white"/></IconButton>}
+                actionIcon={
+                    <IconButton tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}
+                        children={<LocationSearch color="white"/>}
+                    />
+                }
+                actionPosition="right"
                 >
                 <img style={this.styles.imgStyle} src={imgSrc} />
             </GridTile>
@@ -247,10 +342,10 @@ export default class HomeCarousel extends React.PureComponent {
             />,
         ];
         const curAlbum = this.getDeployedAlbum();
-        const uiToRender = ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaydAlbum.bind(this);
+        const uiToRender = ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaidAlbum.bind(this);
         return (
             <Dialog
-                title={<h3 id="choose-picture-modal-title">Scrollable Dialog</h3>}
+                title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
                 actions={actions}
                 modal={false}
                 open={this.props.participant.modalOpen}

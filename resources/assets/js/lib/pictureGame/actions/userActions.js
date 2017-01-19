@@ -260,11 +260,13 @@ export const getFbAlbums = () => {
 }
 
 const receiveFbAlbumPhotos = ({response, album_id}) => {
+    console.debug("received fb alb phot response: ", response)
     return {
         type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
         isFetching: false,
         album_id,
-        photos: response.data
+        photos: response.data,
+        next: response.paging.next || false
     };
 }
 const requestFbAlbumPhotos = () => {

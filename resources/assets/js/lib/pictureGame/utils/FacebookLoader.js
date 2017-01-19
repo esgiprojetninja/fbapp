@@ -143,7 +143,7 @@ export default class FacebookLoader {
     }
 
     getAlbumPhotos(access_token, album_id, callback) {
-        const url = "/"+album_id+"/photos?fields=id,source,reactions";
+        const url = "/"+album_id+"/photos?fields=id,source,reactions,created_time&limit=4";
         return this.initFbScript().then(() => FB.api(
             url,
             {access_token: access_token},
