@@ -1,17 +1,18 @@
-import {user as userReducer} from "../reducers/user";
+import user from "../reducers/user";
 import * as actionTypes from "../actions/userTypes";
 
 describe("Reducers", () => {
 
     it("should return initial state", () => {
         expect(
-            userReducer(undefined, {})
+            user(undefined, {})
         ).toEqual({
-            user : {
-                isConnected: false,
-                isFetching: false,
-                data: {}
-            }
+            isConnected: false,
+            isFetching: false,
+            isAdmin: false,
+            data: {},
+            photos: [],
+            loadMoreFbPhotosLink: ""
         });
     });
 });

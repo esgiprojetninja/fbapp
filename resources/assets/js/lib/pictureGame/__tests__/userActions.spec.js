@@ -70,14 +70,13 @@ describe("actions", function () {
         expect(actions.logoutSuccess()).toEqual(expectedAction);
     });
 
-    it("should not logout",  function() {
+    it("should not logout",  () => {
         const isFetching = false;
         const expectedAction = {
             type: actionTypes.LOGOUT_ERROR,
-            isFetching
+            error: "Some kind of problem.",
+            isFetching: false
         };
-        expect(actions.logoutError()).toEqual(expectedAction);
+        expect(actions.logoutError("Some kind of problem.")).toEqual(expectedAction);
     });
-
-    // TODO : find a way to test facebookLoader
 });
