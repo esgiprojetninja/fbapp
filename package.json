@@ -4,7 +4,8 @@
     "prod": "gulp --production",
     "dev": "gulp watch",
     "watch-app": "webpack -d --watch --config webpack.config.js",
-    "test": "karma start"
+    "test": "karma start",
+    "test:browser": "wdio"
   },
   "jest": {
     "verbose": true,

@@ -1,8 +1,9 @@
-var assert = require('assert');
+var assert = require("assert");
 describe('webdriver.io page', function() {
-    it('should have the right title - the fancy generator way', function () {
-        browser.url('http://webdriver.io');
+
+    it("should have the right title - the fancy generator way", () => {
+        browser.url('http://fbapp.dev');
         var title = browser.getTitle();
-        assert.equal(title, 'WebdriverIO - Selenium 2.0 javascript bindings for nodejs');
+        assert.equal(title, 'FB APP');
     });
 });
