@@ -1,9 +1,9 @@
-import * as actions from "../actions";
-import * as actionTypes from "../actionTypes";
+import * as actions from "../actions/userActions";
+import * as actionTypes from "../actions/userTypes";
 
-describe("actions", () => {
+describe("actions", function () {
 
-    it("should create an action to request login status", () => {
+    it("should create an action to request login status", function () {
         const status = true;
         const expectedAction = {
             type: actionTypes.REQUEST_LOGIN_SATUS,
@@ -70,7 +70,7 @@ describe("actions", () => {
         expect(actions.logoutSuccess()).toEqual(expectedAction);
     });
 
-    it("should not logout", () => {
+    it("should not logout",  function() {
         const isFetching = false;
         const expectedAction = {
             type: actionTypes.LOGOUT_ERROR,
