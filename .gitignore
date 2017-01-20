@@ -17,3 +17,4 @@ dbmodel.mwb
 dbmodel.mwb.bak
 composer.lock
 .phpintel/
+npm-debug.log
