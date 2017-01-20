@@ -260,7 +260,6 @@ export const getFbAlbums = () => {
 }
 
 const receiveFbAlbumPhotos = ({response, album_id}) => {
-    console.debug("received fb alb phot response: ", response)
     return {
         type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
         isFetching: false,
@@ -289,5 +288,36 @@ export const getFbAlbumPhotos = (album_id) => {
                 }
             }
         );
+    }
+}
+
+const receiveMoreFbAlbumPhotos = ({response, album_id}) => {
+    return {
+        type: actionTypes.RECEIVE_MORE_FB_ALBUM_PHOTOS,
+        isFetching: false,
+        album_id,
+        photos: response.data,
+        morePhotosLink: response.paging.next || false
+    }
+}
+const requestMoreFbAlbumPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_MORE_FB_ALBUM_PHOTOS
+    }
+}
+
+export const getMoreFbAlbumPhotos = (link, album_id) => {
+    return (dispatch, getState) => {
+        dispatch(requestMoreFbAlbumPhotos())
+        facebookLoader.getMoreAlbumPhotos(
+            link,
+            (response) => {
+                if (response.error) {
+                    dispatch(recieveError(response.error.message));
+                } else {
+                    dispatch(receiveMoreFbAlbumPhotos({response, album_id}));
+                }
+            }
+        )
     }
 }

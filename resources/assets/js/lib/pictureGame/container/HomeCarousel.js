@@ -6,6 +6,7 @@ import {
     getFbAlbums,
     getFbAlbumCover,
     getFbAlbumPhotos,
+    getMoreFbAlbumPhotos,
     resetPhotos
 } from "../actions/userActions";
 import {
@@ -42,6 +43,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getFbAlbumPhotos: (album_id) => {
             dispatch(getFbAlbumPhotos(album_id))
+        },
+        loadMoreFbAlbumPhotos: (link, album_id) => {
+            dispatch(getMoreFbAlbumPhotos(link, album_id))
         }
     };
 }

@@ -17,6 +17,7 @@ import Subheader from 'material-ui/Subheader';
 import LocationSearch from 'material-ui/svg-icons/device/location-searching';
 import Upload from 'material-ui/svg-icons/file/file-upload';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import AutoNew from 'material-ui/svg-icons/action/autorenew';
 import Love from 'material-ui/svg-icons/action/favorite';
 import Happy from 'material-ui/svg-icons/social/mood';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
@@ -58,6 +59,12 @@ export default class HomeCarousel extends React.PureComponent {
             imgStyle: {
                 height: "auto",
                 maxWidth: "100%"
+            },
+            loadMoreAlbumPhotosButton: {
+                margin: "0 auto",
+                maxWidth: "250px",
+                background: "red",
+                borderRadius: "100%"
             }
         };
         this.modalTitle = false;
@@ -160,9 +167,26 @@ export default class HomeCarousel extends React.PureComponent {
         );
     }
 
-    loadMorePhotos () {
-        console.debug("eh waaay il faut charger plus de photos mon con")
-        // this.props.getFbPhotos(this.props.user.loadMoreFbPhotosLink)
+    renderMoreAlbumPhotosLoader (album) {
+        if ( album.next ) {
+            const style = {marginTop: "12px"}
+            return (
+                <div className="display-flex-row full-width" style={style}>
+                    <FlatButton
+                        label="Charger plus de photos"
+                        primary={true}
+                        onTouchTap={function(e){this.loadMorePhotos(album.next, album.id)}.bind(this)}
+                        icon={<AutoNew />}
+                    />
+                </div>
+            );
+        } else {
+            return (<div></div>)
+        }
+    }
+
+    loadMorePhotos (nextLink, album_id) {
+        this.props.loadMoreFbAlbumPhotos(nextLink, album_id);
     }
 
     photoAlbumClickHandler (photo, clickedEl) {
@@ -249,7 +273,6 @@ export default class HomeCarousel extends React.PureComponent {
 
     renderAlbumPhoto (photo, key) {
         const imgSrc = photo.source || "homeCarouselHr.png";
-        console.debug("rendering photo ",photo);
         return (
             <GridTile
                 key={key}
@@ -268,14 +291,7 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderDisplaidAlbum (album) {
-        console.debug("displayd album: ", album);
         this.changeDialogTitle(album.name);
-        const loadNextPhotos = ( album.next ) ? 
-            <div className="sexesexe" onClick={function(e){this.loadMorePhotos()}.bind(this)}>
-                <Refresh color="red"/>
-            </div>
-            :
-            <b></b>;
         return (
             <div style={this.styles.gridRoot}>
                 <GridList 
@@ -285,7 +301,7 @@ export default class HomeCarousel extends React.PureComponent {
                     ))}
                 >
                 </GridList>
-                {loadNextPhotos}
+                {this.renderMoreAlbumPhotosLoader(album)}
             </div>
         )
     }
@@ -421,6 +437,7 @@ HomeCarousel.propTypes = {
     getFbPhotos: T.func.isRequired,
     getFbAlbums: T.func.isRequired,
     getFbAlbumPhotos: T.func.isRequired,
+    loadMoreFbAlbumPhotos: T.func.isRequired,
     refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired

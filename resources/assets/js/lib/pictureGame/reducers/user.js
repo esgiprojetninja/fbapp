@@ -139,22 +139,42 @@ const user = (state = initialSate.user, action) => {
                     isFetching: true
                 }
             case types.RECEIVE_FB_ALBUM_PHOTOS:
-                const oldState = {...state};
-                const albumToHydrate = state.albums.map( (album, key) => { 
+                const s = {...state};
+                state.albums.map( (album, key) => { 
                     if (album.id == action.album_id) {
-                        oldState.albums[key] = {...state.albums[key], photos: action.photos, next: action.next}
+                        s.albums[key] = {...state.albums[key], photos: action.photos, next: action.next}
                     } else if ( album.photos ) {
-                        delete oldState.albums[key].photos;
+                        delete s.albums[key].photos;
                     }
-                } )[0];
+                } );
                 return {
-                    ...oldState,
-                    isFetching: false,
+                    ...s,
+                    isFetching: false
                 }
             case types.REQUEST_FB_ALBUM_PHOTOS:
                 return {
                     ...state,
                     isFetching: true
+                }
+            case types.REQUEST_MORE_FB_ALBUM_PHOTOS:
+                return {
+                    ...state,
+                    isFetching: true
+                }
+            case types.RECEIVE_MORE_FB_ALBUM_PHOTOS:
+                const oldState = {...state};
+                state.albums.map( (album, key) => {
+                    if (album.id == action.album_id) {
+                        oldState.albums[key].photos = state.albums[key].photos.concat(action.photos);
+                        oldState.albums[key].next = action.morePhotosLink;
+                    } else if ( album.photos ) {
+                        delete oldState.albums[key].photos;
+                        if ( oldState.albums[key].next ) { delete oldState.albums[key].next; }
+                    }
+                } );
+                return {
+                    ...oldState,
+                    isFetching: false
                 }
             default:
                 return state;

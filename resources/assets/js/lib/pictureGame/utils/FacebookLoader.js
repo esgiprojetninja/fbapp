@@ -151,6 +151,14 @@ export default class FacebookLoader {
         ));
     }
 
+    getMoreAlbumPhotos(link, callback) {
+        const url = link;
+        return this.initFbScript().then(() => FB.api(
+            url,
+            callback
+        ));
+    }
+
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {
         return new Promise ((resolve, reject) => {
