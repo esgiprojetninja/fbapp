@@ -1,5 +1,5 @@
 .admin-body {
-    padding: 24px !important;
+    padding: 24px 24px 24px 0 !important;
 }
 
 .admin-table-bar {
@@ -12,9 +12,7 @@
 }
 
 .admin-sidebar {
-    border-right: 1px solid black;
-
-    ul {
-        list-style: none;
-    }
+    border-right: 1px solid #ddd;
+    padding: 0 !important;
+    height: 100%;
 }

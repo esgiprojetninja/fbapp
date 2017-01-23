@@ -20,7 +20,7 @@ const style = {
         margin: "0 2px"
     },
     modal : {
-        width: "85%",
+        width: "90%",
         maxWidth: "none"
     }
 }
@@ -115,7 +115,7 @@ export default class AdminContests extends React.PureComponent {
     renderAdminSideBar () {
         return  (
             <div>
-                <div>
+                <div className="admin-profile">
 
                 </div>
 
