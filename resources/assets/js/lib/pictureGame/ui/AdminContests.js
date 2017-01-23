@@ -148,7 +148,7 @@ export default class AdminContests extends React.PureComponent {
                         className="admin-create"
                     />
                 </div>
-                <Table>
+                <Table bodyStyle={{overflow: 'visible'}} className="admin-table">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
@@ -171,39 +171,39 @@ export default class AdminContests extends React.PureComponent {
     renderRows () {
         return this.props.contests.map(contest => (
             <TableRow key={contest.id}>
-                <TableRowColumn>{contest.id}</TableRowColumn>
-                <TableRowColumn>{contest.title}</TableRowColumn>
-                <TableRowColumn>{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
-                <TableRowColumn>{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
-                <TableRowColumn>{contest.id_winner}</TableRowColumn>
-                <TableRowColumn>{contest.state}</TableRowColumn>
-                <TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-id">{contest.id}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-title">{contest.title}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-start">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-end">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-winner">{contest.id_winner}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-state">{contest.state}</TableRowColumn>
+                <TableRowColumn className="admin-td-eventsBtn">
                 <div>
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Edit"
-                primary={true}
-                data-contest={contest}
-                onTouchTap={(ev) => {
-                  this.props.onCreateModalOpenClick(ev, contest);
-                }}
-                />
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Delete"
-                secondary={true}
-                onTouchTap={() => {
-                  this.props.onDeleteContestClick(contest.id);
-                }}
-                />
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Activate"
-                backgroundColor = "#e4e3e3"
-                onTouchTap={() => {
-                  this.props.onActivateContestClick(contest.id);
-                }}
-                />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Edit"
+                    primary={true}
+                    data-contest={contest}
+                    onTouchTap={(ev) => {
+                      this.props.onCreateModalOpenClick(ev, contest);
+                    }}
+                    />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Delete"
+                    secondary={true}
+                    onTouchTap={() => {
+                      this.props.onDeleteContestClick(contest.id);
+                    }}
+                    />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Activate"
+                    backgroundColor = "#e4e3e3"
+                    onTouchTap={() => {
+                      this.props.onActivateContestClick(contest.id);
+                    }}
+                    />
                 </div>
                 </TableRowColumn>
             </TableRow>
