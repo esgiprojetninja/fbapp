@@ -38,8 +38,6 @@ class User extends Authenticatable
     public function isAdmin() {
         $fb = new Facebook();
 
-        var_dump($fb);
-
         $isAdmin = $fb->get();
         $isAdmin = $isAdmin->getDecodedBody();
 

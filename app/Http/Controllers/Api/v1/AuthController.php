@@ -30,7 +30,7 @@ class AuthController extends Controller
     {
         $fb =  new \App\Facebook();
 
-        $isAdmin = $fb->get('/app/roles', "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI");
+        $isAdmin = $fb->get();
         $isAdmin = $isAdmin->getDecodedBody();
 
         $user = Auth::user();
