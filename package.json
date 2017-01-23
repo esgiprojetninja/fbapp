@@ -5,6 +5,7 @@
     "dev": "gulp watch",
     "watch-app": "webpack -d --watch --config webpack.config.js",
     "test": "karma start",
+    "test-dev": "karma start --no-single-run",
     "test:browser": "wdio"
   },
   "jest": {
@@ -22,6 +23,8 @@
     "karma": "^1.4.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.1",
