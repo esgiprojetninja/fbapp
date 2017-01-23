@@ -247,7 +247,7 @@ export const getFbAlbums = () => {
         const accessToken = getState().user.data.token
         dispatch(requestFbAlbums())
         facebookLoader.getMyAlbums(
-            accessToken, 
+            accessToken,
             (response) => {
                 if (response.error) {
                     dispatch(recieveError(response.error.message));

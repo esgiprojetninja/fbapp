@@ -13,7 +13,8 @@ import {
     getCurrentContest
 } from "../actions/contestActions";
 import {
-    toggleSubmitPhotoModal
+    toggleSubmitPhotoModal,
+    addPhotoToCurrentContest
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -46,6 +47,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         loadMoreFbAlbumPhotos: (link, album_id) => {
             dispatch(getMoreFbAlbumPhotos(link, album_id))
+        },
+        proposePhotoForContest: (photo_id) => {
+          dispatch(addPhotoToCurrentContest(photo_id))
         }
     };
 }

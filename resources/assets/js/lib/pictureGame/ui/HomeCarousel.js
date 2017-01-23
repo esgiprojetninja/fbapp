@@ -73,6 +73,7 @@ export default class HomeCarousel extends React.PureComponent {
     componentWillMount () {
         this.props.onReady();
     }
+
     componentDidUpdate(prevProps, prevState) {
         // console.log('Component DID UPDATE!', this.props)
     }
@@ -96,10 +97,10 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     getSeparatePhotoReactions (photo) {
-        const like = []; 
-        const love = []; 
-        const sad = []; 
-        const angry = []; 
+        const like = [];
+        const love = [];
+        const sad = [];
+        const angry = [];
         const haha = [];
         if ( photo.reactions && photo.reactions.data ) {
             const l = photo.reactions.data.length;
@@ -192,11 +193,12 @@ export default class HomeCarousel extends React.PureComponent {
     photoAlbumClickHandler (photo, clickedEl) {
         // this.props.getFbAlbumPhotos(album.id);
         console.debug("you chose: ", photo, clickedEl)
+        this.props.proposePhotoForContest(photo.id);
     }
+
     albumClickHandler (album, clickedEl) {
         this.props.getFbAlbumPhotos(album.id);
     }
-
 
     renderOldAlbumPhoto (photo, key) {
         const titleStyle = {
@@ -233,7 +235,7 @@ export default class HomeCarousel extends React.PureComponent {
                     <div className="album-photo-icons-container full-height full-width display-flex-row justify-start">
                         <div className="relative margin-reset width-3">
                             <ThumbUp
-                                className="photo_album_icon photo_album_icon_like fill-primary" 
+                                className="photo_album_icon photo_album_icon_like fill-primary"
                                 color="white"
                                 style={iconStyle}
                             />
@@ -241,7 +243,7 @@ export default class HomeCarousel extends React.PureComponent {
                         </div>
                         <div className="relative margin-reset width-3">
                             <Love
-                                className="photo_album_icon photo_album_icon_like" 
+                                className="photo_album_icon photo_album_icon_like"
                                 color="white"
                                 style={iconStyle}
                             />
@@ -249,7 +251,7 @@ export default class HomeCarousel extends React.PureComponent {
                         </div>
                         <div className="relative margin-reset width-3">
                             <Happy
-                                className="photo_album_icon photo_album_icon_like" 
+                                className="photo_album_icon photo_album_icon_like"
                                 color="white"
                                 style={iconStyle}
                             />
@@ -257,7 +259,7 @@ export default class HomeCarousel extends React.PureComponent {
                         </div>
                         <div className="relative margin-reset width-3">
                             <Sad
-                                className="photo_album_icon photo_album_icon_like" 
+                                className="photo_album_icon photo_album_icon_like"
                                 color="white"
                                 style={iconStyle}
                             />
@@ -280,7 +282,7 @@ export default class HomeCarousel extends React.PureComponent {
                 subtitle={<span>Photo postée le <b>{this.uiDateFormater(photo.created_time)}</b></span>}
                 cols={1}
                 actionIcon={
-                    <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoAlbumClickHandler(photo, e)}.bind(this)}
+                    <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoAlbumClickHandler(photo, e.target)}.bind(this)}
                         children={<Upload color="white"/>}
                     />
                 }
@@ -294,7 +296,7 @@ export default class HomeCarousel extends React.PureComponent {
         this.changeDialogTitle(album.name);
         return (
             <div style={this.styles.gridRoot}>
-                <GridList 
+                <GridList
                     cols={2}
                     children={album.photos.map((photo, key) => (
                         this.renderAlbumPhoto(photo, key)
@@ -342,7 +344,7 @@ export default class HomeCarousel extends React.PureComponent {
             )
         }
     }
-    
+
     renderModal () {
         const actions = [
             <FlatButton
@@ -378,7 +380,7 @@ export default class HomeCarousel extends React.PureComponent {
         if (this.props.user.isConnected) {
             return (
                 <RaisedButton
-                    label="AJOUTER UNE PHOTO"
+                    label="PARTICIPER AU CONCOURS"
                     labelPosition="before"
                     primary={true}
                     icon={<AddAPhoto />}
@@ -398,6 +400,7 @@ export default class HomeCarousel extends React.PureComponent {
             arrows: true,
             pauseOnHover: true
         };
+
 
 
         return (
@@ -438,6 +441,7 @@ HomeCarousel.propTypes = {
     getFbAlbums: T.func.isRequired,
     getFbAlbumPhotos: T.func.isRequired,
     loadMoreFbAlbumPhotos: T.func.isRequired,
+    proposePhotoForContest: T.func.isRequired,
     refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired

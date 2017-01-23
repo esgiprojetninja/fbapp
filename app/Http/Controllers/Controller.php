@@ -10,4 +10,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    protected function tryJsonDecode($s){
+      $djs = json_decode($s->getContent());
+      return ( get_class($djs) == "stdClass" ) ? $djs : false;
+    }
 }

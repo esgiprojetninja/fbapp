@@ -38,9 +38,33 @@ class ParticipantController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store($photo_id)
     {
+      if ( ctype_digit($photo_id) )
+      {
+        $photo_id = (int) $photo_id;
 
+        if ( app('App\Http\Controllers\Api\v1\ContestController')->currentlyActive() )
+        {
+         $currentContest = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\ContestController')->getCurrent());
+         $currentUser = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\AuthController')->getMe());
+         if ( !!$currentContest && !!$currentUser )
+         {
+           if ( !ParticipantController::isUserInContest($currentUser->user->id, $currentContest->contest->id) )
+           {
+            //  Check if photo is rightfully user's with the fb api before registering it*
+            // get the source url
+            // set has_voted = 0
+            // set nb_votes = 0
+            // set accepted_cgu = 1
+           }
+         }
+        }
+      }
+      exit;
+      return response()->json([
+          'added' => true
+      ]);
     }
 
     /**
@@ -114,6 +138,23 @@ class ParticipantController extends Controller
         return response()->json([
             'participant' => $participant
         ]);
+    }
+
+    /**
+    * Know if user is in tournament
+    *
+    * @return Response
+    */
+    public static function isUserInContest($iduser, $idcontest)
+    {
+        $participant = Participant::where('id_user', $iduser)
+            ->where('id_contest', $idcontest)
+            ->get();
+        if(!empty($participant->toArray())){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 
     /**

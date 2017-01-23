@@ -11,6 +11,18 @@ const participant = (state = initialSate, action) => {
                 ...state,
                 modalOpen: !state.modalOpen
             };
+        case pTypes.REQUEST_ADD_PHOTO_TO_CONTEST:
+          console.debug("Reducer was informed of sent request")
+          return {
+            ...state,
+            isFetching: true
+          };
+        case pTypes.RECEIVE_ADD_PHOTO_TO_CONTEST:
+          console.debug("Reducer was informed of received response", action)
+          return {
+            ...state,
+            isFetching: false
+          }
         default:
             return state;
     }
