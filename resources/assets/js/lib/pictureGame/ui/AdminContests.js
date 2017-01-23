@@ -4,7 +4,7 @@ import ContestModalForm from "../container/ContestModalForm";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import AdminSideBar from "./AdminSideBar";
+
 import AutoComplete from 'material-ui/AutoComplete';
 import Search from 'material-ui/svg-icons/action/search'
 
@@ -39,11 +39,23 @@ export default class AdminContests extends React.PureComponent {
         super(props);
 
         this.state = {
-            open : false
+            open : false,
+            openEvents: true,
+            openSettings: false
         }
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.openEvents = this.openEvents.bind(this);
+        this.openSettings = this.openSettings.bind(this);
+    }
+
+    openSettings() {
+        this.setState({openEvents: false, openSettings: true});
+    }
+
+    openEvents() {
+        this.setState({openEvents: true, openSettings: false});
     }
 
     handleOpen() {
@@ -96,6 +108,28 @@ export default class AdminContests extends React.PureComponent {
         } else {
             return this.renderTable()
         }
+    }
+
+    renderAdminSideBar () {
+        return  (
+            <div>
+                <div>
+
+                </div>
+
+                <div>
+                    <ul>
+                        <li>
+                        <a onClick={this.openEvents}>Concours</a>
+                        </li>
+                        <li>
+                        <a onClick={this.openSettings}>Paramètres</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        )
     }
 
     renderTable () {
@@ -170,10 +204,25 @@ export default class AdminContests extends React.PureComponent {
         ));
     }
 
-    renderAdminSideBar () {
-        return (
-            <AdminSideBar/>
-        )
+    renderAdminBody () {
+        if(this.state.openEvents){
+            return (
+                <div>
+                    {this.renderContent()}
+                    <ContestModalForm
+                    handleClose={this.props.onCreateModalOpenClick}
+                    open={this.props.createModalOpen}
+                    />
+                </div>
+            );
+        }
+        if(this.state.openSettings){
+            return (
+                <div>
+                    <span>Paramètres</span>
+                </div>
+            );
+        }
     }
 
     render () {
@@ -212,11 +261,7 @@ export default class AdminContests extends React.PureComponent {
                                 {this.renderAdminSideBar()}
                             </div>
                             <div className="col-md-9">
-                                {this.renderContent()}
-                                <ContestModalForm
-                                handleClose={this.props.onCreateModalOpenClick}
-                                open={this.props.createModalOpen}
-                                />
+                                {this.renderAdminBody()}
                             </div>
                         </div>
                     </Dialog>

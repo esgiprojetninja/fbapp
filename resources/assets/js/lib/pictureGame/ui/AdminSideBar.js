@@ -18,7 +18,7 @@ export default class AdminSideBar extends React.PureComponent {
                             <a>Concours</a>
                         </li>
                         <li>
-                            <a>Styles</a>
+                            <a>Paramètres</a>
                         </li>
                         <li>
                             <a>Se déconnecter</a>
