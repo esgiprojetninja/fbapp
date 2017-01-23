@@ -5,6 +5,8 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import AdminSideBar from "./AdminSideBar";
+import AutoComplete from 'material-ui/AutoComplete';
+import Search from 'material-ui/svg-icons/action/search'
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,10 +14,25 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const style = {
-  actionsBtn : {
-    margin: "0 2px"
-  }
+    actionsBtn : {
+        margin: "0 2px"
+    },
+    modal : {
+        width: "85%",
+        maxWidth: "none"
+    }
 }
+
+const colors = [
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Purple',
+    'Black',
+    'White',
+];
 
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
@@ -83,7 +100,14 @@ export default class AdminContests extends React.PureComponent {
 
     renderTable () {
         return (
-            <div className="admin-table">
+            <div>
+                <div className="admin-table-bar">
+                    <RaisedButton
+                        label="Create a new contest"
+                        onTouchTap={this.props.onCreateModalOpenClick}
+                        className="admin-create"
+                    />
+                </div>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -100,7 +124,6 @@ export default class AdminContests extends React.PureComponent {
                         {this.renderRows()}
                     </TableBody>
                 </Table>
-                <RaisedButton label="Create a new contest" onTouchTap={this.props.onCreateModalOpenClick} />
             </div>
         );
     }
@@ -174,28 +197,31 @@ export default class AdminContests extends React.PureComponent {
                 <AppNavBar title="Admin"/>
 
                 <div>
-                    <RaisedButton label="Scrollable Dialog" onTouchTap={this.handleOpen} />
+                    <RaisedButton label="Admin" onTouchTap={this.handleOpen} />
                     <Dialog
-                      title="Scrollable Dialog"
-                      actions={actions}
+                      title="Admin"
+                      bodyClassName="admin-body"
                       modal={false}
                       open={this.state.open}
+                      contentStyle={style.modal}
                       onRequestClose={this.handleClose}
                       autoScrollBodyContent={true}
                     >
+                        <div>
+                            <div className="col-md-3 admin-sidebar">
+                                {this.renderAdminSideBar()}
+                            </div>
+                            <div className="col-md-9">
+                                {this.renderContent()}
+                                <ContestModalForm
+                                handleClose={this.props.onCreateModalOpenClick}
+                                open={this.props.createModalOpen}
+                                />
+                            </div>
+                        </div>
                     </Dialog>
                 </div>
 
-                <div>
-                    {this.renderAdminSideBar()}
-                </div>
-                <div className="admin-table-wrapper col-md-8">
-                    {this.renderContent()}
-                    <ContestModalForm
-                        handleClose={this.props.onCreateModalOpenClick}
-                        open={this.props.createModalOpen}
-                    />
-                </div>
             </div>
         );
     }

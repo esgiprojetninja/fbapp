@@ -1,11 +1,20 @@
-.admin {
+.admin-body {
+    padding: 24px !important;
+}
 
-    .admin-table-wrapper {
-        overflow: auto;
+.admin-table-bar {
+    padding: 0 0 10px 0;
+    text-align: center;
 
-        .admin-table {
-        
-        }
+    .admin-create {
+
     }
+}
 
+.admin-sidebar {
+    border-right: 1px solid black;
+
+    ul {
+        list-style: none;
+    }
 }
