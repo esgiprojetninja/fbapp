@@ -8,6 +8,8 @@ import RefreshIndicator from 'material-ui/RefreshIndicator';
 import AutoComplete from 'material-ui/AutoComplete';
 import Search from 'material-ui/svg-icons/action/search'
 
+import {List, ListItem} from 'material-ui/List';
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -118,14 +120,18 @@ export default class AdminContests extends React.PureComponent {
                 </div>
 
                 <div>
-                    <ul>
-                        <li>
-                        <a onClick={this.openEvents}>Concours</a>
-                        </li>
-                        <li>
-                        <a onClick={this.openSettings}>Paramètres</a>
-                        </li>
-                    </ul>
+                    <List>
+                        <ListItem
+                            primaryText="Concours"
+                            secondaryText="Voir les concours"
+                            onClick={this.openEvents}
+                        />
+                        <ListItem
+                            primaryText="Paramètres"
+                            secondaryText="Design de l'application"
+                            onClick={this.openSettings}
+                        />
+                    </List>
                 </div>
 
             </div>
