@@ -27,20 +27,17 @@ class Facebook
     }
 
     public function getPhotoById(int $id, $token){
-      var_dump($token);
       $id = (int) $id;
       // $token_url = "https://graph.facebook.com/oauth/access_token?"
       // . "client_id=" . $this->fb_app_id .
       // . "&client_secret=" . $this->fb_app_secret . "&code=" . $code;
       // $response = file_get_contents($token_url);
-      $user = Socialite::with('facebook')
+      $photo = Socialite::driver('facebook')
         ->with([
-          $token,
-          'GET',
-          'me/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
-        ])
-        ->stateless()->user();
-      var_dump($user);
+          '/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
+        ])->userFromToken($token);
+      return $photo;
+
       // get token
       // return $this->fb->get(
       //   $this->fb_app_secret_id,
