@@ -59,6 +59,9 @@ class ParticipantController extends Controller
             //  );
             //  $response = $request->execute();
             //  $graphObject = $response->getGraphObject();
+            $fb =  new \App\Facebook();
+            $photo = $fb->getPhotoById($photo_id, $currentUser->user->token);
+            var_dump($photo);
             if ( true )
             {
               return response()->json([

@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
+use Socialite;
+
 class Facebook
 {
     protected $fb_app_id = '1200139990052440';
@@ -23,6 +26,22 @@ class Facebook
         return $this->fb->get('/app/roles',$this->fb_app_secret_id);
     }
 
+    public function getPhotoById(int $id, $token){
+      var_dump($token);
+      $id = (int) $id;
+      // $token_url = "https://graph.facebook.com/oauth/access_token?"
+      // . "client_id=" . $this->fb_app_id .
+      // . "&client_secret=" . $this->fb_app_secret . "&code=" . $code;
+      // $response = file_get_contents($token_url);
+      $user = Socialite::driver('facebook')->user();
+      var_dump($user);
+      // get token
+      // return $this->fb->get(
+      //   $this->fb_app_secret_id,
+      //   'GET',
+      //   'me/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
+      // );
+    }
 
 
 }
