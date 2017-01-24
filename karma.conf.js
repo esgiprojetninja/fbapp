@@ -31,7 +31,7 @@ module.exports = function(config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             "resources/assets/js/lib/pictureGame/__tests__/**/*.spec.js": ["webpack", "sourcemap"],
-            "resources/assets/js/lib/pictureGame/**/*.js": ["webpack", "sourcemap"]
+            "resources/assets/js/lib/pictureGame/**/*.js": ["webpack", "sourcemap", "coverage"]
         },
 
         coverageReporter: {
