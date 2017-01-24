@@ -20,7 +20,7 @@ const style = {
         margin: "0 2px"
     },
     modal : {
-        width: "90%",
+        width: "85%",
         maxWidth: "none"
     }
 }
