@@ -3,8 +3,6 @@
 /storage/*.key
 /vendor
 /.idea
-resources/assets/js/lib/pictureGame/__tests__/coverage/
-resources/assets/js/lib/pictureGame/__tests__/reporter/
 Homestead.json
 Homestead.yaml
 .env
