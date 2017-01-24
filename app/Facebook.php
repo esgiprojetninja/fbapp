@@ -33,7 +33,13 @@ class Facebook
       // . "client_id=" . $this->fb_app_id .
       // . "&client_secret=" . $this->fb_app_secret . "&code=" . $code;
       // $response = file_get_contents($token_url);
-      $user = Socialite::driver('facebook')->user();
+      $user = Socialite::with('facebook')
+        ->with([
+          $token,
+          'GET',
+          'me/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
+        ])
+        ->stateless()->user();
       var_dump($user);
       // get token
       // return $this->fb->get(
