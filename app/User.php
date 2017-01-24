@@ -38,7 +38,7 @@ class User extends Authenticatable
     public function isAdmin() {
         $fb = new Facebook();
 
-        $isAdmin = $fb->get();
+        $isAdmin = $fb->getAppRoles();
         $isAdmin = $isAdmin->getDecodedBody();
 
         $idUser = $this->fb_id;

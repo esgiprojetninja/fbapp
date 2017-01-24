@@ -7,6 +7,7 @@ class Facebook
     protected $fb_app_id = '1200139990052440';
     protected $fb_app_secret = '7ed0f55fd08612a805b851fa6fbde893';
     protected $default_graph_version = 'v2.8';
+    protected $fb_app_secret_id =  "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI";
 
     protected $fb;
 
@@ -18,8 +19,8 @@ class Facebook
         ]);
     }
 
-    public function get(){
-        return $this->fb->get('/app/roles', "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI");
+    public function getAppRoles(){
+        return $this->fb->get('/app/roles',$this->fb_app_secret_id);
     }
 
 }
