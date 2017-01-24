@@ -52,6 +52,19 @@ class ParticipantController extends Controller
          {
            if ( !ParticipantController::isUserInContest($currentUser->user->id, $currentContest->contest->id) )
            {
+            //  $request = new FacebookRequest(
+            //    $session,
+            //    'GET',
+            //    '/'.$photo_id.'?fields=can_tag,can_delete,id,webp_images,from'
+            //  );
+            //  $response = $request->execute();
+            //  $graphObject = $response->getGraphObject();
+            if ( true )
+            {
+              return response()->json([
+                  'added' => true
+              ]);
+            }
             //  Check if photo is rightfully user's with the fb api before registering it*
             // get the source url
             // set has_voted = 0
@@ -61,9 +74,8 @@ class ParticipantController extends Controller
          }
         }
       }
-      exit;
       return response()->json([
-          'added' => true
+          'added' => false
       ]);
     }
 

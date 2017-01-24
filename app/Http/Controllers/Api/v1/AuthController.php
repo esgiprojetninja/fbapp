@@ -36,7 +36,7 @@ class AuthController extends Controller
                 'default_graph_version' => 'v2.8',
             ]);
             $isAdmin = $fb->get('/app/roles', "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI");
-            $isAdmin = $isAdmin->getDecodedBody();            
+            $isAdmin = $isAdmin->getDecodedBody();
             $idUser = $user->getAttributes()['fb_id'];
             foreach ($isAdmin['data'] as $user) {
                 if($user['user'] == $idUser && $user['role'] == 'administrators'){
@@ -46,7 +46,7 @@ class AuthController extends Controller
                 }
             }
         }
-        
+
         return response()->json([
             'admin' => FALSE
         ]);
