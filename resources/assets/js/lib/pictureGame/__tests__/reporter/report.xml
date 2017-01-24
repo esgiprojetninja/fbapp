@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
-<testsuite name="PhantomJS 2.1.1 (Mac OS X 0.0.0)" package="" timestamp="2017-01-23T18:17:18" id="0" hostname="Rolands-MacBook-Air.local" tests="9" errors="0" failures="0" time="0.005">
+<testsuite name="PhantomJS 2.1.1 (Mac OS X 0.0.0)" package="" timestamp="2017-01-24T09:42:15" id="0" hostname="Rolands-MacBook-Air.local" tests="9" errors="0" failures="0" time="0.005">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
   </properties>
   <testcase name="actions should create an action to request login status" time="0.002" classname="actions"/>
-  <testcase name="actions should create an action to deny login status" time="0" classname="actions"/>
-  <testcase name="actions should create an action that requests login" time="0.001" classname="actions"/>
+  <testcase name="actions should create an action to deny login status" time="0.001" classname="actions"/>
+  <testcase name="actions should create an action that requests login" time="0" classname="actions"/>
   <testcase name="actions should create an action that return logged user" time="0" classname="actions"/>
   <testcase name="actions should create an action that return an error on login atempt" time="0" classname="actions"/>
-  <testcase name="actions should request logout" time="0" classname="actions"/>
-  <testcase name="actions should logout successfully" time="0.001" classname="actions"/>
+  <testcase name="actions should request logout" time="0.001" classname="actions"/>
+  <testcase name="actions should logout successfully" time="0" classname="actions"/>
   <testcase name="actions should not logout" time="0" classname="actions"/>
   <testcase name="Reducers should return initial state" time="0.001" classname="Reducers"/>
   <system-out>
