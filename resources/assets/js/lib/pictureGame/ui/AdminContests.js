@@ -248,11 +248,12 @@ export default class AdminContests extends React.PureComponent {
 
 
         return (
-            <div className="admin">
-                <AppNavBar title="Admin"/>
-
-                <div>
-                    <RaisedButton label="Admin" onTouchTap={this.handleOpen} />
+            <div className="admin initial">
+                <div className="initial">
+                    <FlatButton
+                        label="Admin"
+                        onTouchTap={this.handleOpen}
+                    />
                     <Dialog
                       title="Admin"
                       bodyClassName="admin-body"
