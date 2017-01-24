@@ -1,7 +1,15 @@
-import * as actions from "../actions/userActions";
-import * as actionTypes from "../actions/userTypes";
+import $ from "jquery";
+import Mockjax from "mockjax";
+import * as actions from "../../actions/userActions";
+import * as actionTypes from "../../actions/userTypes";
+import AuthApi from "../../API/user/AuthApi";
 
 describe("actions", function () {
+
+    beforeAll(() => {
+        const mockjax = Mockjax($, window);
+        this.authApi = new AuthApi();
+    })
 
     it("should create an action to request login status", function () {
         const status = true;
@@ -79,4 +87,15 @@ describe("actions", function () {
         };
         expect(actions.logoutError("Some kind of problem.")).toEqual(expectedAction);
     });
+
+    it("should check login status", () => {
+        $.mockjax({
+            url: this.authApi.authBaseUrl + "me",
+            responseText: {
+                user: {
+                    id: toto
+                }
+            }
+        })
+    })
 });
