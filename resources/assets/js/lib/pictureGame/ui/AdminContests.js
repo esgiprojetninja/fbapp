@@ -115,18 +115,23 @@ export default class AdminContests extends React.PureComponent {
     renderAdminSideBar () {
         return  (
             <div>
-                <div className="admin-profile">
-
+                <div style={{marginTop: "15px"}}>
+                    <div className="admin-profil img-circle">
+                        <img className="img-cover" src="profil.jpg"/>
+                    </div>
+                    <span className="admin-profil-name">Teddy Meksavanh</span>
                 </div>
 
                 <div>
                     <List>
                         <ListItem
+                            style={{padding: "0 15px"}}
                             primaryText="Concours"
                             secondaryText="Voir les concours"
                             onClick={this.openEvents}
                         />
                         <ListItem
+                            style={{padding: "0 15px"}}
                             primaryText="Paramètres"
                             secondaryText="Design de l'application"
                             onClick={this.openSettings}
