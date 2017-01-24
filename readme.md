@@ -26,13 +26,19 @@ $ gulp watch
 
 ## Tests
 
+[Karma](https://github.com/karma-runner/karma) is our test runner and [Jasmine](https://jasmine.github.io/) our test framework.
+
 ```sh
 $ npm run test
 ```
 or
 ```sh
-$ npm run test:watch
+$ npm run test-dev
 ```
+
+When running dev tests, you can run them and get a report not only in the console but by visiting [http://0.0.0.0:9876/](http://0.0.0.0:9876/).
+you can check out the current test coverage by opening the index.html file lying under
+    resources/assets/js/lib/pictureGame/__tests__/coverage/[any browser]
 
 ## Contributors
 

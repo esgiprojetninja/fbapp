@@ -28,7 +28,6 @@ const pictureGameApp = {
                 <Provider store={store}>
                     <Router history={browserHistory}>
                         <Route path="/" component={App} />
-                        <Route path="/admin" component={Admin} />
                     </Router>
                 </Provider>
             </MuiThemeProvider>,

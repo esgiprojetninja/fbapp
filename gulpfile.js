@@ -19,10 +19,10 @@ elixir((mix) => {
         "app.scss",
         "main.scss"
     ])
-       .webpack(
-           './lib/app.js',
-           './public/js/dist'
-       );
+   .webpack(
+       './lib/app.js',
+       './public/js/dist'
+   );
 });
 
 const libRoot = "./resources/assets/js/lib/"
