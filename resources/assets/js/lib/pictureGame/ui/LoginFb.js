@@ -1,5 +1,6 @@
 import React, {PropTypes as T} from "react";
 import FlatButton from 'material-ui/FlatButton';
+import Admin from "./Admin";
 
 export default class Loginfb extends React.PureComponent {
 
@@ -35,10 +36,7 @@ export default class Loginfb extends React.PureComponent {
     renderAdminButton () {
         if (this.props.isAdmin) {
             return (
-                <FlatButton
-                label="Admin"
-                href="/admin"
-                />
+                <Admin className="initial"/>
             );
         }
     }
