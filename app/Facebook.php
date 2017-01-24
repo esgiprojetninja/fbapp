@@ -4,10 +4,10 @@ namespace App;
 
 class Facebook
 {
-    protected $fb_app_id = '1200139990052440';
-    protected $fb_app_secret = '7ed0f55fd08612a805b851fa6fbde893';
-    protected $default_graph_version = 'v2.8';
-    protected $fb_app_secret_id =  "1200139990052440|sIs-ANSRKPtTyImEdl68B8P56ZI";
+    protected $fb_app_id = FB_APP_ID;
+    protected $fb_app_secret = FB_APP_SECRET;
+    protected $default_graph_version = DEFAULT_GRAPH_VERSION;
+    protected $fb_app_secret_id =  FB_APP_SECRET_ID;
 
     protected $fb;
 

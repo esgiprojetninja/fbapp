@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\endContestMail;
+
 use App\Http\Controllers\Controller;
 use App\Contest;
 
@@ -169,6 +174,16 @@ class ContestController extends Controller
         ]);
     }
 
+
+    /**
+    * Sending endContest Mail
+    *
+    * @return boolean
+    */
+    public function sendEndContestMail(Request $request)
+    {
+        Mail::to("lambot.rom@gmail.com")->send(new endContestMail());
+    }
 
     /**
     * Set active the contest by it id and put the other as inactive
