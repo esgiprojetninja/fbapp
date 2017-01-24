@@ -6,9 +6,6 @@ describe("Auth API", function () {
 
     beforeAll(function () {
         const mockjax = Mockjax($, window);
-    })
-
-    beforeEach(function () {
         this.authapi = new AuthApi();
         $.mockjax([
             {
