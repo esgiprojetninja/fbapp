@@ -27,19 +27,4 @@ class Facebook
         return $this->fb->get('/app/roles',$this->fb_app_secret_id);
     }
 
-    public function postOnWall($fb_id, $nomGagnant, $prenomGagnant, $nomConcours, $explication,$token)
-    {
-        $this->fb->setDefaultAccessToken($token);
-        $params = [
-            "access_token" => $token,
-            "message" => $prenomGagnant . " " . $nomGagnant. " remporte le concours: ".$nomConcours,
-            "link" => "http://www.pardon-maman.com",
-            "picture" => "http://lzimages.lazygirls.info/chrissy_costanza_instagram_qLKjCL4h.sized",
-            "description" => "Boutique de tatouage et piercing à Bry-sur-Marne"
-        ];
-
-        $response = $this->fb->post('/me/feed', $params);
-        //return $this->fb->api("/".$fb_id."/feed", 'POST', $params);
-    }
-
 }
