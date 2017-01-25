@@ -23,7 +23,6 @@ Route::group(['middleware' => ['api'], ['only' => ['index', 'show']], 'prefix' =
 // API routes
 Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::get('/contests/current','Api\v1\ContestController@getCurrent');
-    Route::get('/contests/{id}/participants','Api\v1\ContestController@getContestParticipants');
     Route::put('/contests/{id}/activate','Api\v1\ContestController@setActiveContestById');
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
