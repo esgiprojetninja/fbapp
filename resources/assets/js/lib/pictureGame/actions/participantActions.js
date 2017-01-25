@@ -9,32 +9,39 @@ export const toggleSubmitPhotoModal = () => {
     };
 };
 
+const receiveNotAddedPhotoContest = ({added, msg}) => {
+  return {
+    type: types.RECEIVE_NOT_ADD_PHOTO_TO_CURRENT_CONTEST,
+    addPhotoToContestError: msg || "Erreur inconnue lors de l'ajout de votre photo au concours"
+  }
+};
 
-const receiveAddPhotoToContest = (response) => {
-  console.debug("receivePostResponse received notice of answer", response)
+const receiveAddPhotoToContest = ({photo_id, current_contest_id, source}) => {
     return {
-        type: types.RECEIVE_ADD_PHOTO_TO_CONTEST,
-        isFetching: false,
-        data: response
+        type: types.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST,
+        photo_id,
+        current_contest_id,
+        source
     }
 }
 
 export const requestAddPhotoToContest = () => {
-  console.debug("requestAddPhotoToContest warned")
   return {
-    type: types.REQUEST_ADD_PHOTO_TO_CONTEST
+    type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
   }
 }
 
 export const addPhotoToCurrentContest = (photo_id) => {
-  console.debug("addPhotoToCurrentContest was called with", photo_id)
   return (dispatch, getState) => {
       dispatch(requestAddPhotoToContest())
       ptApi.store(
         photo_id,
         (response) => {
-          console.debug("addPhotoToCurrentContest: server returned response", response);
-          dispatch(receiveAddPhotoToContest(response))
+          if ( response.added ) {
+            dispatch(receiveAddPhotoToContest(response))
+          } else {
+            dispatch(receiveNotAddedPhotoContest(response))
+          }
         }
       )
   }

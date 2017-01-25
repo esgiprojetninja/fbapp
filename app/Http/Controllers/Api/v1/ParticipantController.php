@@ -40,6 +40,7 @@ class ParticipantController extends Controller
     */
     public function store($photo_id)
     {
+      $msg = "requires number";
       if ( ctype_digit($photo_id) ) {
         $photo_id = (int) $photo_id;
         if ( app('App\Http\Controllers\Api\v1\ContestController')->currentlyActive() ) {
@@ -50,25 +51,37 @@ class ParticipantController extends Controller
             $fb = new \App\Facebook();
             $photoArr = $fb->getPhotoById($photo_id, $currentUser->user->token);
             if ( !!$photoArr && $photoArr['from']['id'] == $currentUser->user->fb_id ) {
+              $source = $photoArr['webp_images'][0]['source'];
               $participant = new Participant();
               $participant->setIdUser($currentUser->user->id);
               $participant->setIdContest($currentContest->contest->id);
               $participant->setIdPhoto($photo_id);
+              $participant->setSource($source);
               $participant->setHasVoted('0');
               $participant->setNbVotes('0');
               $participant->setAcceptedCgu('1');
               if ( $participant->save() ) {
                 return response()->json([
-                    'added' => true
+                    'added' => true,
+                    'photo_id' => $photo_id,
+                    'source' => $source,
+                    'current_contest_id' => $currentContest->contest->id
                 ]);
+              } else {
+                $msg = "Impossible de valider votre participation à l'heure actuelle";
               }
             }
-           }
+          } else {
+            $msg = "Vous avez déjà posté une photo pour le concours";
+          }
          }
-        }
+       } else {
+         $msg = "aucun concours actif";
+       }
       }
       return response()->json([
-          'added' => false
+        'added' => false,
+        'msg' => $msg
       ]);
     }
 

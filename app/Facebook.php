@@ -32,7 +32,6 @@ class Facebook
     * @return ...
     **/
     public function getPhotoById(int $id, $token){
-      // '/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
       $id = (int) $id;
       try {
         $this->fb->setDefaultAccessToken($token);

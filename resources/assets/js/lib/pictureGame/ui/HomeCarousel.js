@@ -23,6 +23,9 @@ import Happy from 'material-ui/svg-icons/social/mood';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
+
+// TODO: sometimes img can't load
+
 export default class HomeCarousel extends React.PureComponent {
 
     constructor () {
@@ -196,7 +199,7 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.proposePhotoForContest(photo.id);
     }
 
-    albumClickHandler (album, clickedEl) {
+    albumClickHandler (album) {
         this.props.getFbAlbumPhotos(album.id);
     }
 
@@ -317,7 +320,7 @@ export default class HomeCarousel extends React.PureComponent {
                 title={album.name}
                 subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
                 actionIcon={
-                    <IconButton tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album, e)}.bind(this)}
+                    <IconButton tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album)}.bind(this)}
                         children={<LocationSearch color="white"/>}
                     />
                 }
@@ -400,9 +403,6 @@ export default class HomeCarousel extends React.PureComponent {
             arrows: true,
             pauseOnHover: true
         };
-
-
-
         return (
             <div>
             {this.fadeButton()}
