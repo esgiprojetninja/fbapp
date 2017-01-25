@@ -4,7 +4,11 @@ import ContestModalForm from "../container/ContestModalForm";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import AdminSideBar from "./AdminSideBar";
+
+import AutoComplete from 'material-ui/AutoComplete';
+import Search from 'material-ui/svg-icons/action/search'
+
+import {List, ListItem} from 'material-ui/List';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,21 +16,48 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const style = {
-  actionsBtn : {
-    margin: "0 2px"
-  }
+    actionsBtn : {
+        margin: "0 2px"
+    },
+    modal : {
+        width: "90%",
+        maxWidth: "none"
+    }
 }
+
+const colors = [
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Purple',
+    'Black',
+    'White',
+];
 
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
 
         this.state = {
-            open : false
+            open : false,
+            openEvents: true,
+            openSettings: false
         }
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.openEvents = this.openEvents.bind(this);
+        this.openSettings = this.openSettings.bind(this);
+    }
+
+    openSettings() {
+        this.setState({openEvents: false, openSettings: true});
+    }
+
+    openEvents() {
+        this.setState({openEvents: true, openSettings: false});
     }
 
     handleOpen() {
@@ -81,10 +112,43 @@ export default class AdminContests extends React.PureComponent {
         }
     }
 
+    renderAdminSideBar () {
+        return  (
+            <div>
+                <div className="admin-profile">
+
+                </div>
+
+                <div>
+                    <List>
+                        <ListItem
+                            primaryText="Concours"
+                            secondaryText="Voir les concours"
+                            onClick={this.openEvents}
+                        />
+                        <ListItem
+                            primaryText="Paramètres"
+                            secondaryText="Design de l'application"
+                            onClick={this.openSettings}
+                        />
+                    </List>
+                </div>
+
+            </div>
+        )
+    }
+
     renderTable () {
         return (
-            <div className="admin-table">
-                <Table>
+            <div>
+                <div className="admin-table-bar">
+                    <RaisedButton
+                        label="Create a new contest"
+                        onTouchTap={this.props.onCreateModalOpenClick}
+                        className="admin-create"
+                    />
+                </div>
+                <Table bodyStyle={{overflow: 'visible'}} className="admin-table">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
@@ -100,7 +164,6 @@ export default class AdminContests extends React.PureComponent {
                         {this.renderRows()}
                     </TableBody>
                 </Table>
-                <RaisedButton label="Create a new contest" onTouchTap={this.props.onCreateModalOpenClick} />
             </div>
         );
     }
@@ -108,49 +171,64 @@ export default class AdminContests extends React.PureComponent {
     renderRows () {
         return this.props.contests.map(contest => (
             <TableRow key={contest.id}>
-                <TableRowColumn>{contest.id}</TableRowColumn>
-                <TableRowColumn>{contest.title}</TableRowColumn>
-                <TableRowColumn>{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
-                <TableRowColumn>{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
-                <TableRowColumn>{contest.id_winner}</TableRowColumn>
-                <TableRowColumn>{contest.state}</TableRowColumn>
-                <TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-id">{contest.id}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-title">{contest.title}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-start">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-end">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-winner">{contest.id_winner}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-state">{contest.state}</TableRowColumn>
+                <TableRowColumn className="admin-td-eventsBtn">
                 <div>
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Edit"
-                primary={true}
-                data-contest={contest}
-                onTouchTap={(ev) => {
-                  this.props.onCreateModalOpenClick(ev, contest);
-                }}
-                />
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Delete"
-                secondary={true}
-                onTouchTap={() => {
-                  this.props.onDeleteContestClick(contest.id);
-                }}
-                />
-                <RaisedButton
-                style={style.actionsBtn}
-                label="Activate"
-                backgroundColor = "#e4e3e3"
-                onTouchTap={() => {
-                  this.props.onActivateContestClick(contest.id);
-                }}
-                />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Edit"
+                    primary={true}
+                    data-contest={contest}
+                    onTouchTap={(ev) => {
+                      this.props.onCreateModalOpenClick(ev, contest);
+                    }}
+                    />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Delete"
+                    secondary={true}
+                    onTouchTap={() => {
+                      this.props.onDeleteContestClick(contest.id);
+                    }}
+                    />
+                    <RaisedButton
+                    style={style.actionsBtn}
+                    label="Activate"
+                    backgroundColor = "#e4e3e3"
+                    onTouchTap={() => {
+                      this.props.onActivateContestClick(contest.id);
+                    }}
+                    />
                 </div>
                 </TableRowColumn>
             </TableRow>
         ));
     }
 
-    renderAdminSideBar () {
-        return (
-            <AdminSideBar/>
-        )
+    renderAdminBody () {
+        if(this.state.openEvents){
+            return (
+                <div>
+                    {this.renderContent()}
+                    <ContestModalForm
+                    handleClose={this.props.onCreateModalOpenClick}
+                    open={this.props.createModalOpen}
+                    />
+                </div>
+            );
+        }
+        if(this.state.openSettings){
+            return (
+                <div>
+                    <span>Paramètres</span>
+                </div>
+            );
+        }
     }
 
     render () {
@@ -170,32 +248,32 @@ export default class AdminContests extends React.PureComponent {
 
 
         return (
-            <div className="admin">
-                <AppNavBar title="Admin"/>
-
-                <div>
-                    <RaisedButton label="Scrollable Dialog" onTouchTap={this.handleOpen} />
+            <div className="admin initial">
+                <div className="initial">
+                    <FlatButton
+                        label="Admin"
+                        onTouchTap={this.handleOpen}
+                    />
                     <Dialog
-                      title="Scrollable Dialog"
-                      actions={actions}
+                      title="Admin"
+                      bodyClassName="admin-body"
                       modal={false}
                       open={this.state.open}
+                      contentStyle={style.modal}
                       onRequestClose={this.handleClose}
                       autoScrollBodyContent={true}
                     >
+                        <div>
+                            <div className="col-md-3 admin-sidebar">
+                                {this.renderAdminSideBar()}
+                            </div>
+                            <div className="col-md-9">
+                                {this.renderAdminBody()}
+                            </div>
+                        </div>
                     </Dialog>
                 </div>
 
-                <div>
-                    {this.renderAdminSideBar()}
-                </div>
-                <div className="admin-table-wrapper col-md-8">
-                    {this.renderContent()}
-                    <ContestModalForm
-                        handleClose={this.props.onCreateModalOpenClick}
-                        open={this.props.createModalOpen}
-                    />
-                </div>
             </div>
         );
     }
