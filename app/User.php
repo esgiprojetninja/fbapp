@@ -36,7 +36,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin() {
-        $fb = new Facebook();
+        $fb = new \App\Facebook();
 
         $isAdmin = $fb->getAppRoles();
         $isAdmin = $isAdmin->getDecodedBody();

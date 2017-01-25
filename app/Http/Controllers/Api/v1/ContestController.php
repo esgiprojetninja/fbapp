@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
+use App\Participant;
 //Email purposes
 use Illuminate\Support\Facades\Mail;
 use App\Mail\endContestMail;
@@ -173,30 +174,17 @@ class ContestController extends Controller
         ]);
     }
 
-
     /**
-    * Sending endContest Mail
+    * Return the participant of a contest
     *
-    * @return boolean
+    * @return Response
     */
-    public function sendEndContestMail(Request $request)
+    public function getContestParticipants($idContest)
     {
-        $participants = ['lambot.rom@gmail.com','tkt-bom@hotmail.fr'];
-        $winner = 'tkt-bom@hotmail.fr';
-        $contestName = "Le concours des gens très heureux";
-
-        //Delete the winner from the list of participants
-        if(($key = array_search($winner, $participants)) !== false) {
-            unset($participants[$key]);
-        }
-
-        Mail::to($winner)->send(new endContestWinnerMail($contestName));
-
-        Mail::send(new endContestMail($contestName), [], function() use ($participants)
-        {
-            $message->to($participants);
-        });
-
+        $participants = Participant::where('id_contest', $idContest)->get();
+        return response()->json([
+            'participants' => $participants
+        ]);
     }
 
     /**
@@ -260,5 +248,49 @@ class ContestController extends Controller
     public function destroy($id)
     {
         Contest::destroy($id);
+    }
+
+    /**
+    * Sending endContest Mail
+    *
+    * @return boolean
+    */
+    public function sendEndContestMail(Request $request)
+    {
+        $participants = ['lambot.rom@gmail.com','tkt-bom@hotmail.fr'];
+        $winner = 'tkt-bom@hotmail.fr';
+        $contestName = "Le concours des gens très heureux";
+
+        //Delete the winner from the list of participants
+        if(($key = array_search($winner, $participants)) !== false) {
+            unset($participants[$key]);
+        }
+
+        Mail::to($winner)->send(new endContestWinnerMail($contestName));
+
+        Mail::send(new endContestMail($contestName), [], function() use ($participants)
+        {
+            $message->to($participants);
+        });
+    }
+
+    /**
+    * Post on FB at the end of Contest
+    *
+    * @return boolean
+    */
+    public function postOnFacebook(Request $request)
+    {
+        $participants_fb_id = ['100000288828439'];
+        $nomGagnant = "Meksavanh";
+        $prenomGagnant = "Teddy";
+        $nomConcours = "Le concours des gens très heureux";
+        $explication = "Teddy Mkh a gagné car il est vraiment très fort, son image était incroyable genre waouh";
+
+        $fb = new \App\Facebook();
+
+        foreach($participants_fb_id as $oneFbId){
+            $fb->postOnWall($oneFbId, $nomGagnant, $prenomGagnant, $nomConcours, $explication, app('App\Http\Controllers\Api\v1\AuthController')->getMe()->getData()->user->token);
+        }
     }
 }
