@@ -38,7 +38,7 @@ return [
     'facebook' => [
         'client_id' => env('FB_APP_ID'),
         'client_secret' => env('FB_APP_SECRET'),
-        'redirect' => 'https://fbapp.dev/auth/facebook/callback',
+        'redirect' => 'https://' . env('APP_URL') . '/auth/facebook/callback',
     ],
 
 ];
