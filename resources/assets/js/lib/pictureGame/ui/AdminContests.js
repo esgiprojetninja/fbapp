@@ -15,6 +15,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
+import Dropzone from 'react-dropzone';
+
 const style = {
     actionsBtn : {
         margin: "0 2px"
@@ -215,6 +217,14 @@ export default class AdminContests extends React.PureComponent {
         ));
     }
 
+    renderParams () {
+        return (
+            <Dropzone onDrop={this.onDrop}>
+                <div>Try dropping some files here, or click to select files to upload.</div>
+            </Dropzone>
+        );
+    }
+
     renderAdminBody () {
         if(this.state.openEvents){
             return (
@@ -230,7 +240,7 @@ export default class AdminContests extends React.PureComponent {
         if(this.state.openSettings){
             return (
                 <div>
-                    <span>Paramètres</span>
+                    {this.renderParams()}
                 </div>
             );
         }
