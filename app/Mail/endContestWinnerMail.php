@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class endContestMail extends Mailable
+class endContestWinnerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,13 +24,13 @@ class endContestMail extends Mailable
     }
 
     /**
-    * Build the message for the loosers.
+    * Build the message for the winner.
     *
     * @return $this
     */
     public function build()
     {
-        return $this->view('emails.endContest')
+        return $this->view('emails.endContestWinner')
         ->with([
             'contestName' => $this->contestName,
         ]);
