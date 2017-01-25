@@ -28,4 +28,39 @@ class Participant extends Model
         return $this->hasOne('App\User');
     }
 
+    public function setIdUser($id)
+    {
+      $this->id_user = (int) $id;
+    }
+
+    public function setIdContest($id)
+    {
+      $this->id_contest = (int) $id;
+    }
+
+    public function setIdPhoto($id)
+    {
+      $this->id_fb_photo = (int) $id;
+    }
+
+    public function setHasVoted($id)
+    {
+      $this->has_voted = (int) $id;
+    }
+
+    public function setNbVotes($id)
+    {
+      $this->nb_votes = (int) $id;
+    }
+
+    public function addVote($id)
+    {
+      $this->nb_votes++;
+    }
+
+    public function setAcceptedCgu($id)
+    {
+      $this->accepted_cgu = (int) $id;
+    }
+
 }

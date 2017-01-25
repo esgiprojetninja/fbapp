@@ -40,39 +40,29 @@ class ParticipantController extends Controller
     */
     public function store($photo_id)
     {
-      if ( ctype_digit($photo_id) )
-      {
+      if ( ctype_digit($photo_id) ) {
         $photo_id = (int) $photo_id;
-
-        if ( app('App\Http\Controllers\Api\v1\ContestController')->currentlyActive() )
-        {
+        if ( app('App\Http\Controllers\Api\v1\ContestController')->currentlyActive() ) {
          $currentContest = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\ContestController')->getCurrent());
          $currentUser = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\AuthController')->getMe());
-         if ( !!$currentContest && !!$currentUser )
-         {
-           if ( !ParticipantController::isUserInContest($currentUser->user->id, $currentContest->contest->id) )
-           {
-            //  $request = new FacebookRequest(
-            //    $session,
-            //    'GET',
-            //    '/'.$photo_id.'?fields=can_tag,can_delete,id,webp_images,from'
-            //  );
-            //  $response = $request->execute();
-            //  $graphObject = $response->getGraphObject();
-            $fb =  new \App\Facebook();
-            $photo = $fb->getPhotoById($photo_id, $currentUser->user->token);
-            var_dump($photo);
-            if ( true )
-            {
-              return response()->json([
-                  'added' => true
-              ]);
+         if ( !!$currentContest && !!$currentUser ) {
+           if ( !ParticipantController::isUserPlayingContest($currentUser->user->id, $currentContest->contest->id) ) {
+            $fb = new \App\Facebook();
+            $photoArr = $fb->getPhotoById($photo_id, $currentUser->user->token);
+            if ( !!$photoArr && $photoArr['from']['id'] == $currentUser->user->fb_id ) {
+              $participant = new Participant();
+              $participant->setIdUser($currentUser->user->id);
+              $participant->setIdContest($currentContest->contest->id);
+              $participant->setIdPhoto($photo_id);
+              $participant->setHasVoted('0');
+              $participant->setNbVotes('0');
+              $participant->setAcceptedCgu('1');
+              if ( $participant->save() ) {
+                return response()->json([
+                    'added' => true
+                ]);
+              }
             }
-            //  Check if photo is rightfully user's with the fb api before registering it*
-            // get the source url
-            // set has_voted = 0
-            // set nb_votes = 0
-            // set accepted_cgu = 1
            }
          }
         }
@@ -160,10 +150,12 @@ class ParticipantController extends Controller
     *
     * @return Response
     */
-    public static function isUserInContest($iduser, $idcontest)
+    public static function isUserPlayingContest($iduser, $idcontest)
     {
-        $participant = Participant::where('id_user', $iduser)
+        $participant = Participant::
+            where('id_user', $iduser)
             ->where('id_contest', $idcontest)
+            ->whereNotNull('id_fb_photo')
             ->get();
         if(!empty($participant->toArray())){
             return TRUE;

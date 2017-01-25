@@ -26,24 +26,26 @@ class Facebook
         return $this->fb->get('/app/roles',$this->fb_app_secret_id);
     }
 
+    /**
+    * Fetches a ... object
+    * @param (int) photo_id, (string) token
+    * @return ...
+    **/
     public function getPhotoById(int $id, $token){
+      // '/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
       $id = (int) $id;
-      // $token_url = "https://graph.facebook.com/oauth/access_token?"
-      // . "client_id=" . $this->fb_app_id .
-      // . "&client_secret=" . $this->fb_app_secret . "&code=" . $code;
-      // $response = file_get_contents($token_url);
-      $photo = Socialite::driver('facebook')
-        ->with([
-          '/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
-        ])->userFromToken($token);
-      return $photo;
-
-      // get token
-      // return $this->fb->get(
-      //   $this->fb_app_secret_id,
-      //   'GET',
-      //   'me/'.$id.'?fields=can_tag,can_delete,id,webp_images,from'
-      // );
+      try {
+        $this->fb->setDefaultAccessToken($token);
+        $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
+        $dataArray = $response->getDecodedBody();
+        if ( is_array($dataArray) && !empty($dataArray) )
+          return $dataArray;
+      } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        return false;
+      } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        return false;
+      }
+      return false;
     }
 
 
