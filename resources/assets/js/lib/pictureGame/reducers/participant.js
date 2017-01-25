@@ -2,11 +2,12 @@ import * as pTypes from "../actions/participantTypes";
 
 const initialSate = {
     modalOpen: false,
+    addPhotoToContestError: false,
+    photoSucessfullyAdded: false,
     currentContest: []
 };
 
 const participant = (state = initialSate, action) => {
-    delete state.addPhotoToContestError;
     switch (action.type) {
         case pTypes.TOGGLE_SUBMIT_PHOTO_MODAL:
             return {
@@ -19,15 +20,19 @@ const participant = (state = initialSate, action) => {
             isFetching: true
           };
         case pTypes.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST:
-          state.currentContest.push({id: action.photo_id, source: action.source});
+          state.currentContest.push({photo_id: action.photo_id, source: action.source, user_fbid: action.user_fbid, photo_votes: action.photo_votes});
           return {
             ...state,
+            photoSucessfullyAdded: true,
+            modalOpen: false,
             isFetching: false
           };
         case pTypes.RECEIVE_NOT_ADD_PHOTO_TO_CURRENT_CONTEST:
           return {
             ...state,
             addPhotoToContestError: action.addPhotoToContestError,
+            photoSucessfullyAdded: false,
+            modalOpen: false,
             isFetching: false
           };
         default:

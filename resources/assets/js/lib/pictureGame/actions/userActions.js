@@ -195,41 +195,6 @@ export const getCurrentPhotoPermissions = () => {
     }
 }
 
-const requestFbPhotos = () => {
-    return {
-        type: actionTypes.REQUEST_FB_PHOTOS
-    };
-}
-
-export const resetPhotos = () => {
-    return {
-        type: actionTypes.RESET_PHOTOS
-    };
-}
-
-const recieveFbPhoto = (res) => {
-    return {
-        type: actionTypes.RECIEVE_FB_PHOTOS,
-        isFetching: false,
-        photos: res.data,
-        next: res.paging.next
-    };
-}
-
-export const getFbPhotos = (link) => {
-    return (dispatch, getState) => {
-        const accessToken = getState().user.data.token;
-        dispatch(requestFbPhotos());
-        facebookLoader.getMyPictures(accessToken, link, (response) => {
-            if (response.error) {
-                dispatch(recieveError(response.error.message));
-            } else {
-                dispatch(recieveFbPhoto(response));
-            }
-        });
-    };
-}
-
 const receiveFbAlbums = (res) => {
     return {
         type: actionTypes.RECEIVE_FB_ALBUMS,

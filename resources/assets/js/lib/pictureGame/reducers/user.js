@@ -8,7 +8,6 @@ const initialSate = {
         data: {},
         photos: [],
         albums: [],
-        loadMoreFbPhotosLink: ""
     }
 };
 
@@ -109,21 +108,6 @@ const user = (state = initialSate.user, action) => {
       return {
         ...state,
         isFetching: true,
-      }
-    case types.RESET_PHOTOS:
-      return {
-        ...state,
-        photos: []
-      }
-    case types.RECIEVE_FB_PHOTOS:
-      return {
-        ...state,
-        isFetching: false,
-        photos: [
-            ...state.photos,
-            ...action.photos
-        ],
-        loadMoreFbPhotosLink: action.next
       }
     case types.RECEIVE_FB_ALBUMS:
       return {

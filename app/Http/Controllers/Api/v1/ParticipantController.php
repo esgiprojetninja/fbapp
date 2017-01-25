@@ -65,7 +65,9 @@ class ParticipantController extends Controller
                     'added' => true,
                     'photo_id' => $photo_id,
                     'source' => $source,
-                    'current_contest_id' => $currentContest->contest->id
+                    'user_fbid' => $currentUser->user->fb_id,
+                    'current_contest_id' => $currentContest->contest->id,
+                    'photo_votes' => 0
                 ]);
               } else {
                 $msg = "Impossible de valider votre participation à l'heure actuelle";

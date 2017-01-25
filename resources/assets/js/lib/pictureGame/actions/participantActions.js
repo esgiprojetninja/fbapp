@@ -16,11 +16,13 @@ const receiveNotAddedPhotoContest = ({added, msg}) => {
   }
 };
 
-const receiveAddPhotoToContest = ({photo_id, current_contest_id, source}) => {
+const receiveAddPhotoToContest = ({photo_id, current_contest_id, user_fbid, source, photo_votes}) => {
     return {
         type: types.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST,
         photo_id,
         current_contest_id,
+        user_fbid,
+        photo_votes,
         source
     }
 }

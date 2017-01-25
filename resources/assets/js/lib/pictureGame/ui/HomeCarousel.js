@@ -1,4 +1,5 @@
 import React, {PropTypes as T} from "react";
+import SweetAlert from 'sweetalert-react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -16,6 +17,7 @@ import Subheader from 'material-ui/Subheader';
 // Icons & SVG
 import LocationSearch from 'material-ui/svg-icons/device/location-searching';
 import Upload from 'material-ui/svg-icons/file/file-upload';
+import CameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import AutoNew from 'material-ui/svg-icons/action/autorenew';
 import Love from 'material-ui/svg-icons/action/favorite';
@@ -99,6 +101,17 @@ export default class HomeCarousel extends React.PureComponent {
         return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
     }
 
+    getUserContestPhoto () {
+      let i;
+      for (i = 0; i < this.props.participant.currentContest.length; i++) {
+        const part = this.props.participant.currentContest[i];
+        if ( part.user_fbid == this.props.user.data.fb_id ) {
+          return {...part};
+        }
+      }
+      return false;
+    }
+
     getSeparatePhotoReactions (photo) {
         const like = [];
         const love = [];
@@ -149,12 +162,16 @@ export default class HomeCarousel extends React.PureComponent {
     playButtonAction () {
         if (this.props.user.photoScopeGranted) {
             this.props.toggleSubmitPhotoModal();
-            this.props.getFbPhotos(null);
             this.props.getFbAlbums();
         } else {
             // Checking for photo access permissions
             this.props.startPlaying()
         }
+    }
+
+    displayPlaidPhotoAction () {
+      const userContestPhoto = this.getUserContestPhoto();
+      console.debug("current playing photo for user ", userContestPhoto)
     }
 
     renderSpinner () {
@@ -332,7 +349,7 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderAlbums () {
-        if(this.props.user.isFetching) {
+        if( this.props.user.isFetching ) {
             return this.renderSpinner();
         } else if (this.props.user.albums.length > 0) {
             this.changeDialogTitle("Vos albums");
@@ -349,48 +366,62 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderModal () {
+      if ( this.props.participant.photoSucessfullyAdded ) {
+
+      } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
+
+      } else {
         const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.props.toggleSubmitPhotoModal}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                keyboardFocused={true}
-                onTouchTap={this.props.toggleSubmitPhotoModal}
-            />,
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            onTouchTap={this.props.toggleSubmitPhotoModal}
+          />,
+          <FlatButton
+            label="Submit"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.props.toggleSubmitPhotoModal}
+          />,
         ];
         const curAlbum = this.getDeployedAlbum();
-        const uiToRender = ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaidAlbum.bind(this);
+        const uiToRender = ( this.props.participant.isFetching ) ? this.renderSpinner.bind(this) : ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaidAlbum.bind(this);
         return (
-            <Dialog
-                title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
-                actions={actions}
-                modal={false}
-                open={this.props.participant.modalOpen}
-                autoScrollBodyContent={true}
-                onRequestClose={this.props.toggleSubmitPhotoModal}
-                className="fbapp-pardonmaman-modal-participate-post"
-            >
-                {uiToRender(curAlbum)}
-            </Dialog>
+          <Dialog
+            title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
+            actions={actions}
+            modal={false}
+            open={this.props.participant.modalOpen}
+            autoScrollBodyContent={true}
+            onRequestClose={this.props.toggleSubmitPhotoModal}
+            className="fbapp-pardonmaman-modal-participate-post"
+          >
+            {uiToRender(curAlbum)}
+          </Dialog>
         );
+      }
     }
 
-    renderPlayButton () {
-        if (this.props.user.isConnected) {
-            return (
-                <RaisedButton
-                    label="PARTICIPER AU CONCOURS"
-                    labelPosition="before"
-                    primary={true}
-                    icon={<AddAPhoto />}
-                    className="home-carousel-button"
-                    onTouchTap={this.playButtonAction.bind(this)}
-                />
-            );
+    renderMainButton () {
+        if ( this.props.user.isConnected ) {
+          return ( this.getUserContestPhoto() === false ) ?
+            (<RaisedButton
+              label="PARTICIPER AU CONCOURS"
+              labelPosition="before"
+              primary={true}
+              icon={<AddAPhoto />}
+              className="home-carousel-button"
+              onTouchTap={this.playButtonAction.bind(this)}
+            />)
+            :
+            (<RaisedButton
+                label="MA PHOTO EN JEU"
+                labelPosition="before"
+                primary={true}
+                icon={<CameraEnhance />}
+                className="home-carousel-button"
+                onTouchTap={this.displayPlaidPhotoAction.bind(this)}
+            />);
         }
     }
 
@@ -419,7 +450,7 @@ export default class HomeCarousel extends React.PureComponent {
                                     containerElement="label"
                                     onClick={() => this.scrollToAnchor('.grid-layout')}
                                 />
-                                {this.renderPlayButton()}
+                                {this.renderMainButton.call(this)}
                             </div>
                         </div>
                     </div>
@@ -437,12 +468,10 @@ export default class HomeCarousel extends React.PureComponent {
 HomeCarousel.propTypes = {
     startPlaying: T.func.isRequired,
     onReady: T.func.isRequired,
-    getFbPhotos: T.func.isRequired,
     getFbAlbums: T.func.isRequired,
     getFbAlbumPhotos: T.func.isRequired,
     loadMoreFbAlbumPhotos: T.func.isRequired,
     proposePhotoForContest: T.func.isRequired,
-    refreshPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,
