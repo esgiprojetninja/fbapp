@@ -11,6 +11,9 @@ class endContestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $winner;
+    protected $contestName;
+
     /**
     * Create a new message instance.
     *
@@ -18,7 +21,8 @@ class endContestMail extends Mailable
     */
     public function __construct()
     {
-        //
+        $this->winner = "Jean Paul";
+        $this->contestName = "Le concours des gens heureux";
     }
 
     /**
@@ -29,9 +33,9 @@ class endContestMail extends Mailable
     public function build()
     {
         return $this->view('emails.endContest')
-                    ->with([
-                        'winner' => "Jean Paul",
-                        'contestName' => "Le concours des gens heureux",
-                    ]);
+        ->with([
+            'winner' => $this->winner,
+            'contestName' => $this->contestName,
+        ]);
     }
 }
