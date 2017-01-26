@@ -169,7 +169,6 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     cancelParticipation () {
-      console.debug("GET MU DAMN PHOTO OUTTA HERE");
       this.props.toggleConsultingPostedPhoto();
       this.props.cancelParticipation();
     }

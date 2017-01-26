@@ -82,7 +82,7 @@ const requestParticipationCancelling = () => {
 export const cancelParticipation = (user_id = false, contest_id = false) => {
   return (dispatch, getState) => {
     dispatch(requestParticipationCancelling())
-    ptApi.delete(
+    ptApi.deleteFromCurrent(
       {user_id, contest_id},
       (response) => {
         if ( response.error ) {

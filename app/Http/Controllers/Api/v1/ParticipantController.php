@@ -9,6 +9,9 @@ use App\Participant;
 
 class ParticipantController extends Controller
 {
+
+    public function __construct(){
+    }
     /**
     * Display a listing of the resource.
     *
@@ -118,25 +121,48 @@ class ParticipantController extends Controller
     */
     public function destroy($id)
     {
-        Participant::destroy($id);
+      Participant::destroy($id);
     }
 
     /**
     * Remove the specified resource from storage.
+    * Admin rights necessary if $id_user & $id_contest are specified
     *
     * @param  int  $id_user, int $id_contest
     * @return \Illuminate\Http\Response
     */
-    public function destroyByIdUserAndIdContest(Request $request, $id_user, $id_contest)
+    public function destroyByIdUserAndIdContest(Request $request)
     {
-      // $user->posts()->forceDelete()
-        var_dump($request);
-        var_dump($id_user, $id_contest);
-        return response()->json([
-          'added' => false,
-          'msg' => $msg
-        ]);
-        Participant::destroy($id);
+      $user = Auth::user();
+      if ( $user !== null && !empty($user) ) {
+        $uId = $request->input('user_id');
+        $cId = $request->input('contest_id');
+        $user = app('App\Http\Controllers\Api\v1\AuthController')->getMe()->getData()->user;
+        $contest = app('App\Http\Controllers\Api\v1\ContestController')->getCurrent()->getData()->contest;
+        if ( !ctype_digit($uId) || !ctype_digit($cId) ) {
+          $uId = $user->id;
+          $cId = $contest->id;
+        } else {
+          if ( $user->isAdmin != true ) {
+            return response()->json([
+              'error' => true,
+              'deleted' => false
+            ]);
+          }
+        }
+        $r = (bool) Participant::where('id_user', $uId)
+          ->where('id_contest', $cId)
+          ->forceDelete();
+        if ( $r ) {
+          return response()->json([
+            'deleted' => true
+          ]);
+        }
+      }
+      return response()->json([
+        'error' => true,
+        'deleted' => false
+      ]);
     }
 
     /**

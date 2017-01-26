@@ -24,11 +24,20 @@ export default class ParticipantApi {
         });
     }
 
-    delete({user_id, contest_id}, callback) {
+    delete(id, callback) {
         return $.ajax({
             method: "DELETE",
-            url: this.apiBaseUrl+"delete",
-            data: {user_id, contest_id}
+            url: this.apiBaseUrl + id
+        }).done(response => {
+            callback(response);
+        });
+    }
+
+    deleteFromCurrent({user_id, contest_id}, callback) {
+        return $.ajax({
+            method: "POST",
+            url: this.apiBaseUrl + "deleteFromCurrent",
+            data:{user_id, contest_id}
         }).done(response => {
             callback(response);
         });
