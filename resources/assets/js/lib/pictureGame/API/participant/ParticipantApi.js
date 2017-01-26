@@ -24,10 +24,11 @@ export default class ParticipantApi {
         });
     }
 
-    delete(id, callback) {
+    delete({user_id, contest_id}, callback) {
         return $.ajax({
             method: "DELETE",
-            url: this.apiBaseUrl + id
+            url: this.apiBaseUrl+"delete",
+            data: {user_id, contest_id}
         }).done(response => {
             callback(response);
         });

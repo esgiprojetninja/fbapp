@@ -4,6 +4,8 @@ const initialSate = {
   modalOpen: false,
   addPhotoToContestError: false,
   photoSucessfullyAdded: false,
+  consultingPostedPhoto: false,
+  deletingParticipationOngoing: false,
   currentContest: []
 };
 
@@ -42,6 +44,29 @@ const participant = (state = initialSate, action) => {
         photoSucessfullyAdded: initialSate.photoSucessfullyAdded,
         addPhotoToContestError: initialSate.addPhotoToContestError
       };
+    case pTypes.TOGGLE_MODAL_POSTED_PHOTO:
+      return {
+        ...state,
+        consultingPostedPhoto: !state.consultingPostedPhoto
+      }
+    case pTypes.REQUEST_CANCEL_PARTICIPATION:
+      return {
+        ...state,
+        consultingPostedPhoto: false,
+        deletingParticipationOngoing: true
+      }
+    case pTypes.ERROR_PARTICIPATION_CANCELLING:
+      return {
+        ...state,
+        consultingPostedPhoto: true,
+        deletingParticipationOngoing: false
+      }
+    case pTypes.RECEIVED_PARTICIPATION_CANCELLING:
+      return {
+        ...state,
+        consultingPostedPhoto: false,
+        deletingParticipationOngoing: false
+      }
     default:
       return state;
   }

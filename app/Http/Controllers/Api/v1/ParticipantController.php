@@ -122,6 +122,24 @@ class ParticipantController extends Controller
     }
 
     /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id_user, int $id_contest
+    * @return \Illuminate\Http\Response
+    */
+    public function destroyByIdUserAndIdContest(Request $request, $id_user, $id_contest)
+    {
+      // $user->posts()->forceDelete()
+        var_dump($request);
+        var_dump($id_user, $id_contest);
+        return response()->json([
+          'added' => false,
+          'msg' => $msg
+        ]);
+        Participant::destroy($id);
+    }
+
+    /**
     * Show one contest.
     *
     * @return Response

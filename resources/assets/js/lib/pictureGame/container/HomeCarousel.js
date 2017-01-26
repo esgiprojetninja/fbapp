@@ -14,7 +14,9 @@ import {
 import {
     toggleSubmitPhotoModal,
     addPhotoToCurrentContest,
-    userNoticedRegistrationInContest
+    userNoticedRegistrationInContest,
+    toggleConsultingPostedPhoto,
+    cancelParticipation
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -50,6 +52,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         clearAlbumPhotos: () => {
           dispatch(clearAlbumPhotos());
+        },
+        toggleConsultingPostedPhoto: () => {
+          dispatch(toggleConsultingPostedPhoto());
+        },
+        cancelParticipation: () => {
+          dispatch(cancelParticipation())
         }
     };
 }

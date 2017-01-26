@@ -159,18 +159,19 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     playButtonAction () {
-        if (this.props.user.photoScopeGranted) {
-            this.props.toggleSubmitPhotoModal();
-            this.props.getFbAlbums();
-        } else {
-            // Checking for photo access permissions
-            this.props.startPlaying()
-        }
+      if (this.props.user.photoScopeGranted) {
+        this.props.toggleSubmitPhotoModal();
+        this.props.getFbAlbums();
+      } else {
+        // Checking for photo access permissions
+        this.props.startPlaying()
+      }
     }
 
-    displayPlaidPhotoAction () {
-      const userContestPhoto = this.getUserContestPhoto();
-      console.debug("current playing photo for user ", userContestPhoto)
+    cancelParticipation () {
+      console.debug("GET MU DAMN PHOTO OUTTA HERE");
+      this.props.toggleConsultingPostedPhoto();
+      this.props.cancelParticipation();
     }
 
     renderSpinner () {
@@ -363,7 +364,7 @@ export default class HomeCarousel extends React.PureComponent {
         }
     }
 
-    renderRegisteredModal(title, msg){
+    renderPostedPictureModal(title, msg){
       const actions = [
         <FlatButton
           label="Ok"
@@ -383,24 +384,58 @@ export default class HomeCarousel extends React.PureComponent {
         >{msg}</Dialog>);
     }
 
+    renderParticipantModal () {
+      const actions = [
+        <FlatButton
+          label="Retirer ma photo"
+          primary={true}
+          onTouchTap={this.cancelParticipation.bind(this)}
+        />,
+        <FlatButton
+          label="Quitter"
+          primary={true}
+          keyboardFocused={true}
+          onTouchTap={this.props.toggleConsultingPostedPhoto}
+        />
+      ];
+      const currentPhoto = this.getUserContestPhoto();
+      return (
+        <Dialog
+          title={<h3>Votre photo-participation</h3>}
+          actions={actions}
+          modal={false}
+          open={this.props.participant.consultingPostedPhoto}
+          autoScrollBodyContent={true}
+          onRequestClose={this.props.toggleSubmitPhotoModal}
+          className="fbapp-pardonmaman-modal-participate-post"
+        >
+          <GridList cols={1}>
+            <GridTile
+              key={0}
+              cols={1}
+              children={<img src={currentPhoto.source} />}
+              >
+              </GridTile>
+          </GridList>
+        </Dialog>
+      );
+    }
+
     renderModal () {
       if ( this.props.participant.photoSucessfullyAdded ) {
-        return this.renderRegisteredModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
+        return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
       } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
-        return this.renderRegisteredModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
+        return this.renderPostedPictureModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
+      } else if ( this.props.participant.consultingPostedPhoto ) {
+        return this.renderParticipantModal();
       } else {
         const actions = [
           <FlatButton
-            label="Cancel"
-            primary={true}
-            onTouchTap={this.props.toggleSubmitPhotoModal}
-          />,
-          <FlatButton
-            label="Submit"
+            label="Annuler"
             primary={true}
             keyboardFocused={true}
             onTouchTap={this.props.toggleSubmitPhotoModal}
-          />,
+          />
         ];
         const curAlbum = this.getDeployedAlbum();
         const uiToRender = ( this.props.participant.isFetching ) ? this.renderSpinner.bind(this) : ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaidAlbum.bind(this);
@@ -438,7 +473,7 @@ export default class HomeCarousel extends React.PureComponent {
                 primary={true}
                 icon={<CameraEnhance />}
                 className="home-carousel-button"
-                onTouchTap={this.displayPlaidPhotoAction.bind(this)}
+                onTouchTap={this.props.toggleConsultingPostedPhoto}
             />);
         }
     }
@@ -492,6 +527,8 @@ HomeCarousel.propTypes = {
     proposePhotoForContest: T.func.isRequired,
     userNoticedRegistrationInContest: T.func.isRequired,
     clearAlbumPhotos: T.func.isRequired,
+    toggleConsultingPostedPhoto: T.func.isRequired,
+    cancelParticipation: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,

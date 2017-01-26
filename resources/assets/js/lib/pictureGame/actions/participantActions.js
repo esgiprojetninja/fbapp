@@ -27,7 +27,7 @@ const receiveAddPhotoToContest = ({photo_id, current_contest_id, user_fbid, sour
     }
 }
 
-export const requestAddPhotoToContest = () => {
+const requestAddPhotoToContest = () => {
   return {
     type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
   }
@@ -52,5 +52,45 @@ export const addPhotoToCurrentContest = (photo_id) => {
 export const userNoticedRegistrationInContest = () => {
   return {
     type: types.USER_NOTICED_REGISTRATION
+  }
+}
+
+export const toggleConsultingPostedPhoto = () => {
+  return {
+    type: types.TOGGLE_MODAL_POSTED_PHOTO
+  }
+}
+
+const errorOnParticipationCancelling = () => {
+  return {
+    type: types.ERROR_PARTICIPATION_CANCELLING
+  }
+}
+
+const receivedParticipationCancelling = () => {
+  return {
+    type: types.RECEIVED_PARTICIPATION_CANCELLING
+  }
+}
+
+const requestParticipationCancelling = () => {
+  return {
+    type: types.REQUEST_CANCEL_PARTICIPATION
+  }
+}
+
+export const cancelParticipation = (user_id = false, contest_id = false) => {
+  return (dispatch, getState) => {
+    dispatch(requestParticipationCancelling())
+    ptApi.delete(
+      {user_id, contest_id},
+      (response) => {
+        if ( response.error ) {
+          dispatch(errorOnParticipationCancelling(response))
+        } else {
+          dispatch(receivedParticipationCancelling(response))
+        }
+      }
+    )
   }
 }
