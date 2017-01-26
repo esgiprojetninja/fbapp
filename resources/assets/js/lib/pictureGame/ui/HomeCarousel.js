@@ -1,5 +1,4 @@
 import React, {PropTypes as T} from "react";
-import SweetAlert from 'sweetalert-react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -210,14 +209,13 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.loadMoreFbAlbumPhotos(nextLink, album_id);
     }
 
-    photoAlbumClickHandler (photo, clickedEl) {
-        // this.props.getFbAlbumPhotos(album.id);
-        console.debug("you chose: ", photo, clickedEl)
-        this.props.proposePhotoForContest(photo.id);
-    }
-
     albumClickHandler (album) {
         this.props.getFbAlbumPhotos(album.id);
+    }
+
+    albumPhotoChosenAction (photo_id) {
+      this.props.proposePhotoForContest(photo_id);
+      this.props.clearAlbumPhotos();
     }
 
     renderOldAlbumPhoto (photo, key) {
@@ -293,17 +291,17 @@ export default class HomeCarousel extends React.PureComponent {
         )
     }
 
-    renderAlbumPhoto (photo, key) {
+    renderAlbumPhoto (photo, key, colNumb = 1) {
         const imgSrc = photo.source || "homeCarouselHr.png";
         return (
             <GridTile
                 key={key}
                 title={photo.name || " "}
                 subtitle={<span>Photo postée le <b>{this.uiDateFormater(photo.created_time)}</b></span>}
-                cols={1}
+                cols={colNumb}
                 actionIcon={
-                    <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={function(e){this.photoAlbumClickHandler(photo, e.target)}.bind(this)}
-                        children={<Upload color="white"/>}
+                    <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={() => this.albumPhotoChosenAction(photo.id)}
+                    children={<Upload color="white"/>}
                     />
                 }
                 children={<img style={this.styles.imgStyle} src={imgSrc} />}
@@ -365,11 +363,31 @@ export default class HomeCarousel extends React.PureComponent {
         }
     }
 
+    renderRegisteredModal(title, msg){
+      const actions = [
+        <FlatButton
+          label="Ok"
+          primary={true}
+          keyboardFocused={true}
+          onTouchTap={this.props.userNoticedRegistrationInContest}
+        />
+      ];
+      return (<Dialog
+          title={<h3>{title}</h3>}
+          actions={actions}
+          modal={false}
+          open={true}
+          autoScrollBodyContent={true}
+          onRequestClose={this.props.userNoticedRegistrationInContest}
+          className="fbapp-pardonmaman-modal-participate-post"
+        >{msg}</Dialog>);
+    }
+
     renderModal () {
       if ( this.props.participant.photoSucessfullyAdded ) {
-
+        return this.renderRegisteredModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
       } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
-
+        return this.renderRegisteredModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
       } else {
         const actions = [
           <FlatButton
@@ -472,6 +490,8 @@ HomeCarousel.propTypes = {
     getFbAlbumPhotos: T.func.isRequired,
     loadMoreFbAlbumPhotos: T.func.isRequired,
     proposePhotoForContest: T.func.isRequired,
+    userNoticedRegistrationInContest: T.func.isRequired,
+    clearAlbumPhotos: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,

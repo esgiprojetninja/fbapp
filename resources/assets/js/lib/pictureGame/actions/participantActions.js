@@ -48,3 +48,9 @@ export const addPhotoToCurrentContest = (photo_id) => {
       )
   }
 }
+
+export const userNoticedRegistrationInContest = () => {
+  return {
+    type: types.USER_NOTICED_REGISTRATION
+  }
+}

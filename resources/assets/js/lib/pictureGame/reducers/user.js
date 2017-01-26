@@ -6,7 +6,6 @@ const initialSate = {
         isFetching: false,
         isAdmin: false,
         data: {},
-        photos: [],
         albums: [],
     }
 };
@@ -159,6 +158,11 @@ const user = (state = initialSate.user, action) => {
       return {
         ...oldState,
         isFetching: false
+      }
+    case types.CLEAR_ALL_ALBUM_PHOTOS:
+      state.albums.forEach(function(alb){delete alb.photos});
+      return {
+        ...state
       }
     default:
       return state;

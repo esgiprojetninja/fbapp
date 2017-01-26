@@ -6,13 +6,15 @@ import {
     getFbAlbumCover,
     getFbAlbumPhotos,
     getMoreFbAlbumPhotos,
+    clearAlbumPhotos
 } from "../actions/userActions";
 import {
     getCurrentContest
 } from "../actions/contestActions";
 import {
     toggleSubmitPhotoModal,
-    addPhotoToCurrentContest
+    addPhotoToCurrentContest,
+    userNoticedRegistrationInContest
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -42,6 +44,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         proposePhotoForContest: (photo_id) => {
           dispatch(addPhotoToCurrentContest(photo_id))
+        },
+        userNoticedRegistrationInContest: () => {
+          dispatch(userNoticedRegistrationInContest());
+        },
+        clearAlbumPhotos: () => {
+          dispatch(clearAlbumPhotos());
         }
     };
 }

@@ -286,3 +286,9 @@ export const getMoreFbAlbumPhotos = (link, album_id) => {
         )
     }
 }
+
+export const clearAlbumPhotos = () => {
+  return {
+    type: actionTypes.CLEAR_ALL_ALBUM_PHOTOS
+  };
+}
