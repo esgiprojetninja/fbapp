@@ -23,15 +23,6 @@ export default class AuthApi {
         })
     }
 
-    getToken (callback) {
-        return $.ajax({
-            method: "GET",
-            url: this.authBaseUrl + token
-        }).done(response => {
-            callback(response);
-        });
-    }
-
     amIAdmin (callback) {
         return $.ajax({
             method: "GET",

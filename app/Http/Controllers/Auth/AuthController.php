@@ -59,4 +59,5 @@ class AuthController extends Controller
                 'email', 'public_profile','user_photos'
                 ])->redirect();
     }
+
 }

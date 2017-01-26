@@ -19,9 +19,7 @@ class Admin
         $user = Auth::user();
 
         if (!$user || !$user->isAdmin()) {
-            return response()->json([
-                'error' => 'Permission Denied'
-            ], 401);
+            return redirect()->guest('admin/auth/login');
         }
         return $next($request);
     }

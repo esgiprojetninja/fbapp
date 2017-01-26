@@ -42,11 +42,13 @@ export default class Loginfb extends React.PureComponent {
     }
 
     renderLoginButton() {
+        const className = "login-btn";
         if (this.props.isConnected) {
             return (
                 <FlatButton
                 label="Logout"
                 secondary={true}
+                className={className}
                 onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
                 />
             );
@@ -54,6 +56,7 @@ export default class Loginfb extends React.PureComponent {
         return (
             <FlatButton
             label="Connect with facebook"
+            className={className}
             onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
             />
         );
