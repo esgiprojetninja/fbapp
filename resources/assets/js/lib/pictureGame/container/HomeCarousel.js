@@ -16,7 +16,8 @@ import {
     addPhotoToCurrentContest,
     userNoticedRegistrationInContest,
     toggleConsultingPostedPhoto,
-    cancelParticipation
+    cancelParticipation,
+    noticedCancelNotice
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -58,6 +59,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         cancelParticipation: () => {
           dispatch(cancelParticipation())
+        },
+        noticedCancelNotice: () => {
+          dispatch(noticedCancelNotice())
         }
     };
 }

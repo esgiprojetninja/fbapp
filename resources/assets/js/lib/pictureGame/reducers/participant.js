@@ -6,6 +6,7 @@ const initialSate = {
   photoSucessfullyAdded: false,
   consultingPostedPhoto: false,
   deletingParticipationOngoing: false,
+  participationCancelled: false,
   currentContest: []
 };
 
@@ -13,8 +14,8 @@ const participant = (state = initialSate, action) => {
   switch (action.type) {
     case pTypes.TOGGLE_SUBMIT_PHOTO_MODAL:
       return {
-          ...state,
-          modalOpen: !state.modalOpen
+        ...state,
+        modalOpen: !state.modalOpen
       };
     case pTypes.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST:
       return {
@@ -53,20 +54,31 @@ const participant = (state = initialSate, action) => {
       return {
         ...state,
         consultingPostedPhoto: false,
-        deletingParticipationOngoing: true
+        deletingParticipationOngoing: true,
+        participationCancelled: false
       }
     case pTypes.ERROR_PARTICIPATION_CANCELLING:
       return {
         ...state,
         consultingPostedPhoto: true,
-        deletingParticipationOngoing: false
+        deletingParticipationOngoing: false,
+        participationCancelled: "failed"
       }
     case pTypes.RECEIVED_PARTICIPATION_CANCELLING:
+      state.currentContest = state.currentContest.filter( par => par.user_fbid != action.user_fbid );
       return {
         ...state,
         consultingPostedPhoto: false,
-        deletingParticipationOngoing: false
+        deletingParticipationOngoing: false,
+        participationCancelled: "success"
       }
+    case pTypes.NOTICED_PARTICIPATION_CANCELLING_RESPONSE:
+    return {
+      ...state,
+      consultingPostedPhoto: false,
+      deletingParticipationOngoing: false,
+      participationCancelled: false
+    }
     default:
       return state;
   }

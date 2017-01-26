@@ -67,9 +67,10 @@ const errorOnParticipationCancelling = () => {
   }
 }
 
-const receivedParticipationCancelling = () => {
+const receivedParticipationCancelling = (user_fbid) => {
   return {
-    type: types.RECEIVED_PARTICIPATION_CANCELLING
+    type: types.RECEIVED_PARTICIPATION_CANCELLING,
+    user_fbid
   }
 }
 
@@ -85,12 +86,18 @@ export const cancelParticipation = (user_id = false, contest_id = false) => {
     ptApi.deleteFromCurrent(
       {user_id, contest_id},
       (response) => {
-        if ( response.error ) {
-          dispatch(errorOnParticipationCancelling(response))
+        if ( response.deleted === true ) {
+          dispatch(receivedParticipationCancelling(getState().user.data.fb_id))
         } else {
-          dispatch(receivedParticipationCancelling(response))
+          dispatch(errorOnParticipationCancelling(response))
         }
       }
     )
+  }
+}
+
+export const noticedCancelNotice = () => {
+  return {
+    type: types.NOTICED_PARTICIPATION_CANCELLING_RESPONSE
   }
 }
