@@ -113,7 +113,7 @@ const user = (state = initialSate.user, action) => {
         ...state,
         isFetching: false,
         albums: [
-            ...action.albums
+            ...action.albums.map( (a, k) => {return {...a, opened: false} } )
         ]
       }
     case types.REQUEST_FB_ALBUMS:
@@ -122,16 +122,9 @@ const user = (state = initialSate.user, action) => {
         isFetching: true
       }
     case types.RECEIVE_FB_ALBUM_PHOTOS:
-      const s = {...state};
-      state.albums.map( (album, key) => {
-        if (album.id == action.album_id) {
-          s.albums[key] = {...state.albums[key], photos: action.photos, next: action.next}
-        } else if ( album.photos ) {
-          delete s.albums[key].photos;
-        }
-      } );
       return {
-        ...s,
+        ...state,
+        albums: state.albums.map( (album, key) => { return (album.id == action.album_id) ? {...album, photos: action.photos, next: action.next, opened: true} : {...album, opened: false} } ),
         isFetching: false
       }
     case types.REQUEST_FB_ALBUM_PHOTOS:
@@ -145,24 +138,10 @@ const user = (state = initialSate.user, action) => {
         isFetching: true
       }
     case types.RECEIVE_MORE_FB_ALBUM_PHOTOS:
-      const oldState = {...state};
-      state.albums.map( (album, key) => {
-        if (album.id == action.album_id) {
-          oldState.albums[key].photos = state.albums[key].photos.concat(action.photos);
-          oldState.albums[key].next = action.morePhotosLink;
-        } else if ( album.photos ) {
-          delete oldState.albums[key].photos;
-          if ( oldState.albums[key].next ) { delete oldState.albums[key].next; }
-        }
-      } );
       return {
-        ...oldState,
+        ...state,
+        albums: state.albums.map( (album, key) => { return (album.id == action.album_id) ? {...album, photos: album.photos.concat(action.photos), next: action.next, opened: true} : {...album, opened: false} } ),
         isFetching: false
-      }
-    case types.CLEAR_ALL_ALBUM_PHOTOS:
-      state.albums.forEach(function(alb){delete alb.photos});
-      return {
-        ...state
       }
     default:
       return state;

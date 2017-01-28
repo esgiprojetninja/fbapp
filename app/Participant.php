@@ -69,4 +69,18 @@ class Participant extends Model
       $this->accepted_cgu = (int) $id;
     }
 
+    /**
+    * Know if user is in tournament
+    *
+    * @return Response
+    */
+    public static function isUserPlayingContest($iduser, $idcontest)
+    {
+        return !empty(Participant::
+            where('id_user', $iduser)
+            ->where('id_contest', $idcontest)
+            ->whereNotNull('id_fb_photo')
+            ->get()->toArray());
+    }
+
 }

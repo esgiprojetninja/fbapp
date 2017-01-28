@@ -12,32 +12,27 @@ class AuthController extends Controller
 {
     public function getMe()
     {
-        $user = Auth::user();
-        return response()->json([
-            'user' => $user
-        ]);
+      return response()->json([
+          'user' => Auth::getCurrent()
+      ]);
     }
 
     public function logout()
     {
-        Auth::logout();
-        return response()->json([
-            'logged_out' => true
-        ]);
+      Auth::logout();
+      return response()->json([
+          'logged_out' => true
+      ]);
     }
 
     public static function isAdmin()
     {
-      $user = Auth::user();
-      if ( $user !== null && !empty($user) ) {
+      $user = Auth::getCurrent();
+      if ( !!$user ) {
         $fb =  new \App\Facebook();
-
         $isAdmin = $fb->getAppRoles();
         $isAdmin = $isAdmin->getDecodedBody();
-
-        $user = Auth::user();
         $idUser = $user->getAttributes()['fb_id'];
-
         foreach ($isAdmin['data'] as $user) {
           if($user['user'] == $idUser && $user['role'] == 'administrators'){
             return response()->json([
@@ -46,7 +41,6 @@ class AuthController extends Controller
           }
         }
       }
-
       return response()->json([
         'admin' => FALSE
       ]);

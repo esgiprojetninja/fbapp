@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import jQuery from 'jquery';
+import $ from 'jquery';
 
 // Grid list
 import IconButton from 'material-ui/IconButton';
@@ -78,16 +78,12 @@ export default class HomeCarousel extends React.PureComponent {
       this.props.onReady();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-      // console.log('Component DID UPDATE!', this.props)
-  }
-
   scrollToAnchor (selector) {
-      jQuery('html,body').animate({scrollTop: jQuery(selector).offset().top},'slow');
+      $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
   }
 
   getDeployedAlbum () {
-      const activeAlbum = this.props.user.albums.filter( album => album.photos !== undefined );
+      const activeAlbum = this.props.user.albums.filter( album => album.opened === true );
       return (activeAlbum.length === 1) ? activeAlbum[0] : false;
   }
 
@@ -150,14 +146,6 @@ export default class HomeCarousel extends React.PureComponent {
       this.modalTitle.innerHTML = newTitle;
   }
 
-  fadeButton () {
-      jQuery(window).scroll(function(){
-          if (jQuery(window).scrollTop() > 30){
-              //jQuery('.home-carousel-btn-wrapper').fadeOut();
-          }
-      });
-  }
-
   playButtonAction () {
     if (this.props.user.photoScopeGranted) {
       this.props.toggleSubmitPhotoModal();
@@ -215,7 +203,6 @@ export default class HomeCarousel extends React.PureComponent {
 
   albumPhotoChosenAction (photo_id) {
     this.props.proposePhotoForContest(photo_id);
-    this.props.clearAlbumPhotos();
   }
 
   renderOldAlbumPhoto (photo, key) {
@@ -327,7 +314,7 @@ export default class HomeCarousel extends React.PureComponent {
   }
 
   renderAlbum (album, key) {
-      // Au cas où la cover n'ait pas été trouvée par le call API
+      // In case api didn't return a sourceUrl
       const imgSrc = album.cover.url || "homeCarouselHr.png";
       return (
           <GridTile
@@ -512,7 +499,6 @@ export default class HomeCarousel extends React.PureComponent {
       };
       return (
           <div>
-          {this.fadeButton()}
               <div className="home-carousel">
                   <div className="title-wrapper full-height full-width vertical-align">
                       <div>
@@ -549,7 +535,6 @@ HomeCarousel.propTypes = {
     loadMoreFbAlbumPhotos: T.func.isRequired,
     proposePhotoForContest: T.func.isRequired,
     userNoticedRegistrationInContest: T.func.isRequired,
-    clearAlbumPhotos: T.func.isRequired,
     toggleConsultingPostedPhoto: T.func.isRequired,
     cancelParticipation: T.func.isRequired,
     noticedCancelNotice: T.func.isRequired,

@@ -209,18 +209,22 @@ const requestFbAlbums = () => {
 }
 export const getFbAlbums = () => {
     return (dispatch, getState) => {
-        const accessToken = getState().user.data.token
-        dispatch(requestFbAlbums())
-        facebookLoader.getMyAlbums(
-            accessToken,
-            (response) => {
-                if (response.error) {
-                    dispatch(recieveError(response.error.message));
-                } else {
-                    dispatch(receiveFbAlbums(response));
-                }
-            }
-        );
+        if ( getState().user.albums.length > 0 ) {
+          dispatch(receiveFbAlbums({data: getState().user.albums}));
+        } else{
+          const accessToken = getState().user.data.token
+          dispatch(requestFbAlbums())
+          facebookLoader.getMyAlbums(
+              accessToken,
+              (response) => {
+                  if (response.error) {
+                      dispatch(recieveError(response.error.message));
+                  } else {
+                      dispatch(receiveFbAlbums(response));
+                  }
+              }
+          );
+        }
     }
 }
 
@@ -240,19 +244,24 @@ const requestFbAlbumPhotos = () => {
 }
 export const getFbAlbumPhotos = (album_id) => {
     return (dispatch, getState) => {
-        const accessToken = getState().user.data.token
-        dispatch(requestFbAlbums())
-        facebookLoader.getAlbumPhotos(
-            accessToken,
-            album_id,
-            (response) => {
-                if (response.error) {
-                    dispatch(recieveError(response.error.message));
-                } else {
-                    dispatch(receiveFbAlbumPhotos({response, album_id}));
-                }
-            }
-        );
+      const aimedAlbum = getState().user.albums.filter( alb => alb.id === album_id );
+        if ( aimedAlbum[0] && aimedAlbum[0].photos ) {
+          dispatch(receiveFbAlbumPhotos({response: { ...aimedAlbum[0], data: aimedAlbum[0].photos, paging:{next:aimedAlbum[0].next} }, album_id}));
+        } else {
+          const accessToken = getState().user.data.token
+          dispatch(requestFbAlbumPhotos())
+          facebookLoader.getAlbumPhotos(
+              accessToken,
+              album_id,
+              (response) => {
+                  if (response.error) {
+                      dispatch(recieveError(response.error.message));
+                  } else {
+                      dispatch(receiveFbAlbumPhotos({response, album_id}));
+                  }
+              }
+          );
+        }
     }
 }
 
@@ -262,7 +271,7 @@ const receiveMoreFbAlbumPhotos = ({response, album_id}) => {
         isFetching: false,
         album_id,
         photos: response.data,
-        morePhotosLink: response.paging.next || false
+        next: response.paging.next || false
     }
 }
 const requestMoreFbAlbumPhotos = () => {
@@ -285,10 +294,4 @@ export const getMoreFbAlbumPhotos = (link, album_id) => {
             }
         )
     }
-}
-
-export const clearAlbumPhotos = () => {
-  return {
-    type: actionTypes.CLEAR_ALL_ALBUM_PHOTOS
-  };
 }

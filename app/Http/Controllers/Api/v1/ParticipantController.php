@@ -6,12 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Participant;
+use App\Contest;
 
 class ParticipantController extends Controller
 {
-
-    public function __construct(){
-    }
     /**
     * Display a listing of the resource.
     *
@@ -46,18 +44,20 @@ class ParticipantController extends Controller
       $msg = "requires number";
       if ( ctype_digit($photo_id) ) {
         $photo_id = (int) $photo_id;
-        if ( app('App\Http\Controllers\Api\v1\ContestController')->currentlyActive() ) {
-         $currentContest = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\ContestController')->getCurrent());
-         $currentUser = $this->tryJsonDecode(app('App\Http\Controllers\Api\v1\AuthController')->getMe());
+        if ( Contest::currentlyActive() ) {
+         $currentContest = Contest::getCurrent();
+         $currentUser = Auth::getCurrent();
          if ( !!$currentContest && !!$currentUser ) {
-           if ( !ParticipantController::isUserPlayingContest($currentUser->user->id, $currentContest->contest->id) ) {
+           $currentContest = $currentContest->getAttributes();
+           $currentUser = $currentUser->getAttributes();
+           if ( !Participant::isUserPlayingContest($currentUser['id'], $currentContest['id']) ) {
             $fb = new \App\Facebook();
-            $photoArr = $fb->getPhotoById($photo_id, $currentUser->user->token);
-            if ( !!$photoArr && $photoArr['from']['id'] == $currentUser->user->fb_id ) {
+            $photoArr = $fb->getPhotoById($photo_id, $currentUser['token']);
+            if ( !!$photoArr && $photoArr['from']['id'] == $currentUser['fb_id'] ) {
               $source = $photoArr['webp_images'][0]['source'];
               $participant = new Participant();
-              $participant->setIdUser($currentUser->user->id);
-              $participant->setIdContest($currentContest->contest->id);
+              $participant->setIdUser($currentUser['id']);
+              $participant->setIdContest($currentContest['id']);
               $participant->setIdPhoto($photo_id);
               $participant->setSource($source);
               $participant->setHasVoted('0');
@@ -68,8 +68,8 @@ class ParticipantController extends Controller
                     'added' => true,
                     'photo_id' => $photo_id,
                     'source' => $source,
-                    'user_fbid' => $currentUser->user->fb_id,
-                    'current_contest_id' => $currentContest->contest->id,
+                    'user_fbid' => $currentUser['fb_id'],
+                    'current_contest_id' => $currentContest['id'],
                     'photo_votes' => 0
                 ]);
               } else {
@@ -81,7 +81,7 @@ class ParticipantController extends Controller
           }
          }
        } else {
-         $msg = "aucun concours actif";
+         $msg = "Aucun concours actif";
        }
       }
       return response()->json([
@@ -133,12 +133,11 @@ class ParticipantController extends Controller
     */
     public function destroyByIdUserAndIdContest(Request $request)
     {
-      $user = Auth::user();
-      if ( $user !== null && !empty($user) ) {
+      $user = Auth::getCurrent();
+      if ( !!$user ) {
         $uId = $request->input('user_id');
         $cId = $request->input('contest_id');
-        $user = app('App\Http\Controllers\Api\v1\AuthController')->getMe()->getData()->user;
-        $contest = app('App\Http\Controllers\Api\v1\ContestController')->getCurrent()->getData()->contest;
+        $contest = Contest::getCurrent();
         if ( !ctype_digit($uId) || !ctype_digit($cId) ) {
           $uId = $user->id;
           $cId = $contest->id;
@@ -202,25 +201,6 @@ class ParticipantController extends Controller
         return response()->json([
             'participant' => $participant
         ]);
-    }
-
-    /**
-    * Know if user is in tournament
-    *
-    * @return Response
-    */
-    public static function isUserPlayingContest($iduser, $idcontest)
-    {
-        $participant = Participant::
-            where('id_user', $iduser)
-            ->where('id_contest', $idcontest)
-            ->whereNotNull('id_fb_photo')
-            ->get();
-        if(!empty($participant->toArray())){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
     }
 
     /**

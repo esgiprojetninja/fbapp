@@ -9,7 +9,7 @@ export const toggleSubmitPhotoModal = () => {
     };
 };
 
-const receiveNotAddedPhotoContest = ({added, msg}) => {
+const receiveNotAddedPhotoContest = ({msg}) => {
   return {
     type: types.RECEIVE_NOT_ADD_PHOTO_TO_CURRENT_CONTEST,
     addPhotoToContestError: msg || "Erreur inconnue lors de l'ajout de votre photo au concours"

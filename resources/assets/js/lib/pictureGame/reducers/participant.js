@@ -24,9 +24,9 @@ const participant = (state = initialSate, action) => {
         isFetching: true
       };
     case pTypes.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST:
-      state.currentContest.push({photo_id: action.photo_id, source: action.source, user_fbid: action.user_fbid, photo_votes: action.photo_votes});
       return {
         ...state,
+        currentContest: state.currentContest.concat([{photo_id: action.photo_id, source: action.source, user_fbid: action.user_fbid, photo_votes: action.photo_votes}]),
         photoSucessfullyAdded: true,
         modalOpen: false,
         isFetching: false
@@ -65,9 +65,9 @@ const participant = (state = initialSate, action) => {
         participationCancelled: "failed"
       }
     case pTypes.RECEIVED_PARTICIPATION_CANCELLING:
-      state.currentContest = state.currentContest.filter( par => par.user_fbid != action.user_fbid );
       return {
         ...state,
+        currentContest: state.currentContest.filter( par => par.user_fbid != action.user_fbid ),
         consultingPostedPhoto: false,
         deletingParticipationOngoing: false,
         participationCancelled: "success"

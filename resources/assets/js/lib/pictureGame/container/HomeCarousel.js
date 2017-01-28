@@ -5,8 +5,7 @@ import {
     getFbAlbums,
     getFbAlbumCover,
     getFbAlbumPhotos,
-    getMoreFbAlbumPhotos,
-    clearAlbumPhotos
+    getMoreFbAlbumPhotos
 } from "../actions/userActions";
 import {
     getCurrentContest
@@ -50,9 +49,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         userNoticedRegistrationInContest: () => {
           dispatch(userNoticedRegistrationInContest());
-        },
-        clearAlbumPhotos: () => {
-          dispatch(clearAlbumPhotos());
         },
         toggleConsultingPostedPhoto: () => {
           dispatch(toggleConsultingPostedPhoto());
