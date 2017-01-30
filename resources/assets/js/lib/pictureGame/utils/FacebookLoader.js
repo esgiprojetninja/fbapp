@@ -7,6 +7,12 @@ export default class FacebookLoader {
             "public_profile",
             "email"
         ];
+        this.playerScope = [
+            "user_photos", 
+            "publish_actions"
+        ];
+        this.checkPermissions = this.checkPermissions.bind(this);
+        this.setPlayerScope = this.setPlayerScope.bind(this);
     }
 
     initFbScript() {
@@ -59,14 +65,17 @@ export default class FacebookLoader {
     }
 
     setPlayerScope (player = false) {
-        if(this.scope.length < 4 && player) {
-            this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        if( player ) {
+            if ( this.scope.filter( curScope => this.playerScope.indexOf(curScope) > -1 ).length !== this.playerScope.length ){
+                this.scope = this.scope.concat(this.playerScope);
+            }
         } else {
             this.scope = [
                 "public_profile",
                 "email"
             ];
         }
+        this.scope = this.scope.filter( (item, pos) => this.scope.indexOf(item) == pos);
     }
 
     login(callback) {
@@ -98,5 +107,67 @@ export default class FacebookLoader {
             {access_token: access_token},
             callback
         ));
+    }
+
+    getMyAlbums (access_token, callback) {
+        const url = "/me/albums";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            (response) => {
+                if (response.error) {
+                    callback(response)
+                } else {
+                    const formatedAlbums = [];
+                    const albumsToTreat = response.data.length;
+                    let albumsTreated = 0;
+                    const finalCallBack = (albumCoverData) => {
+                        const treatedAlbum = response.data.filter( (a) => a.id === albumCoverData.albId )[0];
+                        if ( !albumCoverData.res.hasOwnProperty("error") ) {
+                            treatedAlbum.cover = albumCoverData.res.data;
+                        }
+                        formatedAlbums.push(treatedAlbum);
+                        albumsTreated++;
+                        if ( albumsTreated === albumsToTreat ) {
+                            response.data = formatedAlbums;
+                            callback(response)
+                        }
+                    }
+                    response.data.map( (alb, key) => {
+                        this._getAlbumCover(access_token, alb.id)
+                        .then((albCoverResponse)=>finalCallBack(albCoverResponse))
+                    });
+                }
+            },
+            {access_token: access_token}
+        ));
+    }
+
+    getAlbumPhotos(access_token, album_id, callback) {
+        const url = "/"+album_id+"/photos?fields=id,source,reactions,created_time&limit=4";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            {access_token: access_token},
+            callback
+        ));
+    }
+
+    getMoreAlbumPhotos(link, callback) {
+        const url = link;
+        return this.initFbScript().then(() => FB.api(
+            url,
+            callback
+        ));
+    }
+
+    /* No direct access to this method, it is "private" */
+    _getAlbumCover (access_token, album_id) {
+        return new Promise ((resolve, reject) => {
+            const url = "/"+ album_id +"/picture";
+            this.initFbScript().then(() => FB.api(
+                url,
+                (res) => {resolve({res, albId: album_id})},
+                {access_token: access_token}
+            ));
+        });
     }
 }

@@ -19,6 +19,7 @@ class CreateParticipantsTable extends Migration
             $table->integer('id_contest');
             $table->integer('id_user')->unsigned();
             $table->string('id_fb_photo');
+            $table->string('fb_source');
             $table->boolean('has_voted')->default(false);
             $table->integer('nb_votes')->default(0);
             $table->boolean('accepted_cgu');

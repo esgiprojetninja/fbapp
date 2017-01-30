@@ -23,7 +23,6 @@ class AuthController extends Controller
                 'email', 'public_profile'
                 ])->redirect();
     }
-
     /**
     * Obtain the user information from Facebook.
     *
@@ -59,5 +58,4 @@ class AuthController extends Controller
                 'email', 'public_profile','user_photos'
                 ])->redirect();
     }
-
 }

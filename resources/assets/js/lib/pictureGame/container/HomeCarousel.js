@@ -2,14 +2,21 @@ import {connect} from "react-redux";
 import {
     getPhotoScope,
     getCurrentPhotoPermissions,
-    getFbPhotos,
-    resetPhotos
+    getFbAlbums,
+    getFbAlbumCover,
+    getFbAlbumPhotos,
+    getMoreFbAlbumPhotos
 } from "../actions/userActions";
 import {
     getCurrentContest
 } from "../actions/contestActions";
 import {
-    toggleSubmitPhotoModal
+    toggleSubmitPhotoModal,
+    addPhotoToCurrentContest,
+    userNoticedRegistrationInContest,
+    toggleConsultingPostedPhoto,
+    cancelParticipation,
+    noticedCancelNotice
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -28,11 +35,29 @@ const mapDispatchToProps = (dispatch) => {
         toggleSubmitPhotoModal: () => {
             dispatch(toggleSubmitPhotoModal());
         },
-        getFbPhotos: (link) => {
-            dispatch(getFbPhotos(link));
+        getFbAlbums: () => {
+            dispatch(getFbAlbums())
         },
-        refreshPhotos: () => {
-            dispatch(resetPhotos());
+        getFbAlbumPhotos: (album_id) => {
+            dispatch(getFbAlbumPhotos(album_id))
+        },
+        loadMoreFbAlbumPhotos: (link, album_id) => {
+            dispatch(getMoreFbAlbumPhotos(link, album_id))
+        },
+        proposePhotoForContest: (photo_id) => {
+          dispatch(addPhotoToCurrentContest(photo_id))
+        },
+        userNoticedRegistrationInContest: () => {
+          dispatch(userNoticedRegistrationInContest());
+        },
+        toggleConsultingPostedPhoto: () => {
+          dispatch(toggleConsultingPostedPhoto());
+        },
+        cancelParticipation: () => {
+          dispatch(cancelParticipation())
+        },
+        noticedCancelNotice: () => {
+          dispatch(noticedCancelNotice())
         }
     };
 }

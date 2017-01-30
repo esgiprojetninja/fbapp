@@ -27,6 +27,8 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
     Route::get('/auth/isAdmin/', 'Api\v1\AuthController@isAdmin');
+    Route::put('/participants/{id}/add', 'Api\v1\ParticipantController@store');
+    Route::post('/participants/deleteFromCurrent', 'Api\v1\ParticipantController@destroyByIdUserAndIdContest');
 });
 
 // Admin API routes
