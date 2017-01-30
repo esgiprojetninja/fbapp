@@ -155,14 +155,6 @@ export default class HomeCarousel extends React.PureComponent {
       this.props.loadMoreFbAlbumPhotos(nextLink, album_id);
     }
 
-    albumClickHandler (album) {
-      this.props.getFbAlbumPhotos(album.id);
-    }
-
-    albumPhotoChosenAction (photo_id) {
-    this.props.proposePhotoForContest(photo_id);
-    }
-
     renderOldAlbumPhoto (photo, key) {
       const titleStyle = {
           display: "flex",
@@ -346,7 +338,7 @@ export default class HomeCarousel extends React.PureComponent {
                     gridRootStyle={this.styles.gridRoot}
                     album={openedAlbum}
                     loadMorePhotos={this.loadMorePhotos}
-                    photoClicked={this.handleClick}
+                    photoClicked={this.props.proposePhotoForContest}
                 />
             );
         }
@@ -354,6 +346,8 @@ export default class HomeCarousel extends React.PureComponent {
             return (
                 <UserAlbums
                     isFetching={this.props.user.isFetching}
+                    albums={this.props.user.albums}
+                    photoClicked={this.props.getFbAlbumPhotos}
                 />
             );
         }

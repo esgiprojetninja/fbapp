@@ -1,24 +1,34 @@
 import React, {PropTypes as T} from "react";
+import IconButton from 'material-ui/IconButton';
+import LocationSearch from 'material-ui/svg-icons/device/location-searching';
+
+import {uiDateFormater} from "../utils/DateParser";
 
 import {GridTile} from "material-ui/GridList";
 
-return default class UserAlbumPhoto extends React.PureComponent {
+export default class UserAlbumPhoto extends React.PureComponent {
     render () {
         const imgSrc = this.props.picUrl || "homeCarouselHr.png";
         const imgStyle = {
             height: "auto",
             maxWidth: "100%"
-        }
+        };
         return (
             <GridTile
                 title={this.props.title}
-                subtitle={<span><b>{this.props.dateCreated}</b></span>}
+                subtitle={
+                    <span>
+                        <b>
+                            {uiDateFormater(this.props.dateCreated)}
+                        </b>
+                    </span>
+                }
                 actionIcon={
                     <IconButton
                         tooltip="Montrer album"
                         touch={true}
                         tooltipPosition="top-left"
-                        onClick={this.handleClick}
+                        onClick={this.handleClick.bind(this)}
                         children={<LocationSearch color="white"/>}
                     />
                 }
@@ -29,15 +39,15 @@ return default class UserAlbumPhoto extends React.PureComponent {
         );
     }
 
-    this.handleClick() {
-        this.props.photoClicked(this.props.id);
+    handleClick (id) {
+        this.props.photoClicked(this.props.photoId);
     }
 }
 
 UserAlbumPhoto.propTypes = {
     album: T.object.isRequired,
-    key: T.number.isRequired,
     photoClicked: T.func.isRequired,
-    imgStyle: T.object.isRequired,
-    dateCreated: T.date.isRequired
+    dateCreated: T.string.isRequired,
+    picUrl: T.string.isRequired,
+    title: T.string.isRequired
 };

@@ -3,6 +3,7 @@ import React, {PropTypes as T} from "react";
 import {GridList} from "material-ui/GridList";
 
 import Spinner from "./Spinner";
+import UserAlbumPhoto from "./UserAlbumPhoto";
 
 export default class UserAlbums extends React.PureComponent {
     render () {
@@ -12,15 +13,24 @@ export default class UserAlbums extends React.PureComponent {
             justifyContent: 'space-around'
         }
         if( this.props.isFetching ) {
-            return <Spinner />
+            return <Spinner />;
         } else if (this.props.albums.length > 0) {
-            this.changeDialogTitle("Vos albums");
             return (
                 <div style={style.gridRoot}>
                     <GridList >
-                        {this.props.albums.map((album, key) => (
-                            this.renderAlbum(album, key)
-                        ))}
+                        {this.props.albums.map((album, key) => {
+                            return (
+                                <UserAlbumPhoto
+                                    key={key}
+                                    album={album}
+                                    photoClicked={this.props.photoClicked}
+                                    dateCreated={album.created_time}
+                                    picUrl={album.cover.url}
+                                    title={album.name}
+                                    photoId={album.id}
+                                />
+                            );
+                        })}
                     </GridList>
                 </div>
             )
@@ -30,5 +40,6 @@ export default class UserAlbums extends React.PureComponent {
 
 UserAlbums.propTypes = {
     isFetching: T.bool.isRequired,
+    photoClicked: T.func.isRequired,
     albums: T.arrayOf(T.object).isRequired
 };

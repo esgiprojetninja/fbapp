@@ -39,4 +39,8 @@ class Contest extends Model
     public function getId() {
         return $this->id;
     }
+
+    public static function getCurrent () {
+        return Contest::where('state', '1')->get()->first();
+    }
 }

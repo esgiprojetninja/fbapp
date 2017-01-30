@@ -8,7 +8,7 @@ export default class FacebookLoader {
             "email"
         ];
         this.playerScope = [
-            "user_photos", 
+            "user_photos",
             "publish_actions"
         ];
         this.checkPermissions = this.checkPermissions.bind(this);
