@@ -225,9 +225,7 @@ export default class HomeCarousel extends React.PureComponent {
       }
       // HAHA, ANGRY, SAD, LOVE, LIKE
       const imgSrc = photo.source || "homeCarouselHr.png";
-      // console.debug("about to render photo: ", photo);
       const {like, love, sad, angry, haha} = this.getSeparatePhotoReactions(photo);
-      console.debug("buya: ",like, love, sad, angry, haha);
       return (
           <GridTile
               key={key}
@@ -352,7 +350,6 @@ export default class HomeCarousel extends React.PureComponent {
 
   renderPostedPictureModal(title, msg, leaveAction = false){
     const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
-    console.debug("UI: trying to display postedpicturemodal", leaveAct)
     const actions = [
       <FlatButton
         label="Ok"
@@ -411,32 +408,26 @@ export default class HomeCarousel extends React.PureComponent {
 
   renderModal () {
     if ( this.props.participant.photoSucessfullyAdded ) {
-      console.debug("UI: photo added ")
       return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
     } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
-      console.debug("UI: error photo not added ")
       return this.renderPostedPictureModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
     }
     // Simply consulting current contest photo
     else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && !this.props.participant.participationCancelled ) {
-      console.debug("UI: displaying my photo ")
       return this.renderParticipantModal();
     }
     // Requesting participation cancelling
     else if ( !this.props.participant.consultingPostedPhoto && this.props.participant.deletingParticipationOngoing &&
     !this.props.participant.participationCancelled  ) {
-      console.debug("UI: requesting participation cancelling")
       return this.renderParticipantModal(true);
     }
     // Participation cancelling didn't work
     else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "failed" ) {
-      console.debug("UI: participation cancelling FAILED")
       return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
     }
     // Participation cancelling was a success
     else if ( !this.props.participant.consultingPostedPhoto &&
       !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "success" ) {
-        console.debug("UI: participation cancelling SUCCESS")
         return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
     } else {
       const actions = [

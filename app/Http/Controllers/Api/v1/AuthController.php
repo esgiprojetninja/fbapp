@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function getMe()
     {
       return response()->json([
-          'user' => Auth::getCurrent()
+          'user' => Auth::user()
       ]);
     }
 
@@ -27,7 +27,7 @@ class AuthController extends Controller
 
     public static function isAdmin()
     {
-      $user = Auth::getCurrent();
+      $user = Auth::user();
       if ( !!$user ) {
         $fb =  new \App\Facebook();
         $isAdmin = $fb->getAppRoles();

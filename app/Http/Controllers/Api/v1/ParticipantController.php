@@ -46,7 +46,7 @@ class ParticipantController extends Controller
         $photo_id = (int) $photo_id;
         if ( Contest::currentlyActive() ) {
          $currentContest = Contest::getCurrent();
-         $currentUser = Auth::getCurrent();
+         $currentUser = Auth::user();
          if ( !!$currentContest && !!$currentUser ) {
            $currentContest = $currentContest->getAttributes();
            $currentUser = $currentUser->getAttributes();
@@ -133,7 +133,7 @@ class ParticipantController extends Controller
     */
     public function destroyByIdUserAndIdContest(Request $request)
     {
-      $user = Auth::getCurrent();
+      $user = Auth::user();
       if ( !!$user ) {
         $uId = $request->input('user_id');
         $cId = $request->input('contest_id');
