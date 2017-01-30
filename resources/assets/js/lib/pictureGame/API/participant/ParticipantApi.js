@@ -8,7 +8,7 @@ export default class ParticipantApi {
     getInContest (id, callback) {
         return $.ajax({
             method: "GET",
-            url: this.apiBaseUrl+"getInContest",
+            url: this.apiBaseUrl + "getInContest",
             data: {id: parseInt(id)}
         }).done(response => {
             callback(response);
@@ -18,7 +18,7 @@ export default class ParticipantApi {
     store(photo_id, callback) {
         return $.ajax({
             method: "PUT",
-            url: this.apiBaseUrl+photo_id+"/add"
+            url: this.apiBaseUrl + photo_id + "/add"
         }).done(response => {
             callback(response);
         });

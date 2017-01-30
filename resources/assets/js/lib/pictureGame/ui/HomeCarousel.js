@@ -24,9 +24,6 @@ import Happy from 'material-ui/svg-icons/social/mood';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
-
-// TODO: sometimes img can't load
-
 export default class HomeCarousel extends React.PureComponent {
 
   constructor () {
@@ -97,13 +94,13 @@ export default class HomeCarousel extends React.PureComponent {
   }
 
   getUserContestPhoto () {
-    let i;
-    for (i = 0; i < this.props.participant.currentContest.length; i++) {
-      const part = this.props.participant.currentContest[i];
-      if ( part.user_fbid == this.props.user.data.fb_id ) {
-        return {...part};
-      }
-    }
+    // let i;
+    // for (i = 0; i < this.props.contest.currentContest.length; i++) {
+    //   const part = this.props.participant.currentContest[i];
+    //   if ( part.user_fbid == this.props.user.data.fb_id ) {
+    //     return {...part};
+    //   }
+    // }
     return false;
   }
 
@@ -366,44 +363,6 @@ export default class HomeCarousel extends React.PureComponent {
         autoScrollBodyContent={true}
         onRequestClose={leaveAct}
       >{msg}</Dialog>);
-  }
-
-  renderParticipantModal (requestingCancel = false) {
-    const actions = (requestingCancel) ? [] : [
-      <FlatButton
-        label="Retirer ma photo"
-        primary={true}
-        onTouchTap={this.cancelParticipation.bind(this)}
-      />,
-      <FlatButton
-        label="Quitter"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.props.toggleConsultingPostedPhoto}
-      />
-    ];
-    const imgRender = (requestingCancel) ? this.renderSpinner.bind(this) : () => (<img src={currentPhoto.source} />);
-    const currentPhoto = this.getUserContestPhoto();
-    return (
-      <Dialog
-        title={<h3>Votre photo-participation</h3>}
-        actions={actions}
-        modal={false}
-        open={this.props.participant.consultingPostedPhoto}
-        autoScrollBodyContent={true}
-        onRequestClose={this.props.toggleConsultingPostedPhoto}
-        className="fbapp-pardonmaman-modal-participate-post"
-      >
-        <GridList cols={1}>
-          <GridTile
-            key={0}
-            cols={1}
-            children={imgRender()}
-            >
-            </GridTile>
-        </GridList>
-      </Dialog>
-    );
   }
 
   renderModal () {

@@ -208,11 +208,12 @@ class ParticipantController extends Controller
     *
     * @return Response
     */
-    public function photoByContest($idContest)
+    public function getParticipantsByContest($idContest)
     {
-        $photos = Participant::where('id_contest', $idContest)->get()->pluck('id_fb_photo');
+        $currentContest = Contest::where('state', 1)->get();
+        $participants = Participant::where('id_contest', $idContest)->get();
         return response()->json([
-            'photos' => $photos
+            'participants' => $participants
         ]);
     }
 }
