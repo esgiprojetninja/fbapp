@@ -24,6 +24,11 @@ import Happy from 'material-ui/svg-icons/social/mood';
 import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
+import ParticipantModal from "./ParticipantModal";
+import Spinner from "./Spinner";
+import UserAlbums from "./UserAlbums";
+import UserAlbum from "./UserAlbum";
+
 export default class HomeCarousel extends React.PureComponent {
 
     constructor () {
@@ -41,15 +46,6 @@ export default class HomeCarousel extends React.PureComponent {
           gridTile: {
               width: 66,
               height: 100
-          },
-          spinerContainer: {
-              position: "relative",
-              width: "40px",
-              margin: "0 auto"
-          },
-          spinerRefresh: {
-              display: "inline-block",
-              position: "relative",
           },
           hr: {
               width: "100%",
@@ -80,8 +76,7 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     getDeployedAlbum () {
-      const activeAlbum = this.props.user.albums.filter( album => album.opened === true );
-      return (activeAlbum.length === 1) ? activeAlbum[0] : false;
+        return this.props.user.albums.find(album => album.opened);
     }
 
     addIfInferior (num) {
@@ -94,9 +89,12 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     getUserParticipant () {
-        return this.props.contest.currentContest.participants.find(participant => {
-            this.props.user.data.id === participant.user_id;
-        });
+        if (this.props.contest.currentContest) {
+            return this.props.contest.currentContest.participants.find(participant => {
+                return this.props.user.data.id === participant.id_user;
+            });
+        }
+        return undefined;
     }
 
     getSeparatePhotoReactions (photo) {
@@ -149,40 +147,8 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     cancelParticipation () {
-    this.props.toggleConsultingPostedPhoto();
-    this.props.cancelParticipation();
-    }
-
-    renderSpinner () {
-      return (
-          <div style={this.styles.spinerContainer}>
-              <RefreshIndicator
-                  size={40}
-                  left={10}
-                  top={40}
-                  status="loading"
-                  style={this.styles.spinerRefresh}
-              />
-          </div>
-      );
-    }
-
-    renderMoreAlbumPhotosLoader (album) {
-      if ( album.next ) {
-          const style = {marginTop: "12px"}
-          return (
-              <div className="display-flex-row full-width" style={style}>
-                  <FlatButton
-                      label="Charger plus de photos"
-                      primary={true}
-                      onTouchTap={function(e){this.loadMorePhotos(album.next, album.id)}.bind(this)}
-                      icon={<AutoNew />}
-                  />
-              </div>
-          );
-      } else {
-          return (<div></div>)
-      }
+        this.props.toggleConsultingPostedPhoto();
+        this.props.cancelParticipation();
     }
 
     loadMorePhotos (nextLink, album_id) {
@@ -287,59 +253,6 @@ export default class HomeCarousel extends React.PureComponent {
       )
     }
 
-    renderDisplaidAlbum (album) {
-      this.changeDialogTitle(album.name);
-      return (
-          <div style={this.styles.gridRoot}>
-              <GridList
-                  cols={2}
-                  children={album.photos.map((photo, key) => (
-                      this.renderAlbumPhoto(photo, key)
-                  ))}
-              >
-              </GridList>
-              {this.renderMoreAlbumPhotosLoader(album)}
-          </div>
-      )
-    }
-
-    renderAlbum (album, key) {
-      // In case api didn't return a sourceUrl
-      const imgSrc = album.cover.url || "homeCarouselHr.png";
-      return (
-          <GridTile
-              key={key}
-              title={album.name}
-              subtitle={<span>Album créé le <b>{this.uiDateFormater(album.created_time)}</b></span>}
-              actionIcon={
-                  <IconButton tooltip="Montrer album" touch={true} tooltipPosition="top-left" onClick={function(e){this.albumClickHandler(album)}.bind(this)}
-                      children={<LocationSearch color="white"/>}
-                  />
-              }
-              actionPosition="right"
-              >
-              <img style={this.styles.imgStyle} src={imgSrc} />
-          </GridTile>
-      )
-    }
-
-    renderAlbums () {
-      if( this.props.user.isFetching ) {
-          return this.renderSpinner();
-      } else if (this.props.user.albums.length > 0) {
-          this.changeDialogTitle("Vos albums");
-          return (
-              <div style={this.styles.gridRoot}>
-                  <GridList >
-                      {this.props.user.albums.map((album, key) => (
-                          this.renderAlbum(album, key)
-                      ))}
-                  </GridList>
-              </div>
-          )
-      }
-    }
-
     renderPostedPictureModal(title, msg, leaveAction = false){
     const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
     const actions = [
@@ -361,76 +274,116 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderModal () {
-    if ( this.props.participant.photoSucessfullyAdded ) {
-      return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
-    } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
-      return this.renderPostedPictureModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
+        if ( this.props.participant.photoSucessfullyAdded ) {
+          return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
+        } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
+          return this.renderPostedPictureModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
+        }
+        // Simply consulting current contest photo
+        else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing &&       !this.props.participant.participationCancelled ) {
+            return (
+                <ParticipantModal
+                    cancelParticipation={this.props.cancelParticipation}
+                    toggleConsultingPostedPhoto={this.props.toggleConsultingPostedPhoto}
+                    currentParticipant={this.getUserParticipant()}
+                    participant={this.props.participant}
+                />
+            );
+        }
+        // Requesting participation cancelling
+        else if ( !this.props.participant.consultingPostedPhoto && this.props.participant.deletingParticipationOngoing &&
+        !this.props.participant.participationCancelled  ) {
+            return (
+                <ParticipantModal
+                    cancelParticipation={this.props.cancelParticipation}
+                    toggleConsultingPostedPhoto={this.props.toggleConsultingPostedPhoto}
+                    currentParticipant={this.getUserParticipant()}
+                    participant={this.props.participant}
+                />
+            );
+        }
+        // Participation cancelling didn't work
+        else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "failed" ) {
+          return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
+        }
+        // Participation cancelling was a success
+        else if ( !this.props.participant.consultingPostedPhoto &&
+          !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "success" ) {
+            return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
+        } else {
+          const actions = [
+            <FlatButton
+              label="Annuler"
+              primary={true}
+              keyboardFocused={true}
+              onTouchTap={this.props.toggleSubmitPhotoModal}
+            />
+          ];
+          return (
+            <Dialog
+              title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
+              actions={actions}
+              modal={false}
+              open={this.props.participant.modalOpen}
+              autoScrollBodyContent={true}
+              onRequestClose={this.props.toggleSubmitPhotoModal}
+              className="fbapp-pardonmaman-modal-participate-post"
+            >
+              {this.renderModalGrid()}
+            </Dialog>
+          );
+        }
     }
-    // Simply consulting current contest photo
-    else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && !this.props.participant.participationCancelled ) {
-      return this.renderParticipantModal();
-    }
-    // Requesting participation cancelling
-    else if ( !this.props.participant.consultingPostedPhoto && this.props.participant.deletingParticipationOngoing &&
-    !this.props.participant.participationCancelled  ) {
-      return this.renderParticipantModal(true);
-    }
-    // Participation cancelling didn't work
-    else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "failed" ) {
-      return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
-    }
-    // Participation cancelling was a success
-    else if ( !this.props.participant.consultingPostedPhoto &&
-      !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "success" ) {
-        return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
-    } else {
-      const actions = [
-        <FlatButton
-          label="Annuler"
-          primary={true}
-          keyboardFocused={true}
-          onTouchTap={this.props.toggleSubmitPhotoModal}
-        />
-      ];
-      const curAlbum = this.getDeployedAlbum();
-      const uiToRender = ( this.props.participant.isFetching ) ? this.renderSpinner.bind(this) : ( curAlbum === false ) ? this.renderAlbums.bind(this) : this.renderDisplaidAlbum.bind(this);
-      return (
-        <Dialog
-          title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
-          actions={actions}
-          modal={false}
-          open={this.props.participant.modalOpen}
-          autoScrollBodyContent={true}
-          onRequestClose={this.props.toggleSubmitPhotoModal}
-          className="fbapp-pardonmaman-modal-participate-post"
-        >
-          {uiToRender(curAlbum)}
-        </Dialog>
-      );
-    }
+
+    renderModalGrid () {
+        if (this.props.participant.isFetching) {
+            return <Spinner />;
+        }
+        const openedAlbum = this.getDeployedAlbum();
+        if (openedAlbum) {
+            return (
+                <UserAlbum
+                    gridRootStyle={this.styles.gridRoot}
+                    album={openedAlbum}
+                    loadMorePhotos={this.loadMorePhotos}
+                    photoClicked={this.handleClick}
+                />
+            );
+        }
+        else {
+            return (
+                <UserAlbums
+                    isFetching={this.props.user.isFetching}
+                />
+            );
+        }
     }
 
     renderMainButton () {
-      if ( this.props.user.isConnected ) {
-        return this.getUserParticipant() ?
-          (<RaisedButton
-            label="PARTICIPER AU CONCOURS"
-            labelPosition="before"
-            primary={true}
-            icon={<AddAPhoto />}
-            className="home-carousel-button"
-            onTouchTap={this.playButtonAction.bind(this)}
-          />)
-          :
-          (<RaisedButton
-              label="MA PHOTO EN JEU"
-              labelPosition="before"
-              primary={true}
-              icon={<CameraEnhance />}
-              className="home-carousel-button"
-              onTouchTap={this.props.toggleConsultingPostedPhoto}
-          />);
-      }
+        if ( this.props.user.isConnected ) {
+            if (this.getUserParticipant() === undefined) {
+                return (
+                    <RaisedButton
+                        label="PARTICIPER AU CONCOURS"
+                        labelPosition="before"
+                        primary={true}
+                        icon={<AddAPhoto />}
+                        className="home-carousel-button"
+                        onTouchTap={this.playButtonAction.bind(this)}
+                    />
+                )
+            }
+            return (
+                <RaisedButton
+                    label="MA PHOTO EN JEU"
+                    labelPosition="before"
+                    primary={true}
+                    icon={<CameraEnhance />}
+                    className="home-carousel-button"
+                    onTouchTap={this.props.toggleConsultingPostedPhoto}
+                />
+            );
+        }
     }
 
     render () {
