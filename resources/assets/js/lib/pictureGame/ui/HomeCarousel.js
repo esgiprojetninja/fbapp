@@ -26,7 +26,7 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
 export default class HomeCarousel extends React.PureComponent {
 
-  constructor () {
+    constructor () {
       this.styles = {
           gridRoot: {
               display: 'flex',
@@ -69,42 +69,37 @@ export default class HomeCarousel extends React.PureComponent {
           }
       };
       this.modalTitle = false;
-  }
+    }
 
-  componentWillMount () {
+    componentWillMount () {
       this.props.onReady();
-  }
+    }
 
-  scrollToAnchor (selector) {
+    scrollToAnchor (selector) {
       $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
-  }
+    }
 
-  getDeployedAlbum () {
+    getDeployedAlbum () {
       const activeAlbum = this.props.user.albums.filter( album => album.opened === true );
       return (activeAlbum.length === 1) ? activeAlbum[0] : false;
-  }
+    }
 
-  addIfInferior (num) {
+    addIfInferior (num) {
       return (parseInt(num) < 10) ? "0"+num : num
-  }
+    }
 
-  uiDateFormater (d) {
+    uiDateFormater (d) {
       d = new Date(d.substr(0, 10));
       return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
-  }
+    }
 
-  getUserContestPhoto () {
-    // let i;
-    // for (i = 0; i < this.props.contest.currentContest.length; i++) {
-    //   const part = this.props.participant.currentContest[i];
-    //   if ( part.user_fbid == this.props.user.data.fb_id ) {
-    //     return {...part};
-    //   }
-    // }
-    return false;
-  }
+    getUserParticipant () {
+        return this.props.contest.currentContest.participants.find(participant => {
+            this.props.user.data.id === participant.user_id;
+        });
+    }
 
-  getSeparatePhotoReactions (photo) {
+    getSeparatePhotoReactions (photo) {
       const like = [];
       const love = [];
       const sad = [];
@@ -136,14 +131,14 @@ export default class HomeCarousel extends React.PureComponent {
           }
       }
       return {like, love, sad, angry, haha};
-  }
+    }
 
-  changeDialogTitle (newTitle) {
+    changeDialogTitle (newTitle) {
       if ( this.modalTitle === false ) { this.modalTitle = document.getElementById("choose-picture-modal-title") }
       this.modalTitle.innerHTML = newTitle;
-  }
+    }
 
-  playButtonAction () {
+    playButtonAction () {
     if (this.props.user.photoScopeGranted) {
       this.props.toggleSubmitPhotoModal();
       this.props.getFbAlbums();
@@ -151,14 +146,14 @@ export default class HomeCarousel extends React.PureComponent {
       // Checking for photo access permissions
       this.props.startPlaying()
     }
-  }
+    }
 
-  cancelParticipation () {
+    cancelParticipation () {
     this.props.toggleConsultingPostedPhoto();
     this.props.cancelParticipation();
-  }
+    }
 
-  renderSpinner () {
+    renderSpinner () {
       return (
           <div style={this.styles.spinerContainer}>
               <RefreshIndicator
@@ -170,9 +165,9 @@ export default class HomeCarousel extends React.PureComponent {
               />
           </div>
       );
-  }
+    }
 
-  renderMoreAlbumPhotosLoader (album) {
+    renderMoreAlbumPhotosLoader (album) {
       if ( album.next ) {
           const style = {marginTop: "12px"}
           return (
@@ -188,21 +183,21 @@ export default class HomeCarousel extends React.PureComponent {
       } else {
           return (<div></div>)
       }
-  }
+    }
 
-  loadMorePhotos (nextLink, album_id) {
+    loadMorePhotos (nextLink, album_id) {
       this.props.loadMoreFbAlbumPhotos(nextLink, album_id);
-  }
+    }
 
-  albumClickHandler (album) {
+    albumClickHandler (album) {
       this.props.getFbAlbumPhotos(album.id);
-  }
+    }
 
-  albumPhotoChosenAction (photo_id) {
+    albumPhotoChosenAction (photo_id) {
     this.props.proposePhotoForContest(photo_id);
-  }
+    }
 
-  renderOldAlbumPhoto (photo, key) {
+    renderOldAlbumPhoto (photo, key) {
       const titleStyle = {
           display: "flex",
           alignItems: "center",
@@ -271,9 +266,9 @@ export default class HomeCarousel extends React.PureComponent {
               >
           </GridTile>
       )
-  }
+    }
 
-  renderAlbumPhoto (photo, key, colNumb = 1) {
+    renderAlbumPhoto (photo, key, colNumb = 1) {
       const imgSrc = photo.source || "homeCarouselHr.png";
       return (
           <GridTile
@@ -290,9 +285,9 @@ export default class HomeCarousel extends React.PureComponent {
               >
           </GridTile>
       )
-  }
+    }
 
-  renderDisplaidAlbum (album) {
+    renderDisplaidAlbum (album) {
       this.changeDialogTitle(album.name);
       return (
           <div style={this.styles.gridRoot}>
@@ -306,9 +301,9 @@ export default class HomeCarousel extends React.PureComponent {
               {this.renderMoreAlbumPhotosLoader(album)}
           </div>
       )
-  }
+    }
 
-  renderAlbum (album, key) {
+    renderAlbum (album, key) {
       // In case api didn't return a sourceUrl
       const imgSrc = album.cover.url || "homeCarouselHr.png";
       return (
@@ -326,9 +321,9 @@ export default class HomeCarousel extends React.PureComponent {
               <img style={this.styles.imgStyle} src={imgSrc} />
           </GridTile>
       )
-  }
+    }
 
-  renderAlbums () {
+    renderAlbums () {
       if( this.props.user.isFetching ) {
           return this.renderSpinner();
       } else if (this.props.user.albums.length > 0) {
@@ -343,9 +338,9 @@ export default class HomeCarousel extends React.PureComponent {
               </div>
           )
       }
-  }
+    }
 
-  renderPostedPictureModal(title, msg, leaveAction = false){
+    renderPostedPictureModal(title, msg, leaveAction = false){
     const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
     const actions = [
       <FlatButton
@@ -363,9 +358,9 @@ export default class HomeCarousel extends React.PureComponent {
         autoScrollBodyContent={true}
         onRequestClose={leaveAct}
       >{msg}</Dialog>);
-  }
+    }
 
-  renderModal () {
+    renderModal () {
     if ( this.props.participant.photoSucessfullyAdded ) {
       return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
     } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
@@ -413,11 +408,11 @@ export default class HomeCarousel extends React.PureComponent {
         </Dialog>
       );
     }
-  }
+    }
 
-  renderMainButton () {
+    renderMainButton () {
       if ( this.props.user.isConnected ) {
-        return ( this.getUserContestPhoto() === false ) ?
+        return this.getUserParticipant() ?
           (<RaisedButton
             label="PARTICIPER AU CONCOURS"
             labelPosition="before"
@@ -436,9 +431,9 @@ export default class HomeCarousel extends React.PureComponent {
               onTouchTap={this.props.toggleConsultingPostedPhoto}
           />);
       }
-  }
+    }
 
-  render () {
+    render () {
       const settings = {
           infinite: true,
           speed: 4000,
@@ -474,7 +469,7 @@ export default class HomeCarousel extends React.PureComponent {
               {this.renderModal()}
           </div>
       );
-  }
+    }
 }
 
 HomeCarousel.propTypes = {
