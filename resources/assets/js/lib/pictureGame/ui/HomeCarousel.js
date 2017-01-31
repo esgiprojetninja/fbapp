@@ -60,10 +60,19 @@ export default class HomeCarousel extends React.PureComponent {
           }
       };
       this.modalTitle = false;
+      this.currentParticipant = undefined;
     }
 
     componentWillMount () {
       this.props.onReady();
+    }
+
+    componentWillUpdate () {
+        if (this.props.contest.currentContest) {
+            this.currentParticipant = this.props.contest.currentContest.participants.find(participant => {
+                return this.props.user.data.id === participant.id_user;
+            });
+        }
     }
 
     scrollToAnchor (selector) {
@@ -74,29 +83,13 @@ export default class HomeCarousel extends React.PureComponent {
         return this.props.user.albums.find(album => album.opened);
     }
 
-    getUserParticipant () {
-        if (this.props.contest.currentContest) {
-            return this.props.contest.currentContest.participants.find(participant => {
-                return this.props.user.data.id === participant.id_user;
-            });
-        }
-        return undefined;
-    }
-
-    changeDialogTitle (newTitle) {
-        if ( this.modalTitle === false ) {
-            this.modalTitle = document.getElementById("choose-picture-modal-title")
-        }
-        this.modalTitle.innerHTML = newTitle;
-    }
-
     playButtonAction () {
         if (this.props.user.photoScopeGranted) {
-          this.props.toggleSubmitPhotoModal();
-          this.props.getFbAlbums();
+            this.props.toggleSubmitPhotoModal();
+            this.props.getFbAlbums();
         } else {
-          // Checking for photo access permissions
-          this.props.startPlaying()
+            // Checking for photo access permissions
+            this.props.startPlaying()
         }
     }
 
@@ -106,30 +99,47 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderPostedPictureModal(title, msg, leaveAction = false){
-    const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
-    const actions = [
-      <FlatButton
-        label="Ok"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={leaveAct}
-      />
-    ];
-    return (<Dialog
-        title={<h3>{title}</h3>}
-        actions={actions}
-        modal={false}
-        open={true}
-        autoScrollBodyContent={true}
-        onRequestClose={leaveAct}
-      >{msg}</Dialog>);
+        const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
+        const actions = [
+          <FlatButton
+            label="Ok"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={leaveAct}
+          />
+        ];
+        return (
+            <Dialog
+                title={<h3>{title}</h3>}
+                actions={actions}
+                modal={false}
+                open={true}
+                autoScrollBodyContent={true}
+                onRequestClose={leaveAct}
+            >
+                {msg}
+            </Dialog>
+      );
     }
 
     renderModal () {
+        /**
+         * 1. photo was just added
+         * 2. Error while subitming photo
+         * 3. Checking posted photo
+         * 4. Deleteting photo error
+         * 5. Deleted photo
+         * 6. Check out albums
+         */
         if ( this.props.participant.photoSucessfullyAdded ) {
-          return this.renderPostedPictureModal("Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title);
-        } else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
-          return this.renderPostedPictureModal("Participation non enregistrée !", this.props.participant.addPhotoToContestError);
+          return this.renderPostedPictureModal(
+              "Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title
+          );
+        }
+        else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
+          return this.renderPostedPictureModal(
+              "Participation non enregistrée !", this.props.participant.addPhotoToContestError
+          );
         }
         // Simply consulting current contest photo
         else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing &&       !this.props.participant.participationCancelled ) {
@@ -137,19 +147,7 @@ export default class HomeCarousel extends React.PureComponent {
                 <ParticipantModal
                     cancelParticipation={this.props.cancelParticipation}
                     toggleConsultingPostedPhoto={this.props.toggleConsultingPostedPhoto}
-                    currentParticipant={this.getUserParticipant()}
-                    participant={this.props.participant}
-                />
-            );
-        }
-        // Requesting participation cancelling
-        else if ( !this.props.participant.consultingPostedPhoto && this.props.participant.deletingParticipationOngoing &&
-        !this.props.participant.participationCancelled  ) {
-            return (
-                <ParticipantModal
-                    cancelParticipation={this.props.cancelParticipation}
-                    toggleConsultingPostedPhoto={this.props.toggleConsultingPostedPhoto}
-                    currentParticipant={this.getUserParticipant()}
+                    currentParticipant={this.currentParticipant}
                     participant={this.props.participant}
                 />
             );
@@ -162,7 +160,8 @@ export default class HomeCarousel extends React.PureComponent {
         else if ( !this.props.participant.consultingPostedPhoto &&
           !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "success" ) {
             return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
-        } else {
+        }
+        else {
           const actions = [
             <FlatButton
               label="Annuler"
@@ -215,7 +214,7 @@ export default class HomeCarousel extends React.PureComponent {
 
     renderMainButton () {
         if ( this.props.user.isConnected ) {
-            if (this.getUserParticipant() === undefined) {
+            if (this.currentParticipant === undefined) {
                 return (
                     <RaisedButton
                         label="PARTICIPER AU CONCOURS"

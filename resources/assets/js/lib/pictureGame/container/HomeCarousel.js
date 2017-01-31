@@ -45,19 +45,19 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(getMoreFbAlbumPhotos(link, album_id))
         },
         proposePhotoForContest: (photo_id) => {
-          dispatch(addPhotoToCurrentContest(photo_id))
+            dispatch(addPhotoToCurrentContest(photo_id))
         },
         userNoticedRegistrationInContest: () => {
-          dispatch(userNoticedRegistrationInContest());
+            dispatch(userNoticedRegistrationInContest());
         },
         toggleConsultingPostedPhoto: () => {
-          dispatch(toggleConsultingPostedPhoto());
+            dispatch(toggleConsultingPostedPhoto());
         },
         cancelParticipation: () => {
-          dispatch(cancelParticipation())
+            dispatch(cancelParticipation())
         },
         noticedCancelNotice: () => {
-          dispatch(noticedCancelNotice())
+            dispatch(noticedCancelNotice())
         }
     };
 }
