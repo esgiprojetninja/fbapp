@@ -51,4 +51,14 @@ export default class ParticipantApi {
             callback(response);
         });
     }
+
+    getCurrentParticipant(callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.apiBaseUrl + "current-participant"
+        }).done(response => {
+            console.debug(response);
+            callback(response);
+        });
+    }
 }

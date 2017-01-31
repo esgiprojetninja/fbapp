@@ -60,19 +60,10 @@ export default class HomeCarousel extends React.PureComponent {
           }
       };
       this.modalTitle = false;
-      this.currentParticipant = undefined;
     }
 
     componentWillMount () {
       this.props.onReady();
-    }
-
-    componentWillUpdate () {
-        if (this.props.contest.currentContest) {
-            this.currentParticipant = this.props.contest.currentContest.participants.find(participant => {
-                return this.props.user.data.id === participant.id_user;
-            });
-        }
     }
 
     scrollToAnchor (selector) {
@@ -122,67 +113,59 @@ export default class HomeCarousel extends React.PureComponent {
       );
     }
 
-    renderModal () {
-        /**
-         * 1. photo was just added
-         * 2. Error while subitming photo
-         * 3. Checking posted photo
-         * 4. Deleteting photo error
-         * 5. Deleted photo
-         * 6. Check out albums
-         */
-        if ( this.props.participant.photoSucessfullyAdded ) {
+    renderStatusModal () {
+        if (this.props.participant.photoSucessfullyAdded) {
           return this.renderPostedPictureModal(
               "Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title
           );
         }
-        else if ( !this.props.participant.photoSucessfullyAdded && !!this.props.participant.addPhotoToContestError ) {
+        else if (this.props.participant.addPhotoToContestError) {
           return this.renderPostedPictureModal(
               "Participation non enregistrée !", this.props.participant.addPhotoToContestError
           );
         }
-        // Simply consulting current contest photo
-        else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing &&       !this.props.participant.participationCancelled ) {
+        else if (this.props.participant.participationCancelled) {
+            return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
+        }
+        // Participation cancelling didn't work
+        else if (this.props.participant.participationCancelled === "failed" ) {
+          return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
+        }
+    }
+
+    renderModal () {
+        if (this.props.participant.currentParticipant.id_user) {
             return (
                 <ParticipantModal
                     cancelParticipation={this.props.cancelParticipation}
                     toggleConsultingPostedPhoto={this.props.toggleConsultingPostedPhoto}
-                    currentParticipant={this.currentParticipant}
+                    currentParticipant={this.props.participant.currentParticipant}
                     participant={this.props.participant}
                 />
             );
         }
-        // Participation cancelling didn't work
-        else if ( this.props.participant.consultingPostedPhoto && !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "failed" ) {
-          return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
-        }
-        // Participation cancelling was a success
-        else if ( !this.props.participant.consultingPostedPhoto &&
-          !this.props.participant.deletingParticipationOngoing && this.props.participant.participationCancelled === "success" ) {
-            return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
-        }
         else {
-          const actions = [
-            <FlatButton
-              label="Annuler"
-              primary={true}
-              keyboardFocused={true}
-              onTouchTap={this.props.toggleSubmitPhotoModal}
-            />
-          ];
-          return (
-            <Dialog
-              title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
-              actions={actions}
-              modal={false}
-              open={this.props.participant.modalOpen}
-              autoScrollBodyContent={true}
-              onRequestClose={this.props.toggleSubmitPhotoModal}
-              className="fbapp-pardonmaman-modal-participate-post"
-            >
-              {this.renderModalGrid()}
-            </Dialog>
-          );
+            const actions = [
+                <FlatButton
+                    label="Annuler"
+                    primary={true}
+                    keyboardFocused={true}
+                    onTouchTap={this.props.toggleSubmitPhotoModal}
+                />
+            ];
+            return (
+                <Dialog
+                    title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
+                    actions={actions}
+                    modal={false}
+                    open={this.props.participant.modalOpen}
+                    autoScrollBodyContent={true}
+                    onRequestClose={this.props.toggleSubmitPhotoModal}
+                    className="fbapp-pardonmaman-modal-participate-post"
+                >
+                    {this.renderModalGrid()}
+                </Dialog>
+            );
         }
     }
 
@@ -213,8 +196,8 @@ export default class HomeCarousel extends React.PureComponent {
     }
 
     renderMainButton () {
-        if ( this.props.user.isConnected ) {
-            if (this.currentParticipant === undefined) {
+        if (this.props.user.isConnected) {
+            if (!this.props.participant.currentParticipant.id_user) {
                 return (
                     <RaisedButton
                         label="PARTICIPER AU CONCOURS"
@@ -273,6 +256,7 @@ export default class HomeCarousel extends React.PureComponent {
                   </Slider>
               </div>
               {this.renderModal()}
+              {this.renderStatusModal()}
           </div>
       );
     }

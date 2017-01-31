@@ -16,7 +16,8 @@ import {
     userNoticedRegistrationInContest,
     toggleConsultingPostedPhoto,
     cancelParticipation,
-    noticedCancelNotice
+    noticedCancelNotice,
+    getCurrentParticipant
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onReady: () => {
             dispatch(getCurrentContest());
+            dispatch(getCurrentParticipant());
         },
         startPlaying: () => {
             dispatch(getPhotoScope());

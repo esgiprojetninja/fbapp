@@ -217,4 +217,22 @@ class ParticipantController extends Controller
             'participants' => $participants
         ]);
     }
+
+    /**
+    * Show connected participant.
+    *
+    * @return Response
+    */
+    public function getCurrentParticipant()
+    {
+        $currentContest = Contest::where('state', 1)->get()->first();
+
+        $participant = Participant::where('id_contest', $currentContest->getId())
+                                            ->where('id_user', Auth::user()->id)
+                                            ->get()
+                                            ->first();
+        return response()->json([
+            'participant' => $participant
+        ]);
+    }
 }

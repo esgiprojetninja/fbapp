@@ -124,7 +124,7 @@ class ContestController extends Controller
     public function getCurrent()
     {
         $contest = Contest::where('state', '1')->get()->first();
-        $contest->participants = Participant::where('id_contest', $contest->getId())->get();;
+        $contest->participants = Participant::where('id_contest', $contest->getId())->get();
         return response()->json([
             'contest' => $contest
         ]);
