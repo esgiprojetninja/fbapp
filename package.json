@@ -37,11 +37,12 @@
     "phantomjs-prebuilt": "^2.1.14",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
+    "wdio-cucumber-framework": "^0.2.15",
     "wdio-jasmine-framework": "^0.2.19",
     "wdio-phantomjs-service": "^0.2.2",
     "wdio-selenium-standalone-service": "0.0.7",
     "wdio-webpack-service": "^1.0.1",
-    "webdriverio": "^4.6.1"
+    "webdriverio": "^4.6.2"
   },
   "name": "fbapp",
   "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img width=\"150\"src=\"https://laravel.com/laravel.png\"></a></p>",
