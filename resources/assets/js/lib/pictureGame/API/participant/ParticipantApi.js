@@ -57,7 +57,6 @@ export default class ParticipantApi {
             method: "GET",
             url: this.apiBaseUrl + "current-participant"
         }).done(response => {
-            console.debug(response);
             callback(response);
         });
     }

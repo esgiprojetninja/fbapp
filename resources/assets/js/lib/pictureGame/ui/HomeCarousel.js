@@ -124,7 +124,7 @@ export default class HomeCarousel extends React.PureComponent {
               "Participation non enregistrée !", this.props.participant.addPhotoToContestError
           );
         }
-        else if (this.props.participant.participationCancelled) {
+        else if (this.props.participant.participationCancelled === "success") {
             return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
         }
         // Participation cancelling didn't work

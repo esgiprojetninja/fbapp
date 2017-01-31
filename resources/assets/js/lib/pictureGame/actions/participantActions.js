@@ -16,10 +16,10 @@ const receiveNotAddedPhotoContest = ({msg}) => {
   }
 };
 
-const receiveAddPhotoToContest = (participant) => {
+const receiveAddPhotoToContest = (data) => {
     return {
         type: types.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST,
-        participant
+        participant: data.participant
     }
 }
 
@@ -35,10 +35,10 @@ export const addPhotoToCurrentContest = (photo_id) => {
       ptApi.store(
         photo_id,
         (response) => {
-          if ( response.added ) {
-            dispatch(receiveAddPhotoToContest(response))
+          if (response.error) {
+              dispatch(receiveNotAddedPhotoContest(response))
           } else {
-            dispatch(receiveNotAddedPhotoContest(response))
+              dispatch(receiveAddPhotoToContest(response))
           }
         }
       )

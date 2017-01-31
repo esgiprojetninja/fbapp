@@ -30,7 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
 });
 
 // Participants API routes
-Route::group(['middleware' => ['api'], ['only' => ['index', 'show']], 'prefix' => '/v1'], function () {
+Route::group(['middleware' => ['api'], ['only' => ['index', 'show', 'store', 'destroy']], 'prefix' => '/v1'], function () {
     Route::resource('participants', 'Api\v1\ParticipantController');
 });
 

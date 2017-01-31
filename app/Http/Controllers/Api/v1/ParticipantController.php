@@ -66,12 +66,7 @@ class ParticipantController extends Controller
               $participant->setAcceptedCgu('1');
               if ( $participant->save() ) {
                 return response()->json([
-                    'added' => true,
-                    'photo_id' => $photo_id,
-                    'source' => $source,
-                    'user_fbid' => $currentUser['fb_id'],
-                    'current_contest_id' => $currentContest['id'],
-                    'photo_votes' => 0
+                    'participant' => $participant
                 ]);
               } else {
                 $msg = "Impossible de valider votre participation à l'heure actuelle";
@@ -86,7 +81,7 @@ class ParticipantController extends Controller
        }
       }
       return response()->json([
-        'added' => false,
+        'error' => true,
         'msg' => $msg
       ]);
     }
@@ -231,6 +226,9 @@ class ParticipantController extends Controller
                                             ->where('id_user', Auth::user()->id)
                                             ->get()
                                             ->first();
+        if ($participant == null) {
+            $participant = [];
+        }
         return response()->json([
             'participant' => $participant
         ]);
