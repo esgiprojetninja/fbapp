@@ -18,6 +18,11 @@ Route::group(['middleware' => ['web']], function () {
     }])
     ->where('slug', '(?!auth)([A-z\d-\/_.]+)?');
 
+    Route::post('{slug}', ['as' => 'home', function() {
+        return view('index');
+    }])
+    ->where('slug', '(?!auth)([A-z\d-\/_.]+)?');
+
     Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
     Route::get('auth/facebook/joinContest', 'Auth\AuthController@redirectToProviderJoiningContest');
