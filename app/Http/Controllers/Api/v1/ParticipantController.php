@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controlers\ContestController;
 use App\Participant;
 use App\Contest;
 
@@ -65,12 +66,7 @@ class ParticipantController extends Controller
               $participant->setAcceptedCgu('1');
               if ( $participant->save() ) {
                 return response()->json([
-                    'added' => true,
-                    'photo_id' => $photo_id,
-                    'source' => $source,
-                    'user_fbid' => $currentUser['fb_id'],
-                    'current_contest_id' => $currentContest['id'],
-                    'photo_votes' => 0
+                    'participant' => $participant
                 ]);
               } else {
                 $msg = "Impossible de valider votre participation à l'heure actuelle";
@@ -85,7 +81,7 @@ class ParticipantController extends Controller
        }
       }
       return response()->json([
-        'added' => false,
+        'error' => true,
         'msg' => $msg
       ]);
     }
@@ -208,11 +204,33 @@ class ParticipantController extends Controller
     *
     * @return Response
     */
-    public function photoByContest($idContest)
+    public function getParticipantsByContest($idContest)
     {
-        $photos = Participant::where('id_contest', $idContest)->get()->pluck('id_fb_photo');
+        $currentContest = Contest::where('state', 1)->get();
+        $participants = Participant::where('id_contest', $idContest)->get();
         return response()->json([
-            'photos' => $photos
+            'participants' => $participants
+        ]);
+    }
+
+    /**
+    * Show connected participant.
+    *
+    * @return Response
+    */
+    public function getCurrentParticipant()
+    {
+        $currentContest = Contest::where('state', 1)->get()->first();
+
+        $participant = Participant::where('id_contest', $currentContest->getId())
+                                            ->where('id_user', Auth::user()->id)
+                                            ->get()
+                                            ->first();
+        if ($participant == null) {
+            $participant = [];
+        }
+        return response()->json([
+            'participant' => $participant
         ]);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
+use App\Participant;
 
 class ContestController extends Controller
 {
@@ -122,8 +123,10 @@ class ContestController extends Controller
     */
     public function getCurrent()
     {
+        $contest = Contest::where('state', '1')->get()->first();
+        $contest->participants = Participant::where('id_contest', $contest->getId())->get();
         return response()->json([
-            'contest' => Contest::getCurrent()
+            'contest' => $contest
         ]);
     }
 
