@@ -16,14 +16,10 @@ const receiveNotAddedPhotoContest = ({msg}) => {
   }
 };
 
-const receiveAddPhotoToContest = ({photo_id, current_contest_id, user_fbid, source, photo_votes}) => {
+const receiveAddPhotoToContest = (data) => {
     return {
         type: types.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST,
-        photo_id,
-        current_contest_id,
-        user_fbid,
-        photo_votes,
-        source
+        participant: data.participant
     }
 }
 
@@ -39,10 +35,10 @@ export const addPhotoToCurrentContest = (photo_id) => {
       ptApi.store(
         photo_id,
         (response) => {
-          if ( response.added ) {
-            dispatch(receiveAddPhotoToContest(response))
+          if (response.error) {
+              dispatch(receiveNotAddedPhotoContest(response))
           } else {
-            dispatch(receiveNotAddedPhotoContest(response))
+              dispatch(receiveAddPhotoToContest(response))
           }
         }
       )
@@ -86,7 +82,7 @@ export const cancelParticipation = (user_id = false, contest_id = false) => {
     ptApi.deleteFromCurrent(
       {user_id, contest_id},
       (response) => {
-        if ( response.deleted === true ) {
+        if (response.deleted === true) {
           dispatch(receivedParticipationCancelling(getState().user.data.fb_id))
         } else {
           dispatch(errorOnParticipationCancelling(response))
@@ -100,4 +96,39 @@ export const noticedCancelNotice = () => {
   return {
     type: types.NOTICED_PARTICIPATION_CANCELLING_RESPONSE
   }
+}
+
+const requestCurrentPlayer = () => {
+    return {
+        type: types.REQUEST_CURRENT_PLAYER
+    }
+}
+
+const recieveError = (error) => {
+    console.warn(error); // TODO remove this on prod
+    return {
+        type: types.RECIEVE_ERROR,
+        error: error
+    }
+}
+
+const recieveCurrentParticipant = (participant) => {
+    return {
+        type: types.RECIEVE_CURRENT_PARTICIPANT,
+        participant
+    }
+}
+
+export const getCurrentParticipant = () => {
+    return (dispatch) => {
+        dispatch(requestCurrentPlayer());
+        ptApi.getCurrentParticipant(r => {
+            if (r.error) {
+                dispatch(recieveError());
+            }
+            else {
+                dispatch(recieveCurrentParticipant(r.participant));
+            }
+        });
+    }
 }

@@ -32,11 +32,15 @@ class Contest extends Model
         $this->end_date = new \DateTime();
     }
 
-    public static function getCurrent () {
-      return Contest::where('state', '1')->get()->first();
-    }
-
     public static function currentlyActive(){
       return !empty(Contest::where('state', '1')->get()->toArray());
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public static function getCurrent () {
+        return Contest::where('state', '1')->get()->first();
     }
 }
