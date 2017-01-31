@@ -2,9 +2,11 @@ import React, {PropTypes as T} from "react";
 import IconButton from 'material-ui/IconButton';
 import LocationSearch from 'material-ui/svg-icons/device/location-searching';
 
-import {uiDateFormater} from "../utils/DateParser";
-
 import {GridTile} from "material-ui/GridList";
+
+import {uiDateFormater} from "../utils/DateParser";
+import PhotoReactions from "./PhotoReactions";
+
 
 export default class UserAlbumPhoto extends React.PureComponent {
     render () {
@@ -16,16 +18,10 @@ export default class UserAlbumPhoto extends React.PureComponent {
         return (
             <GridTile
                 title={this.props.title}
-                subtitle={
-                    <span>
-                        <b>
-                            {uiDateFormater(this.props.dateCreated)}
-                        </b>
-                    </span>
-                }
+                subtitle={this.renderSubtitle()}
                 actionIcon={
                     <IconButton
-                        tooltip="Montrer album"
+                        tooltip={this.props.tooltipTitle}
                         touch={true}
                         tooltipPosition="top-left"
                         onClick={this.handleClick.bind(this)}
@@ -39,15 +35,32 @@ export default class UserAlbumPhoto extends React.PureComponent {
         );
     }
 
+    renderSubtitle () {
+        if (this.props.reactions) {
+            return (
+                <PhotoReactions reactions={this.props.reactions} />
+            );
+        }
+        return (
+            <span>
+                <b>
+                    {uiDateFormater(this.props.dateCreated)}
+                </b>
+            </span>
+        );
+    }
+
     handleClick (id) {
         this.props.photoClicked(this.props.photoId);
     }
 }
 
 UserAlbumPhoto.propTypes = {
-    album: T.object.isRequired,
     photoClicked: T.func.isRequired,
     dateCreated: T.string.isRequired,
     picUrl: T.string.isRequired,
-    title: T.string.isRequired
+    title: T.string.isRequired,
+    tooltipTitle: T.string.isRequired,
+    photoId: T.string.isRequired,
+    reactions: T.object
 };

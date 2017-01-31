@@ -17,11 +17,6 @@ import Subheader from 'material-ui/Subheader';
 import LocationSearch from 'material-ui/svg-icons/device/location-searching';
 import Upload from 'material-ui/svg-icons/file/file-upload';
 import CameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import AutoNew from 'material-ui/svg-icons/action/autorenew';
-import Love from 'material-ui/svg-icons/action/favorite';
-import Happy from 'material-ui/svg-icons/social/mood';
-import Sad from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
 import ParticipantModal from "./ParticipantModal";
@@ -79,15 +74,6 @@ export default class HomeCarousel extends React.PureComponent {
         return this.props.user.albums.find(album => album.opened);
     }
 
-    addIfInferior (num) {
-      return (parseInt(num) < 10) ? "0"+num : num
-    }
-
-    uiDateFormater (d) {
-      d = new Date(d.substr(0, 10));
-      return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
-    }
-
     getUserParticipant () {
         if (this.props.contest.currentContest) {
             return this.props.contest.currentContest.participants.find(participant => {
@@ -97,152 +83,26 @@ export default class HomeCarousel extends React.PureComponent {
         return undefined;
     }
 
-    getSeparatePhotoReactions (photo) {
-      const like = [];
-      const love = [];
-      const sad = [];
-      const angry = [];
-      const haha = [];
-      if ( photo.reactions && photo.reactions.data ) {
-          const l = photo.reactions.data.length;
-          for ( let i = 0; i < l; i++ ) {
-              const r = photo.reactions.data[i];
-              switch ( r.type.toUpperCase() ) {
-                  case "LIKE":
-                     like.push(r);
-                     break;
-                  case "LOVE":
-                      love.push(r);
-                      break;
-                  case "SAD":
-                      sad.push(r);
-                      break;
-                  case "ANGRY":
-                      angry.push(r);
-                      break;
-                  case "HAHA":
-                      haha.push(r);
-                      break;
-                  default:
-                      break;
-              }
-          }
-      }
-      return {like, love, sad, angry, haha};
-    }
-
     changeDialogTitle (newTitle) {
-      if ( this.modalTitle === false ) { this.modalTitle = document.getElementById("choose-picture-modal-title") }
-      this.modalTitle.innerHTML = newTitle;
+        if ( this.modalTitle === false ) {
+            this.modalTitle = document.getElementById("choose-picture-modal-title")
+        }
+        this.modalTitle.innerHTML = newTitle;
     }
 
     playButtonAction () {
-    if (this.props.user.photoScopeGranted) {
-      this.props.toggleSubmitPhotoModal();
-      this.props.getFbAlbums();
-    } else {
-      // Checking for photo access permissions
-      this.props.startPlaying()
-    }
+        if (this.props.user.photoScopeGranted) {
+          this.props.toggleSubmitPhotoModal();
+          this.props.getFbAlbums();
+        } else {
+          // Checking for photo access permissions
+          this.props.startPlaying()
+        }
     }
 
     cancelParticipation () {
         this.props.toggleConsultingPostedPhoto();
         this.props.cancelParticipation();
-    }
-
-    loadMorePhotos (nextLink, album_id) {
-      this.props.loadMoreFbAlbumPhotos(nextLink, album_id);
-    }
-
-    renderOldAlbumPhoto (photo, key) {
-      const titleStyle = {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          flexFlow: "row wrap"
-      };
-      const iconStyle = {
-          display: "inline-block",
-          color: "rgba(0, 0, 0, 0.870588)",
-          height: "16px",
-          width: "16px",
-          fill: "fakePropToMakeClassesApplyTheirColor",
-          transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
-          userSelect: "none"
-      }
-      // HAHA, ANGRY, SAD, LOVE, LIKE
-      const imgSrc = photo.source || "homeCarouselHr.png";
-      const {like, love, sad, angry, haha} = this.getSeparatePhotoReactions(photo);
-      return (
-          <GridTile
-              key={key}
-              title=" "
-              titlePosition="bottom"
-              style={titleStyle}
-              cols={1}
-              titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.2) 100%)"
-              subtitle={
-                  <div className="album-photo-icons-container full-height full-width display-flex-row justify-start">
-                      <div className="relative margin-reset width-3">
-                          <ThumbUp
-                              className="photo_album_icon photo_album_icon_like fill-primary"
-                              color="white"
-                              style={iconStyle}
-                          />
-                          <span className="absolute color-fb title-7">{like.length}</span>
-                      </div>
-                      <div className="relative margin-reset width-3">
-                          <Love
-                              className="photo_album_icon photo_album_icon_like"
-                              color="white"
-                              style={iconStyle}
-                          />
-                          <span className="absolute title-7">{love.length}</span>
-                      </div>
-                      <div className="relative margin-reset width-3">
-                          <Happy
-                              className="photo_album_icon photo_album_icon_like"
-                              color="white"
-                              style={iconStyle}
-                          />
-                          <span className="absolute title-7">{haha.length}</span>
-                      </div>
-                      <div className="relative margin-reset width-3">
-                          <Sad
-                              className="photo_album_icon photo_album_icon_like"
-                              color="white"
-                              style={iconStyle}
-                          />
-                          <span className="absolute title-7">{sad.length}</span>
-                      </div>
-                  </div>
-              }
-              children={<img style={this.styles.imgStyle} src={imgSrc} />}
-              >
-          </GridTile>
-      )
-    }
-
-    renderAlbumPhoto (photo, key, colNumb = 1) {
-      const imgSrc = photo.source || "homeCarouselHr.png";
-      return (
-          <GridTile
-              key={key}
-              title={photo.name || " "}
-              subtitle={<span>Photo postée le <b>{this.uiDateFormater(photo.created_time)}</b></span>}
-              cols={colNumb}
-              actionIcon={
-                  <IconButton tooltip="Choisir photo" touch={true} tooltipPosition="top-left" onClick={() => this.albumPhotoChosenAction(photo.id)}
-                  children={<Upload color="white"/>}
-                  />
-              }
-              children={<img style={this.styles.imgStyle} src={imgSrc} />}
-              >
-          </GridTile>
-      )
     }
 
     renderPostedPictureModal(title, msg, leaveAction = false){
@@ -337,7 +197,7 @@ export default class HomeCarousel extends React.PureComponent {
                 <UserAlbum
                     gridRootStyle={this.styles.gridRoot}
                     album={openedAlbum}
-                    loadMorePhotos={this.loadMorePhotos}
+                    loadMorePhotos={this.props.loadMoreFbAlbumPhotos}
                     photoClicked={this.props.proposePhotoForContest}
                 />
             );

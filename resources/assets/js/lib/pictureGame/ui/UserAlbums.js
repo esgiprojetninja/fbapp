@@ -22,12 +22,12 @@ export default class UserAlbums extends React.PureComponent {
                             return (
                                 <UserAlbumPhoto
                                     key={key}
-                                    album={album}
                                     photoClicked={this.props.photoClicked}
                                     dateCreated={album.created_time}
                                     picUrl={album.cover.url}
                                     title={album.name}
                                     photoId={album.id}
+                                    tooltipTitle="Montrer cet album"
                                 />
                             );
                         })}
