@@ -21,8 +21,9 @@ module.exports = function(){
 
     this.Given(/^I am on the homepage$/, function (url) {
         browser.url("https://esgi.ninja");
-        var title = $("h1");
+        var title = $(".home-carousel-button");
         title.waitForVisible(5000);
+        browser.screenshot();
     });
 
     this.When(/^I click on the element "([^"]*)"$/, function (selector) {
@@ -32,7 +33,6 @@ module.exports = function(){
     this.Then(/^I should see the element "([^"]*)"$/, function (selector) {
         var element = $(selector);
         element.waitForVisible(3000);
-        expect(browser.isVisible(element)).toBe(true);
     });
 
 };
