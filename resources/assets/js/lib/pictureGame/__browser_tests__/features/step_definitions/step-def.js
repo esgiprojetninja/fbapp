@@ -1,5 +1,6 @@
-var assert = require('assert'),
+var assert = require("assert"),
     tmpResult;
+var expect = require("expect");
 
 module.exports = function(){
 
@@ -16,6 +17,22 @@ module.exports = function(){
     this.Then(/^should the title of the page be "([^"]*)"$/, function(expectedTitle) {
         var title = browser.getTitle();
         assert.equal(title, expectedTitle, ' title is "'+ title + '" but should be "'+ expectedTitle);
+    });
+
+    this.Given(/^I am on the homepage$/, function (url) {
+        browser.url("https://esgi.ninja");
+        var title = $("h1");
+        title.waitForVisible(5000);
+    });
+
+    this.When(/^I click on the element "([^"]*)"$/, function (selector) {
+        var element = browser.click(selector);
+    });
+
+    this.Then(/^I should see the element "([^"]*)"$/, function (selector) {
+        var element = $(selector);
+        element.waitForVisible(3000);
+        expect(browser.isVisible(element)).toBe(true);
     });
 
 };
