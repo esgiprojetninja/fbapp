@@ -68,7 +68,9 @@ export default class AdminContests extends React.PureComponent {
             settingsCarousel: false,
             settingsGallery: false,
             settingsSubmenu: false,
-            background: appColors.default[0]
+            background: appColors.default[0],
+            adminPreview: "https://image.noelshack.com/fichiers/2017/05/1486252110-xd.png"
+
         }
 
         this.handleOpen = this.handleOpen.bind(this);
@@ -310,13 +312,24 @@ export default class AdminContests extends React.PureComponent {
 
     renderParams () {
         return (
-            <div>
+            <div className="vertical-align">
                 <div className="col-md-6">
+                    <div>
+                        {this.renderAdminPreview()}
+                    </div>
                 </div>
 
                 <div className="col-md-6" style={{position: "initial"}}>
                     {this.renderParamsWithBackButton()}
                 </div>
+            </div>
+        );
+    }
+
+    renderAdminPreview() {
+        return (
+            <div>
+                <img className="img-cover" src={this.state.adminPreview}/>
             </div>
         );
     }
@@ -417,8 +430,8 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.state.openSettings){
             return (
-                <div className="col-md-9" style={{position: "initial"}}>
-                    <div>
+                <div className="col-md-9 vertical-align" style={{position: "initial"}}>
+                    <div className="full-width">
                         {this.renderParams()}
                     </div>
                 </div>
