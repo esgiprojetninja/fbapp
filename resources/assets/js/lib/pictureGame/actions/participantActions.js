@@ -132,3 +132,9 @@ export const getCurrentParticipant = () => {
         });
     }
 }
+
+export const displayFileUploadModal = () => {
+    return {
+      type: types.DISPLAY_FILEUPLOAD_MODAL
+    }
+}

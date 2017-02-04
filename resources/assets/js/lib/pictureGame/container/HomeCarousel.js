@@ -17,7 +17,8 @@ import {
     toggleConsultingPostedPhoto,
     cancelParticipation,
     noticedCancelNotice,
-    getCurrentParticipant
+    getCurrentParticipant,
+    displayFileUploadModal
 } from "../actions/participantActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
@@ -60,6 +61,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         noticedCancelNotice: () => {
             dispatch(noticedCancelNotice())
+        },
+        displayFileUploadModal: () => {
+            dispatch(displayFileUploadModal())
         }
     };
 }

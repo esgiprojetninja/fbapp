@@ -23,6 +23,7 @@ import ParticipantModal from "./ParticipantModal";
 import Spinner from "./Spinner";
 import UserAlbums from "./UserAlbums";
 import UserAlbum from "./UserAlbum";
+import ParticipantUpload from "./ParticipantUpload";
 
 export default class HomeCarousel extends React.PureComponent {
 
@@ -147,10 +148,16 @@ export default class HomeCarousel extends React.PureComponent {
         else {
             const actions = [
                 <FlatButton
-                    label="Annuler"
+                    label="fermer"
                     primary={true}
                     keyboardFocused={true}
                     onTouchTap={this.props.toggleSubmitPhotoModal}
+                />,
+                <FlatButton
+                    primary={true}
+                    keyboardFocused={true}
+                    icon = {<Upload />}
+                    onTouchTap={this.props.displayFileUploadModal}
                 />
             ];
             return (
@@ -257,6 +264,9 @@ export default class HomeCarousel extends React.PureComponent {
               </div>
               {this.renderModal()}
               {this.renderStatusModal()}
+              <ParticipantUpload
+                  participant= {this.props.participant}
+              />
           </div>
       );
     }
@@ -273,6 +283,7 @@ HomeCarousel.propTypes = {
     toggleConsultingPostedPhoto: T.func.isRequired,
     cancelParticipation: T.func.isRequired,
     noticedCancelNotice: T.func.isRequired,
+    displayFileUploadModal: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired
     }).isRequired,

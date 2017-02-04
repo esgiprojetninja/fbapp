@@ -8,6 +8,7 @@ const initialSate = {
     consultingPostedPhoto: false,
     deletingParticipationOngoing: false,
     participationCancelled: false,
+    fileUploadModal: false,
     currentParticipant: {}
 };
 
@@ -89,6 +90,15 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 currentParticipant: action.participant
+            }
+        case pTypes.DISPLAY_FILEUPLOAD_MODAL:
+            return {
+                ...state,
+                fileUploadModal: true,
+                modalOpen: false,
+                consultingPostedPhoto: false,
+                deletingParticipationOngoing: false,
+                participationCancelled: false
             }
         default:
             return state;

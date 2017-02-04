@@ -221,13 +221,12 @@ class ParticipantController extends Controller
     public function getCurrentParticipant()
     {
         $currentContest = Contest::where('state', 1)->get()->first();
-
-        $participant = Participant::where('id_contest', $currentContest->getId())
+        $participant = [];
+        if (!empty($currentContest)) {
+          $participant = Participant::where('id_contest', $currentContest->getId())
                                             ->where('id_user', Auth::user()->id)
                                             ->get()
-                                            ->first();
-        if ($participant == null) {
-            $participant = [];
+                                            ->first() || [];
         }
         return response()->json([
             'participant' => $participant
