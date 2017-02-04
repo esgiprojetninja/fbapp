@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {
-    leaveUploadDisardingChanges
+    leaveUploadDisardingChanges,
+    uploadedImgFile
 } from "../actions/participantActions";
 import ParticipantUploadComponent from "../ui/ParticipantUpload";
 
@@ -12,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         leaveUploadDisardingChanges: () => {
             dispatch(leaveUploadDisardingChanges())
+        },
+        uploadedImgFile: (source) => {
+            dispatch(uploadedImgFile(source))
         }
     };
 }

@@ -9,6 +9,7 @@ const initialSate = {
     deletingParticipationOngoing: false,
     participationCancelled: false,
     fileUploadModal: false,
+    fileUploadedSource: "",
     currentParticipant: {}
 };
 
@@ -102,6 +103,11 @@ const participant = (state = initialSate, action) => {
                 ...state,
                 fileUploadModal: false,
                 modalOpen: true
+            }
+        case pTypes.PARTICIPANT_POSTED_IMG:
+            return {
+                ...state,
+                fileUploadedSource: action.imgSource
             }
         default:
             return state;

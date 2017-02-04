@@ -144,3 +144,10 @@ export const leaveUploadDisardingChanges = () => {
       type: types.DISCARD_FILEUPLOAD_MODAL
     }
 }
+
+export const uploadedImgFile = (source) => {
+    return {
+      type: types.PARTICIPANT_POSTED_IMG,
+      imgSource: source
+    }
+}
