@@ -15,7 +15,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-import Dropzone from 'react-dropzone';
+import { SketchPicker } from 'react-color';
+import Toggle from 'material-ui/Toggle';
 
 const style = {
     actionsBtn : {
@@ -24,6 +25,15 @@ const style = {
     modal : {
         width: "85%",
         maxWidth: "none"
+    },
+    adminCustom : {
+        display: "block",
+        margin: "15px 0"
+    },
+    fullSreenToggle : {
+        fontWeight: "200",
+        textTransform: "uppercase",
+        fontSize: "14px"
     }
 }
 
@@ -38,6 +48,13 @@ const colors = [
     'White',
 ];
 
+const appColors = {
+    default : [
+        '#00E0FE',
+        "#CD2431"
+    ]
+}
+
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
@@ -45,17 +62,91 @@ export default class AdminContests extends React.PureComponent {
         this.state = {
             open : false,
             openEvents: true,
-            openSettings: false
+            openSettings: false,
+            settingsMenu: true,
+            settingsTheme: false,
+            settingsCarousel: false,
+            settingsGallery: false,
+            settingsSubmenu: false,
+            background: appColors.default[0]
         }
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.openEvents = this.openEvents.bind(this);
         this.openSettings = this.openSettings.bind(this);
+        this.handleChangeComplete = this.handleChangeComplete.bind(this);
+        this.openSettingsMenu = this.openSettingsMenu.bind(this);
+        this.openSettingsTheme = this.openSettingsTheme.bind(this);
+        this.openSettingsGallery = this.openSettingsGallery.bind(this);
+        this.openSettingsCarousel = this.openSettingsCarousel.bind(this);
+        this.openSettingsSubmenu = this.openSettingsSubmenu.bind(this);
+    }
+
+    handleChangeComplete(color) {
+        this.setState({ background: color.hex });
+    }
+
+    openSettingsMenu() {
+        this.setState({
+            settingsMenu: true,
+            settingsTheme: false,
+            settingsCarousel: false,
+            settingsGallery: false,
+            settingsSubmenu: false
+         });
+    }
+
+    openSettingsTheme() {
+        this.setState({
+            settingsMenu: false,
+            settingsTheme: true,
+            settingsCarousel: false,
+            settingsGallery: false,
+            settingsSubmenu: false
+         });
+    }
+
+    openSettingsSubmenu() {
+        this.setState({
+            settingsMenu: false,
+            settingsTheme: false,
+            settingsCarousel: false,
+            settingsGallery: false,
+            settingsSubmenu: true
+         });
+    }
+
+    openSettingsGallery() {
+        this.setState({
+            settingsMenu: false,
+            settingsTheme: false,
+            settingsCarousel: false,
+            settingsGallery: true,
+            settingsSubmenu: false
+         });
+    }
+
+    openSettingsCarousel() {
+        this.setState({
+            settingsMenu: false,
+            settingsTheme: false,
+            settingsCarousel: true,
+            settingsGallery: false,
+            settingsSubmenu: false
+         });
     }
 
     openSettings() {
-        this.setState({openEvents: false, openSettings: true});
+        this.setState({
+            openEvents: false,
+            openSettings: true,
+            settingsMenu: true,
+            settingsCarousel: false,
+            settingsGallery: false,
+            settingsSubmenu: false,
+            settingsTheme: false
+        });
     }
 
     openEvents() {
@@ -219,9 +310,81 @@ export default class AdminContests extends React.PureComponent {
 
     renderParams () {
         return (
-            <Dropzone onDrop={this.onDrop}>
-                <div>Try dropping some files here, or click to select files to upload.</div>
-            </Dropzone>
+            <div>
+                <div className="col-md-6">
+                </div>
+
+                <div className="col-md-6 vertical-align">
+                    {this.renderAdminCustomize()}
+                </div>
+            </div>
+        );
+    }
+
+    renderAdminCustomize() {
+        if(this.state.settingsMenu){
+            return this.renderSettingsMenu()
+        }
+        if(this.state.settingsTheme){
+            return this.renderSettingsTheme()
+        }
+        if(this.state.settingsCarousel){
+            return this.renderSettingsCarousel()
+        }
+        if(this.state.settingsSubmenu){
+            return this.renderSettingsSubmenu()
+        }
+        if(this.state.settingsGallery){
+            return this.renderSettingsGallery()
+        }
+    }
+
+    renderSettingsMenu() {
+        return (
+            <div className="full-width">
+                <RaisedButton onClick={this.openSettingsTheme} label="Thème" style={style.adminCustom}/>
+                <RaisedButton onClick={this.openSettingsCarousel} label="Carousel" style={style.adminCustom}/>
+                <RaisedButton onClick={this.openSettingsGallery} label="Gallerie" style={style.adminCustom}/>
+                <RaisedButton onClick={this.openSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
+                <Toggle label="Fullscreen" labelStyle={style.fullSreenToggle}/>
+                <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
+            </div>
+        );
+    }
+
+    renderSettingsTheme() {
+        return (
+            <div>
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
+                <span>theme</span>
+            </div>
+        );
+    }
+
+    renderSettingsCarousel() {
+        return (
+            <div>
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
+                <span>carousel</span>
+            </div>
+        );
+    }
+
+    renderSettingsSubmenu() {
+        return (
+            <div>
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
+                <span>submenu</span>
+            </div>
+        );
+    }
+
+    renderSettingsGallery() {
+        return (
+            <div>
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
+                <span>gallery</span>
+            </div>
         );
     }
 
@@ -278,7 +441,7 @@ export default class AdminContests extends React.PureComponent {
                       onRequestClose={this.handleClose}
                       autoScrollBodyContent={true}
                     >
-                        <div>
+                        <div className="vertical-align">
                             <div className="col-md-3 admin-sidebar">
                                 {this.renderAdminSideBar()}
                             </div>
