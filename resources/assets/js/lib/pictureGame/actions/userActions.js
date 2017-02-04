@@ -164,7 +164,7 @@ export const getPhotoScope = (rerequest = true) => {
             dispatch(denyPhotoScope())
         } else {
             facebookLoader.setPlayerScope(true);
-            facebookLoader.checkPermissions(accessToken, status => {
+            facebookLoader.checkPermissions(accessToken, (status) => {
                 if (status) {
                     dispatch(grantPhotoScope());
                 } else {
@@ -195,37 +195,103 @@ export const getCurrentPhotoPermissions = () => {
     }
 }
 
-const requestFbPhotos = () => {
+const receiveFbAlbums = (res) => {
     return {
-        type: actionTypes.REQUEST_FB_PHOTOS
-    };
-}
-
-export const resetPhotos = () => {
-    return {
-        type: actionTypes.RESET_PHOTOS
-    };
-}
-
-const recieveFbPhoto = (res) => {
-    return {
-        type: actionTypes.RECIEVE_FB_PHOTOS,
+        type: actionTypes.RECEIVE_FB_ALBUMS,
         isFetching: false,
-        photos: res.data,
-        next: res.paging.next
+        albums: res.data
     };
 }
-
-export const getFbPhotos = (link) => {
-    return (dispatch, getState) => {
-        const accessToken = getState().user.data.token;
-        dispatch(requestFbPhotos());
-        facebookLoader.getMyPictures(accessToken, link, (response) => {
-            if (response.error) {
-                dispatch(recieveError(response.error.message));
-            } else {
-                dispatch(recieveFbPhoto(response));
-            }
-        });
+const requestFbAlbums = () => {
+    return {
+        type: actionTypes.REQUEST_FB_ALBUMS
     };
+}
+export const getFbAlbums = () => {
+    return (dispatch, getState) => {
+        if ( getState().user.albums.length > 0 ) {
+          dispatch(receiveFbAlbums({data: getState().user.albums}));
+        } else{
+          const accessToken = getState().user.data.token
+          dispatch(requestFbAlbums())
+          facebookLoader.getMyAlbums(
+              accessToken,
+              (response) => {
+                  if (response.error) {
+                      dispatch(recieveError(response.error.message));
+                  } else {
+                      dispatch(receiveFbAlbums(response));
+                  }
+              }
+          );
+        }
+    }
+}
+
+const receiveFbAlbumPhotos = ({response, album_id}) => {
+    return {
+        type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
+        isFetching: false,
+        album_id,
+        photos: response.data,
+        next: response.paging.next || false
+    };
+}
+const requestFbAlbumPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_FB_ALBUM_PHOTOS
+    };
+}
+export const getFbAlbumPhotos = (album_id) => {
+    return (dispatch, getState) => {
+      const aimedAlbum = getState().user.albums.filter( alb => alb.id === album_id );
+        if ( aimedAlbum[0] && aimedAlbum[0].photos ) {
+          dispatch(receiveFbAlbumPhotos({response: { ...aimedAlbum[0], data: aimedAlbum[0].photos, paging:{next:aimedAlbum[0].next} }, album_id}));
+        } else {
+          const accessToken = getState().user.data.token
+          dispatch(requestFbAlbumPhotos())
+          facebookLoader.getAlbumPhotos(
+              accessToken,
+              album_id,
+              (response) => {
+                  if (response.error) {
+                      dispatch(recieveError(response.error.message));
+                  } else {
+                      dispatch(receiveFbAlbumPhotos({response, album_id}));
+                  }
+              }
+          );
+        }
+    }
+}
+
+const receiveMoreFbAlbumPhotos = ({response, album_id}) => {
+    return {
+        type: actionTypes.RECEIVE_MORE_FB_ALBUM_PHOTOS,
+        isFetching: false,
+        album_id,
+        photos: response.data,
+        next: response.paging.next || false
+    }
+}
+const requestMoreFbAlbumPhotos = () => {
+    return {
+        type: actionTypes.REQUEST_MORE_FB_ALBUM_PHOTOS
+    }
+}
+
+export const getMoreFbAlbumPhotos = (link, album_id) => {
+    return (dispatch, getState) => {
+        dispatch(requestMoreFbAlbumPhotos())
+        facebookLoader.getMoreAlbumPhotos(
+            link,
+            (response) => {
+                if (response.error) {
+                    dispatch(recieveError(response.error.message));
+                } else {
+                    dispatch(receiveMoreFbAlbumPhotos({response, album_id}));
+                }
+            }
+        )
+    }
 }

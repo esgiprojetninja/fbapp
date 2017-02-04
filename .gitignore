@@ -20,3 +20,4 @@ dbmodel.mwb.bak
 composer.lock
 .phpintel/
 npm-debug.log
+errorShots/*
