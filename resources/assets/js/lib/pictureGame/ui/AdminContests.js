@@ -314,9 +314,26 @@ export default class AdminContests extends React.PureComponent {
                 <div className="col-md-6">
                 </div>
 
-                <div className="col-md-6">
-                    {this.renderAdminCustomize()}
+                <div className="col-md-6" style={{position: "initial"}}>
+                    {this.renderParamsWithBackButton()}
                 </div>
+            </div>
+        );
+    }
+
+    renderParamsWithBackButton() {
+        if(this.state.settingsSubmenu || this.state.settingsTheme || this.state.settingsCarousel || this.state.settingsGallery){
+            return this.renderAdminCustomizeBack()
+        }else{
+            return this.renderAdminCustomize()
+        }
+    }
+
+    renderAdminCustomizeBack() {
+        return (
+            <div>
+                {this.renderAdminCustomize()}
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour" style={{position: "absolute", right: "0", bottom: "0", margin: "25px"}}/>
             </div>
         );
     }
@@ -355,7 +372,6 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsTheme() {
         return (
             <div className="full-width">
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour" style={style.adminCustom}/>
                 <span>theme</span>
             </div>
         );
@@ -364,7 +380,6 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div>
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
                 <span>carousel</span>
             </div>
         );
@@ -373,7 +388,6 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsSubmenu() {
         return (
             <div>
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
                 <span>submenu</span>
             </div>
         );
@@ -382,7 +396,6 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsGallery() {
         return (
             <div>
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
                 <span>gallery</span>
             </div>
         );
@@ -404,7 +417,7 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.state.openSettings){
             return (
-                <div className="col-md-9">
+                <div className="col-md-9" style={{position: "initial"}}>
                     <div>
                         {this.renderParams()}
                     </div>
