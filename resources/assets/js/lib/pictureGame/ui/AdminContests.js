@@ -314,7 +314,7 @@ export default class AdminContests extends React.PureComponent {
                 <div className="col-md-6">
                 </div>
 
-                <div className="col-md-6 vertical-align">
+                <div className="col-md-6">
                     {this.renderAdminCustomize()}
                 </div>
             </div>
@@ -354,8 +354,8 @@ export default class AdminContests extends React.PureComponent {
 
     renderSettingsTheme() {
         return (
-            <div>
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour"/>
+            <div className="full-width">
+                <RaisedButton onClick={this.openSettingsMenu} label="Retour" style={style.adminCustom}/>
                 <span>theme</span>
             </div>
         );
@@ -391,19 +391,23 @@ export default class AdminContests extends React.PureComponent {
     renderAdminBody () {
         if(this.state.openEvents){
             return (
-                <div>
-                    {this.renderContent()}
-                    <ContestModalForm
-                    handleClose={this.props.onCreateModalOpenClick}
-                    open={this.props.createModalOpen}
-                    />
+                <div className="col-md-9" style={{alignSelf: "flex-start"}}>
+                    <div>
+                        {this.renderContent()}
+                        <ContestModalForm
+                        handleClose={this.props.onCreateModalOpenClick}
+                        open={this.props.createModalOpen}
+                        />
+                    </div>
                 </div>
             );
         }
         if(this.state.openSettings){
             return (
-                <div>
-                    {this.renderParams()}
+                <div className="col-md-9">
+                    <div>
+                        {this.renderParams()}
+                    </div>
                 </div>
             );
         }
@@ -445,9 +449,7 @@ export default class AdminContests extends React.PureComponent {
                             <div className="col-md-3 admin-sidebar">
                                 {this.renderAdminSideBar()}
                             </div>
-                            <div className="col-md-9">
-                                {this.renderAdminBody()}
-                            </div>
+                            {this.renderAdminBody()}
                         </div>
                     </Dialog>
                 </div>
