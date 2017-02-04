@@ -23,7 +23,7 @@ import ParticipantModal from "./ParticipantModal";
 import Spinner from "./Spinner";
 import UserAlbums from "./UserAlbums";
 import UserAlbum from "./UserAlbum";
-import ParticipantUpload from "./ParticipantUpload";
+import ParticipantUpload from "../container/ParticipantUpload";
 
 export default class HomeCarousel extends React.PureComponent {
 

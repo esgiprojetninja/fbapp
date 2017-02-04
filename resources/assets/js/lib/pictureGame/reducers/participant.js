@@ -95,10 +95,13 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 fileUploadModal: true,
-                modalOpen: false,
-                consultingPostedPhoto: false,
-                deletingParticipationOngoing: false,
-                participationCancelled: false
+                modalOpen: false
+            }
+        case pTypes.DISCARD_FILEUPLOAD_MODAL:
+            return {
+                ...state,
+                fileUploadModal: false,
+                modalOpen: true
             }
         default:
             return state;

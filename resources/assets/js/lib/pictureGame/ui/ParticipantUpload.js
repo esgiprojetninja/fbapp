@@ -41,7 +41,7 @@ export default class ParticipantUpload extends React.PureComponent {
                 modal={false}
                 open={this.props.participant.fileUploadModal}
                 autoScrollBodyContent={true}
-                onRequestClose={()=>{console.debug("suce ma bite")}}
+                onRequestClose={this.props.leaveUploadDisardingChanges}
             >
               <div style={this.style.dropzone}>
                 SUCE MON ZGEG STP
@@ -52,8 +52,9 @@ export default class ParticipantUpload extends React.PureComponent {
 }
 
 ParticipantUpload.propTypes = {
+    leaveUploadDisardingChanges: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired,
         fileUploadModal: T.bool.isRequired
-    }).isRequired,
+    }).isRequired
 };

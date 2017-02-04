@@ -138,3 +138,9 @@ export const displayFileUploadModal = () => {
       type: types.DISPLAY_FILEUPLOAD_MODAL
     }
 }
+
+export const leaveUploadDisardingChanges = () => {
+    return {
+      type: types.DISCARD_FILEUPLOAD_MODAL
+    }
+}
