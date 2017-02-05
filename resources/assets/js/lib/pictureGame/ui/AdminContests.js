@@ -39,13 +39,19 @@ const style = {
         fillOpacity: "0",
         fill: "#00E0FE",
         stroke: "#00E0FE",
-        stokeWidth: "2"
+        strokeWidth: "2"
     },
     mockupDefault: {
         fillOpacity: "0",
         fill: "#777",
         stroke: "#777",
         strokeWidth: "1"
+    },
+    textFont : {
+        fontFamily: "Roboto, sans-serif",
+        fontWeight: "200",
+        textTransform: "uppercase",
+        fontSize: "14px"
     }
 }
 
@@ -473,32 +479,35 @@ export default class AdminContests extends React.PureComponent {
 
     renderSettingsTheme() {
         return (
-            <div className="full-width">
-                <span>theme</span>
+            <div className="full-width text-center vertical-align">
+                <div>
+                    <span style={style.textFont}>Couleur principal du site</span>
+                    <SketchPicker />
+                </div>
             </div>
         );
     }
 
     renderSettingsCarousel() {
         return (
-            <div>
-                <span>carousel</span>
+            <div className="full-width text-center">
+                <span>upload images</span>
             </div>
         );
     }
 
     renderSettingsSubmenu() {
         return (
-            <div>
-                <span>submenu</span>
+            <div className="full-width text-center">
+                <span>upload image</span>
             </div>
         );
     }
 
     renderSettingsGallery() {
         return (
-            <div>
-                <span>gallery</span>
+            <div className="full-width text-center">
+                <span>gallery style</span>
             </div>
         );
     }
