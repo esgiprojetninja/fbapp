@@ -1,7 +1,9 @@
 import * as types from "./participantTypes";
 import ParticipantApi from "../API/participant/ParticipantApi";
+import FacebookLoader from "../utils/FacebookLoader";
 
 const ptApi = new ParticipantApi();
+const fbApi = new FacebookLoader();
 
 export const toggleSubmitPhotoModal = () => {
     return {
@@ -135,19 +137,65 @@ export const getCurrentParticipant = () => {
 
 export const displayFileUploadModal = () => {
     return {
-      type: types.DISPLAY_FILEUPLOAD_MODAL
+        type: types.DISPLAY_FILEUPLOAD_MODAL
     }
 }
 
 export const leaveUploadDisardingChanges = () => {
     return {
-      type: types.DISCARD_FILEUPLOAD_MODAL
+        type: types.DISCARD_FILEUPLOAD_MODAL
     }
 }
 
-export const uploadedImgFile = (source) => {
+export const previewImgUploaded = (source) => {
     return {
-      type: types.PARTICIPANT_POSTED_IMG,
-      imgSource: source
+        type: types.PARTICIPANT_POSTED_IMG,
+        imgSource: source
+    }
+}
+
+export const removePreviewImg = () => {
+    return {
+        type: types.PARTICIPANT_CANCELLED_POSTED_IMG
+    }
+}
+
+const requestFBPhotoUpload = (response) => {
+    return {
+        type: types.REQUEST_FB_PHOTO_UPLOAD
+    }
+}
+
+const receivedUploadSuccess = (response) => {
+    console.debug("received upload succes mofo !", response);
+    return {
+        type: types.RECEIVED_FB_PHOTO_UPLOAD_SUCCESS,
+        data: response
+    }
+}
+
+const receivedUploadFail = (response) => {
+    console.debug("UPLOAD ERROR !", response);
+    return {
+        type: types.RECEIVED_FB_PHOTO_UPLOAD_FAIL
+    }
+}
+
+export const validPreviewImg = () => {
+    return (dispatch, getState) => {
+        dispatch(requestFBPhotoUpload());
+        const userFbId = getState().user.data.fb_id;
+        const accessToken = getState().user.data.token;
+        const imgUrl = getState().participant.fileUploadedSource;
+        fbApi.postBinaryPhoto(accessToken, imgUrl, "hello moto",
+            (response) => {
+              console.debug("CALLBACK: ", response);
+                if ( response.error ) {
+                    dispatch(receivedUploadFail(response));
+                } else {
+                    dispatch(receivedUploadSuccess(response));
+                }
+            }
+        )
     }
 }

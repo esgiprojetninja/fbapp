@@ -171,6 +171,7 @@ export const getPhotoScope = (rerequest = true) => {
                     dispatch(denyPhotoScope());
                     if (rerequest === true) {
                         facebookLoader.login(() => {
+                            // TODO: when user removes permissions but stays logged in the app and then re-accepts the permissions the token is not updated and causes code breaking throughout the app
                             dispatch(getPhotoScope(false));
                         });
                     }
@@ -266,6 +267,7 @@ export const getFbAlbumPhotos = (album_id) => {
 }
 
 const receiveMoreFbAlbumPhotos = ({response, album_id}) => {
+    // Todo: prevent no photos in album case script crash !
     return {
         type: actionTypes.RECEIVE_MORE_FB_ALBUM_PHOTOS,
         isFetching: false,

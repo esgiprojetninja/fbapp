@@ -10,6 +10,9 @@ const initialSate = {
     participationCancelled: false,
     fileUploadModal: false,
     fileUploadedSource: "",
+    fileUploadRequest: false,
+    fileUploadPosted: false,
+    fileUploadError: false,
     currentParticipant: {}
 };
 
@@ -108,6 +111,28 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 fileUploadedSource: action.imgSource
+            }
+        case pTypes.PARTICIPANT_CANCELLED_POSTED_IMG:
+            return {
+                ...state,
+                fileUploadedSource: ""
+            }
+        case pTypes.REQUEST_FB_PHOTO_UPLOAD:
+            return {
+                ...state,
+                fileUploadRequest: true,
+            }
+        case pTypes.RECEIVED_FB_PHOTO_UPLOAD_SUCCESS:
+            return {
+                ...state,
+                fileUploadRequest: false,
+                fileUploadPosted: true
+            }
+        case pTypes.RECEIVED_FB_PHOTO_UPLOAD_FAIL:
+            return {
+                ...state,
+                fileUploadRequest: false,
+                fileUploadError: true
             }
         default:
             return state;

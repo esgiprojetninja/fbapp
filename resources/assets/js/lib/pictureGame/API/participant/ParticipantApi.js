@@ -24,6 +24,16 @@ export default class ParticipantApi {
         });
     }
 
+    createFBPhoto(imgData, message="hello, moto", callback) {
+        return $.ajax({
+            method: "POST",
+            url: this.apiBaseUrl + "uploadNewFbPhoto",
+            data:{imgData, message}
+        }).done(response => {
+            callback(response);
+        });
+    }
+
     delete(id, callback) {
         return $.ajax({
             method: "DELETE",
