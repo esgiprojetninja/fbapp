@@ -38,12 +38,14 @@ const style = {
     mockupActive: {
         fillOpacity: "0",
         fill: "#00E0FE",
-        stroke: "#00E0FE"
+        stroke: "#00E0FE",
+        stokeWidth: "2"
     },
     mockupDefault: {
         fillOpacity: "0",
         fill: "#777",
-        stroke: "#777"
+        stroke: "#777",
+        strokeWidth: "1"
     }
 }
 
