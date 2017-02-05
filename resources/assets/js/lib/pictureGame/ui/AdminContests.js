@@ -15,7 +15,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-import { SketchPicker } from 'react-color';
+import { BlockPicker } from 'react-color';
 import Toggle from 'material-ui/Toggle';
 
 const style = {
@@ -39,7 +39,7 @@ const style = {
         fillOpacity: "0",
         fill: "#00E0FE",
         stroke: "#00E0FE",
-        strokeWidth: "2"
+        strokeWidth: "3"
     },
     mockupDefault: {
         fillOpacity: "0",
@@ -51,7 +51,9 @@ const style = {
         fontFamily: "Roboto, sans-serif",
         fontWeight: "200",
         textTransform: "uppercase",
-        fontSize: "14px"
+        fontSize: "14px",
+        margin: "10px 0",
+        display: "block"
     }
 }
 
@@ -469,8 +471,8 @@ export default class AdminContests extends React.PureComponent {
             <div className="full-width">
                 <RaisedButton onMouseEnter={this.hoverTheme} onMouseLeave={this.hoverReset} onClick={this.openSettingsTheme} label="Thème" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.hoverCarousel} onMouseLeave={this.hoverReset} onClick={this.openSettingsCarousel} label="Carousel" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.hoverGallery} onMouseLeave={this.hoverReset} onClick={this.openSettingsGallery} label="Gallerie" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.hoverSubmenu} onMouseLeave={this.hoverReset} onClick={this.openSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.hoverGallery} onMouseLeave={this.hoverReset} onClick={this.openSettingsGallery} label="Gallerie" style={style.adminCustom}/>
                 <Toggle label="Fullscreen" labelStyle={style.fullSreenToggle}/>
                 <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
             </div>
@@ -480,9 +482,11 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsTheme() {
         return (
             <div className="full-width text-center vertical-align">
-                <div>
-                    <span style={style.textFont}>Couleur principal du site</span>
-                    <SketchPicker />
+                <div className="full-width">
+                    <span style={style.textFont}>Couleur principal</span>
+                    <div className="col-md-8 col-md-offset-2">
+                        <BlockPicker width="100%" colors={appColors.default} color={appColors.default[0]}/>
+                    </div>
                 </div>
             </div>
         );
@@ -506,8 +510,13 @@ export default class AdminContests extends React.PureComponent {
 
     renderSettingsGallery() {
         return (
-            <div className="full-width text-center">
-                <span>gallery style</span>
+            <div className="full-width text-center vertical-align">
+                <div className="full-width">
+                    <span style={style.textFont}>Couleur des tuiles</span>
+                    <div className="col-md-8 col-md-offset-2">
+                        <BlockPicker width="100%" colors={appColors.default} color={appColors.default[0]}/>
+                    </div>
+                </div>
             </div>
         );
     }
