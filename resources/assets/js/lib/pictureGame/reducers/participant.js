@@ -123,7 +123,7 @@ const participant = (state = initialSate, action) => {
                 fileUploadRequest: true,
                 isFetching: true
             }
-        case pTypes.RECEIVED_FB_PHOTO_UPLOAD_FAIL:
+        case pTypes.RECEIVE_FB_PHOTO_UPLOAD_FAIL:
             return {
                 ...state,
                 fileUploadRequest: false,
@@ -138,6 +138,12 @@ const participant = (state = initialSate, action) => {
                 isFetching: false,
                 fileUploadModal: false,
                 fileUploadedSource: ""
+            }
+        case pTypes.CLOSE_ALL_MODALS:
+            return {
+                ...state,
+                fileUploadModal: false,
+                modalOpen: false
             }
         default:
             return state;

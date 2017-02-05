@@ -230,12 +230,13 @@ export const getFbAlbums = () => {
 }
 
 const receiveFbAlbumPhotos = ({response, album_id}) => {
+    const _next = ( response.paging && response.paging.next ) ? response.paging.next : false;
     return {
         type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
         isFetching: false,
         album_id,
         photos: response.data,
-        next: response.paging.next || false
+        next: _next
     };
 }
 const requestFbAlbumPhotos = () => {
@@ -267,7 +268,6 @@ export const getFbAlbumPhotos = (album_id) => {
 }
 
 const receiveMoreFbAlbumPhotos = ({response, album_id}) => {
-    // Todo: prevent no photos in album case script crash !
     return {
         type: actionTypes.RECEIVE_MORE_FB_ALBUM_PHOTOS,
         isFetching: false,

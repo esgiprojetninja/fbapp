@@ -4,7 +4,9 @@ import Snackbar from 'material-ui/Snackbar';
 
 export default class Notice extends React.PureComponent {
     handleRequestClose() {
-        if ( this.props.leaveAction ){this.props.leaveAction()};
+        if ( this.props.leaveAction ){
+          this.props.leaveAction()
+        }
         this.props.closeNotice();
     };
 

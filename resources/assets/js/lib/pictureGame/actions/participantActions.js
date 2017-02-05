@@ -166,9 +166,9 @@ const requestFBPhotoUpload = (response) => {
     }
 }
 
-const receivedUploadFail = (response) => {
+const receiveUploadFail = (response) => {
     return {
-        type: types.RECEIVED_FB_PHOTO_UPLOAD_FAIL,
+        type: types.RECEIVE_FB_PHOTO_UPLOAD_FAIL,
         msg: response.error || "Erreur inconnue lors de la création de votre photo sur facebook"
     }
 }
@@ -182,7 +182,7 @@ export const validPreviewImg = (msg = "") => {
         fbApi.postBinaryPhoto(accessToken, imgData, msg,
             (response) => {
                 if ( response.error ) {
-                    dispatch(receivedUploadFail(response));
+                    dispatch(receiveUploadFail(response));
                 } else {
                     dispatch(addPhotoToCurrentContest(response.id));
                 }
@@ -194,5 +194,11 @@ export const validPreviewImg = (msg = "") => {
 export const noticedUploadPhotoNotice = () => {
     return {
         type: types.NOTICES_UPLOAD_PHOTO_PARTICIPATION
+    }
+}
+
+export const closeAllModals = () => {
+    return {
+        type: types.CLOSE_ALL_MODALS
     }
 }

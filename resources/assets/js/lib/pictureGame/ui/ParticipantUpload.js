@@ -6,7 +6,7 @@ import FlatButton from "material-ui/FlatButton";
 import TextField from 'material-ui/TextField';
 
 import Done from 'material-ui/svg-icons/action/done';
-import Clear from 'material-ui/svg-icons/content/clear';
+import Undo from 'material-ui/svg-icons/content/undo';
 import InsertImg from 'material-ui/svg-icons/editor/insert-photo';
 
 
@@ -41,6 +41,7 @@ export default class ParticipantUpload extends React.PureComponent {
         if ( this.props.participant.isFetching === false ) {
             this.props.removePreviewImg();
         }
+        this.props.leaveUploadDisardingChanges();
     }
 
     validPreviewImgAction() {
@@ -138,7 +139,6 @@ export default class ParticipantUpload extends React.PureComponent {
                 <FlatButton
                     primary={true}
                     style={{height:"55px", width: "55px"}}
-                    keyboardFocused={true}
                     icon = {<InsertImg style={{height:"55px", width: "55px"}}/>}
                 />
                 <p>Dépose ta photo ici</p>
@@ -166,13 +166,16 @@ export default class ParticipantUpload extends React.PureComponent {
     render () {
         const actions = [
             <FlatButton
+                label="retour vers mes albums"
                 primary={true}
-                icon = {<Clear />}
+                icon = {<Undo />}
                 onTouchTap={this.removePreviewImgAction.bind(this)}
             />,
             <FlatButton
+                disabled={this.props.participant.fileUploadedSource.length < 1}
+                label="valider mon choix"
                 primary={true}
-                keyboardFocused={true}
+                keyboardFocused={this.props.participant.fileUploadedSource.length > 1}
                 icon = {<Done />}
                 onTouchTap={this.validPreviewImgAction.bind(this)}
             />
@@ -185,7 +188,7 @@ export default class ParticipantUpload extends React.PureComponent {
                 modal={false}
                 open={this.props.participant.fileUploadModal}
                 autoScrollBodyContent={true}
-                onRequestClose={this.props.leaveUploadDisardingChanges}
+                onRequestClose={this.props.closeAllModals}
             >
                 {this.renderPhotoInputDescription()}
                 {this.renderDropZone()}
@@ -203,6 +206,7 @@ ParticipantUpload.propTypes = {
     removePreviewImg: T.func.isRequired,
     noticedUploadPhotoNotice: T.func.isRequired,
     userNoticedRegistrationInContest: T.func.isRequired,
+    closeAllModals: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired,
         fileUploadModal: T.bool.isRequired,

@@ -5,7 +5,8 @@ import {
     removePreviewImg,
     validPreviewImg,
     userNoticedRegistrationInContest,
-    noticedUploadPhotoNotice
+    noticedUploadPhotoNotice,
+    closeAllModals
 } from "../actions/participantActions";
 import {
   openNotice,
@@ -39,6 +40,9 @@ const mapDispatchToProps = (dispatch) => {
         userNoticedRegistrationInContest: () => {
             dispatch(closeNotice());
             dispatch(userNoticedRegistrationInContest())
+        },
+        closeAllModals: () => {
+            dispatch(closeAllModals());
         }
     };
 }

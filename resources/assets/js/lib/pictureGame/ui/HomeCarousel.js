@@ -18,6 +18,7 @@ import LocationSearch from 'material-ui/svg-icons/device/location-searching';
 import Upload from 'material-ui/svg-icons/file/file-upload';
 import CameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
+import Undo from 'material-ui/svg-icons/content/undo';
 
 import ParticipantModal from "./ParticipantModal";
 import Spinner from "./Spinner";
@@ -72,6 +73,15 @@ export default class HomeCarousel extends React.PureComponent {
       $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
     }
 
+    getTitleToDisplay() {
+      const depAlb = this.getDeployedAlbum();
+      const t = ( depAlb ) ? depAlb.name : "Vos albums";
+      const _t = ( t.length === 0 ) ? "Album sans nom" : t;
+      return (
+          <h3 id="choose-picture-modal-title">{_t}</h3>
+      );
+    }
+
     getDeployedAlbum () {
         return this.props.user.albums.find(album => album.opened);
     }
@@ -111,7 +121,7 @@ export default class HomeCarousel extends React.PureComponent {
         }
         else if (this.props.participant.addPhotoToContestError) {
           return this.renderPostedPictureModal(
-              "Participation non enregistrée ! " + this.props.participant.addPhotoToContestError,   userNoticedRegistrationInContest
+              "Participation non enregistrée ! " + this.props.participant.addPhotoToContestError,   this.props.userNoticedRegistrationInContest
           );
         }
         else if (this.props.participant.participationCancelled === "success") {
@@ -137,21 +147,31 @@ export default class HomeCarousel extends React.PureComponent {
         else {
             const actions = [
                 <FlatButton
-                    label="fermer"
-                    primary={true}
-                    keyboardFocused={true}
-                    onTouchTap={this.props.toggleSubmitPhotoModal}
-                />,
-                <FlatButton
+                    label="importer ma photo"
                     primary={true}
                     keyboardFocused={true}
                     icon = {<Upload />}
                     onTouchTap={this.props.displayFileUploadModal}
+                />,
+                <FlatButton
+                    label="fermer"
+                    primary={true}
+                    onTouchTap={this.props.toggleSubmitPhotoModal}
                 />
             ];
+            if ( this.getDeployedAlbum() ) {
+                actions.push(
+                    (<div><FlatButton
+                        label="albums"
+                        primary={true}
+                        icon = {<Undo />}
+                        onTouchTap={this.props.getFbAlbums}
+                    /></div>)
+                )
+            }
             return (
                 <Dialog
-                    title={<h3 id="choose-picture-modal-title">Vos albums</h3>}
+                    title={this.getTitleToDisplay()}
                     actions={actions}
                     modal={false}
                     open={this.props.participant.modalOpen}
