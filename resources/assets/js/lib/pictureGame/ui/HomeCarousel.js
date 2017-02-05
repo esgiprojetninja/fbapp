@@ -23,6 +23,7 @@ import ParticipantModal from "./ParticipantModal";
 import Spinner from "./Spinner";
 import UserAlbums from "./UserAlbums";
 import UserAlbum from "./UserAlbum";
+import NoticePop from '../container/Notice';
 import ParticipantUpload from "../container/ParticipantUpload";
 
 export default class HomeCarousel extends React.PureComponent {
@@ -90,47 +91,35 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.cancelParticipation();
     }
 
-    renderPostedPictureModal(title, msg, leaveAction = false){
-        const leaveAct = leaveAction || this.props.userNoticedRegistrationInContest;
-        const actions = [
-          <FlatButton
-            label="Ok"
-            primary={true}
-            keyboardFocused={true}
-            onTouchTap={leaveAct}
-          />
-        ];
+    renderPostedPictureModal(msg, leaveAction = false){
         return (
-            <Dialog
-                title={<h3>{title}</h3>}
-                actions={actions}
-                modal={false}
-                open={true}
-                autoScrollBodyContent={true}
-                onRequestClose={leaveAct}
-            >
-                {msg}
-            </Dialog>
-      );
+            <div>
+                <NoticePop
+                    msg={msg}
+                    leaveAction={leaveAction}
+                />
+            </div>
+
+        );
     }
 
     renderStatusModal () {
         if (this.props.participant.photoSucessfullyAdded) {
           return this.renderPostedPictureModal(
-              "Félicitations !", "Vous participez désormais au tournoi " + this.props.contest.currentContest.title
+              "Félicitations ! Vous participez désormais au tournoi " + this.props.contest.currentContest.title, this.props.userNoticedRegistrationInContest
           );
         }
         else if (this.props.participant.addPhotoToContestError) {
           return this.renderPostedPictureModal(
-              "Participation non enregistrée !", this.props.participant.addPhotoToContestError
+              "Participation non enregistrée ! " + this.props.participant.addPhotoToContestError,   userNoticedRegistrationInContest
           );
         }
         else if (this.props.participant.participationCancelled === "success") {
-            return this.renderPostedPictureModal("Bah alors ?", "Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
+            return this.renderPostedPictureModal("Bah alors ? Votre participation a été annulée à notre plus grand regret...", this.props.noticedCancelNotice)
         }
         // Participation cancelling didn't work
         else if (this.props.participant.participationCancelled === "failed" ) {
-          return this.renderPostedPictureModal("Problème", "Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
+          return this.renderPostedPictureModal("Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
         }
     }
 

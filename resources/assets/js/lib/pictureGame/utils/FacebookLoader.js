@@ -179,26 +179,22 @@ export default class FacebookLoader {
         try {
             blob = dataURItoBlob(imgData);
         } catch (e) {
-            console.log(e);
+            return {error: e}
         }
         const fd = new FormData();
         fd.append("access_token", acces_token);
         fd.append("source", blob);
         fd.append("message", msg);
-        try {
-            $.ajax({
-                url: "https://graph.facebook.com/me/photos?access_token=" + acces_token,
-                type: "POST",
-                data: fd,
-                processData: false,
-                contentType: false,
-                cache: false,
-            }).done(response => {
-                callback(response);
-            });
-        } catch (e) {
-            console.log(e);
-        }
+        $.ajax({
+            url: "https://graph.facebook.com/me/photos?access_token=" + acces_token,
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(response => {
+            callback(response);
+        });
     }
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {

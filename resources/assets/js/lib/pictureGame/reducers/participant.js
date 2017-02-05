@@ -11,7 +11,6 @@ const initialSate = {
     fileUploadModal: false,
     fileUploadedSource: "",
     fileUploadRequest: false,
-    fileUploadPosted: false,
     fileUploadError: false,
     currentParticipant: {}
 };
@@ -27,6 +26,7 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 modalOpen: false,
+                fileUploadModal: false,
                 isFetching: true
             };
         case pTypes.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST:
@@ -121,18 +121,23 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 fileUploadRequest: true,
-            }
-        case pTypes.RECEIVED_FB_PHOTO_UPLOAD_SUCCESS:
-            return {
-                ...state,
-                fileUploadRequest: false,
-                fileUploadPosted: true
+                isFetching: true
             }
         case pTypes.RECEIVED_FB_PHOTO_UPLOAD_FAIL:
             return {
                 ...state,
                 fileUploadRequest: false,
-                fileUploadError: true
+                fileUploadError: action.msg,
+                isFetching: false
+            }
+        case pTypes.NOTICES_UPLOAD_PHOTO_PARTICIPATION:
+            return {
+                ...state,
+                fileUploadRequest: false,
+                fileUploadError: false,
+                isFetching: false,
+                fileUploadModal: false,
+                fileUploadedSource: ""
             }
         default:
             return state;

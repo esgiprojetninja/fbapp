@@ -20,6 +20,9 @@ import {
     getCurrentParticipant,
     displayFileUploadModal
 } from "../actions/participantActions";
+import {
+  openNotice
+} from "../actions/noticeActions";
 import HomeCarouselComponent from "../ui/HomeCarousel";
 
 const mapStateToProps = (state) => {
@@ -48,7 +51,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(getMoreFbAlbumPhotos(link, album_id))
         },
         proposePhotoForContest: (photo_id) => {
-            dispatch(addPhotoToCurrentContest(photo_id))
+            dispatch(addPhotoToCurrentContest(photo_id));
+            dispatch(openNotice());
         },
         userNoticedRegistrationInContest: () => {
             dispatch(userNoticedRegistrationInContest());
@@ -57,10 +61,11 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(toggleConsultingPostedPhoto());
         },
         cancelParticipation: () => {
-            dispatch(cancelParticipation())
+            dispatch(cancelParticipation());
+            dispatch(openNotice());
         },
         noticedCancelNotice: () => {
-            dispatch(noticedCancelNotice())
+            dispatch(noticedCancelNotice());
         },
         displayFileUploadModal: () => {
             dispatch(displayFileUploadModal())

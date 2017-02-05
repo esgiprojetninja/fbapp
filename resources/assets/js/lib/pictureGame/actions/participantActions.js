@@ -26,25 +26,25 @@ const receiveAddPhotoToContest = (data) => {
 }
 
 const requestAddPhotoToContest = () => {
-  return {
-    type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
-  }
+    return {
+        type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
+    }
 }
 
 export const addPhotoToCurrentContest = (photo_id) => {
-  return (dispatch, getState) => {
-      dispatch(requestAddPhotoToContest())
-      ptApi.store(
-        photo_id,
-        (response) => {
-          if (response.error) {
-              dispatch(receiveNotAddedPhotoContest(response))
-          } else {
-              dispatch(receiveAddPhotoToContest(response))
-          }
-        }
-      )
-  }
+    return (dispatch, getState) => {
+        dispatch(requestAddPhotoToContest())
+        ptApi.store(
+            photo_id,
+            (response) => {
+                if (response.error) {
+                    dispatch(receiveNotAddedPhotoContest(response))
+                } else {
+                    dispatch(receiveAddPhotoToContest(response))
+                }
+            }
+        )
+    }
 }
 
 export const userNoticedRegistrationInContest = () => {
@@ -166,36 +166,33 @@ const requestFBPhotoUpload = (response) => {
     }
 }
 
-const receivedUploadSuccess = (response) => {
-    console.debug("received upload succes mofo !", response);
-    return {
-        type: types.RECEIVED_FB_PHOTO_UPLOAD_SUCCESS,
-        data: response
-    }
-}
-
 const receivedUploadFail = (response) => {
-    console.debug("UPLOAD ERROR !", response);
     return {
-        type: types.RECEIVED_FB_PHOTO_UPLOAD_FAIL
+        type: types.RECEIVED_FB_PHOTO_UPLOAD_FAIL,
+        msg: response.error || "Erreur inconnue lors de la création de votre photo sur facebook"
     }
 }
 
-export const validPreviewImg = () => {
+export const validPreviewImg = (msg = "") => {
     return (dispatch, getState) => {
         dispatch(requestFBPhotoUpload());
         const userFbId = getState().user.data.fb_id;
         const accessToken = getState().user.data.token;
-        const imgUrl = getState().participant.fileUploadedSource;
-        fbApi.postBinaryPhoto(accessToken, imgUrl, "hello moto",
+        const imgData = getState().participant.fileUploadedSource;
+        fbApi.postBinaryPhoto(accessToken, imgData, msg,
             (response) => {
-              console.debug("CALLBACK: ", response);
                 if ( response.error ) {
                     dispatch(receivedUploadFail(response));
                 } else {
-                    dispatch(receivedUploadSuccess(response));
+                    dispatch(addPhotoToCurrentContest(response.id));
                 }
             }
         )
+    }
+}
+
+export const noticedUploadPhotoNotice = () => {
+    return {
+        type: types.NOTICES_UPLOAD_PHOTO_PARTICIPATION
     }
 }

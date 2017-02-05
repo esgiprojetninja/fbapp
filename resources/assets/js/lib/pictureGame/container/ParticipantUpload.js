@@ -3,8 +3,14 @@ import {
     leaveUploadDisardingChanges,
     previewImgUploaded,
     removePreviewImg,
-    validPreviewImg
+    validPreviewImg,
+    userNoticedRegistrationInContest,
+    noticedUploadPhotoNotice
 } from "../actions/participantActions";
+import {
+  openNotice,
+  closeNotice
+} from "../actions/noticeActions";
 import ParticipantUploadComponent from "../ui/ParticipantUpload";
 
 const mapStateToProps = (state) => {
@@ -19,11 +25,20 @@ const mapDispatchToProps = (dispatch) => {
         previewImgUploaded: (source) => {
             dispatch(previewImgUploaded(source))
         },
-        removePreviewImg: (source) => {
-            dispatch(removePreviewImg(source))
+        removePreviewImg: () => {
+            dispatch(removePreviewImg())
         },
-        validPreviewImg: (source) => {
-            dispatch(validPreviewImg(source))
+        validPreviewImg: (publicationMsg) => {
+            dispatch(openNotice());
+            dispatch(validPreviewImg(publicationMsg))
+        },
+        noticedUploadPhotoNotice: () => {
+            dispatch(closeNotice());
+            dispatch(noticedUploadPhotoNotice())
+        },
+        userNoticedRegistrationInContest: () => {
+            dispatch(closeNotice());
+            dispatch(userNoticedRegistrationInContest())
         }
     };
 }
