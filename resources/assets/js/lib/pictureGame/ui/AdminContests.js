@@ -17,6 +17,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import { BlockPicker } from 'react-color';
 import Toggle from 'material-ui/Toggle';
+import { Dropzone } from 'react-dropzone';
 
 const style = {
     actionsBtn : {
@@ -66,157 +67,6 @@ const appColors = {
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
-
-        this.state = {
-            open : false,
-            openEvents: true,
-            openSettings: false,
-            settingsMenu: true,
-            settingsTheme: false,
-            settingsCarousel: false,
-            settingsGallery: false,
-            settingsSubmenu: false,
-            background: appColors.default[0],
-            adminPreview: "https://image.noelshack.com/fichiers/2017/05/1486252110-xd.png",
-            hoverSettingsTheme: false,
-            hoverSettingsCarousel: false,
-            hoverSettingsGallery: false,
-            hoverSettingsSubmenu: false
-        }
-
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.openEvents = this.openEvents.bind(this);
-        this.openSettings = this.openSettings.bind(this);
-        this.openSettingsMenu = this.openSettingsMenu.bind(this);
-        this.openSettingsTheme = this.openSettingsTheme.bind(this);
-        this.openSettingsGallery = this.openSettingsGallery.bind(this);
-        this.openSettingsCarousel = this.openSettingsCarousel.bind(this);
-        this.openSettingsSubmenu = this.openSettingsSubmenu.bind(this);
-        this.hoverCarousel = this.hoverCarousel.bind(this);
-        this.hoverTheme = this.hoverTheme.bind(this);
-        this.hoverSubmenu = this.hoverSubmenu.bind(this);
-        this.hoverGallery = this.hoverGallery.bind(this);
-        this.hoverReset = this.hoverReset.bind(this);
-    }
-
-    openSettingsMenu() {
-        this.setState({
-            settingsMenu: true,
-            settingsTheme: false,
-            settingsCarousel: false,
-            settingsGallery: false,
-            settingsSubmenu: false
-         });
-    }
-
-    openSettingsTheme() {
-        this.setState({
-            settingsMenu: false,
-            settingsTheme: true,
-            settingsCarousel: false,
-            settingsGallery: false,
-            settingsSubmenu: false
-         });
-    }
-
-    openSettingsSubmenu() {
-        this.setState({
-            settingsMenu: false,
-            settingsTheme: false,
-            settingsCarousel: false,
-            settingsGallery: false,
-            settingsSubmenu: true
-         });
-    }
-
-    openSettingsGallery() {
-        this.setState({
-            settingsMenu: false,
-            settingsTheme: false,
-            settingsCarousel: false,
-            settingsGallery: true,
-            settingsSubmenu: false
-         });
-    }
-
-    openSettingsCarousel() {
-        this.setState({
-            settingsMenu: false,
-            settingsTheme: false,
-            settingsCarousel: true,
-            settingsGallery: false,
-            settingsSubmenu: false
-         });
-    }
-
-    openSettings() {
-        this.setState({
-            openEvents: false,
-            openSettings: true,
-            settingsMenu: true,
-            settingsCarousel: false,
-            settingsGallery: false,
-            settingsSubmenu: false,
-            settingsTheme: false
-        });
-    }
-
-    hoverCarousel() {
-        this.setState({
-            hoverSettingsCarousel: true,
-            hoverSettingsTheme: false,
-            hoverSettingsSubmenu: false,
-            hoverSettingsGallery: false
-        });
-    }
-
-    hoverTheme() {
-        this.setState({
-            hoverSettingsCarousel: false,
-            hoverSettingsTheme: true,
-            hoverSettingsSubmenu: false,
-            hoverSettingsGallery: false
-        });
-    }
-
-    hoverGallery() {
-        this.setState({
-            hoverSettingsCarousel: false,
-            hoverSettingsTheme: false,
-            hoverSettingsSubmenu: false,
-            hoverSettingsGallery: true
-        });
-    }
-
-    hoverSubmenu() {
-        this.setState({
-            hoverSettingsCarousel: false,
-            hoverSettingsTheme: false,
-            hoverSettingsSubmenu: true,
-            hoverSettingsGallery: false
-        });
-    }
-
-    hoverReset() {
-        this.setState({
-            hoverSettingsCarousel: false,
-            hoverSettingsTheme: false,
-            hoverSettingsSubmenu: false,
-            hoverSettingsGallery: false
-        });
-    }
-
-    openEvents() {
-        this.setState({openEvents: true, openSettings: false});
-    }
-
-    handleOpen() {
-        this.setState({open: true});
-    }
-
-    handleClose() {
-        this.setState({open: false});
     }
 
     componentWillMount () {
@@ -279,13 +129,13 @@ export default class AdminContests extends React.PureComponent {
                             style={{padding: "0 15px"}}
                             primaryText="Concours"
                             secondaryText="Voir les concours"
-                            onClick={this.openEvents}
+                            onClick={this.props.onOpenEvents}
                         />
                         <ListItem
                             style={{padding: "0 15px"}}
                             primaryText="Paramètres"
                             secondaryText="Design de l'application"
-                            onClick={this.openSettings}
+                            onClick={this.props.onOpenSettings}
                         />
                     </List>
                 </div>
@@ -382,6 +232,14 @@ export default class AdminContests extends React.PureComponent {
         );
     }
 
+    renderParamsWithBackButton() {
+        if(this.props.settingsSubmenu || this.props.settingsTheme || this.props.settingsCarousel || this.props.settingsGallery){
+            return this.renderAdminCustomizeBack()
+        }else{
+            return this.renderAdminCustomize()
+        }
+    }
+
     renderAdminPreview() {
         const mockupStyle = {
             mockupActive: {
@@ -402,26 +260,26 @@ export default class AdminContests extends React.PureComponent {
             <div className="text-center">
                 <svg className="svg-canvas">
                     <path
-                        style={this.state.hoverSettingsCarousel ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingCarousel ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 7.18154,2.5565474 h 195.79167 c 2.68079,0 4.83897,2.1279841 4.83897,4.7712648 V 99.082901 c 0,2.643279 -2.15818,4.771269 -4.83897,4.771269 H 7.18154 c -2.6807828,0 -4.838958,-2.12799 -4.838958,-4.771269 V 7.3278122 c 0,-2.6432807 2.1581752,-4.7712648 4.838958,-4.7712648 z"
                     />
                     <path
-                        style={this.state.hoverSettingsSubmenu ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingSubmenu ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 7.7105232,106.72142 H 202.96087 c 2.66829,0 4.81641,2.1915 4.81641,4.91368 v 17.76491 c 0,2.72218 -2.14812,4.91368 -4.81641,4.91368 H 7.7105232 c -2.6682936,0 -4.8164146,-2.1915 -4.8164146,-4.91368 V 111.6351 c 0,-2.72218 2.148121,-4.91368 4.8164146,-4.91368 z"
                     />
                     <path
-                        style={this.state.hoverSettingsGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 8.2272747,137.64409 H 203.0208 c 2.66204,0 4.80514,2.10356 4.80514,4.71649 v 143.67155 c 0,2.61293 -2.1431,4.71648 -4.80514,4.71648 H 8.2272747 c -2.6620507,0 -4.8051456,-2.10355 -4.8051456,-4.71648 V 142.36058 c 0,-2.61293 2.1430949,-4.71649 4.8051456,-4.71649 z"
                     />
                     <path
-                        style={this.state.hoverSettingsTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 10.212796,5.7530481 H 199.78539 c 2.63064,0 4.74845,2.110808 4.74845,4.7327519 v 4.004658 c 0,2.621946 -2.11781,4.732753 -4.74845,4.732753 H 10.212796 c -2.6306351,0 -4.7484381,-2.110807 -4.7484381,-4.732753 V 10.4858 c 0,-2.6219439 2.117803,-4.7327519 4.7484381,-4.7327519 z"
                     />
                     <path
                         d="m 82.020835,54.717262 h 17.764882 c 2.093993,0 3.779763,1.685774 3.779763,3.779762 0,2.093988 -1.68577,3.779762 -3.779763,3.779762 H 82.020835 c -2.093988,0 -3.779761,-1.685774 -3.779761,-3.779762 0,-2.093988 1.685773,-3.779762 3.779761,-3.779762 z"
                     />
                     <path
-                        style={this.state.hoverSettingsTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 112.44792,54.717262 h 17.76488 c 2.09399,0 3.77977,1.685774 3.77977,3.779762 0,2.093988 -1.68578,3.779762 -3.77977,3.779762 h -17.76488 c -2.09399,0 -3.77976,-1.685774 -3.77976,-3.779762 0,-2.093988 1.68577,-3.779762 3.77976,-3.779762 z"
                     />
                 </svg>
@@ -429,37 +287,29 @@ export default class AdminContests extends React.PureComponent {
         );
     }
 
-    renderParamsWithBackButton() {
-        if(this.state.settingsSubmenu || this.state.settingsTheme || this.state.settingsCarousel || this.state.settingsGallery){
-            return this.renderAdminCustomizeBack()
-        }else{
-            return this.renderAdminCustomize()
-        }
-    }
-
     renderAdminCustomizeBack() {
         return (
             <div>
                 {this.renderAdminCustomize()}
-                <RaisedButton onClick={this.openSettingsMenu} label="Retour" style={{position: "absolute", right: "0", bottom: "0", margin: "25px"}}/>
+                <RaisedButton onClick={this.props.onOpenSettingsMenu} label="Retour" style={{position: "absolute", right: "0", bottom: "0", margin: "25px"}}/>
             </div>
         );
     }
 
     renderAdminCustomize() {
-        if(this.state.settingsMenu){
+        if(this.props.settingsMenu){
             return this.renderSettingsMenu()
         }
-        if(this.state.settingsTheme){
+        if(this.props.settingsTheme){
             return this.renderSettingsTheme()
         }
-        if(this.state.settingsCarousel){
+        if(this.props.settingsCarousel){
             return this.renderSettingsCarousel()
         }
-        if(this.state.settingsSubmenu){
+        if(this.props.settingsSubmenu){
             return this.renderSettingsSubmenu()
         }
-        if(this.state.settingsGallery){
+        if(this.props.settingsGallery){
             return this.renderSettingsGallery()
         }
     }
@@ -467,10 +317,10 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsMenu() {
         return (
             <div className="full-width">
-                <RaisedButton onMouseEnter={this.hoverTheme} onMouseLeave={this.hoverReset} onClick={this.openSettingsTheme} label="Thème" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.hoverCarousel} onMouseLeave={this.hoverReset} onClick={this.openSettingsCarousel} label="Carousel" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.hoverSubmenu} onMouseLeave={this.hoverReset} onClick={this.openSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.hoverGallery} onMouseLeave={this.hoverReset} onClick={this.openSettingsGallery} label="Gallerie" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsTheme} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsTheme} label="Thème" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsCarousel} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsCarousel} label="Carousel" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsSubmenu} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsGallery} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsGallery} label="Gallerie" style={style.adminCustom}/>
                 <Toggle defaultToggled={true} label="Fullscreen" labelStyle={style.fullSreenToggle}/>
                 <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
             </div>
@@ -483,7 +333,7 @@ export default class AdminContests extends React.PureComponent {
                 <div className="full-width">
                     <span style={style.textFont}>Couleur principal</span>
                     <div className="col-md-8 col-md-offset-2">
-                        <BlockPicker width="100%" colors={appColors.default} color={this.props.color} onChange={
+                        <BlockPicker width="100%" colors={appColors.default} color={this.props.colorGallery} onChange={
                             (color) => {
                                 this.props.onChangeColor(color.hex);
                             }
@@ -497,7 +347,9 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div className="full-width text-center">
-                <span>upload images</span>
+                <Dropzone>
+                  <div>Drop ou clique pour ajouter une image dans le carousel</div>
+                </Dropzone>
             </div>
         );
     }
@@ -505,7 +357,9 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsSubmenu() {
         return (
             <div className="full-width text-center">
-                <span>upload image</span>
+                <Dropzone>
+                  <div>Drop ou clique pour ajouter une image au sous-menu</div>
+                </Dropzone>
             </div>
         );
     }
@@ -518,7 +372,7 @@ export default class AdminContests extends React.PureComponent {
                     <div className="col-md-8 col-md-offset-2">
                         <BlockPicker width="100%" colors={appColors.default} color={this.props.colorGallery} onChange={
                             (color) => {
-                                this.props.onChangeColorGaller(color.hex);
+                                this.props.onChangeColorGallery(color.hex);
                             }
                         }/>
                     </div>
@@ -528,7 +382,7 @@ export default class AdminContests extends React.PureComponent {
     }
 
     renderAdminBody () {
-        if(this.state.openEvents){
+        if(this.props.openEvents){
             return (
                 <div className="col-md-9" style={{alignSelf: "flex-start"}}>
                     <div>
@@ -541,7 +395,7 @@ export default class AdminContests extends React.PureComponent {
                 </div>
             );
         }
-        if(this.state.openSettings){
+        if(this.props.openSettings){
             return (
                 <div className="col-md-9 vertical-align" style={{position: "initial"}}>
                     <div className="full-width">
@@ -557,13 +411,13 @@ export default class AdminContests extends React.PureComponent {
           <FlatButton
             label="Cancel"
             primary={true}
-            onTouchTap={this.handleClose}
+            onTouchTap={this.props.onCloseAdmin}
           />,
           <FlatButton
             label="Submit"
             primary={true}
             keyboardFocused={true}
-            onTouchTap={this.handleClose}
+            onTouchTap={this.props.onCloseAdmin}
           />,
         ];
 
@@ -573,15 +427,15 @@ export default class AdminContests extends React.PureComponent {
                 <div className="initial">
                     <FlatButton
                         label="Admin"
-                        onTouchTap={this.handleOpen}
+                        onTouchTap={this.props.onOpenAdmin}
                     />
                     <Dialog
                       title="Admin"
                       bodyClassName="admin-body"
                       modal={false}
-                      open={this.state.open}
+                      open={this.props.openAdmin}
                       contentStyle={style.modal}
-                      onRequestClose={this.handleClose}
+                      onRequestClose={this.props.onCloseAdmin}
                       autoScrollBodyContent={true}
                     >
                         <div className="vertical-align">

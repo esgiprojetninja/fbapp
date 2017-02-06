@@ -16,7 +16,19 @@ const initialSate = {
     createModalOpen: false,
     error: false,
     color: "#00BCD4",
-    colorGallery: "#00BCD4"
+    colorGallery: "#00BCD4",
+    openAdmin: false,
+    openEvents: false,
+    openSettings: false,
+    settingsCarousel: false,
+    settingsGallery: false,
+    settingsSubmenu: false,
+    settingsTheme: false,
+    settingsMenu: false,
+    hoverSettingTheme: false,
+    hoverSettingCarousel: false,
+    hoverSettingSubmenu: false,
+    hoverSettingGallery: false
 };
 
 const contest = (state = initialSate, action) => {
@@ -69,6 +81,23 @@ const contest = (state = initialSate, action) => {
                 isFetching: false,
                 currentContest: action.contest
             };
+        case actionTypes.OPEN_SETTINGS:
+            return {
+                ...state,
+                openEvents: false,
+                openSettings: true,
+                settingsCarousel: false,
+                settingsGallery: false,
+                settingsSubmenu: false,
+                settingsTheme: false,
+                settingsMenu: true,
+            };
+        case actionTypes.OPEN_EVENTS:
+            return {
+                ...state,
+                openEvents: true,
+                openSettings: false
+            };
         case actionTypes.CHANGE_MAIN_COLOR:
             return {
                 ...state,
@@ -78,6 +107,94 @@ const contest = (state = initialSate, action) => {
             return {
                 ...state,
                 colorGallery: action.colorGallery
+            };
+        case actionTypes.OPEN_ADMIN:
+            return {
+                ...state,
+                openAdmin: true,
+                openEvents: true
+            };
+        case actionTypes.CLOSE_ADMIN:
+            return {
+                ...state,
+                openAdmin: false,
+            }
+        case actionTypes.OPEN_SETTINGS_THEME:
+            return {
+                ...state,
+                settingsCarousel: false,
+                settingsGallery: false,
+                settingsSubmenu: false,
+                settingsTheme: true,
+                settingsMenu: false
+            };
+        case actionTypes.OPEN_SETTINGS_CAROUSEL:
+            return {
+                ...state,
+                settingsCarousel: true,
+                settingsGallery: false,
+                settingsSubmenu: false,
+                settingsTheme: false,
+                settingsMenu: false
+            };
+        case actionTypes.OPEN_SETTINGS_SUBMENU:
+            return {
+                ...state,
+                settingsCarousel: false,
+                settingsGallery: false,
+                settingsSubmenu: true,
+                settingsTheme: false,
+                settingsMenu: false
+            };
+        case actionTypes.OPEN_SETTINGS_GALLERY:
+            return {
+                ...state,
+                settingsCarousel: false,
+                settingsGallery: true,
+                settingsSubmenu: false,
+                settingsTheme: false,
+                settingsMenu: false
+            };
+        case actionTypes.OPEN_SETTINGS_MENU:
+            return {
+                ...state,
+                settingsCarousel: false,
+                settingsGallery: false,
+                settingsSubmenu: false,
+                settingsTheme: false,
+                settingsMenu: true
+            };
+        case actionTypes.HOVER_SETTINGS_THEME:
+            return {
+                ...state,
+                hoverSettingTheme: true,
+                hoverSettingCarousel: false,
+                hoverSettingSubmenu: false,
+                hoverSettingGallery: false
+            };
+        case actionTypes.HOVER_SETTINGS_CAROUSEL:
+            return {
+                ...state,
+                hoverSettingTheme: false,
+                hoverSettingCarousel: true,
+                hoverSettingSubmenu: false,
+                hoverSettingGallery: false
+            };
+        case actionTypes.HOVER_SETTINGS_SUBMENU:
+            return {
+                ...state,
+                hoverSettingTheme: false,
+                hoverSettingCarousel: false,
+                hoverSettingSubmenu: true,
+                hoverSettingGallery: false
+            };
+        case actionTypes.HOVER_SETTINGS_GALLERY:
+            return {
+                ...state,
+                hoverSettingTheme: false,
+                hoverSettingCarousel: false,
+                hoverSettingSubmenu: false,
+                hoverSettingGallery: true
             };
         default:
             return state;

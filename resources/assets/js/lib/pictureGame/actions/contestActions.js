@@ -117,6 +117,27 @@ export const toggleCreateModal = (contest) => {
     };
 }
 
+export const openSettings = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS,
+        openEvents: false,
+        openSettings: true,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: true
+    };
+}
+
+export const openEvents = () => {
+    return {
+        type: actionTypes.OPEN_EVENTS,
+        openEvents: true,
+        openSettings: false
+    };
+}
+
 export const changeMainColor = (color) => {
     return {
         type: actionTypes.CHANGE_MAIN_COLOR,
@@ -131,10 +152,120 @@ export const changeColorGallery = (colorGallery) => {
     }
 }
 
+export const openAdmin = () => {
+    return {
+        type: actionTypes.OPEN_ADMIN,
+        openAdmin: true,
+        openEvents: true
+    };
+}
+
+export const closeAdmin = () => {
+    return {
+        type: actionTypes.CLOSE_ADMIN,
+        openAdmin: false
+    };
+}
+
+export const openSettingsTheme = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_THEME,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: true,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsCarousel = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_CAROUSEL,
+        settingsCarousel: true,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsSubmenu = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_SUBMENU,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: true,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsGallery = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_GALLERY,
+        settingsCarousel: false,
+        settingsGallery: true,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsMenu = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_MENU,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: true
+    };
+}
+
 export const newContestChange = (attr, value) => {
     return {
         type: actionTypes.NEW_CONTEST_CHANGE,
         attr: attr,
         value: value
+    };
+}
+
+export const hoverSettingsTheme = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_THEME,
+        hoverSettingTheme: true,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false
+    };
+}
+
+export const hoverSettingsCarousel = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_CAROUSEL,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: true,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false
+    };
+}
+
+export const hoverSettingsSubmenu = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_SUBMENU,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: true,
+        hoverSettingGallery: false
+    };
+}
+
+export const hoverSettingsGallery = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_GALLERY,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: true
     };
 }

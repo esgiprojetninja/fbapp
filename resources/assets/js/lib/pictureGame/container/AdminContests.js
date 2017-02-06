@@ -5,7 +5,20 @@ import {
     deleteContest,
     activateContest,
     changeMainColor,
-    changeColorGallery
+    changeColorGallery,
+    openAdmin,
+    closeAdmin,
+    openSettings,
+    openEvents,
+    openSettingsTheme,
+    openSettingsSubmenu,
+    openSettingsCarousel,
+    openSettingsGallery,
+    openSettingsMenu,
+    hoverSettingsTheme,
+    hoverSettingsSubmenu,
+    hoverSettingsGallery,
+    hoverSettingsCarousel
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -32,6 +45,45 @@ const mapDispatchToProps = (dispatch) => {
         },
         onChangeColorGallery: (colorGallery) => {
             dispatch(changeColorGallery(colorGallery));
+        },
+        onOpenSettings: () => {
+            dispatch(openSettings());
+        },
+        onOpenEvents: () => {
+            dispatch(openEvents());
+        },
+        onOpenAdmin: () => {
+            dispatch(openAdmin());
+        },
+        onCloseAdmin: () => {
+            dispatch(closeAdmin());
+        },
+        onOpenSettingsTheme: () => {
+            dispatch(openSettingsTheme());
+        },
+        onOpenSettingsCarousel: () => {
+            dispatch(openSettingsCarousel());
+        },
+        onOpenSettingsSubmenu: () => {
+            dispatch(openSettingsSubmenu());
+        },
+        onOpenSettingsGallery: () => {
+            dispatch(openSettingsGallery());
+        },
+        onOpenSettingsMenu: () => {
+            dispatch(openSettingsMenu());
+        },
+        onHoverSettingsTheme: () => {
+            dispatch(hoverSettingsTheme());
+        },
+        onHoverSettingsCarousel: () => {
+            dispatch(hoverSettingsCarousel());
+        },
+        onHoverSettingsSubmenu: () => {
+            dispatch(hoverSettingsSubmenu());
+        },
+        onHoverSettingsGallery: () => {
+            dispatch(hoverSettingsGallery());
         }
     }
 }
