@@ -219,7 +219,8 @@ export default class HomeCarousel extends React.PureComponent {
                     <RaisedButton
                         label="PARTICIPER AU CONCOURS"
                         labelPosition="before"
-                        primary={true}
+                        backgroundColor={this.props.contest.color}
+                        labelColor="#fff"
                         icon={<AddAPhoto />}
                         className="home-carousel-button"
                         onTouchTap={this.playButtonAction.bind(this)}
@@ -230,7 +231,8 @@ export default class HomeCarousel extends React.PureComponent {
                 <RaisedButton
                     label="MA PHOTO EN JEU"
                     labelPosition="before"
-                    primary={true}
+                    labelColor="#fff"
+                    backgroundColor={this.props.contest.color}
                     icon={<CameraEnhance />}
                     className="home-carousel-button"
                     onTouchTap={this.props.toggleConsultingPostedPhoto}

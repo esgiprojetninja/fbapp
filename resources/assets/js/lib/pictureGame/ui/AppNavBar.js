@@ -25,7 +25,6 @@ export default class AppNavBar extends React.PureComponent {
         this.hide = false;
         this.myClass = 'navbar-mui navbar-mui-out';
         this.toggleNavbar = this.toggleNavbar.bind(this);
-        this.showmsg = this.showmsg.bind(this);
     }
 
     toggleNavbar(){
@@ -34,14 +33,9 @@ export default class AppNavBar extends React.PureComponent {
         this.forceUpdate();
     }
 
-    showmsg(){
-        console.log(this.props);
-    }
-
     renderAppNavBar(){
         return (
             <AppBar
-                onClick={this.showmsg}
                 style={{backgroundColor: this.props.color}}
                 className={this.myClass}
                 title={this.props.title}
