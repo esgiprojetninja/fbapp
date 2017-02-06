@@ -11,6 +11,7 @@ const initialSate = {
         id_winner: 0,
         state: false
     },
+    currentContest: false,
     isFetching: false,
     createModalOpen: false,
     error: false,

@@ -1,7 +1,9 @@
 import * as types from "./participantTypes";
 import ParticipantApi from "../API/participant/ParticipantApi";
+import FacebookLoader from "../utils/FacebookLoader";
 
 const ptApi = new ParticipantApi();
+const fbApi = new FacebookLoader();
 
 export const toggleSubmitPhotoModal = () => {
     return {
@@ -24,25 +26,25 @@ const receiveAddPhotoToContest = (data) => {
 }
 
 const requestAddPhotoToContest = () => {
-  return {
-    type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
-  }
+    return {
+        type: types.REQUEST_ADD_PHOTO_TO_CURRENT_CONTEST
+    }
 }
 
 export const addPhotoToCurrentContest = (photo_id) => {
-  return (dispatch, getState) => {
-      dispatch(requestAddPhotoToContest())
-      ptApi.store(
-        photo_id,
-        (response) => {
-          if (response.error) {
-              dispatch(receiveNotAddedPhotoContest(response))
-          } else {
-              dispatch(receiveAddPhotoToContest(response))
-          }
-        }
-      )
-  }
+    return (dispatch, getState) => {
+        dispatch(requestAddPhotoToContest())
+        ptApi.store(
+            photo_id,
+            (response) => {
+                if (response.error) {
+                    dispatch(receiveNotAddedPhotoContest(response))
+                } else {
+                    dispatch(receiveAddPhotoToContest(response))
+                }
+            }
+        )
+    }
 }
 
 export const userNoticedRegistrationInContest = () => {
@@ -130,5 +132,73 @@ export const getCurrentParticipant = () => {
                 dispatch(recieveCurrentParticipant(r.participant));
             }
         });
+    }
+}
+
+export const displayFileUploadModal = () => {
+    return {
+        type: types.DISPLAY_FILEUPLOAD_MODAL
+    }
+}
+
+export const leaveUploadDisardingChanges = () => {
+    return {
+        type: types.DISCARD_FILEUPLOAD_MODAL
+    }
+}
+
+export const previewImgUploaded = (source) => {
+    return {
+        type: types.PARTICIPANT_POSTED_IMG,
+        imgSource: source
+    }
+}
+
+export const removePreviewImg = () => {
+    return {
+        type: types.PARTICIPANT_CANCELLED_POSTED_IMG
+    }
+}
+
+const requestFBPhotoUpload = (response) => {
+    return {
+        type: types.REQUEST_FB_PHOTO_UPLOAD
+    }
+}
+
+const receiveUploadFail = (response) => {
+    return {
+        type: types.RECEIVE_FB_PHOTO_UPLOAD_FAIL,
+        msg: response.error || "Erreur inconnue lors de la création de votre photo sur facebook"
+    }
+}
+
+export const validPreviewImg = (msg = "") => {
+    return (dispatch, getState) => {
+        dispatch(requestFBPhotoUpload());
+        const userFbId = getState().user.data.fb_id;
+        const accessToken = getState().user.data.token;
+        const imgData = getState().participant.fileUploadedSource;
+        fbApi.postBinaryPhoto(accessToken, imgData, msg,
+            (response) => {
+                if ( response.error ) {
+                    dispatch(receiveUploadFail(response));
+                } else {
+                    dispatch(addPhotoToCurrentContest(response.id));
+                }
+            }
+        )
+    }
+}
+
+export const noticedUploadPhotoNotice = () => {
+    return {
+        type: types.NOTICES_UPLOAD_PHOTO_PARTICIPATION
+    }
+}
+
+export const closeAllModals = () => {
+    return {
+        type: types.CLOSE_ALL_MODALS
     }
 }

@@ -1,4 +1,5 @@
 import AuthApi from "../API/user/AuthApi";
+import $ from "jquery";
 
 export default class FacebookLoader {
 
@@ -48,6 +49,7 @@ export default class FacebookLoader {
     checkPermissions(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             let granted = true;
+            if ( typeof perms.data === "undefined" ) {perms.data=[]}
             const permissionsGranted = perms.data.reduce((grant, perm) => {
                 if (perm.status === "granted") {
                     grant.push(perm.permission);
@@ -159,6 +161,41 @@ export default class FacebookLoader {
         ));
     }
 
+    postBinaryPhoto(acces_token, imgData, msg, callback) {
+        // Convert a data URI to blob
+        function dataURItoBlob(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], {
+                type: 'image/png'
+            });
+        }
+        // Post a BASE64 Encoded PNG Image to facebook
+        let blob;
+        try {
+            blob = dataURItoBlob(imgData);
+        } catch (e) {
+            return {error: e}
+        }
+        const fd = new FormData();
+        fd.append("access_token", acces_token);
+        fd.append("source", blob);
+        fd.append("message", msg);
+        $.ajax({
+            url: "https://graph.facebook.com/me/photos?access_token=" + acces_token,
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(response => {
+            callback(response);
+        });
+    }
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {
         return new Promise ((resolve, reject) => {

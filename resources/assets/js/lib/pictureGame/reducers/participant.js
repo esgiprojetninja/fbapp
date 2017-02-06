@@ -8,6 +8,10 @@ const initialSate = {
     consultingPostedPhoto: false,
     deletingParticipationOngoing: false,
     participationCancelled: false,
+    fileUploadModal: false,
+    fileUploadedSource: "",
+    fileUploadRequest: false,
+    fileUploadError: false,
     currentParticipant: {}
 };
 
@@ -22,6 +26,7 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 modalOpen: false,
+                fileUploadModal: false,
                 isFetching: true
             };
         case pTypes.RECEIVE_ADD_PHOTO_TO_CURRENT_CONTEST:
@@ -30,6 +35,7 @@ const participant = (state = initialSate, action) => {
                 currentParticipant: action.participant,
                 photoSucessfullyAdded: true,
                 modalOpen: false,
+                fileUploadedSource: "",
                 isFetching: false
             };
         case pTypes.RECEIVE_NOT_ADD_PHOTO_TO_CURRENT_CONTEST:
@@ -89,6 +95,56 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 currentParticipant: action.participant
+            }
+        case pTypes.DISPLAY_FILEUPLOAD_MODAL:
+            return {
+                ...state,
+                fileUploadModal: true,
+                modalOpen: false
+            }
+        case pTypes.DISCARD_FILEUPLOAD_MODAL:
+            return {
+                ...state,
+                fileUploadModal: false,
+                modalOpen: true
+            }
+        case pTypes.PARTICIPANT_POSTED_IMG:
+            return {
+                ...state,
+                fileUploadedSource: action.imgSource
+            }
+        case pTypes.PARTICIPANT_CANCELLED_POSTED_IMG:
+            return {
+                ...state,
+                fileUploadedSource: ""
+            }
+        case pTypes.REQUEST_FB_PHOTO_UPLOAD:
+            return {
+                ...state,
+                fileUploadRequest: true,
+                isFetching: true
+            }
+        case pTypes.RECEIVE_FB_PHOTO_UPLOAD_FAIL:
+            return {
+                ...state,
+                fileUploadRequest: false,
+                fileUploadError: action.msg,
+                isFetching: false
+            }
+        case pTypes.NOTICES_UPLOAD_PHOTO_PARTICIPATION:
+            return {
+                ...state,
+                fileUploadRequest: false,
+                fileUploadError: false,
+                isFetching: false,
+                fileUploadModal: false,
+                fileUploadedSource: ""
+            }
+        case pTypes.CLOSE_ALL_MODALS:
+            return {
+                ...state,
+                fileUploadModal: false,
+                modalOpen: false
             }
         default:
             return state;
