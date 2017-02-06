@@ -226,8 +226,10 @@ class ParticipantController extends Controller
           $participant = Participant::where('id_contest', $currentContest->getId())
                                             ->where('id_user', Auth::user()->id)
                                             ->get()
-                                            ->first() || [];
+                                            ->first();
         }
+        if ( empty($participant) )
+          $participant = false;
         return response()->json([
             'participant' => $participant
         ]);

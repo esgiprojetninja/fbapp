@@ -1,5 +1,6 @@
 import React, {PropTypes as T} from "react";
 import Dropzone from "react-dropzone";
+import $ from "jquery";
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from "material-ui/FlatButton";
@@ -37,8 +38,11 @@ export default class ParticipantUpload extends React.PureComponent {
           },
           previewImg: {
             opacity: ".94",
-            maxHeight: "100%",
-            zIndex: "1"
+            maxHeight: "50%",
+            zIndex: "1",
+            position: "fixed",
+            bottom: "calc(13%)",
+            right: "calc(3%)"
           },
           requestSpinner: {
             top: "0",
@@ -64,7 +68,7 @@ export default class ParticipantUpload extends React.PureComponent {
         e.preventDefault();
         const reader = new FileReader();
         try {
-            const file = (e.target.nodeName === "INPUT") ? e.target.files[0] : e.target.firstChild.files[0];
+            const file = (e.target.nodeName !== "INPUT") ? $(e.target).find('input')[0].files[0] : e.target.files[0];
             reader.onloadend = () => {
                 this.props.previewImgUploaded(reader.result);
             }
@@ -131,9 +135,9 @@ export default class ParticipantUpload extends React.PureComponent {
     }
 
     renderImgPreview() {
-        if ( this.props.participant.fileUploadedSource.length > 1 ) {
+        if ( !this.props.participant.isFetching && this.props.participant.fileUploadedSource.length > 1 ) {
             return (
-                <img style={this.style.previewImg} className="height-auto width-12 absolute" src={this.props.participant.fileUploadedSource} />
+                <img style={this.style.previewImg} className="height-auto width-10 absolute" src={this.props.participant.fileUploadedSource} />
             )
         }
         return;
@@ -142,23 +146,12 @@ export default class ParticipantUpload extends React.PureComponent {
     renderDropZone() {
         if ( this.props.participant.isFetching ){return};
         return (
-          <div className="relative dashed-border border-theme-color display-flex-column margin-auto" style={this.style.dropzone}>
             <Dropzone
               multiple={false}
-              minSize={5000}
+              minSize={100}
               accept="image/*"
               onDropAccepted={this.dropAction.bind(this)}
-              style={this.style.dropzoneInput}
-            >
-            </Dropzone>
-            <FlatButton
-                primary={true}
-                style={{height:'55px', width: '55px', zIndex:'1'}}
-                icon = {<InsertImg style={{height:'55px', width: '55px'}}/>}
             />
-            <p style={{zIndex:'1'}}>Dépose ta photo ici</p>
-            {this.renderImgPreview()}
-          </div>
         )
     }
 
@@ -213,6 +206,7 @@ export default class ParticipantUpload extends React.PureComponent {
             >
                 {this.renderPhotoInputDescription()}
                 {this.renderDropZone()}
+                {this.renderImgPreview()}
                 {this.renderLoader()}
                 {this.renderUploadNotice()}
             </Dialog>

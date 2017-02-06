@@ -101,12 +101,13 @@ export default class HomeCarousel extends React.PureComponent {
         this.props.cancelParticipation();
     }
 
-    renderPostedPictureModal(msg, leaveAction = false){
+    renderPostedPictureModal(msg, leaveAction = false, customTimeout = 5000){
         return (
             <div>
                 <NoticePop
                     msg={msg}
                     leaveAction={leaveAction}
+                    customTimeout={customTimeout}
                 />
             </div>
 

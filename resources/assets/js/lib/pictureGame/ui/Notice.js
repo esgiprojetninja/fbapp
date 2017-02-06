@@ -11,13 +11,14 @@ export default class Notice extends React.PureComponent {
     };
 
     render() {
+        const timeOut = (this.props.customTimeout && !isNaN(this.props.customTimeout)) ? this.props.customTimeout : this.props.autoHideDuration;
         return (
           <Snackbar
               open={this.props.open}
               action="ok"
               onActionTouchTap={this.handleRequestClose.bind(this)}
               message={this.props.msg}
-              autoHideDuration={this.props.autoHideDuration}
+              autoHideDuration={timeOut}
               onRequestClose={this.handleRequestClose.bind(this)}
           />
         )

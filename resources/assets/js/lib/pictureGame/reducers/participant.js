@@ -35,6 +35,7 @@ const participant = (state = initialSate, action) => {
                 currentParticipant: action.participant,
                 photoSucessfullyAdded: true,
                 modalOpen: false,
+                fileUploadedSource: "",
                 isFetching: false
             };
         case pTypes.RECEIVE_NOT_ADD_PHOTO_TO_CURRENT_CONTEST:
