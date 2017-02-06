@@ -1,8 +1,8 @@
 import React, {PropTypes as T} from "react";
-import AppNavBar from "./AppNavBar";
 import HomeCarousel from "../container/HomeCarousel";
 import SubMenu from "../container/SubMenu";
 import Gallery from "../container/Gallery";
+import AppNavBar from "../container/AppNavBar";
 
 export default class App extends React.PureComponent {
     render () {
