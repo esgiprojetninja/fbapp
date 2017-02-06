@@ -37,5 +37,6 @@ Route::group(['middleware' => ['api'], ['only' => ['index', 'show', 'store', 'de
 // Admin API routes
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
     Route::resource('contests', 'Api\v1\ContestController');
+    Route::resource('uisettings', 'Api\v1\UISettingsController');
     //Route::resource('participants', 'Api\v1\ParticipantController');
 });
