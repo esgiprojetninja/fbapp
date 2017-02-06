@@ -358,7 +358,7 @@ export default class AdminContests extends React.PureComponent {
                 <div className="full-width">
                     <span style={style.textFont}>Couleur principal</span>
                     <div className="col-md-8 col-md-offset-2">
-                        <BlockPicker width="100%" colors={appColors.default} color={this.props.colorGallery} onChange={
+                        <BlockPicker width="100%" colors={appColors.default} color={this.props.color} onChange={
                             (color) => {
                                 this.props.onChangeColor(color.hex);
                             }
