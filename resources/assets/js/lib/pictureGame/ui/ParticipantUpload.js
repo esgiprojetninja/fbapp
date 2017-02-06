@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 
 import Done from 'material-ui/svg-icons/action/done';
 import Undo from 'material-ui/svg-icons/content/undo';
+import Clear from 'material-ui/svg-icons/content/clear';
 import InsertImg from 'material-ui/svg-icons/editor/insert-photo';
 
 
@@ -26,9 +27,18 @@ export default class ParticipantUpload extends React.PureComponent {
             maxWidth: "680px",
             border: "2px dashed #C7C7C7"
           },
+          dropzoneInput:{
+            height: "100%",
+            width: "100%",
+            border: "none",
+            zIndex: "99",
+            opacity: "0",
+            position: "absolute"
+          },
           previewImg: {
             opacity: ".94",
-            maxHeight: "100%"
+            maxHeight: "100%",
+            zIndex: "1"
           },
           requestSpinner: {
             top: "0",
@@ -53,11 +63,16 @@ export default class ParticipantUpload extends React.PureComponent {
     dropAction(_files, e) {
         e.preventDefault();
         const reader = new FileReader();
-        const file = e.target.files[0];
-        reader.onloadend = () => {
-            this.props.previewImgUploaded(reader.result);
+        console.debug("e.target", e.target.nodeName);
+        try {
+            const file = (e.target.nodeName === "INPUT") ? e.target.files[0] : e.target.firstChild.files[0];
+            reader.onloadend = () => {
+                this.props.previewImgUploaded(reader.result);
+            }
+            reader.readAsDataURL(file);
+        } catch(e){
+            console.warn("Missed container: ", e)
         }
-        reader.readAsDataURL(file);
     }
 
     changeDescriptionAction(e){
@@ -128,23 +143,23 @@ export default class ParticipantUpload extends React.PureComponent {
     renderDropZone() {
         if ( this.props.participant.isFetching ){return};
         return (
+          <div className="relative dashed-border border-theme-color display-flex-column margin-auto" style={this.style.dropzone}>
             <Dropzone
               multiple={false}
               minSize={5000}
               accept="image/*"
               onDropAccepted={this.dropAction.bind(this)}
-              style={{widht:'auto', height: 'auto', border: 'none'}}
+              style={this.style.dropzoneInput}
             >
-              <div className="relative dashed-border border-theme-color display-flex-column margin-auto" style={this.style.dropzone}>
-                <FlatButton
-                    primary={true}
-                    style={{height:"55px", width: "55px"}}
-                    icon = {<InsertImg style={{height:"55px", width: "55px"}}/>}
-                />
-                <p>Dépose ta photo ici</p>
-                {this.renderImgPreview()}
-              </div>
             </Dropzone>
+            <FlatButton
+                primary={true}
+                style={{height:'55px', width: '55px', zIndex:'1'}}
+                icon = {<InsertImg style={{height:'55px', width: '55px'}}/>}
+            />
+            <p style={{zIndex:'1'}}>Dépose ta photo ici</p>
+            {this.renderImgPreview()}
+          </div>
         )
     }
 
@@ -170,6 +185,13 @@ export default class ParticipantUpload extends React.PureComponent {
                 primary={true}
                 icon = {<Undo />}
                 onTouchTap={this.removePreviewImgAction.bind(this)}
+            />,
+            <FlatButton
+                primary={true}
+                label="supprimer photo"
+                icon = {<Clear />}
+                disabled={this.props.participant.fileUploadedSource.length < 1}
+                onTouchTap={this.props.removePreviewImg}
             />,
             <FlatButton
                 disabled={this.props.participant.fileUploadedSource.length < 1}
