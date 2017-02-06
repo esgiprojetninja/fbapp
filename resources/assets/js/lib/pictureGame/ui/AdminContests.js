@@ -317,10 +317,10 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsMenu() {
         return (
             <div className="full-width">
-                <RaisedButton onMouseEnter={this.props.onHoverSettingsTheme} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsTheme} label="Thème" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.props.onHoverSettingsCarousel} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsCarousel} label="Carousel" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.props.onHoverSettingsSubmenu} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
-                <RaisedButton onMouseEnter={this.props.onHoverSettingsGallery} onMouseLeave={this.props.hoverReset} onClick={this.props.onOpenSettingsGallery} label="Gallerie" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsTheme} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsTheme} label="Thème" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsCarousel} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsCarousel} label="Carousel" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsSubmenu} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
+                <RaisedButton onMouseEnter={this.props.onHoverSettingsGallery} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsGallery} label="Gallerie" style={style.adminCustom}/>
                 <Toggle defaultToggled={true} label="Fullscreen" labelStyle={style.fullSreenToggle}/>
                 <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
             </div>

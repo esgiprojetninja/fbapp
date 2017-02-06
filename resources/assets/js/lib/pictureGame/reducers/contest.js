@@ -196,6 +196,14 @@ const contest = (state = initialSate, action) => {
                 hoverSettingSubmenu: false,
                 hoverSettingGallery: true
             };
+        case actionTypes.HOVER_RESET:
+            return {
+                ...state,
+                hoverSettingTheme: false,
+                hoverSettingCarousel: false,
+                hoverSettingSubmenu: false,
+                hoverSettingGallery: false
+            }
         default:
             return state;
     }

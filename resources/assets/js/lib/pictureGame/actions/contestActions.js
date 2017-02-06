@@ -269,3 +269,13 @@ export const hoverSettingsGallery = () => {
         hoverSettingGallery: true
     };
 }
+
+export const hoverReset = () => {
+    return {
+        type: actionTypes.HOVER_RESET,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false
+    };
+}

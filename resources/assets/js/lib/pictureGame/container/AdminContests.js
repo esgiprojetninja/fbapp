@@ -18,7 +18,8 @@ import {
     hoverSettingsTheme,
     hoverSettingsSubmenu,
     hoverSettingsGallery,
-    hoverSettingsCarousel
+    hoverSettingsCarousel,
+    hoverReset
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -84,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onHoverSettingsGallery: () => {
             dispatch(hoverSettingsGallery());
+        },
+        onHoverReset: () => {
+            dispatch(hoverReset());
         }
     }
 }
