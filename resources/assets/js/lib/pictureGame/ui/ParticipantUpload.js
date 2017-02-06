@@ -63,7 +63,6 @@ export default class ParticipantUpload extends React.PureComponent {
     dropAction(_files, e) {
         e.preventDefault();
         const reader = new FileReader();
-        console.debug("e.target", e.target.nodeName);
         try {
             const file = (e.target.nodeName === "INPUT") ? e.target.files[0] : e.target.firstChild.files[0];
             reader.onloadend = () => {
