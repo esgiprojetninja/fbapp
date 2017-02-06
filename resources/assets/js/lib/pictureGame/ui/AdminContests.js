@@ -20,7 +20,7 @@ import { HuePicker } from 'react-color';
 import { AlphaPicker } from 'react-color';
 
 import Toggle from 'material-ui/Toggle';
-import { Dropzone } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 
 const style = {
     actionsBtn : {
@@ -371,7 +371,7 @@ export default class AdminContests extends React.PureComponent {
 
     renderSettingsCarousel() {
         return (
-            <div className="full-width text-center">
+            <div className="full-width text-center vertical-align">
                 <Dropzone>
                   <div>Drop ou clique pour ajouter une image dans le carousel</div>
                 </Dropzone>
@@ -381,7 +381,7 @@ export default class AdminContests extends React.PureComponent {
 
     renderSettingsSubmenu() {
         return (
-            <div className="full-width text-center">
+            <div className="full-width text-center vertical-align">
                 <Dropzone>
                   <div>Drop ou clique pour ajouter une image au sous-menu</div>
                 </Dropzone>
