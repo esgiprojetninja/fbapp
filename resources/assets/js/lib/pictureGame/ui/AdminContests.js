@@ -35,18 +35,6 @@ const style = {
         textTransform: "uppercase",
         fontSize: "14px"
     },
-    mockupActive: {
-        fillOpacity: "0",
-        fill: "#00E0FE",
-        stroke: "#00E0FE",
-        strokeWidth: "3"
-    },
-    mockupDefault: {
-        fillOpacity: "0",
-        fill: "#777",
-        stroke: "#777",
-        strokeWidth: "1"
-    },
     textFont : {
         fontFamily: "Roboto, sans-serif",
         fontWeight: "200",
@@ -70,7 +58,7 @@ const colors = [
 
 const appColors = {
     default : [
-        '#00E0FE',
+        '#00BCD4',
         "#CD2431"
     ]
 }
@@ -100,7 +88,6 @@ export default class AdminContests extends React.PureComponent {
         this.handleClose = this.handleClose.bind(this);
         this.openEvents = this.openEvents.bind(this);
         this.openSettings = this.openSettings.bind(this);
-        this.handleChangeComplete = this.handleChangeComplete.bind(this);
         this.openSettingsMenu = this.openSettingsMenu.bind(this);
         this.openSettingsTheme = this.openSettingsTheme.bind(this);
         this.openSettingsGallery = this.openSettingsGallery.bind(this);
@@ -111,10 +98,6 @@ export default class AdminContests extends React.PureComponent {
         this.hoverSubmenu = this.hoverSubmenu.bind(this);
         this.hoverGallery = this.hoverGallery.bind(this);
         this.hoverReset = this.hoverReset.bind(this);
-    }
-
-    handleChangeComplete(color) {
-        this.setState({ background: color.hex });
     }
 
     openSettingsMenu() {
@@ -400,30 +383,45 @@ export default class AdminContests extends React.PureComponent {
     }
 
     renderAdminPreview() {
+        const mockupStyle = {
+            mockupActive: {
+                fillOpacity: "1",
+                fill: "#E6E6E6",
+                stroke: "#E6E6E6",
+                strokeWidth: "3"
+            },
+            mockupDefault: {
+                fillOpacity: "0",
+                fill: "#777",
+                stroke: "#777",
+                strokeWidth: "1"
+            }
+        };
+
         return (
             <div className="text-center">
                 <svg className="svg-canvas">
                     <path
-                        style={this.state.hoverSettingsCarousel ? style.mockupActive : style.mockupDefault}
+                        style={this.state.hoverSettingsCarousel ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 7.18154,2.5565474 h 195.79167 c 2.68079,0 4.83897,2.1279841 4.83897,4.7712648 V 99.082901 c 0,2.643279 -2.15818,4.771269 -4.83897,4.771269 H 7.18154 c -2.6807828,0 -4.838958,-2.12799 -4.838958,-4.771269 V 7.3278122 c 0,-2.6432807 2.1581752,-4.7712648 4.838958,-4.7712648 z"
                     />
                     <path
-                        style={this.state.hoverSettingsSubmenu ? style.mockupActive : style.mockupDefault}
+                        style={this.state.hoverSettingsSubmenu ? {fillOpacity: "1", fill: "#E6E6E6", stroke: "#E6E6E6", strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 7.7105232,106.72142 H 202.96087 c 2.66829,0 4.81641,2.1915 4.81641,4.91368 v 17.76491 c 0,2.72218 -2.14812,4.91368 -4.81641,4.91368 H 7.7105232 c -2.6682936,0 -4.8164146,-2.1915 -4.8164146,-4.91368 V 111.6351 c 0,-2.72218 2.148121,-4.91368 4.8164146,-4.91368 z"
                     />
                     <path
-                        style={this.state.hoverSettingsGallery ? style.mockupActive : style.mockupDefault}
+                        style={this.state.hoverSettingsGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 8.2272747,137.64409 H 203.0208 c 2.66204,0 4.80514,2.10356 4.80514,4.71649 v 143.67155 c 0,2.61293 -2.1431,4.71648 -4.80514,4.71648 H 8.2272747 c -2.6620507,0 -4.8051456,-2.10355 -4.8051456,-4.71648 V 142.36058 c 0,-2.61293 2.1430949,-4.71649 4.8051456,-4.71649 z"
                     />
                     <path
-                        style={this.state.hoverSettingsTheme ? style.mockupActive : style.mockupDefault}
+                        style={this.state.hoverSettingsTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 10.212796,5.7530481 H 199.78539 c 2.63064,0 4.74845,2.110808 4.74845,4.7327519 v 4.004658 c 0,2.621946 -2.11781,4.732753 -4.74845,4.732753 H 10.212796 c -2.6306351,0 -4.7484381,-2.110807 -4.7484381,-4.732753 V 10.4858 c 0,-2.6219439 2.117803,-4.7327519 4.7484381,-4.7327519 z"
                     />
                     <path
                         d="m 82.020835,54.717262 h 17.764882 c 2.093993,0 3.779763,1.685774 3.779763,3.779762 0,2.093988 -1.68577,3.779762 -3.779763,3.779762 H 82.020835 c -2.093988,0 -3.779761,-1.685774 -3.779761,-3.779762 0,-2.093988 1.685773,-3.779762 3.779761,-3.779762 z"
                     />
                     <path
-                        style={this.state.hoverSettingsTheme ? style.mockupActive : style.mockupDefault}
+                        style={this.state.hoverSettingsTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "3"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 112.44792,54.717262 h 17.76488 c 2.09399,0 3.77977,1.685774 3.77977,3.779762 0,2.093988 -1.68578,3.779762 -3.77977,3.779762 h -17.76488 c -2.09399,0 -3.77976,-1.685774 -3.77976,-3.779762 0,-2.093988 1.68577,-3.779762 3.77976,-3.779762 z"
                     />
                 </svg>
@@ -473,7 +471,7 @@ export default class AdminContests extends React.PureComponent {
                 <RaisedButton onMouseEnter={this.hoverCarousel} onMouseLeave={this.hoverReset} onClick={this.openSettingsCarousel} label="Carousel" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.hoverSubmenu} onMouseLeave={this.hoverReset} onClick={this.openSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.hoverGallery} onMouseLeave={this.hoverReset} onClick={this.openSettingsGallery} label="Gallerie" style={style.adminCustom}/>
-                <Toggle label="Fullscreen" labelStyle={style.fullSreenToggle}/>
+                <Toggle defaultToggled={true} label="Fullscreen" labelStyle={style.fullSreenToggle}/>
                 <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
             </div>
         );
@@ -485,7 +483,11 @@ export default class AdminContests extends React.PureComponent {
                 <div className="full-width">
                     <span style={style.textFont}>Couleur principal</span>
                     <div className="col-md-8 col-md-offset-2">
-                        <BlockPicker width="100%" colors={appColors.default} color={appColors.default[0]}/>
+                        <BlockPicker width="100%" colors={appColors.default} color={this.props.color} onChange={
+                            (color) => {
+                                this.props.onChangeColor(color.hex);
+                            }
+                        }/>
                     </div>
                 </div>
             </div>
@@ -514,7 +516,11 @@ export default class AdminContests extends React.PureComponent {
                 <div className="full-width">
                     <span style={style.textFont}>Couleur des tuiles</span>
                     <div className="col-md-8 col-md-offset-2">
-                        <BlockPicker width="100%" colors={appColors.default} color={appColors.default[0]}/>
+                        <BlockPicker width="100%" colors={appColors.default} color={this.props.colorGallery} onChange={
+                            (color) => {
+                                this.props.onChangeColorGallery(color.hex);
+                            }
+                        }/>
                     </div>
                 </div>
             </div>

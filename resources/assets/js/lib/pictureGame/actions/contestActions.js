@@ -117,6 +117,20 @@ export const toggleCreateModal = (contest) => {
     };
 }
 
+export const changeMainColor = (color) => {
+    return {
+        type: actionTypes.CHANGE_MAIN_COLOR,
+        color: color
+    }
+}
+
+export const changeColorGallery = (colorGallery) => {
+    return {
+        type: actionTypes.CHANGE_COLOR_GALLERY,
+        colorGallery: colorGallery
+    }
+}
+
 export const newContestChange = (attr, value) => {
     return {
         type: actionTypes.NEW_CONTEST_CHANGE,

@@ -13,7 +13,9 @@ const initialSate = {
     },
     isFetching: false,
     createModalOpen: false,
-    error: false
+    error: false,
+    color: "#00BCD4",
+    colorGallery: "#00BCD4"
 };
 
 const contest = (state = initialSate, action) => {
@@ -65,6 +67,16 @@ const contest = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 currentContest: action.contest
+            };
+        case actionTypes.CHANGE_MAIN_COLOR:
+            return {
+                ...state,
+                color: action.color
+            };
+        case actionTypes.CHANGE_COLOR_GALLERY:
+            return {
+                ...state,
+                colorGallery: action.colorGallery
             };
         default:
             return state;

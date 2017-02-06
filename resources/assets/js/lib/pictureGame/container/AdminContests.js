@@ -3,7 +3,9 @@ import {
     getContests,
     toggleCreateModal,
     deleteContest,
-    activateContest
+    activateContest,
+    changeMainColor,
+    changeColorGallery
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -24,6 +26,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onActivateContestClick: (id) => {
             dispatch(activateContest(id));
+        },
+        onChangeColor: (color) => {
+            dispatch(changeMainColor(color));
+        },
+        onChangeColorGallery: (colorGallery) => {
+            dispatch(changeColorGallery(colorGallery));
         }
     }
 }
