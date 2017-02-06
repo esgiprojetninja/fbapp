@@ -19,7 +19,8 @@ import {
     hoverSettingsSubmenu,
     hoverSettingsGallery,
     hoverSettingsCarousel,
-    hoverReset
+    hoverReset,
+    hoverFullscreen
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -88,6 +89,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onHoverReset: () => {
             dispatch(hoverReset());
+        },
+        onHoverSettingsFullscreen: () => {
+            dispatch(hoverFullscreen());
         }
     }
 }

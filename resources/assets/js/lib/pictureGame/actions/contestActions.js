@@ -236,7 +236,8 @@ export const hoverSettingsTheme = () => {
         hoverSettingTheme: true,
         hoverSettingCarousel: false,
         hoverSettingSubmenu: false,
-        hoverSettingGallery: false
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
     };
 }
 
@@ -246,7 +247,8 @@ export const hoverSettingsCarousel = () => {
         hoverSettingTheme: false,
         hoverSettingCarousel: true,
         hoverSettingSubmenu: false,
-        hoverSettingGallery: false
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
     };
 }
 
@@ -256,7 +258,8 @@ export const hoverSettingsSubmenu = () => {
         hoverSettingTheme: false,
         hoverSettingCarousel: false,
         hoverSettingSubmenu: true,
-        hoverSettingGallery: false
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
     };
 }
 
@@ -266,7 +269,8 @@ export const hoverSettingsGallery = () => {
         hoverSettingTheme: false,
         hoverSettingCarousel: false,
         hoverSettingSubmenu: false,
-        hoverSettingGallery: true
+        hoverSettingGallery: true,
+        hoverSettingFullscreen: false
     };
 }
 
@@ -276,6 +280,18 @@ export const hoverReset = () => {
         hoverSettingTheme: false,
         hoverSettingCarousel: false,
         hoverSettingSubmenu: false,
-        hoverSettingGallery: false
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverFullscreen = () => {
+    return {
+        type: actionTypes.HOVER_FULLSCREEN,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: true
     };
 }

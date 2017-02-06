@@ -63,6 +63,7 @@ export default class HomeCarousel extends React.PureComponent {
           }
       };
       this.modalTitle = false;
+      this.showmsg = this.showmsg.bind(this);
     }
 
     componentWillMount () {
@@ -241,6 +242,10 @@ export default class HomeCarousel extends React.PureComponent {
         }
     }
 
+    showmsg() {
+        console.log(this);
+    }
+
     render () {
       const settings = {
           infinite: true,
@@ -254,9 +259,24 @@ export default class HomeCarousel extends React.PureComponent {
           <div>
               <div className="home-carousel">
                   <div className="title-wrapper full-height full-width vertical-align">
-                      <div>
-                          <h1>PARDON MAMAN</h1>
-                          <img style={this.styles.hr} src="homeCarouselHr.png" />
+                      <div className="text-center full-width">
+                          <div className="relative" style={{marginBottom: '50px'}}>
+                              <h1>PARDON MAMAN</h1>
+                              <svg className="svg-canvas-line">
+                                  <path
+                                     style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                     d="m 15.697033,93.4119 c 3.90042,0 7.04048,3.140061 7.04048,7.04048 0,3.90043 -3.14006,7.04048 -7.04048,7.04048 -3.90042,0 -7.0404701,-3.14005 -7.0404701,-7.04048 0,-3.900419 3.1400501,-7.04048 7.0404701,-7.04048 z"
+                                   />
+                                  <path
+                                     style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                     d="m 480.96366,92.655946 c 3.90044,0 7.04049,3.14005 7.04049,7.04047 0,3.900424 -3.14005,7.040474 -7.04049,7.040474 -3.90043,0 -7.04048,-3.14005 -7.04048,-7.040474 0,-3.90042 3.14005,-7.04047 7.04048,-7.04047 z"
+                                   />
+                                  <path
+                                     style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                     d="M 22.678594,100.83028 H 473.98214"
+                                   />
+                               </svg>
+                          </div>
                           <div className="home-carousel-btn-wrapper vertical-align">
                               <RaisedButton
                                   label="VOIR LA GALERIE"

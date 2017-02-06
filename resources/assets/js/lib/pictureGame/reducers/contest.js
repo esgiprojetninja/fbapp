@@ -28,7 +28,8 @@ const initialSate = {
     hoverSettingTheme: false,
     hoverSettingCarousel: false,
     hoverSettingSubmenu: false,
-    hoverSettingGallery: false
+    hoverSettingGallery: false,
+    hoverSettingFullscreen: false
 };
 
 const contest = (state = initialSate, action) => {
@@ -170,7 +171,8 @@ const contest = (state = initialSate, action) => {
                 hoverSettingTheme: true,
                 hoverSettingCarousel: false,
                 hoverSettingSubmenu: false,
-                hoverSettingGallery: false
+                hoverSettingGallery: false,
+                hoverSettingFullscreen: false
             };
         case actionTypes.HOVER_SETTINGS_CAROUSEL:
             return {
@@ -178,7 +180,8 @@ const contest = (state = initialSate, action) => {
                 hoverSettingTheme: false,
                 hoverSettingCarousel: true,
                 hoverSettingSubmenu: false,
-                hoverSettingGallery: false
+                hoverSettingGallery: false,
+                hoverSettingFullscreen: false
             };
         case actionTypes.HOVER_SETTINGS_SUBMENU:
             return {
@@ -186,7 +189,8 @@ const contest = (state = initialSate, action) => {
                 hoverSettingTheme: false,
                 hoverSettingCarousel: false,
                 hoverSettingSubmenu: true,
-                hoverSettingGallery: false
+                hoverSettingGallery: false,
+                hoverSettingFullscreen: false
             };
         case actionTypes.HOVER_SETTINGS_GALLERY:
             return {
@@ -194,7 +198,8 @@ const contest = (state = initialSate, action) => {
                 hoverSettingTheme: false,
                 hoverSettingCarousel: false,
                 hoverSettingSubmenu: false,
-                hoverSettingGallery: true
+                hoverSettingGallery: true,
+                hoverSettingFullscreen: false
             };
         case actionTypes.HOVER_RESET:
             return {
@@ -202,7 +207,17 @@ const contest = (state = initialSate, action) => {
                 hoverSettingTheme: false,
                 hoverSettingCarousel: false,
                 hoverSettingSubmenu: false,
-                hoverSettingGallery: false
+                hoverSettingGallery: false,
+                hoverSettingFullscreen: false
+            }
+        case actionTypes.HOVER_FULLSCREEN:
+            return {
+                ...state,
+                hoverSettingTheme: false,
+                hoverSettingCarousel: false,
+                hoverSettingSubmenu: false,
+                hoverSettingGallery: false,
+                hoverSettingFullscreen: true
             }
         default:
             return state;

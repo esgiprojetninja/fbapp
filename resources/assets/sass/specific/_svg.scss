@@ -10,13 +10,27 @@
     position: relative;
 }
 
+.svg-canvas-line, .svg-canvas-line{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -75px;
+    width: 100%;
+    max-width: 495px;
+}
+
+.svg-canvas-line path{
+    stroke-width: 4;
+}
+
 .svg-canvas path{
     stroke-dasharray: 1500;
     stroke-dashoffset: 1500;
-    animation: draw 1s linear forwards;
-    -webkit-animation: draw .1s linear forwards;
-    -moz-animation: draw 1s linear forwards;
-    -o-animation: draw 1s linear forwards;
+    animation: draw 1.5s linear forwards;
+    -webkit-animation: draw 1.5s linear forwards;
+    -moz-animation: draw 1.5s linear forwards;
+    -o-animation: draw 1.5s linear forwards;
     font-weight: bold;
     font-family: Amatic SC;
     -inkscape-font-specification: Amatic SC Bold;
