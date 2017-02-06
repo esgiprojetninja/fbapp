@@ -16,6 +16,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import { BlockPicker } from 'react-color';
+import { HuePicker } from 'react-color';
+import { AlphaPicker } from 'react-color';
+
 import Toggle from 'material-ui/Toggle';
 import { Dropzone } from 'react-dropzone';
 
@@ -256,6 +259,8 @@ export default class AdminContests extends React.PureComponent {
             }
         };
 
+        const galleryColor = "rgba(" + this.props.colorGallery.r + "," + this.props.colorGallery.g + "," + this.props.colorGallery.b + "," + this.props.colorGallery.a + ")";
+
         return (
             <div className="text-center">
                 <svg className="svg-canvas">
@@ -268,7 +273,7 @@ export default class AdminContests extends React.PureComponent {
                         d="M 8.7182074,107.17311 H 201.81336 c 2.63884,0 4.76324,2.16731 4.76324,4.85945 v 17.56881 c 0,2.69214 -2.1244,4.85945 -4.76324,4.85945 H 8.7182074 c -2.6388407,0 -4.7632504,-2.16731 -4.7632504,-4.85945 v -17.56881 c 0,-2.69214 2.1244097,-4.85945 4.7632504,-4.85945 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: galleryColor, stroke: galleryColor, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 6.2292213,179.92316 H 88.419149 c 1.123203,0 2.027449,0.6238 2.027449,1.39866 v 42.60561 c 0,0.77486 -0.904246,1.39866 -2.027449,1.39866 H 6.2292213 c -1.1232086,0 -2.0274522,-0.6238 -2.0274522,-1.39866 v -42.60561 c 0,-0.77486 0.9042436,-1.39866 2.0274522,-1.39866 z"
                     />
                     <path
@@ -292,11 +297,11 @@ export default class AdminContests extends React.PureComponent {
                         d="m 194.57457,285.30726 h 7.40095 c 1.46432,0 2.64319,1.17886 2.64319,2.6432 v 0.52863 c 0,1.46433 -1.17887,2.6432 -2.64319,2.6432 h -7.40095 c -1.46432,0 -2.64319,-1.17887 -2.64319,-2.6432 v -0.52863 c 0,-1.46434 1.17887,-2.6432 2.64319,-2.6432 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: galleryColor, stroke: galleryColor, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 94.735891,180.13813 h 44.316029 c 0.60562,0 1.09319,0.6238 1.09319,1.39867 v 42.6056 c 0,0.77486 -0.48757,1.39866 -1.09319,1.39866 H 94.735891 c -0.605624,0 -1.093183,-0.6238 -1.093183,-1.39866 v -42.6056 c 0,-0.77487 0.487559,-1.39867 1.093183,-1.39867 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: galleryColor, stroke: galleryColor, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 144.78773,180.13812 h 60.0866 c 0.82115,0 1.48223,0.6238 1.48223,1.39867 v 42.6056 c 0,0.77486 -0.66108,1.39866 -1.48223,1.39866 h -60.0866 c -0.82115,0 -1.48221,-0.6238 -1.48221,-1.39866 v -42.6056 c 0,-0.77487 0.66106,-1.39867 1.48221,-1.39867 z"
                     />
                     <path
@@ -389,12 +394,23 @@ export default class AdminContests extends React.PureComponent {
             <div className="full-width text-center vertical-align">
                 <div className="full-width">
                     <span style={style.textFont}>Couleur des tuiles</span>
-                    <div className="col-md-8 col-md-offset-2">
-                        <BlockPicker width="100%" colors={appColors.default} color={this.props.colorGallery} onChange={
-                            (color) => {
-                                this.props.onChangeColorGallery(color.hex);
-                            }
-                        }/>
+                    <div className="col-md-12">
+                        <div style={{margin: "15px 0"}}>
+                            <HuePicker color={this.props.colorGallery} onChange={
+                                (color) => {
+                                    let rgbColor = {r: color.rgb.r, g: color.rgb.g, b: color.rgb.b, a: color.rgb.a};
+                                    this.props.onChangeColorGallery(rgbColor);
+                                }
+                            }/>
+                        </div>
+                        <div style={{margin: "15px 0"}}>
+                            <AlphaPicker color={this.props.colorGallery} onChange={
+                                (color) => {
+                                    let rgbColor = {r: color.rgb.r, g: color.rgb.g, b: color.rgb.b, a: color.rgb.a};
+                                    this.props.onChangeColorGallery(rgbColor);
+                                }
+                            }/>
+                        </div>
                     </div>
                 </div>
             </div>
