@@ -171,6 +171,7 @@ export const getPhotoScope = (rerequest = true) => {
                     dispatch(denyPhotoScope());
                     if (rerequest === true) {
                         facebookLoader.login(() => {
+                            // TODO: when user removes permissions but stays logged in the app and then re-accepts the permissions the token is not updated and causes code breaking throughout the app
                             dispatch(getPhotoScope(false));
                         });
                     }
@@ -229,12 +230,13 @@ export const getFbAlbums = () => {
 }
 
 const receiveFbAlbumPhotos = ({response, album_id}) => {
+    const _next = ( response.paging && response.paging.next ) ? response.paging.next : false;
     return {
         type: actionTypes.RECEIVE_FB_ALBUM_PHOTOS,
         isFetching: false,
         album_id,
         photos: response.data,
-        next: response.paging.next || false
+        next: _next
     };
 }
 const requestFbAlbumPhotos = () => {
