@@ -479,7 +479,7 @@ export default class AdminContests extends React.PureComponent {
                       autoScrollBodyContent={true}
                     >
                         <div className="vertical-align">
-                            <Col md={3} xd={3} sm={3} className="admin-sidebar">
+                            <Col md={3} xs={3} sm={3} className="admin-sidebar">
                                 {this.renderAdminSideBar()}
                             </Col>
                             {this.renderAdminBody()}
