@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
                    author: "Toto",
                    caption: "Ceci est un tatouage tribal",
                    title: "Tatouage tribal"
-               },
+               }
            ],
            contest: state.contest
        }

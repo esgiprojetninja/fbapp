@@ -88,6 +88,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "requirejs": "^2.3.2",
+    "screenfull": "^3.0.2",
     "slick-carousel": "^1.6.0",
     "webpack": "^1.13.3"
   }
