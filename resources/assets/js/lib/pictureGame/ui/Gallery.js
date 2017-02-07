@@ -21,8 +21,6 @@ export default class Gallery extends React.PureComponent {
             isOpen,
         } = this.state;
 
-        const galleryColor = "rgba(" + this.props.contest.colorGallery.r + "," + this.props.contest.colorGallery.g + "," + this.props.contest.colorGallery.b + "," + this.props.contest.colorGallery.a + ")";
-
         return (
             <div className="grid-layout">
                 <div className="grid-row">
@@ -38,7 +36,7 @@ export default class Gallery extends React.PureComponent {
                                 src={picture.src}
                             />
                             <div>
-                                <div className="grid-gradient" style={{background: galleryColor}}>
+                                <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
                                 </div>
                                 <div className="grid-desc">
                                     <span className="grid-desc-title">{picture.title}</span>

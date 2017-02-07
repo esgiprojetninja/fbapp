@@ -16,7 +16,7 @@ const initialSate = {
     createModalOpen: false,
     error: false,
     color: "#00BCD4",
-    colorGallery: {r: 255, g: 255, b: 255 , a: 0.5},
+    colorGallery: "#00BCD4",
     openAdmin: false,
     openEvents: false,
     openSettings: false,
