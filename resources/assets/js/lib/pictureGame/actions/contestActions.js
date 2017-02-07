@@ -141,14 +141,14 @@ export const openEvents = () => {
 export const changeMainColor = (color) => {
     return {
         type: actionTypes.CHANGE_MAIN_COLOR,
-        color: color
+        color
     }
 }
 
 export const changeColorGallery = (colorGallery) => {
     return {
         type: actionTypes.CHANGE_COLOR_GALLERY,
-        colorGallery: colorGallery
+        colorGallery
     }
 }
 
