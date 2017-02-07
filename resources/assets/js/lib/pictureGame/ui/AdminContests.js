@@ -230,12 +230,12 @@ export default class AdminContests extends React.PureComponent {
         return (
             <div className="vertical-align">
                 <Col md={6}>
-                    <Col xsHidden>
+                    <Col xsHidden smHidden>
                         {this.renderAdminPreview()}
                     </Col>
                 </Col>
 
-                <Col md={6} style={{position: "initial"}}>
+                <Col md={6} xs={12} sm={12} style={{position: "initial"}}>
                     {this.renderParamsWithBackButton()}
                 </Col>
             </div>
@@ -437,7 +437,7 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.props.openSettings){
             return (
-                <Col md={9} className="vertical-align" style={{position: "initial"}}>
+                <Col md={9} xs={9} sm={9} className="vertical-align" style={{position: "initial"}}>
                     <div className="full-width">
                         {this.renderParams()}
                     </div>
@@ -479,7 +479,7 @@ export default class AdminContests extends React.PureComponent {
                       autoScrollBodyContent={true}
                     >
                         <div className="vertical-align">
-                            <Col md={3} className="admin-sidebar">
+                            <Col md={3} xd={3} sm={3} className="admin-sidebar">
                                 {this.renderAdminSideBar()}
                             </Col>
                             {this.renderAdminBody()}
