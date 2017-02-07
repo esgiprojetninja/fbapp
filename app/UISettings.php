@@ -14,9 +14,10 @@ class UISettings extends Model
      */
     protected $fillable = [
         'id',
-        'colorOne',
-        'colorTwo',
-        'img',
-        'imgArray'
+        'main_color',
+        'gallery_color',
+        'submenu_img',
+        'carousel_img_array',
+        'enableFullscreen'
     ];
 }

@@ -63,7 +63,6 @@ export default class HomeCarousel extends React.PureComponent {
           }
       };
       this.modalTitle = false;
-      this.showmsg = this.showmsg.bind(this);
     }
 
     componentWillMount () {
@@ -240,10 +239,6 @@ export default class HomeCarousel extends React.PureComponent {
                 />
             );
         }
-    }
-
-    showmsg() {
-        console.log(this);
     }
 
     render () {
