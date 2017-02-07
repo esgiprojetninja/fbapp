@@ -8,7 +8,8 @@ import {
     getMoreFbAlbumPhotos
 } from "../actions/userActions";
 import {
-    getCurrentContest
+    getCurrentContest,
+    changeMainColor
 } from "../actions/contestActions";
 import {
     toggleSubmitPhotoModal,
@@ -69,6 +70,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         displayFileUploadModal: () => {
             dispatch(displayFileUploadModal())
+        },
+        onChangeColor: (color) => {
+            dispatch(changeMainColor(color));
         }
     };
 }

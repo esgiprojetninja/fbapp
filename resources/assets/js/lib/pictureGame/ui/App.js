@@ -1,8 +1,10 @@
 import React, {PropTypes as T} from "react";
-import AppNavBar from "./AppNavBar";
 import HomeCarousel from "../container/HomeCarousel";
 import SubMenu from "../container/SubMenu";
 import Gallery from "../container/Gallery";
+import AppNavBar from "../container/AppNavBar";
+import screenfull from "screenfull";
+import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 
 export default class App extends React.PureComponent {
     render () {
@@ -16,6 +18,16 @@ export default class App extends React.PureComponent {
                 <section>
                     <Gallery/>
                 </section>
+                <Fullscreen
+                    onClick={
+                        () => {
+                            if (screenfull.enabled) {
+                                screenfull.toggle();
+                            }
+                        }
+                    }
+                    className="full-screen"
+                />
             </div>
         );
     }
