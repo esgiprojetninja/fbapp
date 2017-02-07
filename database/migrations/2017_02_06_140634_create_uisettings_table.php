@@ -16,10 +16,11 @@ class CreateUisettingsTable extends Migration
         Schema::create('UISettings', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('colorOne');
-            $table->string('colorTwo');
-            $table->string('img');
-            $table->string('imgArray');
+            $table->string('main_color');
+            $table->string('gallery_color');
+            $table->string('submenu_img');
+            $table->string('carousel_img_array');
+            $table->string('fullscreen');
         });
     }
 
