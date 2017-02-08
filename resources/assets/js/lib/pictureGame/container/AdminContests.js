@@ -10,6 +10,7 @@ import {
     closeAdmin,
     openSettings,
     openEvents,
+    openExport,
     openSettingsTheme,
     openSettingsSubmenu,
     openSettingsCarousel,
@@ -92,6 +93,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onHoverSettingsFullscreen: () => {
             dispatch(hoverFullscreen());
+        },
+        onOpenExport: () => {
+            dispatch(openExport());
         }
     }
 }

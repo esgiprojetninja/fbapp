@@ -119,22 +119,19 @@ export const toggleCreateModal = (contest) => {
 
 export const openSettings = () => {
     return {
-        type: actionTypes.OPEN_SETTINGS,
-        openEvents: false,
-        openSettings: true,
-        settingsCarousel: false,
-        settingsGallery: false,
-        settingsSubmenu: false,
-        settingsTheme: false,
-        settingsMenu: true
+        type: actionTypes.OPEN_SETTINGS
     };
 }
 
 export const openEvents = () => {
     return {
         type: actionTypes.OPEN_EVENTS,
-        openEvents: true,
-        openSettings: false
+    };
+}
+
+export const openExport = () => {
+    return {
+        type: actionTypes.OPEN_EXPORT
     };
 }
 
