@@ -76,6 +76,8 @@
     "ejs": "^2.5.2",
     "material-ui": "^0.16.1",
     "react": "~15.3.2",
+    "react-bootstrap": "^0.30.7",
+    "react-color": "^2.11.1",
     "react-dom": "~15.3.2",
     "react-dropzone": "^3.9.2",
     "react-image-lightbox": "^3.4.1",
@@ -86,6 +88,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "requirejs": "^2.3.2",
+    "screenfull": "^3.0.2",
     "slick-carousel": "^1.6.0",
     "webpack": "^1.13.3"
   }

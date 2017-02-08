@@ -36,7 +36,7 @@ export default class Gallery extends React.PureComponent {
                                 src={picture.src}
                             />
                             <div>
-                                <div className="grid-gradient">
+                                <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
                                 </div>
                                 <div className="grid-desc">
                                     <span className="grid-desc-title">{picture.title}</span>

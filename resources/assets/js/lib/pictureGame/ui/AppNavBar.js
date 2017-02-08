@@ -3,7 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 
 import Login from "../container/Login";
 
@@ -20,8 +20,8 @@ const styles = {
 };
 
 export default class AppNavBar extends React.PureComponent {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.hide = false;
         this.myClass = 'navbar-mui navbar-mui-out';
         this.toggleNavbar = this.toggleNavbar.bind(this);
@@ -36,6 +36,7 @@ export default class AppNavBar extends React.PureComponent {
     renderAppNavBar(){
         return (
             <AppBar
+                style={{backgroundColor: this.props.color}}
                 className={this.myClass}
                 title={this.props.title}
                 showMenuIconButton={false}

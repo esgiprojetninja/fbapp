@@ -17,6 +17,17 @@
     height: 100%;
 }
 
+.admin-profil{
+    height: 160px;
+    width: 100%;
+}
+
+.admin-profil-name{
+    display: block;
+    text-align: center;
+    padding: 15px;
+}
+
 .admin-td {
 }
 
@@ -37,4 +48,8 @@
 
 .admin-td-eventsBtn {
     overflow: visible !important;
+}
+
+.block-picker {
+    margin-top: 15px;
 }
