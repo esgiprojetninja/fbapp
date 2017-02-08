@@ -1,5 +1,8 @@
 import React, {PropTypes as T} from "react";
 
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
+
 import Spinner from "./Spinner";
 
 export default class DataExport extends React.PureComponent {
@@ -13,9 +16,41 @@ export default class DataExport extends React.PureComponent {
             return <Spinner />;
         }
         return (
-            <ul>
-                {this.props.userList.map((user, index) => (<li key={index}>{user.id}</li>))}
-            </ul>
+            <div>
+                {this.renderTable()}
+                {this.renderActions()}
+            </div>
+        );
+    }
+
+    renderTable () {
+        return (
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderColumn>ID</TableHeaderColumn>
+                        <TableHeaderColumn>Name</TableHeaderColumn>
+                        <TableHeaderColumn>Email</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {this.props.userList.map((user, index) => {
+                        return (
+                            <TableRow key={index}>
+                                <TableRowColumn>{user.id}</TableRowColumn>
+                                <TableRowColumn>{user.name}</TableRowColumn>
+                                <TableRowColumn>{user.email}</TableRowColumn>
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        );
+    }
+
+    renderActions() {
+        return (
+            <FlatButton label="Export to csv" primary={true} />
         );
     }
 }
