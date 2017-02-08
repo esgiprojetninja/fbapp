@@ -20,6 +20,7 @@ const initialSate = {
     openAdmin: false,
     openEvents: false,
     openSettings: false,
+    openExport: false,
     settingsCarousel: false,
     settingsGallery: false,
     settingsSubmenu: false,
@@ -82,7 +83,7 @@ const contest = (state = initialSate, action) => {
                 isFetching: false,
                 currentContest: action.contest
             };
-        case actionTypes.OPEN_SETTINGS:
+        case actionTypes.OPEN_SETTINGS: // TODO optimize this asap
             return {
                 ...state,
                 openEvents: false,
@@ -93,12 +94,19 @@ const contest = (state = initialSate, action) => {
                 settingsTheme: false,
                 settingsMenu: true,
             };
-        case actionTypes.OPEN_EVENTS:
+        case actionTypes.OPEN_EVENTS: // TODO optimize this asap
             return {
                 ...state,
                 openEvents: true,
                 openSettings: false
             };
+            case actionTypes.OPEN_EXPORT:
+                return {
+                    ...state,
+                    openEvents: false,
+                    openSettings: false,
+                    openExport: true
+                }
         case actionTypes.CHANGE_MAIN_COLOR:
             return {
                 ...state,

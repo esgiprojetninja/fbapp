@@ -1,6 +1,7 @@
 import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
+import DataExport from "../container/DataExport";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
@@ -146,6 +147,12 @@ export default class AdminContests extends React.PureComponent {
                             primaryText="Paramètres"
                             secondaryText="Design de l'application"
                             onClick={this.props.onOpenSettings}
+                        />
+                        <ListItem
+                            style={{padding: "0 15px"}}
+                            primaryText="Export"
+                            secondaryText="Exporter la liste des utilisateurs"
+                            onClick={this.props.onOpenExport}
                         />
                     </List>
                 </div>
@@ -421,8 +428,8 @@ export default class AdminContests extends React.PureComponent {
         );
     }
 
-    renderAdminBody () {
-        if(this.props.openEvents){
+    renderAdminBody () { // TODO : optimize this asap
+        if(this.props.openEvents) {
             return (
                 <Col md={9} style={{alignSelf: "flex-start"}}>
                     <div>
@@ -435,13 +442,18 @@ export default class AdminContests extends React.PureComponent {
                 </Col>
             );
         }
-        if(this.props.openSettings){
+        if(this.props.openSettings) {
             return (
                 <Col md={9} xs={9} sm={9} className="vertical-align" style={{position: "initial"}}>
                     <div className="full-width">
                         {this.renderParams()}
                     </div>
                 </Col>
+            );
+        }
+        if(this.props.openExport) {
+            return (
+                <DataExport />
             );
         }
     }
