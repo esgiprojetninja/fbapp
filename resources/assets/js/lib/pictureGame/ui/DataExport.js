@@ -7,6 +7,10 @@ import Spinner from "./Spinner";
 
 export default class DataExport extends React.PureComponent {
 
+    constructor() {
+        this.exportUserList = this.exportUserList.bind(this);
+    }
+
     componentWillMount () {
         this.props.onReady();
     }
@@ -50,8 +54,22 @@ export default class DataExport extends React.PureComponent {
 
     renderActions() {
         return (
-            <FlatButton label="Export to csv" primary={true} />
+            <FlatButton
+                label="Export to csv"
+                primary={true}
+                onClick={this.exportUserList}
+            />
         );
+    }
+
+    exportUserList () {
+        let csvHeader = "data:text/csv;charset=utf-8,";
+        let csv = "id,name,email\r\n";
+        this.props.userList.forEach((user, index) => {
+            csv += user.id + "," + user.name + "," + user.email + "\r\n";
+        });
+        const result = csvHeader + encodeURIComponent(csv);
+        window.open(result);
     }
 }
 
