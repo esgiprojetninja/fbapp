@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUisettingsTable extends Migration
+class CreateUISettingsTable extends Migration
 {
     /**
     * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUisettingsTable extends Migration
     */
     public function up()
     {
-        Schema::create('UISettings', function (Blueprint $table) {
+        Schema::create('uisettings', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('main_color');
@@ -31,6 +31,6 @@ class CreateUisettingsTable extends Migration
     */
     public function down()
     {
-        Schema::dropIfExists('UISettings');
+        Schema::dropIfExists('uisettings');
     }
 }

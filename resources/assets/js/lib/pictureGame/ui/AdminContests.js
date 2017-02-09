@@ -72,6 +72,11 @@ const appColors = {
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
+        this.showmsg = this.showmsg.bind(this);
+    }
+
+    showmsg(){
+        console.log("props", this);
     }
 
     componentWillMount () {
@@ -147,6 +152,11 @@ export default class AdminContests extends React.PureComponent {
                             primaryText="Export"
                             secondaryText="Exporter la liste des utilisateurs"
                             onClick={this.props.onOpenExport}
+                        />
+                        <ListItem
+                            style={{padding: "0 15px"}}
+                            primaryText="Show"
+                            onClick={this.showmsg}
                         />
                     </List>
                 </div>

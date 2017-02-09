@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controlers\ContestController;
 use App\UISettings;
-use App\Contest;
 
 class UISettingsController extends Controller
 {
@@ -17,9 +16,9 @@ class UISettingsController extends Controller
     */
     public function index()
     {
-        $uiSettings = UISettings::all();
+        $uisettings = UISettings::all();
         return response()->json([
-            'uiSettings' => $uiSettings
+            'uisettings' => $uisettings
         ]);
     }
 

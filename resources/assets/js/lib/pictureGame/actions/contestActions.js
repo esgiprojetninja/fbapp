@@ -1,7 +1,9 @@
 import * as actionTypes from "./contestTypes";
 import ContestApi from "../API/contest/ContestApi";
+import UISettingsApi from "../API/UISettings/UISettingsApi";
 
 const contestApi = new ContestApi();
+const uisettingsApi = new UISettingsApi();
 
 const generateFreshContest = () => {
     return {
@@ -18,6 +20,12 @@ const generateFreshContest = () => {
 export const requestContests = () => {
     return {
         type: actionTypes.REQUEST_CONTESTS
+    };
+}
+
+export const requestUISettings = () => {
+    return {
+        type: actionTypes.REQUEST_UISETTINGS
     };
 }
 
@@ -114,6 +122,29 @@ export const toggleCreateModal = (contest) => {
     return {
         type: actionTypes.TOGGLE_CREATE_MODAL,
         newContest: contest
+    };
+}
+
+export const recieveUISettings = (uisettings) => {
+    return {
+        type: actionTypes.RECIEVE_UISETTINGS,
+        uisettings: uisettings
+    };
+}
+
+export const getUISettings = () => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        console.log('uisettingsApi', uisettingsApi);
+        uisettingsApi.getAll(response => {
+            if (!response.error) {
+                console.log('response', response);
+                dispatch(recieveUISettings(response.uisettings));
+            } else {
+                console.log('response', response);
+                dispatch(recieveError(response.error));
+            }
+        });
     };
 }
 
