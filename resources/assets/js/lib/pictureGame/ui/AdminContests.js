@@ -72,16 +72,10 @@ const appColors = {
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
-        this.showmsg=this.showmsg.bind(this);
     }
 
     componentWillMount () {
         this.props.onReady();
-    }
-
-    showmsg(color){
-        console.log(color);
-        console.log(this);
     }
 
     addIfInferior(num) {
