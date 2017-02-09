@@ -39,9 +39,24 @@ class UISettingsController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store($photo_id)
+    public function store(Request $request)
     {
-        //
+        if (array_key_exists('id', $request->all())) {
+            $uisettings = UISettings::find($request->all()['id']);
+            $uisettings->fill($request->all());
+        }else {
+            $uisettings = new UISettings($request->all());
+            $uisettings->setMainColor();
+            $uisettings->setGalleryColor();
+            $uisettings->setSubmenuImg();
+            $uisettings->setCarouselImgArray();
+            $uisettings->setEnableFullscreen();
+        }
+        if ($uisettings->save()) {
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        }
     }
 
     /**
