@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/contestTypes";
 
 const initialSate = {
     contests: [],
+    uisettings: [],
     newContest: {
         start_date: new Date(),
         end_date: new Date(),
@@ -43,6 +44,12 @@ const contest = (state = initialSate, action) => {
                 isFetching: true,
                 error: false
             }
+        case actionTypes.REQUEST_UISETTINGS:
+            return {
+                ...state,
+                isFetching: true,
+                error: false
+            }
         case actionTypes.RECIEVE_ERROR:
             return {
                 ...state,
@@ -56,6 +63,13 @@ const contest = (state = initialSate, action) => {
                     ...contests,
                     action.contest
                 ],
+                isFetching: false,
+                error: false
+            }
+        case actionTypes.RECIEVE_UISETTINGS:
+            return {
+                ...state,
+                uisettings: action.uisettings,
                 isFetching: false,
                 error: false
             }
