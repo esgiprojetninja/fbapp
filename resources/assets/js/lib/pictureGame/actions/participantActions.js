@@ -2,6 +2,8 @@ import * as types from "./participantTypes";
 import ParticipantApi from "../API/participant/ParticipantApi";
 import FacebookLoader from "../utils/FacebookLoader";
 
+import {getCurrentContest} from "./contestActions";
+
 const ptApi = new ParticipantApi();
 const fbApi = new FacebookLoader();
 
@@ -38,9 +40,10 @@ export const addPhotoToCurrentContest = (photo_id) => {
             photo_id,
             (response) => {
                 if (response.error) {
-                    dispatch(receiveNotAddedPhotoContest(response))
+                    dispatch(receiveNotAddedPhotoContest(response));
                 } else {
-                    dispatch(receiveAddPhotoToContest(response))
+                    dispatch(receiveAddPhotoToContest(response));
+                    dispatch(getCurrentContest());
                 }
             }
         )
@@ -85,9 +88,10 @@ export const cancelParticipation = (user_id = false, contest_id = false) => {
       {user_id, contest_id},
       (response) => {
         if (response.deleted === true) {
-          dispatch(receivedParticipationCancelling(getState().user.data.fb_id))
+          dispatch(receivedParticipationCancelling(getState().user.data.fb_id));
+          dispatch(getCurrentContest());
         } else {
-          dispatch(errorOnParticipationCancelling(response))
+          dispatch(errorOnParticipationCancelling(response));
         }
       }
     )
