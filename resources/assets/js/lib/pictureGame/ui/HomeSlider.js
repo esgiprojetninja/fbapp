@@ -1,4 +1,5 @@
 import React, {PropTypes as T} from "react";
+import $ from "jquery";
 
 import Slider from "react-slick";
 
@@ -114,6 +115,10 @@ export default class HomeSlider extends React.PureComponent {
             // Checking for photo access permissions
             this.props.startPlaying()
         }
+    }
+
+    scrollToAnchor (selector) {
+      $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
     }
 }
 

@@ -69,10 +69,6 @@ export default class HomeCarousel extends React.PureComponent {
       this.props.onReady();
     }
 
-    scrollToAnchor (selector) {
-      $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
-    }
-
     getTitleToDisplay() {
       const depAlb = this.getDeployedAlbum();
       const t = ( depAlb ) ? depAlb.name : "Vos albums";
