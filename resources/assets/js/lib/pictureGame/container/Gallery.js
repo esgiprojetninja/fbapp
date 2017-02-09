@@ -4,28 +4,21 @@ import {
     changeMainColor
 } from "../actions/contestActions";
 
+
 const mapStateToProps = (state) => {
-    if (!state.pictures) {
-        return {
-           pictures: [
-               {
-                   src: "https://image.noelshack.com/fichiers/2017/01/1483545909-1.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "https://image.noelshack.com/fichiers/2017/01/1483545909-5.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               }
-           ],
-           contest: state.contest
-       }
+    return {
+        pictures: state.contest.currentContest.participants.map(p => {
+            return {
+                src: p.fb_source,
+                nbVotes: p.nb_votes,
+                picFbId: p.id_fb_photo,
+                author: "Toto",
+                caption: "Ceci est un tatouage tribal",
+                title: "Photo"
+            }
+        }),
+        contest: state.contest
     }
-    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {
