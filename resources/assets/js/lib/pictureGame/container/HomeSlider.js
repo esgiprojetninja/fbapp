@@ -2,17 +2,40 @@ import {connect} from "react-redux";
 
 import HomeSliderUI from "../ui/HomeSlider";
 
+import {
+    getFbAlbums,
+    getPhotoScope
+} from "../actions/userActions";
+
+import {
+    toggleSubmitPhotoModal,
+    toggleConsultingPostedPhoto
+} from "../actions/participantActions";
+
 const mapStateToProps = (state) => {
     return {
         participants: state.contest.currentContest.participants,
         contest: state.contest,
         user: state.user,
-        currentParticipant: state.participant.currentParticipant 
+        currentParticipant: state.participant.currentParticipant
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        toggleSubmitPhotoModal: () => {
+            dispatch(toggleSubmitPhotoModal());
+        },
+        toggleConsultingPostedPhoto: () => {
+            dispatch(toggleConsultingPostedPhoto());
+        },
+        getFbAlbums: () => {
+            dispatch(getFbAlbums())
+        },
+        startPlaying: () => {
+            dispatch(getPhotoScope());
+        }
+    };
 }
 
 const HomeSlider = connect(

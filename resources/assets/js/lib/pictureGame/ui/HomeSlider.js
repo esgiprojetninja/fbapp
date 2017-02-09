@@ -8,6 +8,10 @@ import AddAPhoto from "material-ui/svg-icons/image/add-a-photo";
 
 export default class HomeSlider extends React.PureComponent {
 
+    constructor () {
+        this.playButtonAction = this.playButtonAction.bind(this);
+    }
+
     render () {
         const settings = {
             infinite: true,
@@ -51,9 +55,24 @@ export default class HomeSlider extends React.PureComponent {
                     </div>
                 </div>
                 <Slider {...settings}>
-                    <div className="image-wrapper"><img className="img-cover" src="homeCarousel.jpg" /></div>
-                    <div className="image-wrapper"><img className="img-cover" src="homeCarousel.jpg" /></div>
+                    {this.renderSlides()}
                 </Slider>
+            </div>
+        );
+    }
+
+    renderSlides () {
+        const participantsArray = [
+            {fb_source: "homeCarousel.jpg"},
+            ...this.props.participants
+        ];
+        return participantsArray.map((p, i) => this.renderSlide(p, i));
+    }
+
+    renderSlide (participant, index) {
+        return (
+            <div className="image-wrapper" key={index}>
+                <img className="img-cover" src={participant.fb_source} />
             </div>
         );
     }
@@ -69,7 +88,7 @@ export default class HomeSlider extends React.PureComponent {
                         labelColor="#fff"
                         icon={<AddAPhoto />}
                         className="home-carousel-button"
-                        onTouchTap={this.playButtonAction.bind(this)}
+                        onTouchTap={this.playButtonAction}
                     />
                 )
             }
@@ -86,10 +105,24 @@ export default class HomeSlider extends React.PureComponent {
             );
         }
     }
+
+    playButtonAction () {
+        if (this.props.user.photoScopeGranted) {
+            this.props.toggleSubmitPhotoModal();
+            this.props.getFbAlbums();
+        } else {
+            // Checking for photo access permissions
+            this.props.startPlaying()
+        }
+    }
 }
 
 HomeSlider.propTypes = {
     participants: T.arrayOf(T.object).isRequired,
     contest: T.object.isRequired,
-    user: T.object.isRequired
+    user: T.object.isRequired,
+    getFbAlbums: T.func.isRequired,
+    toggleSubmitPhotoModal: T.func.isRequired,
+    startPlaying: T.func.isRequired,
+    toggleConsultingPostedPhoto: T.func.isRequired
 };

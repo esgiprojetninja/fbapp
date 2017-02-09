@@ -227,14 +227,11 @@ export default class HomeCarousel extends React.PureComponent {
 }
 
 HomeCarousel.propTypes = {
-    startPlaying: T.func.isRequired,
     onReady: T.func.isRequired,
-    getFbAlbums: T.func.isRequired,
     getFbAlbumPhotos: T.func.isRequired,
     loadMoreFbAlbumPhotos: T.func.isRequired,
     proposePhotoForContest: T.func.isRequired,
     userNoticedRegistrationInContest: T.func.isRequired,
-    toggleConsultingPostedPhoto: T.func.isRequired,
     cancelParticipation: T.func.isRequired,
     noticedCancelNotice: T.func.isRequired,
     displayFileUploadModal: T.func.isRequired,
