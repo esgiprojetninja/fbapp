@@ -41,7 +41,7 @@ export default class Gallery extends React.PureComponent {
                                 <div className="grid-desc">
                                     <span className="grid-desc-title">{picture.title}</span>
                                     <span className="grid-desc-caption">{picture.caption}</span>
-                                    <span className="grid-desc-author">Par {picture.author}</span>
+                                    <span className="grid-desc-author">Nombre de vote: {picture.nbVotes}</span>
                                 </div>
                             </div>
                         </div>

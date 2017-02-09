@@ -2,9 +2,9 @@ import {connect} from "react-redux";
 import {
     getPhotoScope,
     getCurrentPhotoPermissions,
-    getFbAlbums,
     getFbAlbumCover,
     getFbAlbumPhotos,
+    getFbAlbums,
     getMoreFbAlbumPhotos
 } from "../actions/userActions";
 import {
@@ -12,10 +12,10 @@ import {
     changeMainColor
 } from "../actions/contestActions";
 import {
-    toggleSubmitPhotoModal,
     addPhotoToCurrentContest,
     userNoticedRegistrationInContest,
     toggleConsultingPostedPhoto,
+    toggleSubmitPhotoModal,
     cancelParticipation,
     noticedCancelNotice,
     getCurrentParticipant,
@@ -35,15 +35,6 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getCurrentContest());
             dispatch(getCurrentParticipant());
-        },
-        startPlaying: () => {
-            dispatch(getPhotoScope());
-        },
-        toggleSubmitPhotoModal: () => {
-            dispatch(toggleSubmitPhotoModal());
-        },
-        getFbAlbums: () => {
-            dispatch(getFbAlbums())
         },
         getFbAlbumPhotos: (album_id) => {
             dispatch(getFbAlbumPhotos(album_id))
@@ -73,6 +64,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onChangeColor: (color) => {
             dispatch(changeMainColor(color));
+        },
+        toggleSubmitPhotoModal: () => {
+            dispatch(toggleSubmitPhotoModal());
+        },
+        getFbAlbums: () => {
+            dispatch(getFbAlbums())
         }
     };
 }
