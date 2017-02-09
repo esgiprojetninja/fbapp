@@ -41,23 +41,23 @@ class UISettings extends Model
         $this->enable_fullscreen = $enableFullscreen;
     }
 
-    public function getMainColor ($color) {
+    public function getMainColor () {
         return $this->main_color;
     }
 
-    public function getGalleryColor ($galleryColor) {
+    public function getGalleryColor () {
         return $this->gallery_color;
     }
 
-    public function getSubmenuImg ($submenuImg) {
+    public function getSubmenuImg () {
         return $this->submenu_img;
     }
 
-    public function getCarouselImgArray ($carouselImgArray) {
+    public function getCarouselImgArray () {
         return $this->carousel_img_array;
     }
 
-    public function getEnableFullscreen ($enableFullscreen) {
+    public function getEnableFullscreen () {
         return $this->enable_fullscreen;
     }
 }
