@@ -20,7 +20,7 @@ class CreateUisettingsTable extends Migration
             $table->string('gallery_color');
             $table->string('submenu_img');
             $table->string('carousel_img_array');
-            $table->boolean('enableFullscreen');
+            $table->boolean('enable_fullscreen');
         });
     }
 
