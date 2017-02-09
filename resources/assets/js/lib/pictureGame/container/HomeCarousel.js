@@ -4,6 +4,7 @@ import {
     getCurrentPhotoPermissions,
     getFbAlbumCover,
     getFbAlbumPhotos,
+    getFbAlbums,
     getMoreFbAlbumPhotos
 } from "../actions/userActions";
 import {
@@ -14,6 +15,7 @@ import {
     addPhotoToCurrentContest,
     userNoticedRegistrationInContest,
     toggleConsultingPostedPhoto,
+    toggleSubmitPhotoModal,
     cancelParticipation,
     noticedCancelNotice,
     getCurrentParticipant,
@@ -62,6 +64,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onChangeColor: (color) => {
             dispatch(changeMainColor(color));
+        },
+        toggleSubmitPhotoModal: () => {
+            dispatch(toggleSubmitPhotoModal());
+        },
+        getFbAlbums: () => {
+            dispatch(getFbAlbums())
         }
     };
 }
