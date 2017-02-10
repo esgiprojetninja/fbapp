@@ -40,50 +40,60 @@ class ParticipantController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store($photo_id)
+    public function store($photo_id = 0)
     {
-      $msg = "requires number";
-      if ( ctype_digit($photo_id) ) {
-        $photo_id = (int) $photo_id;
-        if ( Contest::currentlyActive() ) {
-         $currentContest = Contest::getCurrent();
-         $currentUser = Auth::user();
-         if ( !!$currentContest && !!$currentUser ) {
-           $currentContest = $currentContest->getAttributes();
-           $currentUser = $currentUser->getAttributes();
-           if ( !Participant::isUserPlayingContest($currentUser['id'], $currentContest['id']) ) {
-            $fb = new \App\Facebook();
-            $photoArr = $fb->getPhotoById($photo_id, $currentUser['token']);
-            if ( !!$photoArr && $photoArr['from']['id'] == $currentUser['fb_id'] ) {
-              $source = $photoArr['webp_images'][0]['source'];
-              $participant = new Participant();
-              $participant->setIdUser($currentUser['id']);
-              $participant->setIdContest($currentContest['id']);
-              $participant->setIdPhoto($photo_id);
-              $participant->setSource($source);
-              $participant->setHasVoted('0');
-              $participant->setNbVotes('0');
-              $participant->setAcceptedCgu('1');
-              if ( $participant->save() ) {
-                return response()->json([
-                    'participant' => $participant
-                ]);
-              } else {
-                $msg = "Impossible de valider votre participation à l'heure actuelle";
-              }
-            }
-          } else {
-            $msg = "Vous avez déjà posté une photo pour le concours";
-          }
-         }
-       } else {
-         $msg = "Aucun concours actif";
-       }
-      }
-      return response()->json([
-        'error' => true,
-        'msg' => $msg
-      ]);
+        $user = Auth::user();
+        $contest = Contest::getCurrent();
+        $fb = new \App\Facebook();
+        $photo_array = $fb->getPhotoById($photo_id, $currentUser['token']);
+
+        // Error handling
+        $error_msg = false;
+        $error_msg = (!$photo_array || $photo_array['from']['id'] !== $user['fb_id']) ? "Erreur photo" : $error_msg;
+        $error_msg = (ctype_digit($photo_id)) ? "requires number" : $error_msg;
+        $error_msg = (Contest::currentlyActive()) ? "Aucun concours actif" : $error_msg;
+        $error_msg = Participant::isUserPlayingContest($currentUser['id'], $currentContest['id']) ? "Vous avez déjà posté une photo pour le concours" : $error_msg;
+        if ($error_msg) {
+            return response()->json([
+                'error' => true,
+                'msg' => $msg
+            ]);
+        }
+
+        $this->saveParticipant($photo_id, $user, $contest, $photo_array['webp_images'][0]['source']);
+    }
+
+    /**
+     * Save a newly created participant in the db
+     * @param  Number  $photo_id
+     * @param  App\User $user
+     * @param  App\Contest $contest
+     * @param  String $photo_source
+     * @return \Illuminate\Http\Response
+     */
+    public function saveParticipant($photo_id, $user, $contest, $photo_source) {
+        $participant = new Participant();
+        $participant->setIdUser($user['id']);
+        $participant->setIdContest($contest['id']);
+        $participant->setIdPhoto($photo_id);
+        $participant->setSource($photo_source);
+        $participant->setHasVoted('0');
+        $participant->setNbVotes('0');
+        $participant->setAcceptedCgu('1');
+
+        try {
+            $participant->save();
+        } catch(Exception $e) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Une erreur est survenue lors de la sauvegarde de votre photo.'
+            ]);
+        }
+
+        return response()->json([
+            'participant' => $participant
+        ]);
+
     }
 
     /**
@@ -228,8 +238,13 @@ class ParticipantController extends Controller
                                             ->get()
                                             ->first();
         }
-        if ( empty($participant) )
-          $participant = false;
+        if (empty($participant)){
+            $participant = [
+                'has_voted' => 0
+            ];
+        }
+        // https://github.com/laravel/framework/blob/master/src/Illuminate/Http/JsonResponse.php#L24
+        // We want an empty object if no current participant
         return response()->json([
             'participant' => $participant
         ]);
