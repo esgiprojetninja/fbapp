@@ -392,8 +392,12 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone>
-                  <div>Drop ou clique pour ajouter une image dans le carousel</div>
+                <Dropzone multiple={false} accept="image/*" onDrop={
+                    (files, e) => {
+                        console.log(files);
+                    }
+                }>
+                  <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
                 </Dropzone>
             </div>
         );
@@ -403,7 +407,7 @@ export default class AdminContests extends React.PureComponent {
         return (
             <div className="full-width text-center vertical-align">
                 <Dropzone>
-                  <div>Drop ou clique pour ajouter une image au sous-menu</div>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
                 </Dropzone>
             </div>
         );
