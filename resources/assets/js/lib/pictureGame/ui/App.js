@@ -12,6 +12,27 @@ export default class App extends React.PureComponent {
         super(props);
     }
 
+    fullScreenTemplate() {
+        return (
+            <Fullscreen
+                onClick={
+                    () => {
+                        if (screenfull.enabled) {
+                            screenfull.toggle();
+                        }
+                    }
+                }
+                className="full-screen"
+            />
+        );
+    }
+
+    renderFullscreen() {
+        if(this.props.contest.uisettings.enable_fullscreen){
+            return this.fullScreenTemplate();
+        }
+    }
+
     render () {
         return (
             <div className="full-height">
@@ -23,16 +44,7 @@ export default class App extends React.PureComponent {
                 <section>
                     <Gallery/>
                 </section>
-                <Fullscreen
-                    onClick={
-                        () => {
-                            if (screenfull.enabled) {
-                                screenfull.toggle();
-                            }
-                        }
-                    }
-                    className="full-screen"
-                />
+                {this.renderFullscreen()};
             </div>
         );
     }

@@ -352,7 +352,19 @@ export default class AdminContests extends React.PureComponent {
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsCarousel} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsCarousel} label="Carousel" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsSubmenu} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsGallery} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsGallery} label="Gallerie" style={style.adminCustom}/>
-                <Toggle onMouseEnter={this.props.onHoverSettingsFullscreen} onMouseLeave={this.props.onHoverReset} defaultToggled={this.props.uisettings.enable_fullscreen} label="Fullscreen" labelStyle={style.fullSreenToggle}/>
+                <Toggle onMouseEnter={this.props.onHoverSettingsFullscreen} onMouseLeave={this.props.onHoverReset} defaultToggled={this.props.uisettings.enable_fullscreen ? true : false} label="Fullscreen" labelStyle={style.fullSreenToggle} onToggle={
+                    () => {
+                        let newUISettings = {};
+                        newUISettings = this.props.uisettings;
+                        newUISettings.enable_fullscreen = !this.props.uisettings.enable_fullscreen;
+                        if(newUISettings.enable_fullscreen){
+                            newUISettings.enable_fullscreen = 1;
+                        }else{
+                            newUISettings.enable_fullscreen = 0;
+                        }
+                        this.props.onUISettingsChange(newUISettings);
+                    }
+                }/>
             </div>
         );
     }
