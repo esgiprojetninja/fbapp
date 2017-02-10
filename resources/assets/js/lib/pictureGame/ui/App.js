@@ -7,6 +7,11 @@ import screenfull from "screenfull";
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 
 export default class App extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+    }
+
     render () {
         return (
             <div className="full-height">

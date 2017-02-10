@@ -36,7 +36,7 @@ export default class AppNavBar extends React.PureComponent {
     renderAppNavBar(){
         return (
             <AppBar
-                style={{backgroundColor: this.props.color}}
+                style={{backgroundColor: this.props.uisettings.main_color}}
                 className={this.myClass}
                 title={this.props.title}
                 showMenuIconButton={false}

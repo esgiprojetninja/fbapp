@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {
-    changeMainColor
+    changeMainColor,
+    getUISettings
 } from "../actions/contestActions";
 import AppNavBarComponent from "../ui/AppNavBar";
 
@@ -10,6 +11,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onReady: () => {
+            dispatch(getUISettings());
+        },
         onChangeColor: (color) => {
             dispatch(changeMainColor(color));
         }
