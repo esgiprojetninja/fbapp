@@ -206,3 +206,32 @@ export const closeAllModals = () => {
         type: types.CLOSE_ALL_MODALS
     }
 }
+
+const requestSaveVote = () => {
+    return {
+        type: types.REQUEST_SAVE_VOTE
+    }
+}
+
+const receiveVoteSaved = (participant) => {
+    return {
+        type: types.RECEIVE_VOTE_SAVED,
+        participant
+    }
+}
+
+export const saveVote = (id) => {
+    return (dispath) => {
+        dispatch(requestSaveVote());
+        ptApi.saveVote({id: id},
+            (response) => {
+                if (response.error) {
+                    dispatch(recieveError(response.msg));
+                }
+                else {
+                    dispatch(receiveVoteSaved(response.participant));
+                }
+            }
+        );
+    }
+}

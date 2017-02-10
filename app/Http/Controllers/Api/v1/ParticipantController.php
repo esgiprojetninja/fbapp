@@ -76,7 +76,7 @@ class ParticipantController extends Controller
         $participant->setIdUser($user['id']);
         $participant->setIdContest($contest['id']);
         $participant->setIdPhoto($photo_id);
-        $participant->setHasVoted('0');
+        $participant->voted_for(0);
         $participant->setNbVotes('0');
         $participant->setAcceptedCgu('1');
         if ($photo_source !== 0) {
@@ -118,7 +118,22 @@ class ParticipantController extends Controller
     */
     public function update(Request $request, $id)
     {
-        //
+        $participant = Participant::find($id);
+        if (!$participant) {
+            return $this->store(0);
+        }
+        $participant->fill($request->all());
+        try {
+            $participant->save();
+        } catch(Exception $e) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Error while saving participant'
+            ]);
+        }
+        return response()->json([
+            'participant' => $participant
+        ]);
     }
 
     /**

@@ -16,7 +16,7 @@ class Participant extends Model
         'id_user',
         'id_fb_photo',
         'fb_source',
-        'has_voted',
+        'voted_for',
         'nb_votes',
         'accepted_cgu'
     ];
@@ -44,9 +44,9 @@ class Participant extends Model
       $this->id_fb_photo = (int) $id;
     }
 
-    public function setHasVoted($id)
+    public function setVotedFor($id)
     {
-      $this->has_voted = (int) $id;
+      $this->voted_for = (int) $id;
     }
 
     public function setNbVotes($id)

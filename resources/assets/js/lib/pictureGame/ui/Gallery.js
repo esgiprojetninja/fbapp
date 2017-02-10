@@ -1,9 +1,10 @@
 import React, {PropTypes as T, Component} from "react";
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {RaisedButton} from "material-ui";
+import IconButton from "material-ui/IconButton";
+import Subheader from "material-ui/Subheader";
+import StarBorder from "material-ui/svg-icons/toggle/star-border";
+import Lightbox from "react-image-lightbox";
 import Picture from "./Picture";
-import Lightbox from 'react-image-lightbox';
 
 export default class Gallery extends React.PureComponent {
     constructor(props) {
@@ -75,10 +76,23 @@ export default class Gallery extends React.PureComponent {
                        onMoveNextRequest={() => this.setState({
                            photoIndex: (photoIndex + 1) % this.props.pictures.length,
                        })}
+                       toolbarButtons={this.renderToolbar()}
                    />
                }
            </div>
         )
+    }
+
+    renderToolbar () {
+        return [
+            <RaisedButton
+                label="Voter pour cette photo"
+                labelPosition="before"
+                backgroundColor={this.props.contest.color}
+                labelColor="#fff"
+                //onTouchTap={this.playButtonAction}
+            />
+        ];
     }
 
     render () {

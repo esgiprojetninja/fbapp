@@ -146,6 +146,17 @@ const participant = (state = initialSate, action) => {
                 fileUploadModal: false,
                 modalOpen: false
             }
+        case pTypes.REQUEST_SAVE_VOTE:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case pTypes.RECEIVE_VOTE_SAVED:
+            return {
+                ...state,
+                isFetching: false,
+                currentParticipant: action.participant
+            }
         default:
             return state;
     }
