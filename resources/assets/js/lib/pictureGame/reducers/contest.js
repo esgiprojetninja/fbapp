@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/contestTypes";
 
 const initialSate = {
     contests: [],
-    uisettings: [],
+    uisettings: {},
     newContest: {
         start_date: new Date(),
         end_date: new Date(),

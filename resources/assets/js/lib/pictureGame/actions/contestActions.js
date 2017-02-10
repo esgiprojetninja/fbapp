@@ -64,6 +64,19 @@ export const storeContest = () => {
     }
 }
 
+export const storeUISettings = (newSettings) => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        uisettingsApi.store(newSettings, (response) => {
+            if (!response.error) {
+                dispatch(getUISettings());
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
+    }
+}
+
 export const getCurrentContest = () => {
     return (dispatch) => {
         dispatch(requestContests());
@@ -135,13 +148,12 @@ export const recieveUISettings = (uisettings) => {
 export const getUISettings = () => {
     return (dispatch) => {
         dispatch(requestUISettings());
-        console.log('uisettingsApi', uisettingsApi);
         uisettingsApi.getAll(response => {
             if (!response.error) {
-                console.log('response', response);
-                dispatch(recieveUISettings(response.uisettings));
+                let uisettings = {};
+                uisettings = response.uisettings[0];
+                dispatch(recieveUISettings(uisettings));
             } else {
-                console.log('response', response);
                 dispatch(recieveError(response.error));
             }
         });

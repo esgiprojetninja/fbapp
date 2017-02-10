@@ -22,7 +22,8 @@ import {
     hoverSettingsCarousel,
     hoverReset,
     hoverFullscreen,
-    getUISettings
+    getUISettings,
+    storeUISettings
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -98,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onOpenExport: () => {
             dispatch(openExport());
+        },
+        onUISettingsChange: (newUISettings) => {
+            dispatch(storeUISettings(newUISettings));
         }
     }
 }
