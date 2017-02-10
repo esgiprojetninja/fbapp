@@ -45,22 +45,22 @@ class ParticipantController extends Controller
         $user = Auth::user();
         $contest = Contest::getCurrent();
         $fb = new \App\Facebook();
-        $photo_array = $fb->getPhotoById($photo_id, $currentUser['token']);
+        $photo_array = $photo_id !== 0 ? $fb->getPhotoById($photo_id, $user['token']) : [];
+        $photo_source = $photo_array !== 0 ? $photo_array['webp_images'][0]['source'] : 0;
 
         // Error handling
         $error_msg = false;
-        $error_msg = (!$photo_array || $photo_array['from']['id'] !== $user['fb_id']) ? "Erreur photo" : $error_msg;
-        $error_msg = (ctype_digit($photo_id)) ? "requires number" : $error_msg;
-        $error_msg = (Contest::currentlyActive()) ? "Aucun concours actif" : $error_msg;
-        $error_msg = Participant::isUserPlayingContest($currentUser['id'], $currentContest['id']) ? "Vous avez déjà posté une photo pour le concours" : $error_msg;
+        $error_msg = Participant::isUserPlayingContest($user['id'], $contest['id']) ? "Vous avez déjà posté une photo pour le concours" : $error_msg;
+        $error_msg = (!$contest) ? "Aucun concours actif" : $error_msg;
+        $error_msg = (!ctype_digit($photo_id)) ? "requires number" : $error_msg;
         if ($error_msg) {
             return response()->json([
                 'error' => true,
-                'msg' => $msg
+                'msg' => $error_msg
             ]);
         }
 
-        $this->saveParticipant($photo_id, $user, $contest, $photo_array['webp_images'][0]['source']);
+        return $this->saveParticipant($photo_id, $user, $contest, $photo_source);
     }
 
     /**
@@ -76,10 +76,12 @@ class ParticipantController extends Controller
         $participant->setIdUser($user['id']);
         $participant->setIdContest($contest['id']);
         $participant->setIdPhoto($photo_id);
-        $participant->setSource($photo_source);
         $participant->setHasVoted('0');
         $participant->setNbVotes('0');
         $participant->setAcceptedCgu('1');
+        if ($photo_source !== 0) {
+            $participant->setSource($photo_source);
+        }
 
         try {
             $participant->save();
