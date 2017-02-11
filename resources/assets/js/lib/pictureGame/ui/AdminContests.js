@@ -3,7 +3,6 @@ import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
 import DataExport from "../container/DataExport";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 import AutoComplete from 'material-ui/AutoComplete';
@@ -17,6 +16,16 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import { BlockPicker } from 'react-color';
 import { HuePicker } from 'react-color';
+
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import DoneIcon from 'material-ui/svg-icons/action/done';
+
+import {fullWhite} from 'material-ui/styles/colors';
+
 import { AlphaPicker } from 'react-color';
 
 import Toggle from 'material-ui/Toggle';
@@ -29,7 +38,7 @@ const style = {
         margin: "0 2px"
     },
     modal : {
-        width: "85%",
+        width: "95%",
         maxWidth: "none"
     },
     adminCustom : {
@@ -118,6 +127,31 @@ export default class AdminContests extends React.PureComponent {
         }
     }
 
+    renderAdminSideBarMobile () {
+        return (
+            <div>
+                <FlatButton
+                    label="Concours"
+                    primary={true}
+                    onClick={this.props.onOpenEvents}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Paramètres"
+                    primary={true}
+                    onClick={this.props.onOpenSettings}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Importation"
+                    primary={true}
+                    onClick={this.props.onOpenExport}
+                    style={{padding: "0 15px"}}
+                />
+            </div>
+        );
+    }
+
     renderAdminSideBar () {
         return  (
             <div>
@@ -170,11 +204,11 @@ export default class AdminContests extends React.PureComponent {
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
                             <TableHeaderColumn>Title</TableHeaderColumn>
-                            <TableHeaderColumn>From</TableHeaderColumn>
-                            <TableHeaderColumn>To</TableHeaderColumn>
-                            <TableHeaderColumn>Winner</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">From</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">To</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">Winner</TableHeaderColumn>
                             <TableHeaderColumn>Active</TableHeaderColumn>
-                            <TableHeaderColumn>Actions</TableHeaderColumn>
+                            <TableHeaderColumn className="td-actions">Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -190,15 +224,16 @@ export default class AdminContests extends React.PureComponent {
             <TableRow key={contest.id}>
                 <TableRowColumn className="admin-td admin-td-id">{contest.id}</TableRowColumn>
                 <TableRowColumn className="admin-td admin-td-title">{contest.title}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-start">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-end">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-winner">{contest.id_winner}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-start hidden-sm hidden-xs">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-end hidden-sm hidden-xs">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-winner hidden-sm hidden-xs">{contest.id_winner}</TableRowColumn>
                 <TableRowColumn className="admin-td admin-td-state">{contest.state}</TableRowColumn>
-                <TableRowColumn className="admin-td-eventsBtn">
+                <TableRowColumn className="admin-td-eventsBtn td-actions">
                 <div>
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Edit"
+                    className="hidden-sm hidden-xs"
                     primary={true}
                     data-contest={contest}
                     onTouchTap={(ev) => {
@@ -208,6 +243,7 @@ export default class AdminContests extends React.PureComponent {
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Delete"
+                    className="hidden-sm hidden-xs"
                     secondary={true}
                     onTouchTap={() => {
                       this.props.onDeleteContestClick(contest.id);
@@ -216,10 +252,40 @@ export default class AdminContests extends React.PureComponent {
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Activate"
+                    className="hidden-sm hidden-xs"
                     backgroundColor = "#e4e3e3"
                     onTouchTap={() => {
                       this.props.onActivateContestClick(contest.id);
                     }}
+                    />
+                    <RaisedButton
+                     icon={<EditorModeEdit />}
+                     primary={true}
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onCreateModalOpenClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                    />
+                    <RaisedButton
+                     icon={<DeleteIcon />}
+                     secondary={true}
+                     onTouchTap={() => {
+                       this.props.onDeleteContestClick(contest.id);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                    />
+                    <RaisedButton
+                     icon={<DoneIcon />}
+                     backgroundColor = "#e4e3e3"
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onCreateModalOpenClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
                     />
                 </div>
                 </TableRowColumn>
@@ -407,7 +473,7 @@ export default class AdminContests extends React.PureComponent {
         return (
             <div className="full-width text-center vertical-align">
                 <Dropzone>
-                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour changer une image du sous-menu</span></div>
                 </Dropzone>
             </div>
         );
@@ -449,20 +515,18 @@ export default class AdminContests extends React.PureComponent {
     renderAdminBody () { // TODO : optimize this asap
         if(this.props.openEvents) {
             return (
-                <Col md={9} style={{alignSelf: "flex-start"}}>
-                    <div>
-                        {this.renderContent()}
-                        <ContestModalForm
-                        handleClose={this.props.onCreateModalOpenClick}
-                        open={this.props.createModalOpen}
-                        />
-                    </div>
-                </Col>
+              <div className="full-width" style={{alignSelf: "flex-start"}}>
+                  {this.renderContent()}
+                  <ContestModalForm
+                  handleClose={this.props.onCreateModalOpenClick}
+                  open={this.props.createModalOpen}
+                  />
+              </div>
             );
         }
         if(this.props.openSettings) {
             return (
-                <Col md={9} xs={9} sm={9} className="vertical-align" style={{position: "initial"}}>
+                <Col className="vertical-align full-width" style={{position: "initial"}}>
                     <div className="full-width">
                         {this.renderParams()}
                     </div>
@@ -471,7 +535,11 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.props.openExport) {
             return (
-                <DataExport />
+                <div className="full-width" style={{alignSelf: "flex-start"}}>
+                    <div>
+                      <DataExport />
+                    </div>
+                </div>
             );
         }
     }
@@ -508,10 +576,13 @@ export default class AdminContests extends React.PureComponent {
                       onRequestClose={this.props.onCloseAdmin}
                       autoScrollBodyContent={true}
                     >
-                        <div className="vertical-align">
-                            <Col md={3} xs={3} sm={3} className="admin-sidebar">
+                        <div className="sidebar-wrapper vertical-align full-width" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <div className="admin-sidebar-mobile hidden-md hidden-lg">
+                                {this.renderAdminSideBarMobile()}
+                            </div>
+                            <div style={{width: "257px", display: "inline-block"}} className="admin-sidebar hidden-sm hidden-xs">
                                 {this.renderAdminSideBar()}
-                            </Col>
+                            </div>
                             {this.renderAdminBody()}
                         </div>
                     </Dialog>
