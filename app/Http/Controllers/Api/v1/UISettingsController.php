@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controlers\ContestController;
 use App\UISettings;
-use App\Contest;
 
 class UISettingsController extends Controller
 {
@@ -17,9 +16,17 @@ class UISettingsController extends Controller
     */
     public function index()
     {
-        $uiSettings = UISettings::all();
+        $uisettings = UISettings::all()->first();
+        if ($uisettings->count() == 0) {
+            $uisettings = new UISettings();
+            $uisettings->setMainColor('#00BCD4');
+            $uisettings->setGalleryColor('#00BCD4');
+            $uisettings->setSubmenuImg('subMenuLogo.png');
+            $uisettings->setCarouselImgArray('homeCarousel.jpg');
+            $uisettings->setEnableFullscreen(1);
+        }
         return response()->json([
-            'uiSettings' => $uiSettings
+            'uisettings' => $uisettings
         ]);
     }
 
@@ -39,9 +46,24 @@ class UISettingsController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store($photo_id)
+    public function store(Request $request)
     {
-        //
+        if (array_key_exists('id', $request->all())) {
+            $uisettings = UISettings::find($request->all()['id']);
+            $uisettings->fill($request->all());
+        }else {
+            $uisettings = new UISettings($request->all());
+            $uisettings->setMainColor($request->all()['main_color']);
+            $uisettings->setGalleryColor($request->all()['gallery_color']);
+            $uisettings->setSubmenuImg($request->all()['submenu_img']);
+            $uisettings->setCarouselImgArray($request->all()['carousel_img_array']);
+            $uisettings->setEnableFullscreen($request->all()['enable_fullscreen']);
+        }
+        if ($uisettings->save()) {
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        }
     }
 
     /**

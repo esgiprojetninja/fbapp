@@ -6,7 +6,7 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import MainReducer from "./reducers/main";
 import AppNavBar from "./ui/AppNavBar";
-import App from "./ui/App";
+import App from "./container/App";
 import Admin from "./ui/Admin";
 import ConfPolitics from "./ui/ConfPolitics";
 /* Material ui stuff */

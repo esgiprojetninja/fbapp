@@ -27,6 +27,10 @@ export default class AppNavBar extends React.PureComponent {
         this.toggleNavbar = this.toggleNavbar.bind(this);
     }
 
+    componentWillMount () {
+        this.props.onReady();
+    }
+
     toggleNavbar(){
         this.hide = !this.hide;
         this.hide ? this.myClass = 'navbar-mui' : this.myClass = 'navbar-mui navbar-mui-out';
@@ -36,7 +40,7 @@ export default class AppNavBar extends React.PureComponent {
     renderAppNavBar(){
         return (
             <AppBar
-                style={{backgroundColor: this.props.color}}
+                style={{backgroundColor: this.props.uisettings.main_color}}
                 className={this.myClass}
                 title={this.props.title}
                 showMenuIconButton={false}

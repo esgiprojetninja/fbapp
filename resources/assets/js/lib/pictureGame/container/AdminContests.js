@@ -21,7 +21,9 @@ import {
     hoverSettingsGallery,
     hoverSettingsCarousel,
     hoverReset,
-    hoverFullscreen
+    hoverFullscreen,
+    getUISettings,
+    storeUISettings
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -33,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onReady: () => {
             dispatch(getContests());
+            dispatch(getUISettings());
         },
         onCreateModalOpenClick: (ev, contest) => {
             dispatch(toggleCreateModal(contest));
@@ -96,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onOpenExport: () => {
             dispatch(openExport());
+        },
+        onUISettingsChange: (newUISettings) => {
+            dispatch(storeUISettings(newUISettings));
         }
     }
 }

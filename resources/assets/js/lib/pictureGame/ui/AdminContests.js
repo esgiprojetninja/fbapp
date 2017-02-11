@@ -3,7 +3,6 @@ import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
 import DataExport from "../container/DataExport";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 import AutoComplete from 'material-ui/AutoComplete';
@@ -17,6 +16,16 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import { BlockPicker } from 'react-color';
 import { HuePicker } from 'react-color';
+
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import DoneIcon from 'material-ui/svg-icons/action/done';
+
+import {fullWhite} from 'material-ui/styles/colors';
+
 import { AlphaPicker } from 'react-color';
 
 import Toggle from 'material-ui/Toggle';
@@ -29,7 +38,7 @@ const style = {
         margin: "0 2px"
     },
     modal : {
-        width: "85%",
+        width: "95%",
         maxWidth: "none"
     },
     adminCustom : {
@@ -72,16 +81,10 @@ const appColors = {
 export default class AdminContests extends React.PureComponent {
     constructor (props) {
         super(props);
-        this.showmsg=this.showmsg.bind(this);
     }
 
     componentWillMount () {
         this.props.onReady();
-    }
-
-    showmsg(color){
-        console.log(color);
-        console.log(this);
     }
 
     addIfInferior(num) {
@@ -122,6 +125,31 @@ export default class AdminContests extends React.PureComponent {
         } else {
             return this.renderTable()
         }
+    }
+
+    renderAdminSideBarMobile () {
+        return (
+            <div>
+                <FlatButton
+                    label="Concours"
+                    primary={true}
+                    onClick={this.props.onOpenEvents}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Paramètres"
+                    primary={true}
+                    onClick={this.props.onOpenSettings}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Importation"
+                    primary={true}
+                    onClick={this.props.onOpenExport}
+                    style={{padding: "0 15px"}}
+                />
+            </div>
+        );
     }
 
     renderAdminSideBar () {
@@ -176,11 +204,11 @@ export default class AdminContests extends React.PureComponent {
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
                             <TableHeaderColumn>Title</TableHeaderColumn>
-                            <TableHeaderColumn>From</TableHeaderColumn>
-                            <TableHeaderColumn>To</TableHeaderColumn>
-                            <TableHeaderColumn>Winner</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">From</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">To</TableHeaderColumn>
+                            <TableHeaderColumn className="hidden-sm hidden-xs">Winner</TableHeaderColumn>
                             <TableHeaderColumn>Active</TableHeaderColumn>
-                            <TableHeaderColumn>Actions</TableHeaderColumn>
+                            <TableHeaderColumn className="td-actions">Actions</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -196,15 +224,16 @@ export default class AdminContests extends React.PureComponent {
             <TableRow key={contest.id}>
                 <TableRowColumn className="admin-td admin-td-id">{contest.id}</TableRowColumn>
                 <TableRowColumn className="admin-td admin-td-title">{contest.title}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-start">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-end">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
-                <TableRowColumn className="admin-td admin-td-winner">{contest.id_winner}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-start hidden-sm hidden-xs">{this.uiDateFormater(new Date(contest.start_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-end hidden-sm hidden-xs">{this.uiDateFormater(new Date(contest.end_date))}</TableRowColumn>
+                <TableRowColumn className="admin-td admin-td-winner hidden-sm hidden-xs">{contest.id_winner}</TableRowColumn>
                 <TableRowColumn className="admin-td admin-td-state">{contest.state}</TableRowColumn>
-                <TableRowColumn className="admin-td-eventsBtn">
+                <TableRowColumn className="admin-td-eventsBtn td-actions">
                 <div>
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Edit"
+                    className="hidden-sm hidden-xs"
                     primary={true}
                     data-contest={contest}
                     onTouchTap={(ev) => {
@@ -214,6 +243,7 @@ export default class AdminContests extends React.PureComponent {
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Delete"
+                    className="hidden-sm hidden-xs"
                     secondary={true}
                     onTouchTap={() => {
                       this.props.onDeleteContestClick(contest.id);
@@ -222,10 +252,40 @@ export default class AdminContests extends React.PureComponent {
                     <RaisedButton
                     style={style.actionsBtn}
                     label="Activate"
+                    className="hidden-sm hidden-xs"
                     backgroundColor = "#e4e3e3"
                     onTouchTap={() => {
                       this.props.onActivateContestClick(contest.id);
                     }}
+                    />
+                    <RaisedButton
+                     icon={<EditorModeEdit />}
+                     primary={true}
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onCreateModalOpenClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                    />
+                    <RaisedButton
+                     icon={<DeleteIcon />}
+                     secondary={true}
+                     onTouchTap={() => {
+                       this.props.onDeleteContestClick(contest.id);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                    />
+                    <RaisedButton
+                     icon={<DoneIcon />}
+                     backgroundColor = "#e4e3e3"
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onCreateModalOpenClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
                     />
                 </div>
                 </TableRowColumn>
@@ -277,43 +337,43 @@ export default class AdminContests extends React.PureComponent {
             <div className="text-center">
                 <svg className="svg-canvas">
                     <path
-                        style={this.props.hoverSettingCarousel ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingCarousel ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 8.1950631,4.1580226 H 201.82556 c 2.6512,0 4.78556,2.1044951 4.78556,4.7185989 V 99.618911 c 0,2.614099 -2.13436,4.718599 -4.78556,4.718599 H 8.1950631 c -2.6511919,0 -4.7855449,-2.1045 -4.7855449,-4.718599 V 8.8766215 c 0,-2.6141038 2.134353,-4.7185989 4.7855449,-4.7185989 z"
                     />
                     <path
-                        style={this.props.hoverSettingSubmenu ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingSubmenu ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 8.7182074,107.17311 H 201.81336 c 2.63884,0 4.76324,2.16731 4.76324,4.85945 v 17.56881 c 0,2.69214 -2.1244,4.85945 -4.76324,4.85945 H 8.7182074 c -2.6388407,0 -4.7632504,-2.16731 -4.7632504,-4.85945 v -17.56881 c 0,-2.69214 2.1244097,-4.85945 4.7632504,-4.85945 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.uisettings.gallery_color, stroke: this.props.uisettings.gallery_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 6.2292213,179.92316 H 88.419149 c 1.123203,0 2.027449,0.6238 2.027449,1.39866 v 42.60561 c 0,0.77486 -0.904246,1.39866 -2.027449,1.39866 H 6.2292213 c -1.1232086,0 -2.0274522,-0.6238 -2.0274522,-1.39866 v -42.60561 c 0,-0.77486 0.9042436,-1.39866 2.0274522,-1.39866 z"
                     />
                     <path
-                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 11.19286,7.3192399 h 187.48007 c 2.6016,0 4.69604,2.0875086 4.69604,4.6805111 v 3.960454 c 0,2.593005 -2.09444,4.680512 -4.69604,4.680512 H 11.19286 c -2.6015981,0 -4.6960245,-2.087507 -4.6960245,-4.680512 v -3.960454 c 0,-2.5930025 2.0944264,-4.6805111 4.6960245,-4.6805111 z"
                     />
                     <path
-                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="M 85.380105,55.74298 H 102.9489 c 2.07087,0 3.73804,1.667167 3.73804,3.738041 0,2.070874 -1.66717,3.73804 -3.73804,3.73804 H 85.380105 c -2.070875,0 -3.73804,-1.667166 -3.73804,-3.73804 0,-2.070874 1.667165,-3.738041 3.73804,-3.738041 z"
                     />
                     <path
-                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 115.47133,55.74298 h 17.56879 c 2.07087,0 3.73805,1.667167 3.73805,3.738041 0,2.070874 -1.66718,3.73804 -3.73805,3.73804 h -17.56879 c -2.07088,0 -3.73804,-1.667166 -3.73804,-3.73804 0,-2.070874 1.66716,-3.738041 3.73804,-3.738041 z"
                     />
                     <path
-                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingTheme ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 82.755255,47.284762 h 53.140435 c 0.58573,0 1.05728,0.471545 1.05728,1.057278 v 1.585916 c 0,0.585731 -0.47155,1.057277 -1.05728,1.057277 H 82.755255 c -0.585732,0 -1.057277,-0.471546 -1.057277,-1.057277 V 48.34204 c 0,-0.585733 0.471545,-1.057278 1.057277,-1.057278 z"
                     />
                     <path
-                        style={this.props.hoverSettingFullscreen ? {fillOpacity: "1", fill: this.props.color, stroke: this.props.color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingFullscreen ? {fillOpacity: "1", fill: this.props.uisettings.main_color, stroke: this.props.uisettings.main_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 194.57457,285.30726 h 7.40095 c 1.46432,0 2.64319,1.17886 2.64319,2.6432 v 0.52863 c 0,1.46433 -1.17887,2.6432 -2.64319,2.6432 h -7.40095 c -1.46432,0 -2.64319,-1.17887 -2.64319,-2.6432 v -0.52863 c 0,-1.46434 1.17887,-2.6432 2.64319,-2.6432 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.uisettings.gallery_color, stroke: this.props.uisettings.gallery_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 94.735891,180.13813 h 44.316029 c 0.60562,0 1.09319,0.6238 1.09319,1.39867 v 42.6056 c 0,0.77486 -0.48757,1.39866 -1.09319,1.39866 H 94.735891 c -0.605624,0 -1.093183,-0.6238 -1.093183,-1.39866 v -42.6056 c 0,-0.77487 0.487559,-1.39867 1.093183,-1.39867 z"
                     />
                     <path
-                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.colorGallery, stroke: this.props.colorGallery, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
+                        style={this.props.hoverSettingGallery ? {fillOpacity: "1", fill: this.props.uisettings.gallery_color, stroke: this.props.uisettings.gallery_color, strokeWidth: "1"} : {fillOpacity: "0", fill: "#777", stroke: "#777", strokeWidth: "1"}}
                         d="m 144.78773,180.13812 h 60.0866 c 0.82115,0 1.48223,0.6238 1.48223,1.39867 v 42.6056 c 0,0.77486 -0.66108,1.39866 -1.48223,1.39866 h -60.0866 c -0.82115,0 -1.48221,-0.6238 -1.48221,-1.39866 v -42.6056 c 0,-0.77487 0.66106,-1.39867 1.48221,-1.39867 z"
                     />
                     <path
@@ -358,8 +418,19 @@ export default class AdminContests extends React.PureComponent {
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsCarousel} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsCarousel} label="Carousel" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsSubmenu} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsSubmenu} label="Sous-menu" style={style.adminCustom}/>
                 <RaisedButton onMouseEnter={this.props.onHoverSettingsGallery} onMouseLeave={this.props.onHoverReset} onClick={this.props.onOpenSettingsGallery} label="Gallerie" style={style.adminCustom}/>
-                <Toggle onMouseEnter={this.props.onHoverSettingsFullscreen} onMouseLeave={this.props.onHoverReset} defaultToggled={true} label="Fullscreen" labelStyle={style.fullSreenToggle}/>
-                <Toggle label="Default" labelStyle={style.fullSreenToggle}/>
+                <Toggle onMouseEnter={this.props.onHoverSettingsFullscreen} onMouseLeave={this.props.onHoverReset} defaultToggled={this.props.uisettings.enable_fullscreen ? true : false} label="Fullscreen" labelStyle={style.fullSreenToggle} onToggle={
+                    () => {
+                        let newUISettings = {};
+                        newUISettings = this.props.uisettings;
+                        newUISettings.enable_fullscreen = !this.props.uisettings.enable_fullscreen;
+                        if(newUISettings.enable_fullscreen){
+                            newUISettings.enable_fullscreen = 1;
+                        }else{
+                            newUISettings.enable_fullscreen = 0;
+                        }
+                        this.props.onUISettingsChange(newUISettings);
+                    }
+                }/>
             </div>
         );
     }
@@ -370,9 +441,12 @@ export default class AdminContests extends React.PureComponent {
                 <div className="full-width">
                     <span style={style.textFont}>Couleur principal</span>
                     <Col md={8} mdOffset={2}>
-                        <BlockPicker width="100%" colors={appColors.default} color={this.props.color} onChange={
+                        <BlockPicker width="100%" colors={appColors.default} color={this.props.uisettings.main_color} onChange={
                             (color) => {
-                                this.props.onChangeColor(color.hex);
+                                let newUISettings = {};
+                                newUISettings = this.props.uisettings;
+                                newUISettings.main_color = color.hex;
+                                this.props.onUISettingsChange(newUISettings);
                             }
                         }/>
                     </Col>
@@ -384,8 +458,12 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone>
-                  <div>Drop ou clique pour ajouter une image dans le carousel</div>
+                <Dropzone multiple={false} accept="image/*" onDrop={
+                    (files, e) => {
+                        console.log(files);
+                    }
+                }>
+                  <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
                 </Dropzone>
             </div>
         );
@@ -395,7 +473,7 @@ export default class AdminContests extends React.PureComponent {
         return (
             <div className="full-width text-center vertical-align">
                 <Dropzone>
-                  <div>Drop ou clique pour ajouter une image au sous-menu</div>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour changer une image du sous-menu</span></div>
                 </Dropzone>
             </div>
         );
@@ -408,17 +486,23 @@ export default class AdminContests extends React.PureComponent {
                     <span style={style.textFont}>Couleur des tuiles</span>
                     <Col md={12}>
                         <div style={{margin: "15px 0"}}>
-                            <HuePicker width="100%" color={this.props.colorGallery} onChange={
+                            <HuePicker width="100%" color={this.props.uisettings.gallery_color} onChange={
                                 (color) => {
-                                    this.props.onChangeColorGallery(color.hex);
+                                    let newUISettings = {};
+                                    newUISettings = this.props.uisettings;
+                                    newUISettings.gallery_color = color.hex;
+                                    this.props.onUISettingsChange(newUISettings);
                                 }
                             }/>
                         </div>
                         <div style={{margin: "15px 0"}}>
-                            <AlphaPicker width="100%" color={this.props.colorGallery} onChange={
+                            <AlphaPicker width="100%" color={this.props.uisettings.gallery_color} onChange={
                                 (color) => {
                                     let formatedColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")";
-                                    this.props.onChangeColorGallery(formatedColor);
+                                    let newUISettings = {};
+                                    newUISettings = this.props.uisettings;
+                                    newUISettings.gallery_color = formatedColor;
+                                    this.props.onUISettingsChange(newUISettings);
                                 }
                             }/>
                         </div>
@@ -431,20 +515,18 @@ export default class AdminContests extends React.PureComponent {
     renderAdminBody () { // TODO : optimize this asap
         if(this.props.openEvents) {
             return (
-                <Col md={9} style={{alignSelf: "flex-start"}}>
-                    <div>
-                        {this.renderContent()}
-                        <ContestModalForm
-                        handleClose={this.props.onCreateModalOpenClick}
-                        open={this.props.createModalOpen}
-                        />
-                    </div>
-                </Col>
+              <div className="full-width" style={{alignSelf: "flex-start"}}>
+                  {this.renderContent()}
+                  <ContestModalForm
+                  handleClose={this.props.onCreateModalOpenClick}
+                  open={this.props.createModalOpen}
+                  />
+              </div>
             );
         }
         if(this.props.openSettings) {
             return (
-                <Col md={9} xs={9} sm={9} className="vertical-align" style={{position: "initial"}}>
+                <Col className="vertical-align full-width" style={{position: "initial"}}>
                     <div className="full-width">
                         {this.renderParams()}
                     </div>
@@ -453,7 +535,11 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.props.openExport) {
             return (
-                <DataExport />
+                <div className="full-width" style={{alignSelf: "flex-start"}}>
+                    <div>
+                      <DataExport />
+                    </div>
+                </div>
             );
         }
     }
@@ -490,10 +576,13 @@ export default class AdminContests extends React.PureComponent {
                       onRequestClose={this.props.onCloseAdmin}
                       autoScrollBodyContent={true}
                     >
-                        <div className="vertical-align">
-                            <Col md={3} xs={3} sm={3} className="admin-sidebar">
+                        <div className="sidebar-wrapper vertical-align full-width" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <div className="admin-sidebar-mobile hidden-md hidden-lg">
+                                {this.renderAdminSideBarMobile()}
+                            </div>
+                            <div style={{width: "257px", display: "inline-block"}} className="admin-sidebar hidden-sm hidden-xs">
                                 {this.renderAdminSideBar()}
-                            </Col>
+                            </div>
                             {this.renderAdminBody()}
                         </div>
                     </Dialog>
