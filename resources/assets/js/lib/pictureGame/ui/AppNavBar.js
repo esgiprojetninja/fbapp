@@ -49,6 +49,40 @@ export default class AppNavBar extends React.PureComponent {
         )
     }
 
+    renderToggledNavbar() {
+        return (
+            <div className='navbar-mui-wrapper'>
+                {this.renderAppNavBar()}
+                {this.renderToggleButton()}
+            </div>
+        );
+    }
+
+    renderNoToggleNavbar() {
+        return (
+            <AppBar
+                style={{backgroundColor: this.props.uisettings.main_color}}
+                className="navbar-mui"
+                title={this.props.title}
+                showMenuIconButton={false}
+                iconElementRight={
+                    <FlatButton
+                        label="Home"
+                        href="/"
+                    />
+                }
+            />
+        )
+    }
+
+    renderAdjustedNavbar () {
+        if(this.props.noToggle){
+            return this.renderNoToggleNavbar()
+        }else{
+            return this.renderToggledNavbar()
+        }
+    }
+
     renderToggleButton(){
         return (
             <div className="navbar-mui-open-wrapper">
@@ -64,12 +98,7 @@ export default class AppNavBar extends React.PureComponent {
     }
 
     render () {
-        return (
-            <div className='navbar-mui-wrapper'>
-                {this.renderAppNavBar()}
-                {this.renderToggleButton()}
-            </div>
-        )
+        return this.renderAdjustedNavbar()
     }
 }
 
