@@ -18,6 +18,7 @@ class UISettingsController extends Controller
     {
         $uisettings = UISettings::all();
         if (!empty($uisettings)) {
+            $uisettings = new UISettings();
             $uisettings->setMainColor('#00BCD4');
             $uisettings->setGalleryColor('#00BCD4');
             $uisettings->setSubmenuImg('subMenuLogo.png');
