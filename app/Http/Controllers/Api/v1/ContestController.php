@@ -173,7 +173,6 @@ class ContestController extends Controller
         ]);
     }
 
-
     /**
     * Set active the contest by it id and put the other as inactive
     *
