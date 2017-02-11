@@ -127,6 +127,11 @@ class ContestController extends Controller
         if (!empty($contest)) {
           $contest->participants = Participant::where('id_contest', $contest->getId())->get();
         }
+        if ($contest == null) {
+            $contest = [
+                'participants' => []
+            ];
+        }
         return response()->json([
             'contest' => $contest
         ]);
