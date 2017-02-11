@@ -17,7 +17,7 @@ class UISettingsController extends Controller
     public function index()
     {
         $uisettings = UISettings::all();
-        if (!empty($uisettings)) {
+        if (empty($uisettings)) {
             $uisettings = new UISettings();
             $uisettings->setMainColor('#00BCD4');
             $uisettings->setGalleryColor('#00BCD4');
