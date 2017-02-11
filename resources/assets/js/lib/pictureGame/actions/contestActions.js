@@ -152,7 +152,6 @@ export const getUISettings = () => {
             if (!response.error) {
                 let uisettings = {};
                 uisettings = response.uisettings[0];
-                console.log(response.uisettings[0]);
                 dispatch(recieveUISettings(uisettings));
             } else {
                 dispatch(recieveError(response.error));
