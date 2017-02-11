@@ -40,7 +40,6 @@ export default class App extends React.PureComponent {
 
     render () {
         if (!this.props.contest.uisettings.main_color) {
-            console.debug(this.props.contest);
             return (
                 <Spinner />
             );

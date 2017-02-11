@@ -30,7 +30,6 @@ import ParticipantUpload from "../container/ParticipantUpload";
 export default class HomeCarousel extends React.PureComponent {
 
     constructor () {
-      console.debug('homecarouss: ', this)
       this.styles = {
           gridRoot: {
               display: 'flex',

@@ -49,16 +49,16 @@ export default class ContestPicture extends React.PureComponent {
         this.prevPhoto = this.getDeltaPhoto(-1);
         return (
             <div>
-               {!!this.props.gallery.open &&
+               {this.props.gallery.open &&
                    <Lightbox
                        mainSrc={this.props.gallery.consultedPhoto.fb_source}
                        imageTitle={this.props.gallery.consultedPhoto.title || "-"}
                        imagePadding={35}
                        imageCaption={this.props.gallery.consultedPhoto.caption || "--"}
-                       nextSrc={nextPhoto.fb_source}
-                       prevSrc={prevPhoto.fb_source}
+                       nextSrc={this.nextPhoto.fb_source}
+                       prevSrc={this.prevPhoto.fb_source}
                        onMovePrevRequest={this.switchToPrevImageAction.bind(this)}
-                       onMoveNextRequest={thisswitchToNextImageAction.bind(this)}
+                       onMoveNextRequest={this.switchToNextImageAction.bind(this)}
                        toolbarButtons={this.renderToolbar(this.props.gallery.consultedPhoto.id)}
                        clickOutsideToClose={true}
                        onCloseRequest={this.props.closeImage}

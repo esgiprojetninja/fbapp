@@ -1,8 +1,5 @@
 import {connect} from "react-redux";
 import ContestPictureComponent from "../ui/ContestPicture";
-// import {
-//     changeMainColor
-// } from "../actions/contestActions";
 import {
     closePhoto,
     openPhoto
@@ -19,7 +16,6 @@ const mapDispatchToProps = (dispatch) => {
             console.log("coucou");
         },
         openImage: (participant_id) => {
-            console.debug("here we are mofo");
             dispatch(openPhoto(participant_id))
         },
         closeImage: () => {

@@ -8,6 +8,7 @@ const initialSate = {
 const gallery = (state = initialSate, action) => {
     switch (action.type) {
         case gTypes.OPEN_PHOTO:
+            console.debug("in the reducer")
             return {
                 ...state,
                 consultedPhoto: {...action.photo},

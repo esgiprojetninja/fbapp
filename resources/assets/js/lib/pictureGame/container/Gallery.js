@@ -1,8 +1,6 @@
 import {connect} from "react-redux";
 import GalleryComponent from "../ui/Gallery";
-// import {
-//     changeMainColor
-// } from "../actions/contestActions";
+
 import {
     closePhoto,
     openPhoto
@@ -15,11 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        voteFor: (id) => {
-            console.log("coucou");
-        },
         openImage: (participant_id) => {
-            console.debug("here we are mofo");
             dispatch(openPhoto(participant_id))
         }
     };

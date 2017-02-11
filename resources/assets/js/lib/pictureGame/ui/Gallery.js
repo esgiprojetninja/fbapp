@@ -11,9 +11,6 @@ export default class Gallery extends React.PureComponent {
     }
 
     renderGridImage(p, key) {
-        console.debug("grid supposed to display: ", p)
-        const title = p.title || "-";
-        const caption = p.caption || "-";
         return(
             <div
               className="grid-item"
@@ -29,9 +26,9 @@ export default class Gallery extends React.PureComponent {
                         <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
                         </div>
                         <div className="grid-desc">
-                            <span className="grid-desc-title">{title}</span>
-                            <span className="grid-desc-caption">{caption}</span>
-                            <span className="grid-desc-author">Nombre de vote: {p.nbVotes}</span>
+                            <span className="grid-desc-title">{p.title || "-"}</span>
+                            <span className="grid-desc-caption">{p.caption || "-"}</span>
+                            <span className="grid-desc-author">Nombre de vote: {p.nbVotes || 0}</span>
                         </div>
                     </div>
                 </div>
@@ -40,11 +37,10 @@ export default class Gallery extends React.PureComponent {
     }
 
     renderGridImages () {
-        let key = 0;
         return (
             <div className="grid-layout">
                 <div className="grid-row">
-                    {this.props.contest.currentContest.participants.forEach((p)=>this.renderGridImage(p, key++))}
+                    {(this.props.contest.currentContest.participants.map((p, key)=>this.renderGridImage(p, key)))}
                 </div>
             </div>
         )
