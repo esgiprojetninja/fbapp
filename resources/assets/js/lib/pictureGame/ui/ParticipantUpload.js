@@ -18,7 +18,7 @@ import NoticePop from '../container/Notice';
 
 export default class ParticipantUpload extends React.PureComponent {
     constructor () {
-        this.photoDescriptionMsg = "Pardonne moi maman !";
+        this.photoDescriptionMsg = "";
         this.acceptedFiles = ['png, jpg, jpeg'];
         this.style = {
           dropzone: {
