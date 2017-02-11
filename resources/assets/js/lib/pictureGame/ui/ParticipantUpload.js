@@ -173,21 +173,21 @@ export default class ParticipantUpload extends React.PureComponent {
     render () {
         const actions = [
             <FlatButton
-                label="retour vers mes albums"
+                label="Retour vers mes albums"
                 primary={true}
                 icon = {<Undo />}
                 onTouchTap={this.removePreviewImgAction.bind(this)}
             />,
             <FlatButton
                 primary={true}
-                label="supprimer photo"
+                label="Supprimer photo"
                 icon = {<Clear />}
                 disabled={this.props.participant.fileUploadedSource.length < 1}
                 onTouchTap={this.props.removePreviewImg}
             />,
             <FlatButton
                 disabled={this.props.participant.fileUploadedSource.length < 1}
-                label="valider mon choix"
+                label="Valider et importer sur Facebook"
                 primary={true}
                 keyboardFocused={this.props.participant.fileUploadedSource.length > 1}
                 icon = {<Done />}
