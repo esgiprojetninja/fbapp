@@ -12,6 +12,10 @@ export default class App extends React.PureComponent {
         super(props);
     }
 
+    componentWillMount () {
+        this.props.onReady();
+    }
+
     fullScreenTemplate() {
         return (
             <Fullscreen

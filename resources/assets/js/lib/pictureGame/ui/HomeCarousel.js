@@ -144,7 +144,7 @@ export default class HomeCarousel extends React.PureComponent {
         else {
             const actions = [
                 <FlatButton
-                    label="importer ma photo"
+                    label="importer ma photo sur Facebook"
                     primary={true}
                     keyboardFocused={true}
                     icon = {<Upload />}

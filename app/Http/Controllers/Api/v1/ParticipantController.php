@@ -228,10 +228,13 @@ class ParticipantController extends Controller
                                             ->get()
                                             ->first();
         }
-        if ( empty($participant) )
-          $participant = false;
+        if (empty($participant)){
+            $participant = [];
+        }
+        // https://github.com/laravel/framework/blob/master/src/Illuminate/Http/JsonResponse.php#L24
+        // We want an empty object if no current participant
         return response()->json([
             'participant' => $participant
-        ]);
+        ], 200, [], JSON_FORCE_OBJECT);
     }
 }
