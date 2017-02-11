@@ -11,6 +11,7 @@ export default class Gallery extends React.PureComponent {
         this.props.openImage(participant_id);
     }
 
+
     renderGridImage(p, key) {
         console.debug("grid supposed to display: ", p)
         const title = p.title || "-";
@@ -33,8 +34,34 @@ export default class Gallery extends React.PureComponent {
                             <span className="grid-desc-title">{title}</span>
                             <span className="grid-desc-caption">{caption}</span>
                             <span className="grid-desc-author">Nombre de vote: {p.nbVotes}</span>
+
+        return (
+            <div className="grid-layout">
+                <div className="grid-row">
+                    {this.props.pictures.map((picture, index) => (
+                    <div
+                        className="grid-item"
+                        key={index}
+                        onClick={() => this.setState({ isOpen: true, photoIndex: index})}
+                    >
+                        <div className="grid-well">
+                            <img
+                                className="img-cover-no-height"
+                                src={picture.src}
+                            />
+                            <div>
+                                <div className="grid-gradient" style={{background: this.props.contest.uisettings.gallery_color}}>
+                                </div>
+                                <div className="grid-desc">
+                                    <span className="grid-desc-title">{picture.title}</span>
+                                    <span className="grid-desc-caption">{picture.caption}</span>
+                                    <span className="grid-desc-author">Nombre de vote: {picture.nbVotes}</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+                    ))}
                 </div>
           </div>
       )

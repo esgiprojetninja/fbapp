@@ -30,15 +30,15 @@ export default class HomeSlider extends React.PureComponent {
                             <h1>PARDON MAMAN</h1>
                             <svg className="svg-canvas-line">
                                 <path
-                                   style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                   style={{fill: this.props.contest.uisettings.main_color, stroke: this.props.contest.uisettings.main_color}}
                                    d="m 19.098821,96.392228 c 2.45872,0 4.43813,1.97941 4.43813,4.438132 0,2.45872 -1.97941,4.43813 -4.43813,4.43813 -2.45872,0 -4.438123,-1.97941 -4.438123,-4.43813 0,-2.458722 1.979403,-4.438132 4.438123,-4.438132 z"
                                  />
                                 <path
-                                   style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                   style={{fill: this.props.contest.uisettings.main_color, stroke: this.props.contest.uisettings.main_color}}
                                    d="M 22.678594,100.83028 H 473.98214"
                                  />
                                 <path
-                                   style={{fill: this.props.contest.color, stroke: this.props.contest.color}}
+                                   style={{fill: this.props.contest.uisettings.main_color, stroke: this.props.contest.uisettings.main_color}}
                                    d="m 477.7619,96.014246 c 2.45872,0 4.43813,1.97941 4.43813,4.438144 0,2.45871 -1.97941,4.43813 -4.43813,4.43813 -2.45872,0 -4.43813,-1.97942 -4.43813,-4.43813 0,-2.458734 1.97941,-4.438144 4.43813,-4.438144 z"
                                  />
                              </svg>
@@ -85,7 +85,7 @@ export default class HomeSlider extends React.PureComponent {
                     <RaisedButton
                         label="PARTICIPER AU CONCOURS"
                         labelPosition="before"
-                        backgroundColor={this.props.contest.color}
+                        backgroundColor={this.props.contest.uisettings.main_color}
                         labelColor="#fff"
                         icon={<AddAPhoto />}
                         className="home-carousel-button"
@@ -98,7 +98,7 @@ export default class HomeSlider extends React.PureComponent {
                     label="MA PHOTO EN JEU"
                     labelPosition="before"
                     labelColor="#fff"
-                    backgroundColor={this.props.contest.color}
+                    backgroundColor={this.props.contest.uisettings.main_color}
                     icon={<CameraEnhance />}
                     className="home-carousel-button"
                     onTouchTap={this.props.toggleConsultingPostedPhoto}

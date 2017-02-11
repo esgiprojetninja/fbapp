@@ -27,6 +27,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::post('/participants/deleteFromCurrent', 'Api\v1\ParticipantController@destroyByIdUserAndIdContest');
     Route::get('/participants/current', 'Api\v1\ParticipantController@getParticipantsByContest');
     Route::get('/participants/current-participant', 'Api\v1\ParticipantController@getCurrentParticipant');
+    Route::resource('uisettings', 'Api\v1\UISettingsController');
 });
 
 // Participants API routes
@@ -37,6 +38,5 @@ Route::group(['middleware' => ['api'], ['only' => ['index', 'show', 'store', 'de
 // Admin API routes
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () {
     Route::resource('contests', 'Api\v1\ContestController');
-    Route::resource('uisettings', 'Api\v1\UISettingsController');
     Route::resource('users', 'Api\v1\UserController');
 });

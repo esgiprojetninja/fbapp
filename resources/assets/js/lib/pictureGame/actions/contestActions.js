@@ -1,7 +1,9 @@
 import * as actionTypes from "./contestTypes";
 import ContestApi from "../API/contest/ContestApi";
+import UISettingsApi from "../API/UISettings/UISettingsApi";
 
 const contestApi = new ContestApi();
+const uisettingsApi = new UISettingsApi();
 
 const generateFreshContest = () => {
     return {
@@ -18,6 +20,12 @@ const generateFreshContest = () => {
 export const requestContests = () => {
     return {
         type: actionTypes.REQUEST_CONTESTS
+    };
+}
+
+export const requestUISettings = () => {
+    return {
+        type: actionTypes.REQUEST_UISETTINGS
     };
 }
 
@@ -53,6 +61,19 @@ export const storeContest = () => {
             }
         });
         dispatch(toggleCreateModal()); // TODO move this away
+    }
+}
+
+export const storeUISettings = (newSettings) => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        uisettingsApi.store(newSettings, (response) => {
+            if (!response.error) {
+                dispatch(getUISettings());
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
     }
 }
 
@@ -114,6 +135,28 @@ export const toggleCreateModal = (contest) => {
     return {
         type: actionTypes.TOGGLE_CREATE_MODAL,
         newContest: contest
+    };
+}
+
+export const recieveUISettings = (uisettings) => {
+    return {
+        type: actionTypes.RECIEVE_UISETTINGS,
+        uisettings: uisettings
+    };
+}
+
+export const getUISettings = () => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        uisettingsApi.getAll(response => {
+            if (!response.error) {
+                let uisettings = {};
+                uisettings = response.uisettings;
+                dispatch(recieveUISettings(uisettings));
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
     };
 }
 

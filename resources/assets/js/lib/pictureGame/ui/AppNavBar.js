@@ -27,6 +27,10 @@ export default class AppNavBar extends React.PureComponent {
         this.toggleNavbar = this.toggleNavbar.bind(this);
     }
 
+    componentWillMount () {
+        this.props.onReady();
+    }
+
     toggleNavbar(){
         this.hide = !this.hide;
         this.hide ? this.myClass = 'navbar-mui' : this.myClass = 'navbar-mui navbar-mui-out';
@@ -36,13 +40,47 @@ export default class AppNavBar extends React.PureComponent {
     renderAppNavBar(){
         return (
             <AppBar
-                style={{backgroundColor: this.props.color}}
+                style={{backgroundColor: this.props.uisettings.main_color}}
                 className={this.myClass}
                 title={this.props.title}
                 showMenuIconButton={false}
                 iconElementRight={<Login />}
             />
         )
+    }
+
+    renderToggledNavbar() {
+        return (
+            <div className='navbar-mui-wrapper'>
+                {this.renderAppNavBar()}
+                {this.renderToggleButton()}
+            </div>
+        );
+    }
+
+    renderNoToggleNavbar() {
+        return (
+            <AppBar
+                style={{backgroundColor: this.props.uisettings.main_color}}
+                className="navbar-mui"
+                title={this.props.title}
+                showMenuIconButton={false}
+                iconElementRight={
+                    <FlatButton
+                        label="Home"
+                        href="/"
+                    />
+                }
+            />
+        )
+    }
+
+    renderAdjustedNavbar () {
+        if(this.props.noToggle){
+            return this.renderNoToggleNavbar()
+        }else{
+            return this.renderToggledNavbar()
+        }
     }
 
     renderToggleButton(){
@@ -60,12 +98,7 @@ export default class AppNavBar extends React.PureComponent {
     }
 
     render () {
-        return (
-            <div className='navbar-mui-wrapper'>
-                {this.renderAppNavBar()}
-                {this.renderToggleButton()}
-            </div>
-        )
+        return this.renderAdjustedNavbar()
     }
 }
 
