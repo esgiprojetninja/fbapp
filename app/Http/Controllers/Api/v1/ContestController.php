@@ -41,7 +41,6 @@ class ContestController extends Controller
     */
     public function store(Request $request)
     {
-        var_dump($request->all());
         //If the contest need to be active then we check if there is allready one and update it to inactive
         if(isset($request->all()['state']) && $request->all()['state'] == 1){
             if(Contest::currentlyActive()){
