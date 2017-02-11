@@ -32,7 +32,7 @@ export default class App extends React.PureComponent {
     }
 
     renderFullscreen() {
-        if(this.props.contest.uisettings.enable_fullscreen || this.props.contest.uisettings.enable_fullscreen === undefined){
+        if(this.props.contest.uisettings.enable_fullscreen){
             return this.fullScreenTemplate();
         }
     }

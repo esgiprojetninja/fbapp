@@ -17,9 +17,17 @@ class UISettingsController extends Controller
     public function index()
     {
         $uisettings = UISettings::all();
-        return response()->json([
-            'uisettings' => $uisettings
-        ]);
+        if (!empty($uisettings)) {
+            return response()->json([
+                'uisettings' => $uisettings
+            ]);
+        }else{
+            $uisettings->setMainColor('#00BCD4');
+            $uisettings->setGalleryColor('#00BCD4');
+            $uisettings->setSubmenuImg('subMenuLogo.png');
+            $uisettings->setCarouselImgArray('homeCarousel.jpg');
+            $uisettings->setEnableFullscreen(1);
+        }
     }
 
     /**
