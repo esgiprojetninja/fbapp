@@ -25,7 +25,7 @@ class UISettingsController extends Controller
             $uisettings->setEnableFullscreen(1);
         }
         return response()->json([
-            'contest' => $contest
+            'uisettings' => $uisettings
         ]);
     }
 
