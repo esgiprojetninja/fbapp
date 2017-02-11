@@ -151,7 +151,7 @@ export const getUISettings = () => {
         uisettingsApi.getAll(response => {
             if (!response.error) {
                 let uisettings = {};
-                uisettings = response.uisettings[0];
+                uisettings = response.uisettings;
                 dispatch(recieveUISettings(uisettings));
             } else {
                 dispatch(recieveError(response.error));

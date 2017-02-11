@@ -5,6 +5,7 @@ import Gallery from "../container/Gallery";
 import AppNavBar from "../container/AppNavBar";
 import screenfull from "screenfull";
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
+import Spinner from "./Spinner";
 
 export default class App extends React.PureComponent {
 
@@ -38,6 +39,12 @@ export default class App extends React.PureComponent {
     }
 
     render () {
+        if (!this.props.contest.uisettings.main_color) {
+            console.debug(this.props.contest);
+            return (
+                <Spinner />
+            );
+        }
         return (
             <div className="full-height">
                 <AppNavBar title="Pardon Maman: the game"/>
