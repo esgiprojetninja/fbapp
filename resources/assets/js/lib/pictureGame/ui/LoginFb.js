@@ -18,6 +18,7 @@ export default class Loginfb extends React.PureComponent {
                 {this.renderJoinButton()}
                 {this.renderAdminButton()}
                 {this.renderLoginButton()}
+                {this.renderHelpButton()}
             </div>
         );
     }
@@ -58,6 +59,16 @@ export default class Loginfb extends React.PureComponent {
             label="Connect with facebook"
             className={className}
             onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
+            />
+        );
+    }
+
+    renderHelpButton () {
+        return (
+            <FlatButton
+                label="aide"
+                secondary={true}
+                href="conf-politics"
             />
         );
     }
