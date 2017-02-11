@@ -10,6 +10,8 @@ export default class Gallery extends React.PureComponent {
     constructor(props) {
        super(props);
 
+       this.voteFor = this.voteFor.bind(this);
+
        this.state = {
            photoIndex: 0,
            isOpen: false
@@ -76,23 +78,29 @@ export default class Gallery extends React.PureComponent {
                        onMoveNextRequest={() => this.setState({
                            photoIndex: (photoIndex + 1) % this.props.pictures.length,
                        })}
-                       toolbarButtons={this.renderToolbar()}
+                       toolbarButtons={this.renderToolbar(this.props.pictures[photoIndex].id)}
                    />
                }
            </div>
         )
     }
 
-    renderToolbar () {
+    renderToolbar (id) {
         return [
             <RaisedButton
                 label="Voter pour cette photo"
                 labelPosition="before"
                 backgroundColor={this.props.contest.color}
                 labelColor="#fff"
-                //onTouchTap={this.playButtonAction}
+                value={id}
+                onTouchTap={this.voteFor}
             />
         ];
+    }
+
+    voteFor (ev) {
+        console.debug(ev);
+        // COUCOU DYLAN
     }
 
     render () {
@@ -111,5 +119,6 @@ Gallery.propTypes = {
             title: T.string.isRequired,
             src: T.string.isRequired
         }).isRequired
-    ).isRequired
+    ).isRequired,
+    voteFor: T.func.isRequired
 };

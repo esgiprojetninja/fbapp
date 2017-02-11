@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
     return {
         pictures: state.contest.currentContest.participants.map(p => {
             return {
+                id: p.id,
                 src: p.fb_source,
                 nbVotes: p.nb_votes,
                 picFbId: p.id_fb_photo,
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onChangeColor: (color) => {
             dispatch(changeMainColor(color));
+        },
+        voteFor: (id) => {
+            console.log("coucou");
         }
     };
 }

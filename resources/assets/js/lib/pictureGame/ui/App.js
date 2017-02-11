@@ -12,11 +12,11 @@ export default class App extends React.PureComponent {
             <div className="full-height">
                 <AppNavBar title="Pardon Maman: the game"/>
                 <section>
-                    <HomeCarousel/>
-                    <SubMenu/>
+                    <HomeCarousel />
+                    <SubMenu />
                 </section>
                 <section>
-                    <Gallery/>
+                    <Gallery />
                 </section>
                 <Fullscreen
                     onClick={
