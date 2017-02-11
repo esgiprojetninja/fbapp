@@ -17,9 +17,6 @@ class UpdateParticipantsTable extends Migration
             $table->dropColumn('has_voted');
             $table->integer('voted_for')->unsigned();
         });
-        Schema::table('participants', function (Blueprint $table) {
-            $table->foreign('voted_for')->references('id')->on('participants');
-        });
     }
 
     /**

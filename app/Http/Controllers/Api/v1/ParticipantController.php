@@ -76,7 +76,7 @@ class ParticipantController extends Controller
         $participant->setIdUser($user['id']);
         $participant->setIdContest($contest['id']);
         $participant->setIdPhoto($photo_id);
-        $participant->voted_for(0);
+        $participant->setVotedFor(0);
         $participant->setNbVotes('0');
         $participant->setAcceptedCgu('1');
         if ($photo_source !== 0) {
