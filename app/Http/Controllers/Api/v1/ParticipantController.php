@@ -118,7 +118,10 @@ class ParticipantController extends Controller
     */
     public function update(Request $request, $id)
     {
-        $participant = Participant::find($id);
+        $user = Auth::user();
+        $participant = Participant::find($user['id']);
+        var_dump($participant);
+        exit;
         if (!$participant) {
             return $this->store(0);
         }

@@ -26,7 +26,7 @@ class UpdateParticipantsTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('participants', function (Blueprint $table) {
             $table->dropColumn('voted_for');
             $table->boolean('has_voted')->default(false);
         });

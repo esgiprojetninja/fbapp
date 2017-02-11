@@ -110,7 +110,7 @@ const requestCurrentPlayer = () => {
     }
 }
 
-const recieveError = (error) => {
+const receiveError = (error) => {
     console.warn(error); // TODO remove this on prod
     return {
         type: types.RECIEVE_ERROR,
@@ -130,7 +130,7 @@ export const getCurrentParticipant = () => {
         dispatch(requestCurrentPlayer());
         ptApi.getCurrentParticipant(r => {
             if (r.error) {
-                dispatch(recieveError());
+                dispatch(receiveError());
             }
             else {
                 dispatch(recieveCurrentParticipant(r.participant));
@@ -220,13 +220,15 @@ const receiveVoteSaved = (participant) => {
     }
 }
 
-export const saveVote = (id) => {
-    return (dispath) => {
+export const voteForDisplaidPhoto = () => {
+    return (dispatch, getState) => {
         dispatch(requestSaveVote());
-        ptApi.saveVote({id: id},
+        ptApi.saveVote(
+            getState().gallery.consultedPhoto,
             (response) => {
+                console.warn("received server response: ", response)
                 if (response.error) {
-                    dispatch(recieveError(response.msg));
+                    dispatch(receiveError(response.msg));
                 }
                 else {
                     dispatch(receiveVoteSaved(response.participant));

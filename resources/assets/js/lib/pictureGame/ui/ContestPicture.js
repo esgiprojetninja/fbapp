@@ -1,14 +1,11 @@
 import React, {PropTypes as T} from "react";
 import ContestPicture from "../container/ContestPicture";
 
+import Snackbar from 'material-ui/Snackbar';
 import {RaisedButton} from "material-ui";
 import Lightbox from "react-image-lightbox";
 
 export default class ContestPicture extends React.PureComponent {
-    voteForDisplaid (ev) {
-        console.debug("about to vote for :", this.props.gallery.consultedPhoto)
-    }
-
     switchToPrevImageAction() {
         this.props.openImage(this.prevPhoto.id);
     }
@@ -37,7 +34,7 @@ export default class ContestPicture extends React.PureComponent {
                 backgroundColor={this.props.contest.color}
                 labelColor="#fff"
                 value={0}
-                onTouchTap={this.voteForDisplaid}
+                onTouchTap={this.props.voteForDisplaidPic}
             />
         ];
     }
@@ -47,9 +44,14 @@ export default class ContestPicture extends React.PureComponent {
     renderLightBox () {
         this.nextPhoto = this.getDeltaPhoto(1);
         this.prevPhoto = this.getDeltaPhoto(-1);
+        const photoCondition = this.props.participant.isVoting === false & this.props.gallery.open;
         return (
             <div>
-               {this.props.gallery.open &&
+                <Snackbar
+                  message="vote en cours de traitement"
+                  open={this.props.participant.isVoting}
+                />
+               {photoCondition &&
                    <Lightbox
                        mainSrc={this.props.gallery.consultedPhoto.fb_source}
                        imageTitle={this.props.gallery.consultedPhoto.title || "-"}
@@ -83,7 +85,7 @@ ContestPicture.propTypes = {
             participants: T.array.isRequired
         }).isRequired,
     }).isRequired,
-    voteFor: T.func.isRequired,
+    voteForDisplaidPic: T.func.isRequired,
     closeImage: T.func.isRequired,
     openImage: T.func.isRequired
 };
