@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import GalleryComponent from "../ui/Gallery";
+import ContestPictureComponent from "../ui/ContestPicture";
 // import {
 //     changeMainColor
 // } from "../actions/contestActions";
@@ -21,13 +21,16 @@ const mapDispatchToProps = (dispatch) => {
         openImage: (participant_id) => {
             console.debug("here we are mofo");
             dispatch(openPhoto(participant_id))
+        },
+        closeImage: () => {
+            dispatch(closePhoto())
         }
     };
 }
 
-const Gallery = connect(
+const ContestPicture = connect(
     mapStateToProps,
     mapDispatchToProps
-)(GalleryComponent);
+)(ContestPictureComponent);
 
-export default Gallery;
+export default ContestPicture;

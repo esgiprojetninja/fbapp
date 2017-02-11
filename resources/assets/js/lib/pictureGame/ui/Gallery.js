@@ -1,124 +1,71 @@
-import React, {PropTypes as T, Component} from "react";
-import {RaisedButton} from "material-ui";
-import IconButton from "material-ui/IconButton";
-import Subheader from "material-ui/Subheader";
-import StarBorder from "material-ui/svg-icons/toggle/star-border";
-import Lightbox from "react-image-lightbox";
-import Picture from "./Picture";
+import React, {PropTypes as T} from "react";
+import ContestPicture from "../container/ContestPicture";
 
 export default class Gallery extends React.PureComponent {
-    constructor(props) {
-       super(props);
+    constructor() {
+        console.debug("in gallery construc ", this)
+        this.openImageAction = this.openImageAction.bind(this);
+    }
 
-       this.voteFor = this.voteFor.bind(this);
+    openImageAction(participant_id) {
+        this.props.openImage(participant_id);
+    }
 
-       this.state = {
-           photoIndex: 0,
-           isOpen: false
-       };
+    renderGridImage(p, key) {
+        console.debug("grid supposed to display: ", p)
+        const title = p.title || "-";
+        const caption = p.caption || "-";
+        return(
+            <div
+              className="grid-item"
+              key={key}
+              onClick={() => {this.openImageAction(p.id)}}
+            >
+                <div className="grid-well">
+                    <img
+                        className="img-cover-no-height"
+                        src={p.fb_source}
+                    />
+                    <div>
+                        <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
+                        </div>
+                        <div className="grid-desc">
+                            <span className="grid-desc-title">{title}</span>
+                            <span className="grid-desc-caption">{caption}</span>
+                            <span className="grid-desc-author">Nombre de vote: {p.nbVotes}</span>
+                        </div>
+                    </div>
+                </div>
+          </div>
+      )
     }
 
     renderGridImages () {
-        const {
-            photoIndex,
-            isOpen,
-        } = this.state;
-
+        let key = 0;
         return (
             <div className="grid-layout">
                 <div className="grid-row">
-                    {this.props.pictures.map((picture, index) => (
-                    <div
-                        className="grid-item"
-                        key={index}
-                        onClick={() => this.setState({ isOpen: true, photoIndex: index})}
-                    >
-                        <div className="grid-well">
-                            <img
-                                className="img-cover-no-height"
-                                src={picture.src}
-                            />
-                            <div>
-                                <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
-                                </div>
-                                <div className="grid-desc">
-                                    <span className="grid-desc-title">{picture.title}</span>
-                                    <span className="grid-desc-caption">{picture.caption}</span>
-                                    <span className="grid-desc-author">Nombre de vote: {picture.nbVotes}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    ))}
+                    {this.props.contest.currentContest.participants.forEach((p)=>this.renderGridImage(p, key++))}
                 </div>
             </div>
         )
-    }
-
-    renderLightBox () {
-        const {
-            photoIndex,
-            isOpen,
-        } = this.state;
-
-        return (
-            <div>
-               {isOpen &&
-                   <Lightbox
-                       mainSrc={this.props.pictures[photoIndex].src}
-                       imageTitle={this.props.pictures[photoIndex].title}
-                       imagePadding={35}
-                       imageCaption={this.props.pictures[photoIndex].caption}
-                       nextSrc={this.props.pictures[(photoIndex + 1) % this.props.pictures.length].src}
-                       prevSrc={this.props.pictures[(photoIndex + this.props.pictures.length - 1) % this.props.pictures.length].src}
-                       onCloseRequest={() => this.setState({ isOpen: false })}
-                       onMovePrevRequest={() => this.setState({
-                           photoIndex: (photoIndex + this.props.pictures.length - 1) % this.props.pictures.length,
-                       })}
-                       onMoveNextRequest={() => this.setState({
-                           photoIndex: (photoIndex + 1) % this.props.pictures.length,
-                       })}
-                       toolbarButtons={this.renderToolbar(this.props.pictures[photoIndex].id)}
-                   />
-               }
-           </div>
-        )
-    }
-
-    renderToolbar (id) {
-        return [
-            <RaisedButton
-                label="Voter pour cette photo"
-                labelPosition="before"
-                backgroundColor={this.props.contest.color}
-                labelColor="#fff"
-                value={id}
-                onTouchTap={this.voteFor}
-            />
-        ];
-    }
-
-    voteFor (ev) {
-        console.debug(ev);
-        // COUCOU DYLAN
     }
 
     render () {
         return (
             <div>
                 {this.renderGridImages()}
-                {this.renderLightBox()}
+                <ContestPicture/>
             </div>
         )
     }
 }
 
 Gallery.propTypes = {
-    pictures: T.arrayOf(
-        T.shape({
-            title: T.string.isRequired,
-            src: T.string.isRequired
-        }).isRequired
-    ).isRequired,
-    voteFor: T.func.isRequired
+    contest: T.shape({
+        currentContest: T.shape({
+            participants: T.array.isRequired
+        }).isRequired,
+    }).isRequired,
+    openImage: T.func.isRequired
 };
