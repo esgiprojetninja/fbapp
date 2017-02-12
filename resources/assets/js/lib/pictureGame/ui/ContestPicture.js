@@ -26,7 +26,7 @@ export default class ContestPicture extends React.PureComponent {
         return {fb_source: undefined};
     }
 
-    renderToolbar(id) {
+    renderToolbar() {
         if ( this.props.participant.currentParticipant.voted_for === 0 ) {
             return [
                 <RaisedButton
@@ -104,7 +104,7 @@ export default class ContestPicture extends React.PureComponent {
                        prevSrc={this.prevPhoto.fb_source}
                        onMovePrevRequest={this.switchToPrevImageAction.bind(this)}
                        onMoveNextRequest={this.switchToNextImageAction.bind(this)}
-                       toolbarButtons={this.renderToolbar(this.props.gallery.consultingPhoto.id)}
+                       toolbarButtons={this.renderToolbar()}
                        clickOutsideToClose={true}
                        onCloseRequest={this.props.closeImage}
                    />
