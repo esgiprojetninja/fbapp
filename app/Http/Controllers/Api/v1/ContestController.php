@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
+use App\User;
 //Email purposes
 use Illuminate\Support\Facades\Mail;
 use App\Mail\endContestMail;
@@ -184,11 +185,18 @@ class ContestController extends Controller
         $fb = new \App\Facebook();
         $admins = $fb->getAdminMail();
 
+        $winnerId = Contest::where('state',1)->value('id_winner');
+
+        if($winnerId != 0) {
+            $winnerName = User::where('id',$winnerId)->value('name');
+        }
+
         return response()->json([
-            'admins' => $admins
+            'admins' => $admins,
+            'winnerName' => $winnerName
         ]);
 
-        /*$winnerName = 'Romain Lambot';
+        /*
         $contestName = "Le concours des gens très heureux";
 
         Mail::send(new endContestMail($contestName, $winnerName), [], function() use ($participants)
