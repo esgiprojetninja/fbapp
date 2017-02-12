@@ -12,7 +12,8 @@ const initialSate = {
     fileUploadedSource: "",
     fileUploadRequest: false,
     fileUploadError: false,
-    currentParticipant: {}
+    currentParticipant: {},
+    publishPreview: {}
 };
 
 const participant = (state = initialSate, action) => {
@@ -150,6 +151,16 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 currentParticipant: action.participant
+            }
+        case pTypes.REQUEST_PUBLISH_PREVIEW_DATA:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case pTypes.RECEIVE_PUBLISH_PREVIEW_DATA:
+            return {
+                ...state,
+                publishPreview: action.data
             }
         default:
             return state;

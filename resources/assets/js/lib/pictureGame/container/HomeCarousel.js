@@ -19,7 +19,8 @@ import {
     cancelParticipation,
     noticedCancelNotice,
     getCurrentParticipant,
-    displayFileUploadModal
+    displayFileUploadModal,
+    getPublishPreviewData
 } from "../actions/participantActions";
 import {
   openNotice
@@ -35,6 +36,7 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getCurrentContest());
             dispatch(getCurrentParticipant());
+            dispatch(getPublishPreviewData());
         },
         getFbAlbumPhotos: (album_id) => {
             dispatch(getFbAlbumPhotos(album_id))

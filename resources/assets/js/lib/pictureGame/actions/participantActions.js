@@ -216,7 +216,31 @@ const updateCurrentParticipantAfterVote = (participant) => {
 
 export const reloadCurrentParticipantAfterVote = () => {
     return (dispatch, getState) => {
-        console.debug("participantAction new part: ", getState().gallery.connected_participant);
         dispatch(updateCurrentParticipantAfterVote(getState().gallery.connected_participant))
+    }
+}
+
+const requestPublishPreviewData = () => {
+    return {
+        type: types.REQUEST_PUBLISH_PREVIEW_DATA
+    }
+}
+
+const receivePushPreviewData = (data) => {
+    return {
+        type: types.RECEIVE_PUBLISH_PREVIEW_DATA,
+        data
+    }
+}
+
+export const getPublishPreviewData = () => {
+    return (dispatch) => {
+        dispatch(requestPublishPreviewData());
+        ptApi.getPublishPreview(r => {
+            if (r.error)
+                dispatch(receiveError());
+            else
+                dispatch(receivePushPreviewData(r));
+        });
     }
 }

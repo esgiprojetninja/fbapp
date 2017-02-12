@@ -35,6 +35,22 @@ class ParticipantController extends Controller
     }
 
     /**
+     * Returns the participation's publish model
+     * @return \Illuminate\Http\Response
+    **/
+    public function getPublishPreviewForm(){
+        $contest = Contest::getCurrent();
+        $contest_title = empty($contest) ? '"nom_du_tournoi_en_cours"' : '"'.$contest['title'].'"';
+        $photo_source = "homeCarousel.jpg";
+        $fb = new \App\Facebook();
+        $postContent = $fb::getPublishArray($photo_source, $contest_title);
+        $user = Auth::user();
+        $postContent['profile_icon_url'] = empty($user) ? false : $fb->getProfileIconPic($user['token']);
+        $postContent['user_name'] = empty($user) ? false : $user['name'];
+        return response()->json($postContent);
+    }
+
+    /**
     * Store a newly created resource in storage.
     *
     * @param  \Illuminate\Http\Request  $request

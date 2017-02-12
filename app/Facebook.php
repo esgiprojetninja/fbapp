@@ -47,14 +47,18 @@ class Facebook
       return false;
     }
 
-    /**
-     * Posts a message on a user's wall
-     * @param
-     *
-    **/
-    public function publishParticipationMessage($token, $photo_source, $contest_title){
+    public function getProfileIconPic($token){
         $this->fb->setDefaultAccessToken($token);
-        $attachment = array(
+        $profileIcon = $this->fb->get('/me?fields=picture')->getDecodedBody()['picture']['data'];
+        return empty($profileIcon['url']) ? false : $profileIcon['url'];
+    }
+
+    /**
+     * Get a generic view of what the post's data will look like when a user participates to a contest
+     * @return array
+    */
+    public static function getPublishArray($photo_source, $contest_title){
+        return array(
             'message' => 'Je participe au concours "'.$contest_title . '" sur ' . env('APP_URL') . ' . Votez pour moi !',
             'picture' => $photo_source,
             'name' => "Ma participation à ".$contest_title,
@@ -62,6 +66,16 @@ class Facebook
             'caption' => "Pardonne moi maman",
             'link' => $photo_source,
         );
+    }
+
+    /**
+     * Posts a message on a user's wall
+     * @param
+     *
+    **/
+    public function publishParticipationMessage($token, $photo_source, $contest_title){
+        $this->fb->setDefaultAccessToken($token);
+        $attachment = Facebook::getPublishArray($photo_source, $contest_title);
         try {
             return $res = $this->fb->post('/me/feed/', $attachment)->getDecodedBody()['id'];
         } catch (Exception $e){

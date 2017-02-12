@@ -70,4 +70,13 @@ export default class ParticipantApi {
             callback(response);
         });
     }
+
+    getPublishPreview(callback) {
+      return $.ajax({
+          method: "GET",
+          url: this.apiBaseUrl + "publish-preview"
+      }).done(response => {
+          callback(response);
+      });
+    }
 }
