@@ -186,14 +186,18 @@ class ContestController extends Controller
         $admins = $fb->getAdminMail();
 
         $winnerId = Contest::where('state',1)->value('id_winner');
-
         if($winnerId != 0) {
             $winnerName = User::where('id',$winnerId)->value('name');
+        }else{
+            $winnerName = "undefined";
         }
+
+        $contestName = Contest::where('state',1)->value('title');
 
         return response()->json([
             'admins' => $admins,
-            'winnerName' => $winnerName
+            'winnerName' => $winnerName,
+            'contestName' => $contestName
         ]);
 
         /*
