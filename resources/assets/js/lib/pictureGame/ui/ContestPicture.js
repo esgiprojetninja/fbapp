@@ -15,7 +15,7 @@ export default class ContestPicture extends React.PureComponent {
 
     getDeltaPhoto(aimedKeyDelta) {
         this.props.contest.currentContest.participants.forEach((p, key) => {
-            if ( p.id === this.props.gallery.consultedPhoto.id ) {
+            if ( p.id === this.props.gallery.consultingPhoto.id ) {
                 if ( this.props.contest.currentContest.participants[(key)+(aimedKeyDelta)] ) {
                     return  this.props.contest.currentContest.participants[(key)+(aimedKeyDelta)];
                 } else {
@@ -27,41 +27,84 @@ export default class ContestPicture extends React.PureComponent {
     }
 
     renderToolbar(id) {
-        return [
-            <RaisedButton
-                label="Voter pour cette photo"
-                labelPosition="before"
-                backgroundColor={this.props.contest.color}
-                labelColor="#fff"
-                value={0}
-                onTouchTap={this.props.voteForDisplaidPic}
-            />
-        ];
+        if ( this.props.participant.currentParticipant.voted_for === 0 ) {
+            return [
+                <RaisedButton
+                    label="Voter pour cette photo"
+                    labelPosition="before"
+                    backgroundColor={this.props.contest.color}
+                    labelColor="#fff"
+                    value={0}
+                    onTouchTap={this.props.voteForDisplaidPic}
+                />
+            ];
+        } else {
+            return [
+                <RaisedButton
+                    label="Vous avez déjà voté"
+                    labelPosition="before"
+                    backgroundColor={this.props.contest.color}
+                    labelColor="#fff"
+                    value={0}
+                />
+            ];
+        }
     }
 
+    renderVoteInProcess() {
+        return (
+          <Snackbar
+            message="vote en cours de traitement"
+            open={this.props.gallery.isFetching}
+          />
+        )
+    }
 
+    renderVoteSuccessNotice() {
+        const openCondition = this.props.gallery.errorMsg === false && this.props.gallery.isFetching === false && this.props.gallery.connected_participant !== false && this.props.gallery.aimed_participant !== false;
+        return (
+            <Snackbar
+              message="Votre vote est enregistré"
+              open={openCondition}
+              onRequestClose={this.props.voteSuccessNoticed}
+              autoHideDuration={500}
+              action="OK"
+              onActionTouchTap={this.props.voteSuccessNoticed}
+            />
+        )
+    }
+
+    renderVoteError() {
+        const openCondition = this.props.gallery.errorMsg !== false && this.props.gallery.isFetching === false;
+        if ( !openCondition ) { return; }
+        return (
+            <Snackbar
+              message={this.props.gallery.errorMsg}
+              open={openCondition}
+              onRequestClose={this.props.noticedVoteErrorMsg}
+              autoHideDuration={5000}
+              action="OK"
+              onActionTouchTap={this.props.noticedVoteErrorMsg}
+            />
+          )
+    }
 
     renderLightBox () {
         this.nextPhoto = this.getDeltaPhoto(1);
         this.prevPhoto = this.getDeltaPhoto(-1);
-        const photoCondition = this.props.participant.isVoting === false & this.props.gallery.open;
         return (
             <div>
-                <Snackbar
-                  message="vote en cours de traitement"
-                  open={this.props.participant.isVoting}
-                />
-               {photoCondition &&
+               {this.props.gallery.open &&
                    <Lightbox
-                       mainSrc={this.props.gallery.consultedPhoto.fb_source}
-                       imageTitle={this.props.gallery.consultedPhoto.title || "-"}
+                       mainSrc={this.props.gallery.consultingPhoto.fb_source}
+                       imageTitle={this.props.gallery.consultingPhoto.title || "-"}
                        imagePadding={35}
-                       imageCaption={this.props.gallery.consultedPhoto.caption || "--"}
+                       imageCaption={this.props.gallery.consultingPhoto.caption || "--"}
                        nextSrc={this.nextPhoto.fb_source}
                        prevSrc={this.prevPhoto.fb_source}
                        onMovePrevRequest={this.switchToPrevImageAction.bind(this)}
                        onMoveNextRequest={this.switchToNextImageAction.bind(this)}
-                       toolbarButtons={this.renderToolbar(this.props.gallery.consultedPhoto.id)}
+                       toolbarButtons={this.renderToolbar(this.props.gallery.consultingPhoto.id)}
                        clickOutsideToClose={true}
                        onCloseRequest={this.props.closeImage}
                    />
@@ -74,6 +117,9 @@ export default class ContestPicture extends React.PureComponent {
         return (
             <div>
                 {this.renderLightBox()}
+                {this.renderVoteInProcess()}
+                {this.renderVoteSuccessNotice()}
+                {this.renderVoteError()}
             </div>
         )
     }
@@ -87,5 +133,7 @@ ContestPicture.propTypes = {
     }).isRequired,
     voteForDisplaidPic: T.func.isRequired,
     closeImage: T.func.isRequired,
-    openImage: T.func.isRequired
+    openImage: T.func.isRequired,
+    voteSuccessNoticed: T.func.isRequired,
+    noticedVoteErrorMsg: T.func.isRequired
 };

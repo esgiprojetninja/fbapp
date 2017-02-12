@@ -10,6 +10,7 @@ export default class Gallery extends React.PureComponent {
         this.props.openImage(participant_id);
     }
 
+
     renderGridImage(p, key) {
         return(
             <div
@@ -28,7 +29,7 @@ export default class Gallery extends React.PureComponent {
                         <div className="grid-desc">
                             <span className="grid-desc-title">{p.title || "-"}</span>
                             <span className="grid-desc-caption">{p.caption || "-"}</span>
-                            <span className="grid-desc-author">Nombre de vote: {p.nbVotes || 0}</span>
+                            <span className="grid-desc-author">Nombre de vote: {p.nb_votes || 0}</span>
                         </div>
                     </div>
                 </div>

@@ -2,11 +2,17 @@ import {connect} from "react-redux";
 import ContestPictureComponent from "../ui/ContestPicture";
 import {
     closePhoto,
-    openPhoto
+    openPhoto,
+    voteForDisplaidPhoto,
+    voteSuccessNoticed,
+    noticedVoteErrorMsg
 } from "../actions/galleryActions";
 import {
-    voteForDisplaidPhoto
+    reloadCurrentParticipantAfterVote
 } from "../actions/participantActions";
+import {
+    reloadContestParticipantAfterVote
+} from "../actions/contestActions";
 
 const mapStateToProps = (state) => {
     return state;
@@ -23,6 +29,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         closeImage: () => {
             dispatch(closePhoto());
+        },
+        voteSuccessNoticed: () => {
+            console.debug("voteSuccessNOtices !");
+            dispatch(reloadContestParticipantAfterVote());
+            dispatch(reloadCurrentParticipantAfterVote());
+            dispatch(voteSuccessNoticed());
+        },
+        noticedVoteErrorMsg: () => {
+            dispatch(noticedVoteErrorMsg());
         }
     };
 }

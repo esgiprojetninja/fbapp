@@ -335,3 +335,17 @@ export const hoverFullscreen = () => {
         hoverSettingFullscreen: true
     };
 }
+
+const updateParticipantAfterVote = (participant) => {
+    console.debug("contestAction dispatching: ", participant)
+    return {
+        type: actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE,
+        participant
+    }
+}
+
+export const reloadContestParticipantAfterVote = () => {
+    return (dispatch, getState) => {
+        dispatch(updateParticipantAfterVote(getState().gallery.aimed_participant))
+    }
+}

@@ -12,7 +12,6 @@ const initialSate = {
     fileUploadedSource: "",
     fileUploadRequest: false,
     fileUploadError: false,
-    isVoting: false,
     currentParticipant: {}
 };
 
@@ -147,19 +146,11 @@ const participant = (state = initialSate, action) => {
                 fileUploadModal: false,
                 modalOpen: false
             }
-        case pTypes.REQUEST_SAVE_VOTE:
+        case pTypes.UPDATE_CURRENT_PARTICIPANT:
+            console.debug("participant reducer warned: ", action.participant);
             return {
                 ...state,
-                isVoting: true,
-                isFetching: true
-            }
-        case pTypes.RECEIVE_VOTE_SAVED:
-            console.debug("reducer warned of reception ", action.participant)
-            return {
-                ...state,
-                isFetching: false,
-                isVoting: false,
-                // currentParticipant: action.participant
+                currentParticipant: action.participant
             }
         default:
             return state;

@@ -207,33 +207,16 @@ export const closeAllModals = () => {
     }
 }
 
-const requestSaveVote = () => {
+const updateCurrentParticipantAfterVote = (participant) => {
     return {
-        type: types.REQUEST_SAVE_VOTE
-    }
-}
-
-const receiveVoteSaved = (participant) => {
-    return {
-        type: types.RECEIVE_VOTE_SAVED,
+        type: types.UPDATE_CURRENT_PARTICIPANT,
         participant
     }
 }
 
-export const voteForDisplaidPhoto = () => {
+export const reloadCurrentParticipantAfterVote = () => {
     return (dispatch, getState) => {
-        dispatch(requestSaveVote());
-        ptApi.saveVote(
-            getState().gallery.consultedPhoto,
-            (response) => {
-                console.warn("received server response: ", response)
-                if (response.error) {
-                    dispatch(receiveError(response.msg));
-                }
-                else {
-                    dispatch(receiveVoteSaved(response.participant));
-                }
-            }
-        );
+        console.debug("participantAction new part: ", getState().gallery.connected_participant);
+        dispatch(updateCurrentParticipantAfterVote(getState().gallery.connected_participant))
     }
 }

@@ -118,25 +118,90 @@ class ParticipantController extends Controller
     */
     public function update(Request $request, $id)
     {
+        $allGood = false;
         $user = Auth::user();
-        $participant = Participant::find($user['id']);
-        var_dump($participant);
-        exit;
-        if (!$participant) {
-            return $this->store(0);
+        if ( empty($user) ) {
+          return response()->json([
+              'error' => true,
+              'msg' => 'Non authentifié'
+          ]);
         }
-        $participant->fill($request->all());
-        try {
-            $participant->save();
-        } catch(Exception $e) {
+
+        $contest = Contest::getCurrent();
+        if ( empty($contest) ) {
+          return response()->json([
+              'error' => true,
+              'msg' => 'Aucun concours actif en cours'
+          ]);
+        }
+        $aimed_participant = Participant::where('id', $request->input('id'))
+          ->where('id_fb_photo', '<>', '0')
+          ->where('fb_source', '<>', '0')
+          ->where('id_contest', $contest['id'])->first();
+        if ( empty($aimed_participant) ) {
             return response()->json([
                 'error' => true,
-                'msg' => 'Error while saving participant'
+                'msg' => "La photo choisie n'est pas enregistrée dans le concours"
             ]);
         }
-        return response()->json([
-            'participant' => $participant
-        ]);
+
+        $voting_participant = Participant::where('id_user', $user['id'])->where('id_contest', $contest['id'])->first();
+        // Règles métiers toutes valides, on peut tenter le save
+        if (empty($voting_participant)) {
+            $voting_participant = array(
+              'id_contest' => $contest['id'],
+              'id_user' => $user['id'],
+              'id_fb_photo' => 0,
+              'fb_source' => 0,
+              'nb_votes' => 0,
+              'accepted_cgu' => 1,
+              'voted_for' => $aimed_participant['id']
+            );
+            if ( Participant::insert($voting_participant) ) {
+                $allGood = true;
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Votre vote n'a pu être pris en compte, faîtes nous donc signe si le problème persiste !"
+                ]);
+            }
+        }
+        // L'user est déjà inscrit au concours
+        else {
+            // L'user a déjà voté
+            if ( $voting_participant['voted_for'] != '0' ) {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Vous avez déjà voté pour ce concours"
+                ]);
+            }
+            // Règles métiers toutes valides, on peut tenter l'update
+            else {
+                if ( $voting_participant->update(['voted_for' => $aimed_participant['id']]) )
+                    $allGood = true;
+                else {
+                    return response()->json([
+                        'error' => true,
+                        'msg' => "Désolé votre vote n'a pas pu être pris en compte, n'hésitez pas à contacter un administrateur si le problème persiste."
+                    ]);
+                }
+            }
+        }
+        if ( $allGood ) {
+            // On peut incrémenter le nb_votes du $aimed_participant
+            $newNbVotes = (int) $aimed_participant['nb_votes'] + 1;
+            if ( $aimed_participant->update(['nb_votes' => $newNbVotes]) ) {
+                return response()->json([
+                    'connected_participant' => $voting_participant,
+                    'aimed_participant' => $aimed_participant
+                ]);
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Votre vote n'a pu être pris en compte, contactez un administrateur si le problème persiste."
+                ]);
+            }
+        }
     }
 
     /**
