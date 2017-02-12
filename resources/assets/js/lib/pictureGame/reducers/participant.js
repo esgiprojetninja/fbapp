@@ -13,7 +13,11 @@ const initialSate = {
     fileUploadRequest: false,
     fileUploadError: false,
     currentParticipant: {},
-    publishPreview: {}
+    acceptedFBPublish: undefined,
+    publishPreview: {
+        data: {},
+        dom: ""
+    }
 };
 
 const participant = (state = initialSate, action) => {
@@ -154,13 +158,39 @@ const participant = (state = initialSate, action) => {
             }
         case pTypes.REQUEST_PUBLISH_PREVIEW_DATA:
             return {
-                ...state,
-                isFetching: true
+                ...state
             }
         case pTypes.RECEIVE_PUBLISH_PREVIEW_DATA:
+            //Helvetica, Arial, sans-serif
             return {
                 ...state,
-                publishPreview: action.data
+                publishPreview: {
+                    dom: `
+                        <div className="publish_preview_container">
+                            <div className="publish_preview_header display-flex-column justify-start align-start full-width margin-reset">
+                                <img className="width-2 full-height margin-reset align-start" src="${action.data.profile_icon_url}"/>
+                                <h3 className="width-5 full-height display-flex-row align-start margin-reset">${action.data.user_name}</h3>
+                            </div>
+                            <div className="display-flex-row full-width margin-reset">
+                                <p className="text-left full-width publish_preview_message">${action.data.message}</p>
+                                <img className="full-width margin-auto align-start" src="${action.data.picture}"/>
+                                <p className="publish_preview_img_subtitle full-width text-left text-bold">${action.data.name}</p>
+                                <caption className="full-width margin-reset align-start uppercase">${action.data.caption}</caption>
+                            </div>
+                        </div>`,
+                    data: action.data
+                }
+            }
+        case pTypes.CHANGE_PUBLISH_PREVIEW_SOURCE:
+            return {
+                ...state,
+                publishPreview: {
+                    ...state.publishPreview,
+                    data: {
+                        ...state.publishPreview.data,
+                        picture: action.src
+                    }
+                }
             }
         default:
             return state;

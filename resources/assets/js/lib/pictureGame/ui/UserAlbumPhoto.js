@@ -50,7 +50,8 @@ export default class UserAlbumPhoto extends React.PureComponent {
         );
     }
 
-    handleClick (id) {
+    handleClick () {
+        this.props.changePublishPreviewSrcImage(this.props.picUrl || "homeCarouselHr.png");
         this.props.photoClicked(this.props.photoId);
     }
 }
@@ -62,5 +63,6 @@ UserAlbumPhoto.propTypes = {
     title: T.string.isRequired,
     tooltipTitle: T.string.isRequired,
     photoId: T.string.isRequired,
-    reactions: T.object
+    reactions: T.object,
+    changePublishPreviewSrcImage: T.func.isRequired
 };

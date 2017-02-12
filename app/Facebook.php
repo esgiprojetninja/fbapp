@@ -32,19 +32,19 @@ class Facebook
     * @return ...
     **/
     public function getPhotoById(int $id, $token){
-      $id = (int) $id;
-      try {
-        $this->fb->setDefaultAccessToken($token);
-        $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
-        $dataArray = $response->getDecodedBody();
-        if ( is_array($dataArray) && !empty($dataArray) )
-          return $dataArray;
-      } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        $id = (int) $id;
+        try {
+            $this->fb->setDefaultAccessToken($token);
+            $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
+            $dataArray = $response->getDecodedBody();
+            if ( is_array($dataArray) && !empty($dataArray) )
+                return $dataArray;
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            return false;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            return false;
+        }
         return false;
-      } catch(Facebook\Exceptions\FacebookSDKException $e) {
-        return false;
-      }
-      return false;
     }
 
     public function getProfileIconPic($token){

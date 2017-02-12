@@ -244,3 +244,17 @@ export const getPublishPreviewData = () => {
         });
     }
 }
+
+const setPublishPreviewSrc = (src) => {
+    return {
+        type: types.CHANGE_PUBLISH_PREVIEW_SOURCE,
+        src
+    }
+}
+
+export const changePublishPreviewSrcImage = (src) => {
+    return (dispatch, getState) => {
+        dispatch(setPublishPreviewSrc(src));
+        dispatch(receivePushPreviewData(getState().participant.publishPreview.data));
+    }
+}
