@@ -147,7 +147,6 @@ const participant = (state = initialSate, action) => {
                 modalOpen: false
             }
         case pTypes.UPDATE_CURRENT_PARTICIPANT:
-            console.debug("participant reducer warned: ", action.participant);
             return {
                 ...state,
                 currentParticipant: action.participant

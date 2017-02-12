@@ -121,23 +121,23 @@ class ParticipantController extends Controller
         $allGood = false;
         $user = Auth::user();
         if ( empty($user) ) {
-          return response()->json([
-              'error' => true,
-              'msg' => 'Non authentifié'
-          ]);
+            return response()->json([
+                'error' => true,
+                'msg' => 'Non authentifié'
+            ]);
         }
 
         $contest = Contest::getCurrent();
         if ( empty($contest) ) {
-          return response()->json([
-              'error' => true,
-              'msg' => 'Aucun concours actif en cours'
-          ]);
+            return response()->json([
+                'error' => true,
+                'msg' => 'Aucun concours actif en cours'
+            ]);
         }
         $aimed_participant = Participant::where('id', $request->input('id'))
-          ->where('id_fb_photo', '<>', '0')
-          ->where('fb_source', '<>', '0')
-          ->where('id_contest', $contest['id'])->first();
+            ->where('id_fb_photo', '<>', '0')
+            ->where('fb_source', '<>', '0')
+            ->where('id_contest', $contest['id'])->first();
         if ( empty($aimed_participant) ) {
             return response()->json([
                 'error' => true,
@@ -146,16 +146,16 @@ class ParticipantController extends Controller
         }
 
         $voting_participant = Participant::where('id_user', $user['id'])->where('id_contest', $contest['id'])->first();
-        // Règles métiers toutes valides, on peut tenter le save
+        // Participation conditions seem fine
         if (empty($voting_participant)) {
             $voting_participant = array(
-              'id_contest' => $contest['id'],
-              'id_user' => $user['id'],
-              'id_fb_photo' => 0,
-              'fb_source' => 0,
-              'nb_votes' => 0,
-              'accepted_cgu' => 1,
-              'voted_for' => $aimed_participant['id']
+                'id_contest' => $contest['id'],
+                'id_user' => $user['id'],
+                'id_fb_photo' => 0,
+                'fb_source' => 0,
+                'nb_votes' => 0,
+                'accepted_cgu' => 1,
+                'voted_for' => $aimed_participant['id']
             );
             if ( Participant::insert($voting_participant) ) {
                 $allGood = true;
@@ -166,16 +166,16 @@ class ParticipantController extends Controller
                 ]);
             }
         }
-        // L'user est déjà inscrit au concours
+        // User already participating
         else {
-            // L'user a déjà voté
+            // User already voted
             if ( $voting_participant['voted_for'] != '0' ) {
                 return response()->json([
                     'error' => true,
                     'msg' => "Vous avez déjà voté pour ce concours"
                 ]);
             }
-            // Règles métiers toutes valides, on peut tenter l'update
+            // Participation conditions seem fine
             else {
                 if ( $voting_participant->update(['voted_for' => $aimed_participant['id']]) )
                     $allGood = true;
@@ -188,7 +188,7 @@ class ParticipantController extends Controller
             }
         }
         if ( $allGood ) {
-            // On peut incrémenter le nb_votes du $aimed_participant
+            // If user was rightfully updated we can now increase the aimed_participant's votes number
             $newNbVotes = (int) $aimed_participant['nb_votes'] + 1;
             if ( $aimed_participant->update(['nb_votes' => $newNbVotes]) ) {
                 return response()->json([

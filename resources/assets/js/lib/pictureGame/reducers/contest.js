@@ -244,7 +244,6 @@ const contest = (state = initialSate, action) => {
                 hoverSettingFullscreen: true
             }
         case actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE:
-            console.debug("contest reducer received: ", action.participant)
             return {
                 ...state,
                 currentContest: {

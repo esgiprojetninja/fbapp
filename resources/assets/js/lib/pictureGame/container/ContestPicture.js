@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(closePhoto());
         },
         voteSuccessNoticed: () => {
-            console.debug("voteSuccessNOtices !");
             dispatch(reloadContestParticipantAfterVote());
             dispatch(reloadCurrentParticipantAfterVote());
             dispatch(voteSuccessNoticed());
