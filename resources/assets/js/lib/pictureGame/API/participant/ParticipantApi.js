@@ -60,4 +60,14 @@ export default class ParticipantApi {
             callback(response);
         });
     }
+
+    saveVote(data, callback) {
+        return $.ajax({
+            method: "PUT",
+            url: this.apiBaseUrl + data.id,
+            data: data
+        }).done(response => {
+            callback(response);
+        });
+    }
 }

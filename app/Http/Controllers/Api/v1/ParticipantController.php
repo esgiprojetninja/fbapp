@@ -40,50 +40,62 @@ class ParticipantController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store($photo_id)
+    public function store($photo_id = 0)
     {
-      $msg = "requires number";
-      if ( ctype_digit($photo_id) ) {
-        $photo_id = (int) $photo_id;
-        if ( Contest::currentlyActive() ) {
-         $currentContest = Contest::getCurrent();
-         $currentUser = Auth::user();
-         if ( !!$currentContest && !!$currentUser ) {
-           $currentContest = $currentContest->getAttributes();
-           $currentUser = $currentUser->getAttributes();
-           if ( !Participant::isUserPlayingContest($currentUser['id'], $currentContest['id']) ) {
-            $fb = new \App\Facebook();
-            $photoArr = $fb->getPhotoById($photo_id, $currentUser['token']);
-            if ( !!$photoArr && $photoArr['from']['id'] == $currentUser['fb_id'] ) {
-              $source = $photoArr['webp_images'][0]['source'];
-              $participant = new Participant();
-              $participant->setIdUser($currentUser['id']);
-              $participant->setIdContest($currentContest['id']);
-              $participant->setIdPhoto($photo_id);
-              $participant->setSource($source);
-              $participant->setHasVoted('0');
-              $participant->setNbVotes('0');
-              $participant->setAcceptedCgu('1');
-              if ( $participant->save() ) {
-                return response()->json([
-                    'participant' => $participant
-                ]);
-              } else {
-                $msg = "Impossible de valider votre participation à l'heure actuelle";
-              }
-            }
-          } else {
-            $msg = "Vous avez déjà posté une photo pour le concours";
-          }
-         }
-       } else {
-         $msg = "Aucun concours actif";
-       }
-      }
-      return response()->json([
-        'error' => true,
-        'msg' => $msg
-      ]);
+        $user = Auth::user();
+        $contest = Contest::getCurrent();
+        $fb = new \App\Facebook();
+        $photo_array = $photo_id !== 0 ? $fb->getPhotoById($photo_id, $user['token']) : [];
+        $photo_source = $photo_array !== 0 ? $photo_array['webp_images'][0]['source'] : 0;
+
+        // Error handling
+        $error_msg = false;
+        $error_msg = Participant::isUserPlayingContest($user['id'], $contest['id']) ? "Vous avez déjà posté une photo pour le concours" : $error_msg;
+        $error_msg = (!$contest) ? "Aucun concours actif" : $error_msg;
+        $error_msg = (!ctype_digit($photo_id)) ? "requires number" : $error_msg;
+        if ($error_msg) {
+            return response()->json([
+                'error' => true,
+                'msg' => $error_msg
+            ]);
+        }
+
+        return $this->saveParticipant($photo_id, $user, $contest, $photo_source);
+    }
+
+    /**
+     * Save a newly created participant in the db
+     * @param  Number  $photo_id
+     * @param  App\User $user
+     * @param  App\Contest $contest
+     * @param  String $photo_source
+     * @return \Illuminate\Http\Response
+     */
+    public function saveParticipant($photo_id, $user, $contest, $photo_source) {
+        $participant = new Participant();
+        $participant->setIdUser($user['id']);
+        $participant->setIdContest($contest['id']);
+        $participant->setIdPhoto($photo_id);
+        $participant->setVotedFor(0);
+        $participant->setNbVotes('0');
+        $participant->setAcceptedCgu('1');
+        if ($photo_source !== 0) {
+            $participant->setSource($photo_source);
+        }
+
+        try {
+            $participant->save();
+        } catch(Exception $e) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Une erreur est survenue lors de la sauvegarde de votre photo.'
+            ]);
+        }
+
+        return response()->json([
+            'participant' => $participant
+        ]);
+
     }
 
     /**
@@ -106,7 +118,90 @@ class ParticipantController extends Controller
     */
     public function update(Request $request, $id)
     {
-        //
+        $allGood = false;
+        $user = Auth::user();
+        if ( empty($user) ) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Non authentifié'
+            ]);
+        }
+
+        $contest = Contest::getCurrent();
+        if ( empty($contest) ) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Aucun concours actif en cours'
+            ]);
+        }
+        $aimed_participant = Participant::where('id', $request->input('id'))
+            ->where('id_fb_photo', '<>', '0')
+            ->where('fb_source', '<>', '0')
+            ->where('id_contest', $contest['id'])->first();
+        if ( empty($aimed_participant) ) {
+            return response()->json([
+                'error' => true,
+                'msg' => "La photo choisie n'est pas enregistrée dans le concours"
+            ]);
+        }
+
+        $voting_participant = Participant::where('id_user', $user['id'])->where('id_contest', $contest['id'])->first();
+        // Participation conditions seem fine
+        if (empty($voting_participant)) {
+            $voting_participant = array(
+                'id_contest' => $contest['id'],
+                'id_user' => $user['id'],
+                'id_fb_photo' => 0,
+                'fb_source' => 0,
+                'nb_votes' => 0,
+                'accepted_cgu' => 1,
+                'voted_for' => $aimed_participant['id']
+            );
+            if ( Participant::insert($voting_participant) ) {
+                $allGood = true;
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Votre vote n'a pu être pris en compte, faîtes nous donc signe si le problème persiste !"
+                ]);
+            }
+        }
+        // User already participating
+        else {
+            // User already voted
+            if ( $voting_participant['voted_for'] != '0' ) {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Vous avez déjà voté pour ce concours"
+                ]);
+            }
+            // Participation conditions seem fine
+            else {
+                if ( $voting_participant->update(['voted_for' => $aimed_participant['id']]) )
+                    $allGood = true;
+                else {
+                    return response()->json([
+                        'error' => true,
+                        'msg' => "Désolé votre vote n'a pas pu être pris en compte, n'hésitez pas à contacter un administrateur si le problème persiste."
+                    ]);
+                }
+            }
+        }
+        if ( $allGood ) {
+            // If user was rightfully updated we can now increase the aimed_participant's votes number
+            $newNbVotes = (int) $aimed_participant['nb_votes'] + 1;
+            if ( $aimed_participant->update(['nb_votes' => $newNbVotes]) ) {
+                return response()->json([
+                    'connected_participant' => $voting_participant,
+                    'aimed_participant' => $aimed_participant
+                ]);
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'msg' => "Votre vote n'a pu être pris en compte, contactez un administrateur si le problème persiste."
+                ]);
+            }
+        }
     }
 
     /**

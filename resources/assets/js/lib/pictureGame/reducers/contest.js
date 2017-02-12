@@ -243,6 +243,14 @@ const contest = (state = initialSate, action) => {
                 hoverSettingGallery: false,
                 hoverSettingFullscreen: true
             }
+        case actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE:
+            return {
+                ...state,
+                currentContest: {
+                    ...state.currentContest,
+                    participants: state.currentContest.participants.map( (p, key) => (p.id == action.participant.id ) ? action.participant : p )
+                }
+            }
         default:
             return state;
     }

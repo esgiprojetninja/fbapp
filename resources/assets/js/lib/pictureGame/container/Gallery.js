@@ -1,30 +1,20 @@
 import {connect} from "react-redux";
 import GalleryComponent from "../ui/Gallery";
+
 import {
-    changeMainColor
-} from "../actions/contestActions";
+    closePhoto,
+    openPhoto
+} from "../actions/galleryActions";
 
 
 const mapStateToProps = (state) => {
-    return {
-        pictures: state.contest.currentContest.participants.map(p => {
-            return {
-                src: p.fb_source,
-                nbVotes: p.nb_votes,
-                picFbId: p.id_fb_photo,
-                author: "Toto",
-                caption: "Ceci est un tatouage tribal",
-                title: "Photo"
-            }
-        }),
-        contest: state.contest
-    }
+    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onChangeColor: (color) => {
-            dispatch(changeMainColor(color));
+        openImage: (participant_id) => {
+            dispatch(openPhoto(participant_id))
         }
     };
 }

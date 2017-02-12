@@ -146,6 +146,11 @@ const participant = (state = initialSate, action) => {
                 fileUploadModal: false,
                 modalOpen: false
             }
+        case pTypes.UPDATE_CURRENT_PARTICIPANT:
+            return {
+                ...state,
+                currentParticipant: action.participant
+            }
         default:
             return state;
     }

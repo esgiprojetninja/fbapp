@@ -110,7 +110,7 @@ const requestCurrentPlayer = () => {
     }
 }
 
-const recieveError = (error) => {
+const receiveError = (error) => {
     console.warn(error); // TODO remove this on prod
     return {
         type: types.RECIEVE_ERROR,
@@ -130,7 +130,7 @@ export const getCurrentParticipant = () => {
         dispatch(requestCurrentPlayer());
         ptApi.getCurrentParticipant(r => {
             if (r.error) {
-                dispatch(recieveError());
+                dispatch(receiveError());
             }
             else {
                 dispatch(recieveCurrentParticipant(r.participant));
@@ -204,5 +204,19 @@ export const noticedUploadPhotoNotice = () => {
 export const closeAllModals = () => {
     return {
         type: types.CLOSE_ALL_MODALS
+    }
+}
+
+const updateCurrentParticipantAfterVote = (participant) => {
+    return {
+        type: types.UPDATE_CURRENT_PARTICIPANT,
+        participant
+    }
+}
+
+export const reloadCurrentParticipantAfterVote = () => {
+    return (dispatch, getState) => {
+        console.debug("participantAction new part: ", getState().gallery.connected_participant);
+        dispatch(updateCurrentParticipantAfterVote(getState().gallery.connected_participant))
     }
 }

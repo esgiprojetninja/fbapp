@@ -40,7 +40,6 @@ export default class App extends React.PureComponent {
 
     render () {
         if (!this.props.contest.uisettings.main_color) {
-            console.debug(this.props.contest);
             return (
                 <Spinner />
             );
@@ -49,11 +48,11 @@ export default class App extends React.PureComponent {
             <div className="full-height">
                 <AppNavBar title="Pardon Maman: the game"/>
                 <section>
-                    <HomeCarousel/>
-                    <SubMenu/>
+                    <HomeCarousel />
+                    <SubMenu />
                 </section>
                 <section>
-                    <Gallery/>
+                    <Gallery />
                 </section>
                 {this.renderFullscreen()};
             </div>
