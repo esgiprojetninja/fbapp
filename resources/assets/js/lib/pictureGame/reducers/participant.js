@@ -192,6 +192,13 @@ const participant = (state = initialSate, action) => {
                     }
                 }
             }
+        case pTypes.DISPLAY_PUBLISH_CONFIRM_MODAL:
+            console.debug("reducer warned fucker")
+            return {
+                ...state,
+                acceptedFBPublish: "ongoing",
+                modalOpen: false
+            }
         default:
             return state;
     }

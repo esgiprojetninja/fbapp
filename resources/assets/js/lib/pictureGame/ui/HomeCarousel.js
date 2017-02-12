@@ -25,6 +25,7 @@ import UserAlbum from "./UserAlbum";
 import HomeSlider from "../container/HomeSlider";
 import NoticePop from '../container/Notice';
 import ParticipantUpload from "../container/ParticipantUpload";
+import PublishConfirmModal from "../container/PublishConfirmModal";
 
 
 export default class HomeCarousel extends React.PureComponent {
@@ -217,6 +218,7 @@ export default class HomeCarousel extends React.PureComponent {
                 <ParticipantUpload
                   participant= {this.props.participant}
                 />
+                <PublishConfirmModal />
             </div>
         );
     }

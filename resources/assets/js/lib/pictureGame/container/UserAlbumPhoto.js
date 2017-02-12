@@ -1,17 +1,21 @@
 import {connect} from "react-redux";
 import UserAlbumPhotoComponent from "../ui/UserAlbumPhoto";
 import {
-    changePublishPreviewSrcImage
+    changePublishPreviewSrcImage,
+    displayModalPublishPreview
 } from "../actions/participantActions";
 
 const mapStateToProps = (state) => {
-    return state.participant;
+    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         changePublishPreviewSrcImage: (src) => {
             dispatch(changePublishPreviewSrcImage(src));
+        },
+        displayModalPublishPreview: () => {
+            dispatch(displayModalPublishPreview())
         }
     }
 }
