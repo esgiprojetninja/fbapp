@@ -181,21 +181,20 @@ class ContestController extends Controller
     */
     public function sendEndContestMail(Request $request)
     {
-        $participants = ['lambot.rom@gmail.com','tkt-bom@hotmail.fr'];
-        $winner = 'tkt-bom@hotmail.fr';
+        $fb = new \App\Facebook();
+        $admins = $fb->getAdminMail();
+
+        return response()->json([
+            'admins' => $admins
+        ]);
+
+        /*$winnerName = 'Romain Lambot';
         $contestName = "Le concours des gens très heureux";
 
-        //Delete the winner from the list of participants
-        if(($key = array_search($winner, $participants)) !== false) {
-            unset($participants[$key]);
-        }
-
-        Mail::to($winner)->send(new endContestWinnerMail($contestName));
-
-        Mail::send(new endContestMail($contestName), [], function() use ($participants)
+        Mail::send(new endContestMail($contestName, $winnerName), [], function() use ($participants)
         {
             $message->to($participants);
-        });
+        });*/
 
     }
 

@@ -8,13 +8,10 @@
         <div class="container">
             <div class="content">
                 <div>
-                    Cher challenger,<br><br>
+                    Cher admins,<br><br>
 
-                    Nous te remercions pour ta participation au concours {{ $contestName }}.
+                    Le concours {{ $contestName }} est fini, le gagnant est {{ $winnerName }}.
 
-                    Nous sommes au regret de t'annoncer que tu as perdu.
-
-                    Cordialement.
                 </div>
             </div>
         </div>

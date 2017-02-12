@@ -12,15 +12,17 @@ class endContestMail extends Mailable
     use Queueable, SerializesModels;
 
     protected $contestName;
+    protected $winnerName;
 
     /**
     * Create a new message instance.
     *
     * @return void
     */
-    public function __construct($contestName)
+    public function __construct($contestName, $winnerName)
     {
         $this->contestName = $contestName;
+        $this->winnerName = $winnerName;
     }
 
     /**
@@ -33,6 +35,7 @@ class endContestMail extends Mailable
         return $this->view('emails.endContest')
         ->with([
             'contestName' => $this->contestName,
+            'winnerName' => $this->winnerName
         ]);
     }
 }
