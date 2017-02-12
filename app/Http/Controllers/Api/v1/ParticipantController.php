@@ -83,6 +83,15 @@ class ParticipantController extends Controller
             $participant->setSource($photo_source);
         }
 
+        $user = Auth::user();
+        $contest = Contest::getCurrent();
+        $fb = new \App\Facebook();
+
+        $publishId = $fb->publishParticipationMessage($user['token'], $photo_source, $contest['title']);
+        if ( $publishId != false ) {
+            $participant->setPublishPostId($publishId);
+        }
+
         try {
             $participant->save();
         } catch(Exception $e) {
@@ -95,7 +104,6 @@ class ParticipantController extends Controller
         return response()->json([
             'participant' => $participant
         ]);
-
     }
 
     /**

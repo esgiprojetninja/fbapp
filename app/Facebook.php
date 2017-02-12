@@ -47,5 +47,25 @@ class Facebook
       return false;
     }
 
-
+    /**
+     * Posts a message on a user's wall
+     * @param
+     *
+    **/
+    public function publishParticipationMessage($token, $photo_source, $contest_title){
+        $this->fb->setDefaultAccessToken($token);
+        $attachment = array(
+            'message' => 'Je participe au concours "'.$contest_title . '" sur ' . env('APP_URL') . ' . Votez pour moi !',
+            'picture' => $photo_source,
+            'name' => "Ma participation à ".$contest_title,
+            'description' => "",
+            'caption' => "Pardonne moi maman",
+            'link' => $photo_source,
+        );
+        try {
+            return $res = $this->fb->post('/me/feed/', $attachment)->getDecodedBody()['id'];
+        } catch (Exception $e){
+            return false;
+        }
+    }
 }
