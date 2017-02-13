@@ -1,4 +1,5 @@
 import AuthApi from "../API/user/AuthApi";
+import $ from "jquery";
 
 export default class FacebookLoader {
 
@@ -7,6 +8,12 @@ export default class FacebookLoader {
             "public_profile",
             "email"
         ];
+        this.playerScope = [
+            "user_photos",
+            "publish_actions"
+        ];
+        this.checkPermissions = this.checkPermissions.bind(this);
+        this.setPlayerScope = this.setPlayerScope.bind(this);
     }
 
     initFbScript() {
@@ -42,6 +49,7 @@ export default class FacebookLoader {
     checkPermissions(access_token, callback) {
         return this.initFbScript().then(() => FB.api("/me/permissions", {access_token: access_token}, (perms) => {
             let granted = true;
+            if ( typeof perms.data === "undefined" ) {perms.data=[]}
             const permissionsGranted = perms.data.reduce((grant, perm) => {
                 if (perm.status === "granted") {
                     grant.push(perm.permission);
@@ -59,14 +67,17 @@ export default class FacebookLoader {
     }
 
     setPlayerScope (player = false) {
-        if(this.scope.length < 4 && player) {
-            this.scope = this.scope.concat(["user_photos", "publish_actions"]);
+        if( player ) {
+            if ( this.scope.filter( curScope => this.playerScope.indexOf(curScope) > -1 ).length !== this.playerScope.length ){
+                this.scope = this.scope.concat(this.playerScope);
+            }
         } else {
             this.scope = [
                 "public_profile",
                 "email"
             ];
         }
+        this.scope = this.scope.filter( (item, pos) => this.scope.indexOf(item) == pos);
     }
 
     login(callback) {
@@ -98,5 +109,102 @@ export default class FacebookLoader {
             {access_token: access_token},
             callback
         ));
+    }
+
+    getMyAlbums (access_token, callback) {
+        const url = "/me/albums";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            (response) => {
+                if (response.error) {
+                    callback(response)
+                } else {
+                    const formatedAlbums = [];
+                    const albumsToTreat = response.data.length;
+                    let albumsTreated = 0;
+                    const finalCallBack = (albumCoverData) => {
+                        const treatedAlbum = response.data.filter( (a) => a.id === albumCoverData.albId )[0];
+                        if ( !albumCoverData.res.hasOwnProperty("error") ) {
+                            treatedAlbum.cover = albumCoverData.res.data;
+                        }
+                        formatedAlbums.push(treatedAlbum);
+                        albumsTreated++;
+                        if ( albumsTreated === albumsToTreat ) {
+                            response.data = formatedAlbums;
+                            callback(response)
+                        }
+                    }
+                    response.data.map( (alb, key) => {
+                        this._getAlbumCover(access_token, alb.id)
+                        .then((albCoverResponse)=>finalCallBack(albCoverResponse))
+                    });
+                }
+            },
+            {access_token: access_token}
+        ));
+    }
+
+    getAlbumPhotos(access_token, album_id, callback) {
+        const url = "/"+album_id+"/photos?fields=id,source,reactions,created_time&limit=4";
+        return this.initFbScript().then(() => FB.api(
+            url,
+            {access_token: access_token},
+            callback
+        ));
+    }
+
+    getMoreAlbumPhotos(link, callback) {
+        const url = link;
+        return this.initFbScript().then(() => FB.api(
+            url,
+            callback
+        ));
+    }
+
+    postBinaryPhoto(acces_token, imgData, msg, callback) {
+        // Convert a data URI to blob
+        function dataURItoBlob(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], {
+                type: 'image/png'
+            });
+        }
+        // Post a BASE64 Encoded PNG Image to facebook
+        let blob;
+        try {
+            blob = dataURItoBlob(imgData);
+        } catch (e) {
+            return {error: e}
+        }
+        const fd = new FormData();
+        fd.append("access_token", acces_token);
+        fd.append("source", blob);
+        fd.append("message", msg);
+        $.ajax({
+            url: "https://graph.facebook.com/me/photos?access_token=" + acces_token,
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(response => {
+            callback(response);
+        });
+    }
+    /* No direct access to this method, it is "private" */
+    _getAlbumCover (access_token, album_id) {
+        return new Promise ((resolve, reject) => {
+            const url = "/"+ album_id +"/picture";
+            this.initFbScript().then(() => FB.api(
+                url,
+                (res) => {resolve({res, albId: album_id})},
+                {access_token: access_token}
+            ));
+        });
     }
 }

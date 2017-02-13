@@ -6,8 +6,9 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import MainReducer from "./reducers/main";
 import AppNavBar from "./ui/AppNavBar";
-import App from "./ui/App";
+import App from "./container/App";
 import Admin from "./ui/Admin";
+import ConfPolitics from "./ui/ConfPolitics";
 /* Material ui stuff */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -28,7 +29,7 @@ const pictureGameApp = {
                 <Provider store={store}>
                     <Router history={browserHistory}>
                         <Route path="/" component={App} />
-                        <Route path="/admin" component={Admin} />
+                        <Route path="conf-politics" component={ConfPolitics} />
                     </Router>
                 </Provider>
             </MuiThemeProvider>,

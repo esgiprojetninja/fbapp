@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Contest;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +25,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            $now = date('Y-m-d H:i:s');
+            $endDate = Contest::where('state', 1)->value('end_date');
+            if($now <= $endDate){
+                Contest::sendEndContestMail();
+                Contest::where('state', 1)->update(['state'=>0]);
+            }
+        })->everyFiveMinutes();
     }
 
     /**

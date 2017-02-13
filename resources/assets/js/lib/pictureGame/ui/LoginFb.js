@@ -1,5 +1,6 @@
 import React, {PropTypes as T} from "react";
 import FlatButton from 'material-ui/FlatButton';
+import Admin from "./Admin";
 
 export default class Loginfb extends React.PureComponent {
 
@@ -17,6 +18,7 @@ export default class Loginfb extends React.PureComponent {
                 {this.renderJoinButton()}
                 {this.renderAdminButton()}
                 {this.renderLoginButton()}
+                {this.renderHelpButton()}
             </div>
         );
     }
@@ -35,20 +37,19 @@ export default class Loginfb extends React.PureComponent {
     renderAdminButton () {
         if (this.props.isAdmin) {
             return (
-                <FlatButton
-                label="Admin"
-                href="/admin"
-                />
+                <Admin className="initial"/>
             );
         }
     }
 
     renderLoginButton() {
+        const className = "login-btn";
         if (this.props.isConnected) {
             return (
                 <FlatButton
                 label="Logout"
                 secondary={true}
+                className={className}
                 onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
                 />
             );
@@ -56,7 +57,18 @@ export default class Loginfb extends React.PureComponent {
         return (
             <FlatButton
             label="Connect with facebook"
+            className={className}
             onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
+            />
+        );
+    }
+
+    renderHelpButton () {
+        return (
+            <FlatButton
+                label="aide"
+                secondary={true}
+                href="conf-politics"
             />
         );
     }

@@ -4,9 +4,7 @@ import AdminContests from "../container/AdminContests";
 export default class Admin extends React.PureComponent {
     render () {
         return (
-            <div>
-                <AdminContests />
-            </div>
+            <AdminContests />
         );
     }
 }

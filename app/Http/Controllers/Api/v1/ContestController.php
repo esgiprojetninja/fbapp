@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
+use App\Participant;
 use App\User;
 //Email purposes
 use Illuminate\Support\Facades\Mail;
@@ -47,7 +48,7 @@ class ContestController extends Controller
     {
         //If the contest need to be active then we check if there is allready one and update it to inactive
         if(isset($request->all()['state']) && $request->all()['state'] == 1){
-            if(ContestController::currentlyActive()){
+            if(Contest::currentlyActive()){
                 ContestController::setInactiveAll();
             }
         }
@@ -128,6 +129,14 @@ class ContestController extends Controller
     public function getCurrent()
     {
         $contest = Contest::where('state', '1')->get()->first();
+        if (!empty($contest)) {
+            $contest->participants = Participant::where('id_contest', $contest->getId())->get();
+        }
+        if ($contest == null) {
+            $contest = [
+                'participants' => []
+            ];
+        }
         return response()->json([
             'contest' => $contest
         ]);
@@ -140,12 +149,7 @@ class ContestController extends Controller
     */
     public static function currentlyActive()
     {
-        $contest = Contest::where('state', '1')->get();
-        if(!empty($contest->toArray())){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+        return Contest::currentlyActive();
     }
 
     /**
@@ -180,33 +184,22 @@ class ContestController extends Controller
     *
     * @return boolean
     */
-    public function sendEndContestMail(Request $request)
+    public static function sendEndContestMail()
     {
         $fb = new \App\Facebook();
-        $admins = $fb->getAdminMail();
-
+        //$admins = $fb->getAdminMail();
+        $admins = ['lambot.rom@gmail.com'];
         $winnerId = Contest::where('state',1)->value('id_winner');
+
         if($winnerId != 0) {
             $winnerName = User::where('id',$winnerId)->value('name');
-        }else{
-            $winnerName = "undefined";
         }
 
         $contestName = Contest::where('state',1)->value('title');
 
-        return response()->json([
-            'admins' => $admins,
-            'winnerName' => $winnerName,
-            'contestName' => $contestName
-        ]);
-
-        /*
-        $contestName = "Le concours des gens très heureux";
-
-        Mail::send(new endContestMail($contestName, $winnerName), [], function() use ($participants)
-        {
-            $message->to($participants);
-        });*/
+        foreach($admins as $admin){
+            Mail::to($admin)->send(new endContestMail($contestName, $winnerName));
+        }
 
     }
 

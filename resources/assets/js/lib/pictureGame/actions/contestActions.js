@@ -1,7 +1,9 @@
 import * as actionTypes from "./contestTypes";
 import ContestApi from "../API/contest/ContestApi";
+import UISettingsApi from "../API/UISettings/UISettingsApi";
 
 const contestApi = new ContestApi();
+const uisettingsApi = new UISettingsApi();
 
 const generateFreshContest = () => {
     return {
@@ -18,6 +20,12 @@ const generateFreshContest = () => {
 export const requestContests = () => {
     return {
         type: actionTypes.REQUEST_CONTESTS
+    };
+}
+
+export const requestUISettings = () => {
+    return {
+        type: actionTypes.REQUEST_UISETTINGS
     };
 }
 
@@ -53,6 +61,19 @@ export const storeContest = () => {
             }
         });
         dispatch(toggleCreateModal()); // TODO move this away
+    }
+}
+
+export const storeUISettings = (newSettings) => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        uisettingsApi.store(newSettings, (response) => {
+            if (!response.error) {
+                dispatch(getUISettings());
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
     }
 }
 
@@ -117,10 +138,214 @@ export const toggleCreateModal = (contest) => {
     };
 }
 
+export const recieveUISettings = (uisettings) => {
+    return {
+        type: actionTypes.RECIEVE_UISETTINGS,
+        uisettings: uisettings
+    };
+}
+
+export const getUISettings = () => {
+    return (dispatch) => {
+        dispatch(requestUISettings());
+        uisettingsApi.getAll(response => {
+            if (!response.error) {
+                let uisettings = {};
+                uisettings = response.uisettings;
+                dispatch(recieveUISettings(uisettings));
+            } else {
+                dispatch(recieveError(response.error));
+            }
+        });
+    };
+}
+
+export const openSettings = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS
+    };
+}
+
+export const openEvents = () => {
+    return {
+        type: actionTypes.OPEN_EVENTS,
+    };
+}
+
+export const openExport = () => {
+    return {
+        type: actionTypes.OPEN_EXPORT
+    };
+}
+
+export const changeMainColor = (color) => {
+    return {
+        type: actionTypes.CHANGE_MAIN_COLOR,
+        color
+    }
+}
+
+export const changeColorGallery = (colorGallery) => {
+    return {
+        type: actionTypes.CHANGE_COLOR_GALLERY,
+        colorGallery
+    }
+}
+
+export const openAdmin = () => {
+    return {
+        type: actionTypes.OPEN_ADMIN,
+        openAdmin: true,
+        openEvents: true
+    };
+}
+
+export const closeAdmin = () => {
+    return {
+        type: actionTypes.CLOSE_ADMIN,
+        openAdmin: false
+    };
+}
+
+export const openSettingsTheme = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_THEME,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: true,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsCarousel = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_CAROUSEL,
+        settingsCarousel: true,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsSubmenu = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_SUBMENU,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: true,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsGallery = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_GALLERY,
+        settingsCarousel: false,
+        settingsGallery: true,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: false
+    };
+}
+
+export const openSettingsMenu = () => {
+    return {
+        type: actionTypes.OPEN_SETTINGS_MENU,
+        settingsCarousel: false,
+        settingsGallery: false,
+        settingsSubmenu: false,
+        settingsTheme: false,
+        settingsMenu: true
+    };
+}
+
 export const newContestChange = (attr, value) => {
     return {
         type: actionTypes.NEW_CONTEST_CHANGE,
         attr: attr,
         value: value
     };
+}
+
+export const hoverSettingsTheme = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_THEME,
+        hoverSettingTheme: true,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverSettingsCarousel = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_CAROUSEL,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: true,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverSettingsSubmenu = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_SUBMENU,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: true,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverSettingsGallery = () => {
+    return {
+        type: actionTypes.HOVER_SETTINGS_GALLERY,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: true,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverReset = () => {
+    return {
+        type: actionTypes.HOVER_RESET,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: false
+    };
+}
+
+export const hoverFullscreen = () => {
+    return {
+        type: actionTypes.HOVER_FULLSCREEN,
+        hoverSettingTheme: false,
+        hoverSettingCarousel: false,
+        hoverSettingSubmenu: false,
+        hoverSettingGallery: false,
+        hoverSettingFullscreen: true
+    };
+}
+
+const updateParticipantAfterVote = (participant) => {
+    console.debug("contestAction dispatching: ", participant)
+    return {
+        type: actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE,
+        participant
+    }
+}
+
+export const reloadContestParticipantAfterVote = () => {
+    return (dispatch, getState) => {
+        dispatch(updateParticipantAfterVote(getState().gallery.aimed_participant))
+    }
 }

@@ -1,128 +1,21 @@
 import {connect} from "react-redux";
 import GalleryComponent from "../ui/Gallery";
 
+import {
+    closePhoto,
+    openPhoto
+} from "../actions/galleryActions";
+
+
 const mapStateToProps = (state) => {
-    if (!state.pictures) {
-        return {
-           pictures: [
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-1.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-5.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-4.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-3.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-1.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483549559-6.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-5.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-4.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-3.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483549559-6.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-5.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-4.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-3.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483549559-6.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-5.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-4.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-3.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               },
-               {
-                   src: "http://image.noelshack.com/fichiers/2017/01/1483545909-2.jpg",
-                   author: "Toto",
-                   caption: "Ceci est un tatouage tribal",
-                   title: "Tatouage tribal"
-               }
-           ]
-       }
-    }
-    return state.pictures;
+    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        openImage: (participant_id) => {
+            dispatch(openPhoto(participant_id))
+        }
     };
 }
 

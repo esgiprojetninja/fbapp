@@ -14,11 +14,12 @@ class CreateParticipantsTable extends Migration
     public function up()
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id', true);
             $table->timestamps();
             $table->integer('id_contest');
             $table->integer('id_user')->unsigned();
             $table->string('id_fb_photo');
+            $table->string('fb_source');
             $table->boolean('has_voted')->default(false);
             $table->integer('nb_votes')->default(0);
             $table->boolean('accepted_cgu');
