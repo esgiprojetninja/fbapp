@@ -4,9 +4,19 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 export default class PublishConfirmModal extends React.PureComponent {
-    constructor() {
 
+    confirmPublishlAction() {
+        console.debug("confirmed publish action");
+        this.props.confirmPublishPreview()
+        this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
     }
+
+    refusePublishAction() {
+        console.debug("refused publish action")
+        this.props.refusePublishPreview()
+        this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
+    }
+
     renderPublishPreview() {
         return (
             <div className="publish_preview_container">
@@ -23,18 +33,19 @@ export default class PublishConfirmModal extends React.PureComponent {
             </div>
         )
     }
+
     render () {
         const actions = [
             <FlatButton
               label="Non"
               primary={true}
-              onTouchTap={()=>{console.debug("Comment oses-tu ?!")}}
+              onTouchTap={this.refusePublishAction.bind(this)}
             />,
             <FlatButton
               label="Oui"
               primary={true}
               keyboardFocused={true}
-              onTouchTap={()=>{console.debug("That is the way, un hun un hun")}}
+              onTouchTap={this.confirmPublishlAction.bind(this)}
             />,
         ];
         return (
@@ -44,7 +55,6 @@ export default class PublishConfirmModal extends React.PureComponent {
                     actions={actions}
                     modal={true}
                     open={this.props.participant.acceptedFBPublish === "ongoing"}
-                    onRequestClose={()=>{console.debug("here we go yo")}}
                     autoDetectWindowHeight={true}
                     autoScrollBodyContent={true}
                 >
@@ -56,5 +66,7 @@ export default class PublishConfirmModal extends React.PureComponent {
 }
 
 PublishConfirmModal.propTypes = {
-
+    confirmPublishPreview: T.func.isRequired,
+    refusePublishPreview: T.func.isRequired,
+    addPhotoToCurrentContest: T.func.isRequired
 };

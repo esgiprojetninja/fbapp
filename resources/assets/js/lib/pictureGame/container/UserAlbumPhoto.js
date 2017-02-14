@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changePublishPreviewSrcImage: (src) => {
-            dispatch(changePublishPreviewSrcImage(src));
+        changePublishPreviewSrcImage: (src, photo_id) => {
+            dispatch(changePublishPreviewSrcImage(src, photo_id));
         },
         displayModalPublishPreview: () => {
             dispatch(displayModalPublishPreview())

@@ -158,7 +158,6 @@ const participant = (state = initialSate, action) => {
                 ...state
             }
         case pTypes.RECEIVE_PUBLISH_PREVIEW_DATA:
-            //Helvetica, Arial, sans-serif
             return {
                 ...state,
                 publishPreview: action.data
@@ -166,9 +165,11 @@ const participant = (state = initialSate, action) => {
         case pTypes.CHANGE_PUBLISH_PREVIEW_SOURCE:
             return {
                 ...state,
+                acceptedFBPublish: undefined,
                 publishPreview: {
                     ...state.publishPreview,
-                    picture: action.src
+                    picture: action.src,
+                    photo_id: action.photo_id
                 }
             }
         case pTypes.DISPLAY_PUBLISH_CONFIRM_MODAL:
@@ -176,6 +177,16 @@ const participant = (state = initialSate, action) => {
                 ...state,
                 acceptedFBPublish: "ongoing",
                 modalOpen: false
+            }
+        case pTypes.CONFIRM_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: true
+            }
+        case pTypes.REFUSE_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: false
             }
         default:
             return state;

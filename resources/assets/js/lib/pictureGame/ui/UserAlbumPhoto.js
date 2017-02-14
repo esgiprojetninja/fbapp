@@ -56,8 +56,7 @@ export default class UserAlbumPhoto extends React.PureComponent {
     handleClick () {
         // About to choose a photo to participate
         if ( this.isOneOfAlbumOpened() && this.props.participant.acceptedFBPublish !== true ) {
-            console.debug("attempting to ask publish confirmation")
-            this.props.changePublishPreviewSrcImage(this.props.picUrl || "homeCarouselHr.png");
+            this.props.changePublishPreviewSrcImage(this.props.picUrl || "homeCarouselHr.png", this.props.photoId);
             this.props.displayModalPublishPreview();
         } else {
             this.props.photoClicked(this.props.photoId);

@@ -36,8 +36,10 @@ const requestAddPhotoToContest = () => {
 export const addPhotoToCurrentContest = (photo_id) => {
     return (dispatch, getState) => {
         dispatch(requestAddPhotoToContest())
+        const publishAuthorization = getState().participant.acceptedFBPublish === true ? true : false;
         ptApi.store(
             photo_id,
+            publishAuthorization,
             (response) => {
                 if (response.error) {
                     dispatch(receiveNotAddedPhotoContest(response));
@@ -245,15 +247,28 @@ export const getPublishPreviewData = () => {
     }
 }
 
-export const changePublishPreviewSrcImage = (src) => {
+export const changePublishPreviewSrcImage = (src, photo_id) => {
     return {
         type: types.CHANGE_PUBLISH_PREVIEW_SOURCE,
-        src
+        src,
+        photo_id
     }
 }
 
 export const displayModalPublishPreview = () => {
     return {
         type: types.DISPLAY_PUBLISH_CONFIRM_MODAL
+    }
+}
+
+export const confirmPublishPreview = () => {
+    return {
+        type: types.CONFIRM_PUBLISH_PREVIEW
+    }
+}
+
+export const refusePublishPreview = () => {
+    return {
+        type: types.REFUSE_PUBLISH_PREVIEW
     }
 }

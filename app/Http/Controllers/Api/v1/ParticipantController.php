@@ -56,8 +56,10 @@ class ParticipantController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store($photo_id = 0)
+    public function store(Request $request, $photo_id = 0)
     {
+        $publish_authorization = $request->input('publishAuthorization');
+        $publish_authorization = $publish_authorization === "true" ? true : false;
         $user = Auth::user();
         $contest = Contest::getCurrent();
         $fb = new \App\Facebook();
@@ -76,7 +78,7 @@ class ParticipantController extends Controller
             ]);
         }
 
-        return $this->saveParticipant($photo_id, $user, $contest, $photo_source);
+        return $this->saveParticipant($photo_id, $user, $contest, $photo_source, $publish_authorization);
     }
 
     /**
@@ -87,7 +89,7 @@ class ParticipantController extends Controller
      * @param  String $photo_source
      * @return \Illuminate\Http\Response
      */
-    public function saveParticipant($photo_id, $user, $contest, $photo_source) {
+    public function saveParticipant($photo_id, $user, $contest, $photo_source, $publish_authorization = false) {
         $participant = new Participant();
         $participant->setIdUser($user['id']);
         $participant->setIdContest($contest['id']);
@@ -103,9 +105,11 @@ class ParticipantController extends Controller
         $contest = Contest::getCurrent();
         $fb = new \App\Facebook();
 
-        $publishId = $fb->publishParticipationMessage($user['token'], $photo_source, $contest['title']);
-        if ( $publishId != false ) {
-            $participant->setPublishPostId($publishId);
+        if ( $publish_authorization ) {
+            $publishId = $fb->publishParticipationMessage($user['token'], $photo_source, $contest['title']);
+            if ( $publishId != false ) {
+                $participant->setPublishPostId($publishId);
+            }
         }
 
         try {
