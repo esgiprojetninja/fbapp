@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         })->dailyAt('00:01');*/
         $schedule->call(function () {
             ContestController::sendEndContestMail();
-        })->everyMinute;
+        })->everyMinute();
     }
 
     /**
