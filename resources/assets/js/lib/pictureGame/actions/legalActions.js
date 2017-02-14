@@ -35,3 +35,10 @@ export const getLegal = () => {
         });
     };
 }
+
+export const changeCGU = (cgu) => {
+    return {
+        type: legalTypes.CHANGE_CGU,
+        cgu : cgu
+    };
+}

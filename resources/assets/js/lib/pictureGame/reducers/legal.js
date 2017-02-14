@@ -27,6 +27,21 @@ const legal = (state = initialSate, action) => {
                 isFetching: false,
                 legal: action.legal
             };
+        case legalTypes.REQUEST_SAVE_LEGAL:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case legalTypes.RECEIVE_SAVE_LEGAL_SUCCESS:
+            return {
+                ...state,
+                legal: action.legal
+            }
+        case legalTypes.CHANGE_CGU:
+            return {
+                ...state,
+                CGU: action.cgu
+            }
         default:
             return state;
     }
