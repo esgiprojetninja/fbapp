@@ -208,7 +208,6 @@ export default class FacebookLoader {
     }
 
     sharePhoto(access_token, photo, callback) {
-        console.debug("photo", photo, window.location.href);
         return FB.ui({
             method : 'share',
             message: 'sortie tout droit du concours sur pardon maman',
@@ -220,7 +219,6 @@ export default class FacebookLoader {
             access_token
           },
           (response) => {
-              console.debug("share photo response bruh", response)
               callback(response)
           }
         );

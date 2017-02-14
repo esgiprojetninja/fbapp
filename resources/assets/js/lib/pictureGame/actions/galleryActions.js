@@ -97,7 +97,6 @@ export const sharePhoto = () => {
             getState().user.data.token,
             getState().gallery.consultingPhoto,
             (response) => {
-                console.debug("received share response:", response);
                 if ( response && response.post_id ) {
                     dispatch(receivePhotoShared(response));
                 } else {
