@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
+        /*$schedule->call(function () {
             $now = date('Y-m-d H:i:s');
             $endDate = Contest::where('state', 1)->value('end_date');
             if($now >= $endDate){
@@ -37,7 +37,10 @@ class Kernel extends ConsoleKernel
                 ContestController::sendEndContestMail();
                 Contest::where('state', 1)->update(['state'=>2]);
             }
-        })->dailyAt('00:01');
+        })->dailyAt('00:01');*/
+        $schedule->call(function () {
+            ContestController::postOnFBEnd();
+        })->everyMinute();
     }
 
     /**

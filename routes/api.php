@@ -26,6 +26,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
 
     //Mailing API routes
     Route::get('/mail/endContest','Api\v1\ContestController@sendEndContestMail');
+    Route::get('/postFb/endContest','Api\v1\ContestController@postOnFBEnd');
 
     Route::put('/participants/{id}/add', 'Api\v1\ParticipantController@store');
     Route::post('/participants/deleteFromCurrent', 'Api\v1\ParticipantController@destroyByIdUserAndIdContest');

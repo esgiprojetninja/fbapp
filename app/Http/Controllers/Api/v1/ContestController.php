@@ -179,6 +179,35 @@ class ContestController extends Controller
         ]);
     }
 
+    /**
+    * Post on facebook at the end
+    *
+    * @return boolean
+    */
+    public static function postOnFBEnd()
+    {
+        $currentContest = Contest::where('state', 1)->value('id');
+        //$participants = Participant::where('id_contest', $currentContest)->get()->toArray();
+        $participants = ['10211344637310646', '100000288828439', '633008104'];
+
+        $fb = new \App\Facebook;
+        $idWinner = Contest::where("state",1)->value('id_winner');
+        $idParticipant = Participant::where("id",$idWinner)->value('id_user');
+        $nomGagnant = User::where("id",$idParticipant)->value('name');
+        $contestName = Contest::where('state',1)->value('title');
+        $explication = Contest::where('state',1)->value('end_msg');
+        $idPhoto = Participant::where('id',$idWinner)->value('id_fb_photo');
+        $token = Auth::user()['token'];
+        $photo_source = $fb->getPhotoById($idPhoto,$token);
+        $photo_source = $photo_source['webp_images'][0]["source"];
+
+        $message = "Bravo à ". $nomGagnant ." qui gagne le concours ". $contestName ." organisé par Pardon Maman.\n".$explication."\n Merci à toutes et tous d'avoir participé!";
+        foreach($participants as $participant)
+        {
+            $fb_id = $participant;
+            $fb->publishParticipationMessageAfterContest($token, $fb_id, $message, $photo_source);
+        }
+    }
 
     /**
     * Sending endContest Mail
