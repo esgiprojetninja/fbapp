@@ -55,11 +55,13 @@ class ContestController extends Controller
         if (array_key_exists('id', $request->all())) {
             $contest = Contest::find($request->all()['id']);
             $contest->fill($request->all());
+            $contest->formatDates();
         }
         else {
-            $contest = new Contest($request->all());
+            $contest = new Contest();
             $contest->setIdCreator(Auth::user()->id);
-            $contest->setDates();
+            $contest->fill($request->all());
+            $contest->formatDates();
         }
         if($contest->save()) {
             return response()->json([

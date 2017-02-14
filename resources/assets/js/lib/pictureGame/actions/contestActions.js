@@ -123,6 +123,7 @@ export const activateContest = (id) => {
         contestApi.activate(id, (response) => {
             if(!response.error) {
                 dispatch(getContests());
+                dispatch(getCurrentContest());
             } else {
                 dispatch(recieveError(response.error));
             }

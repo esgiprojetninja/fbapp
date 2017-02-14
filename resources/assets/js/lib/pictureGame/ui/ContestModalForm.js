@@ -21,10 +21,6 @@ export default class CreateContestModal extends React.PureComponent {
         } else {
             value = ev.target.value;
         }
-        /* TODO: this mofo needs improvement */
-        if ( value && typeof value === "object" && value instanceof Date ){
-            value = this.sendableDateFormater(value)
-        }
         this.props.onNewContestChange(
             attr ? attr : ev.target.name,
             value
@@ -33,9 +29,7 @@ export default class CreateContestModal extends React.PureComponent {
     addIfInferior(num) {
         return (parseInt(num) < 10) ? "0"+num : num
     }
-    sendableDateFormater(d) {
-        return d.getFullYear() + "-" + this.addIfInferior(parseInt(d.getMonth())+1) + "-" + this.addIfInferior(d.getDate()) + " " + this.addIfInferior(d.getHours()) + ":" + this.addIfInferior(d.getMinutes()) + ":" + this.addIfInferior(d.getSeconds())
-    }
+
     uiDateFormater(d) {
         return this.addIfInferior(d.getDate()) + "/" + this.addIfInferior(parseInt(d.getMonth())+1) + "/" + d.getFullYear()
     }
