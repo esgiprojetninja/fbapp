@@ -33,6 +33,7 @@ class endContestMail extends Mailable
     public function build()
     {
         return $this->view('emails.endContest')
+        ->subject('Résultat concours')
         ->with([
             'contestName' => $this->contestName,
             'winnerName' => $this->winnerName
