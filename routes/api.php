@@ -31,6 +31,7 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::post('/participants/deleteFromCurrent', 'Api\v1\ParticipantController@destroyByIdUserAndIdContest');
     Route::get('/participants/current', 'Api\v1\ParticipantController@getParticipantsByContest');
     Route::get('/participants/current-participant', 'Api\v1\ParticipantController@getCurrentParticipant');
+    Route::get('/participants/publish-preview', 'Api\v1\ParticipantController@getPublishPreviewForm');
     Route::resource('uisettings', 'Api\v1\UISettingsController');
 });
 

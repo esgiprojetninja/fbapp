@@ -15,10 +15,11 @@ export default class ParticipantApi {
         });
     }
 
-    store(photo_id, callback) {
+    store(photo_id, publishAuthorization = false, callback) {
         return $.ajax({
             method: "PUT",
-            url: this.apiBaseUrl + photo_id + "/add"
+            url: this.apiBaseUrl + photo_id + "/add",
+            data: {publishAuthorization}
         }).done(response => {
             callback(response);
         });
@@ -69,5 +70,14 @@ export default class ParticipantApi {
         }).done(response => {
             callback(response);
         });
+    }
+
+    getPublishPreview(callback) {
+      return $.ajax({
+          method: "GET",
+          url: this.apiBaseUrl + "publish-preview"
+      }).done(response => {
+          callback(response);
+      });
     }
 }

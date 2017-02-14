@@ -60,7 +60,8 @@ export default class ParticipantUpload extends React.PureComponent {
 
     validPreviewImgAction() {
         if ( this.props.participant.isFetching === false ) {
-            this.props.validPreviewImg(this.photoDescriptionMsg);
+            this.props.changePublishPreviewSrcImage(this.props.participant.fileUploadedSource, this.photoDescriptionMsg);
+            this.props.displayModalPublishPreview();
         }
     }
 
@@ -217,11 +218,11 @@ export default class ParticipantUpload extends React.PureComponent {
 ParticipantUpload.propTypes = {
     leaveUploadDisardingChanges: T.func.isRequired,
     previewImgUploaded: T.func.isRequired,
-    validPreviewImg: T.func.isRequired,
     removePreviewImg: T.func.isRequired,
     noticedUploadPhotoNotice: T.func.isRequired,
     userNoticedRegistrationInContest: T.func.isRequired,
     closeAllModals: T.func.isRequired,
+    displayModalPublishPreview: T.func.isRequired,
     participant: T.shape({
         modalOpen: T.bool.isRequired,
         fileUploadModal: T.bool.isRequired,

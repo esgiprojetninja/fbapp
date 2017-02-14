@@ -42,19 +42,54 @@ class Facebook
     * @return ...
     **/
     public function getPhotoById(int $id, $token){
-      $id = (int) $id;
-      try {
-        $this->fb->setDefaultAccessToken($token);
-        $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
-        $dataArray = $response->getDecodedBody();
-        if ( is_array($dataArray) && !empty($dataArray) )
-          return $dataArray;
-      } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        $id = (int) $id;
+        try {
+            $this->fb->setDefaultAccessToken($token);
+            $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
+            $dataArray = $response->getDecodedBody();
+            if ( is_array($dataArray) && !empty($dataArray) )
+                return $dataArray;
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            return false;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            return false;
+        }
         return false;
-      } catch(Facebook\Exceptions\FacebookSDKException $e) {
-        return false;
-      }
-      return false;
     }
 
+    public function getProfileIconPic($token){
+        $this->fb->setDefaultAccessToken($token);
+        $profileIcon = $this->fb->get('/me?fields=picture')->getDecodedBody()['picture']['data'];
+        return empty($profileIcon['url']) ? false : $profileIcon['url'];
+    }
+
+    /**
+     * Get a generic view of what the post's data will look like when a user participates to a contest
+     * @return array
+    */
+    public static function getPublishArray($photo_source, $contest_title){
+        return array(
+            'message' => 'Je participe au concours '.$contest_title.'. Venez voter pour moi !',
+            'picture' => $photo_source,
+            'name' => "Ma participation à ".$contest_title,
+            'description' => "",
+            'caption' => "Pardonne moi maman",
+            'link' => env('FB_APP_LINK'),
+        );
+    }
+
+    /**
+     * Posts a message on a user's wall
+     * @param
+     *
+    **/
+    public function publishParticipationMessage($token, $photo_source, $contest_title){
+        $this->fb->setDefaultAccessToken($token);
+        $attachment = Facebook::getPublishArray($photo_source, $contest_title);
+        try {
+            return $res = $this->fb->post('/me/feed/', $attachment)->getDecodedBody()['id'];
+        } catch (Exception $e){
+            return false;
+        }
+    }
 }

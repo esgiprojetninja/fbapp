@@ -18,7 +18,8 @@ class Participant extends Model
         'fb_source',
         'voted_for',
         'nb_votes',
-        'accepted_cgu'
+        'accepted_cgu',
+        'id_participation_post'
     ];
 
     /**
@@ -31,42 +32,47 @@ class Participant extends Model
 
     public function setIdUser($id)
     {
-      $this->id_user = (int) $id;
+        $this->id_user = (int) $id;
     }
 
     public function setIdContest($id)
     {
-      $this->id_contest = (int) $id;
+        $this->id_contest = (int) $id;
     }
 
     public function setIdPhoto($id)
     {
-      $this->id_fb_photo = (int) $id;
+        $this->id_fb_photo = (int) $id;
     }
 
     public function setVotedFor($id)
     {
-      $this->voted_for = (int) $id;
+        $this->voted_for = (int) $id;
     }
 
     public function setNbVotes($id)
     {
-      $this->nb_votes = (int) $id;
+        $this->nb_votes = (int) $id;
     }
 
     public function setSource($s)
     {
-      $this->fb_source = $s;
+        $this->fb_source = $s;
     }
 
     public function addVote($id)
     {
-      $this->nb_votes++;
+        $this->nb_votes++;
     }
 
     public function setAcceptedCgu($id)
     {
-      $this->accepted_cgu = (int) $id;
+        $this->accepted_cgu = (int) $id;
+    }
+
+    public function setPublishPostId($string)
+    {
+        $this->id_participation_post = $string;
     }
 
     /**
