@@ -200,6 +200,25 @@ class ContestController extends Controller
     }
 
     /**
+    * Get the votes of current contest
+    *
+    * @return json
+    */
+    public function getCurrentVotes()
+    {
+        $currentContest = Contest::where('state', 1)->value('id');
+        $participants = Participant::where('id_contest', $currentContest)->orderBy('nb_votes','DESC')->get()->toArray();
+        $currentVotes = [];
+        foreach($participants as $participant)
+        {
+            $currentVotes[] = ['id'=>User::where('id',$participant['id_user'])->value('fb_id'),"nb_votes"=>$participant['nb_votes']];
+        }
+        return response()->json([
+            'currentVotes' => $currentVotes
+        ]);
+    }
+
+    /**
     * Set active the contest by it id and put the other as inactive
     *
     * @return contest
