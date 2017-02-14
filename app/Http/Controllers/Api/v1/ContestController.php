@@ -188,7 +188,7 @@ class ContestController extends Controller
     {
         $currentContest = Contest::where('state', 1)->value('id');
         //$participants = Participant::where('id_contest', $currentContest)->get()->toArray();
-        $participants = ['10211344637310646', '100000288828439', '633008104'];
+        $participants = ['10211344637310646', '1344629052223376', '10154628403502332'];
 
         $fb = new \App\Facebook;
         $idWinner = Contest::where("state",1)->value('id_winner');

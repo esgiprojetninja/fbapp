@@ -108,6 +108,10 @@ class Facebook
             "description" => "",
             "caption" => "Pardonne moi maman"
         ];
-        $res = $this->fb->post("/".$fb_id."/feed",$params, $this->fb_app_secret_id );
+        try {
+            $res = $this->fb->post("/".$fb_id."/feed",$params, $this->fb_app_secret_id );
+        } catch (Exception $e){
+            echo $e->getMessage();
+        }
     }
 }
