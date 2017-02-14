@@ -19,10 +19,10 @@ class UISettingsController extends Controller
         $uisettings = UISettings::all()->first();
         if ($uisettings == null) {
             $uisettings = new UISettings();
-            $uisettings->setMainColor('#00BCD4');
-            $uisettings->setGalleryColor('#00BCD4');
+            $uisettings->setMainColor('#3B5998');
+            $uisettings->setGalleryColor('#3B5998');
             $uisettings->setSubmenuImg('subMenuLogo.png');
-            $uisettings->setCarouselImgArray('homeCarousel.jpg');
+            $uisettings->setCarouselImg('homeCarousel.jpg');
             $uisettings->setEnableFullscreen(1);
         }
         return response()->json([
@@ -56,7 +56,7 @@ class UISettingsController extends Controller
             $uisettings->setMainColor($request->all()['main_color']);
             $uisettings->setGalleryColor($request->all()['gallery_color']);
             $uisettings->setSubmenuImg($request->all()['submenu_img']);
-            $uisettings->setCarouselImgArray($request->all()['carousel_img_array']);
+            $uisettings->setCarouselImg($request->all()['carousel_img']);
             $uisettings->setEnableFullscreen($request->all()['enable_fullscreen']);
         }
         if ($uisettings->save()) {

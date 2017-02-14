@@ -33,7 +33,7 @@ export default class SubMenu extends React.PureComponent {
                 </div>
 
                 <div className="col-md-2 hidden-xs hidden-sm">
-                    <img className="sub-menu-img-cover" src="subMenuLogo.png"/>
+                    <img className="sub-menu-img-cover" src={this.props.contest.uisettings.submenu_img}/>
                 </div>
             </div>
         )

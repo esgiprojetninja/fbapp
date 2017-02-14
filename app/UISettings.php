@@ -18,7 +18,7 @@ class UISettings extends Model
         'main_color',
         'gallery_color',
         'submenu_img',
-        'carousel_img_array',
+        'carousel_img',
         'enable_fullscreen'
     ];
 
@@ -34,8 +34,8 @@ class UISettings extends Model
         $this->submenu_img = $submenuImg;
     }
 
-    public function setCarouselImgArray ($carouselImgArray) {
-        $this->carousel_img_array = $carouselImgArray;
+    public function setCarouselImg ($carouselImg) {
+        $this->carousel_img = $carouselImg;
     }
 
     public function setEnableFullscreen ($enableFullscreen) {
@@ -54,8 +54,8 @@ class UISettings extends Model
         return $this->submenu_img;
     }
 
-    public function getCarouselImgArray () {
-        return $this->carousel_img_array;
+    public function getCarouselImg () {
+        return $this->carousel_img;
     }
 
     public function getEnableFullscreen () {

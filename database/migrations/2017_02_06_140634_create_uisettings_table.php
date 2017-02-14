@@ -18,8 +18,8 @@ class CreateUISettingsTable extends Migration
             $table->timestamps();
             $table->string('main_color');
             $table->string('gallery_color');
-            $table->string('submenu_img');
-            $table->string('carousel_img_array');
+            $table->longtext('submenu_img');
+            $table->longtext('carousel_img');
             $table->boolean('enable_fullscreen');
         });
     }

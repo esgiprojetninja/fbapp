@@ -9,13 +9,13 @@ import Login from "../container/Login";
 
 const styles = {
     mediumIcon : {
-        height: 48,
-        width: 48
+        height: 30,
+        width: 30
     },
     medium: {
-        width: 80,
-        height: 65,
-        padding: 10
+        width: 42,
+        height: 42,
+        padding: "0 25px 0 0"
     }
 };
 
