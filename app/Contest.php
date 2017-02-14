@@ -27,6 +27,10 @@ class Contest extends Model
         $this->id_creator = $id;
     }
 
+    public function getIdWinner () {
+        return $this->id_winner;
+    }
+
     public function setDates () { // For testing purpose
         $this->start_date = new \DateTime();
         $this->end_date = new \DateTime();
