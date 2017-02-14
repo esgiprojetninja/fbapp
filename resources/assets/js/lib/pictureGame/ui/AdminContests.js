@@ -231,66 +231,79 @@ export default class AdminContests extends React.PureComponent {
                 <TableRowColumn className="admin-td-eventsBtn td-actions">
                 <div>
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Edit"
-                    className="hidden-sm hidden-xs"
-                    primary={true}
-                    data-contest={contest}
-                    onTouchTap={(ev) => {
-                      this.props.onCreateModalOpenClick(ev, contest);
-                    }}
+                        style={style.actionsBtn}
+                        label="Edit"
+                        className="hidden-sm hidden-xs"
+                        primary={true}
+                        data-contest={contest}
+                        onTouchTap={(ev) => {
+                          this.props.onCreateModalOpenClick(ev, contest);
+                        }}
                     />
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Delete"
-                    className="hidden-sm hidden-xs"
-                    secondary={true}
-                    onTouchTap={() => {
-                      this.props.onDeleteContestClick(contest.id);
-                    }}
+                        style={style.actionsBtn}
+                        label="Delete"
+                        className="hidden-sm hidden-xs"
+                        secondary={true}
+                        onTouchTap={() => {
+                          this.props.onDeleteContestClick(contest.id);
+                        }}
+                    />
+                    {this.renderActivateBtn(contest, "small")}
+                    <RaisedButton
+                         icon={<EditorModeEdit />}
+                         primary={true}
+                         data-contest={contest}
+                         onTouchTap={(ev) => {
+                           this.props.onCreateModalOpenClick(ev, contest);
+                         }}
+                         style={{minWidth: "40px", margin: "0 2px"}}
+                         className="hidden-md hidden-lg"
                     />
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Activate"
-                    className="hidden-sm hidden-xs"
-                    backgroundColor = "#e4e3e3"
-                    onTouchTap={() => {
-                      this.props.onActivateContestClick(contest.id);
-                    }}
+                         icon={<DeleteIcon />}
+                         secondary={true}
+                         onTouchTap={() => {
+                           this.props.onDeleteContestClick(contest.id);
+                         }}
+                         style={{minWidth: "40px", margin: "0 2px"}}
+                         className="hidden-md hidden-lg"
                     />
-                    <RaisedButton
-                     icon={<EditorModeEdit />}
-                     primary={true}
-                     data-contest={contest}
-                     onTouchTap={(ev) => {
-                       this.props.onCreateModalOpenClick(ev, contest);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
-                    <RaisedButton
-                     icon={<DeleteIcon />}
-                     secondary={true}
-                     onTouchTap={() => {
-                       this.props.onDeleteContestClick(contest.id);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
-                    <RaisedButton
-                     icon={<DoneIcon />}
-                     backgroundColor = "#e4e3e3"
-                     data-contest={contest}
-                     onTouchTap={(ev) => {
-                       this.props.onCreateModalOpenClick(ev, contest);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
+                    {this.renderActivateBtn(contest, "big")}
                 </div>
                 </TableRowColumn>
             </TableRow>
         ));
+    }
+
+    renderActivateBtn(contest, size) {
+        {if (contest.state === 0) {
+            if (size === "big") {
+                return (
+                    <RaisedButton
+                        style={style.actionsBtn}
+                        label="Activate"
+                        className="hidden-sm hidden-xs"
+                        backgroundColor = "#e4e3e3"
+                        onTouchTap={() => {
+                            this.props.onActivateContestClick(contest.id);
+                        }}
+                    />
+                );
+            }
+            return (
+                <RaisedButton
+                     icon={<DoneIcon />}
+                     backgroundColor = "#e4e3e3"
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onActivateContestClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                />
+            );
+        }}
     }
 
     renderParams () {

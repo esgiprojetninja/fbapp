@@ -151,6 +151,16 @@ const participant = (state = initialSate, action) => {
                 ...state,
                 currentParticipant: action.participant
             }
+        case pTypes.REQUEST_DELETE_PHOTO:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case pTypes.DELETE_PHOTO:
+            return {
+                ...state,
+                isFetching: false
+            }
         default:
             return state;
     }
