@@ -2,9 +2,11 @@ import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
 import DataExport from "../container/DataExport";
+import CGUEditor from "../container/CGUEditor";
+
+
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-
 import AutoComplete from 'material-ui/AutoComplete';
 import Search from 'material-ui/svg-icons/action/search';
 import {List, ListItem} from 'material-ui/List';
@@ -586,7 +588,7 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.props.openCGU) {
             return (
-                <h1>CGU</h1>
+                <CGUEditor />
             );
         }
     }

@@ -1,0 +1,3 @@
+export const REQUEST_LEGAL = "REQUEST_LEGAL";
+export const RECEIVE_LEGAL = "RECEIVE_LEGAL";
+export const RECEIVE_ERROR ="RECEIVE_ERROR";

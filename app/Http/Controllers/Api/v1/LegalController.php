@@ -17,6 +17,9 @@ class LegalController extends Controller
     public function index()
     {
         $legal = Legal::all()->last();
+        if (!$legal) {
+            $legal = [];
+        }
         return response()->json([
             'legal' => $legal
         ]);
