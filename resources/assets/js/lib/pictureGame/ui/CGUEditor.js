@@ -3,6 +3,7 @@ import React, {PropTypes as T} from "react";
 import RichEditor from "./RichEditor";
 
 export default class CGUEditor extends React.PureComponent {
+
     componentWillMount () {
         this.props.onReady();
     }
@@ -12,8 +13,7 @@ export default class CGUEditor extends React.PureComponent {
             <div>
                 <h1>CGU</h1>
                 <RichEditor
-                    text={this.props.legal.CGU}
-                    //textChanged={this.props.cguChanged}
+                    text={this.props.cgu}
                     saveData={this.props.saveCGU}
                 />
             </div>
@@ -24,7 +24,6 @@ export default class CGUEditor extends React.PureComponent {
 
 CGUEditor.propTypes = {
     onReady: T.func.isRequired,
-    legal: T.object.isRequired,
-    //cguChanged: T.func.isRequired,
+    cgu: T.string.isRequired,
     saveCGU: T.func.isRequired
 };

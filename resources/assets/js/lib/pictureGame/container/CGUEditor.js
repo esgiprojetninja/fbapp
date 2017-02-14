@@ -9,9 +9,7 @@ import {
 import CGUEditorUI from "../ui/CGUEditor";
 
 const mapStateToProps = (state) => {
-    return {
-        legal: state.legal
-    };
+    return state.legal
 }
 
 const mapDispatchToProps = (dispatch) => {

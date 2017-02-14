@@ -16,7 +16,7 @@ class CreateLegalsTable extends Migration
         Schema::create('legals', function (Blueprint $table) {
             $table->increments('id', true);
             $table->timestamps();
-            $table->longText('CGU');
+            $table->longText('cgu');
             $table->longText('privacy_policy');
             $table->longText('rules');
         });

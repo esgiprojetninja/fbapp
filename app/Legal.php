@@ -12,6 +12,6 @@ class Legal extends Model
     * @var array
     */
     protected $fillable = [
-        'CGU', 'privacy_policy', 'rules'
+        'cgu', 'privacy_policy', 'rules'
     ];
 }

@@ -13,16 +13,15 @@ export default class RichEditor extends React.PureComponent {
         this.saveData = this.saveData.bind(this);
     }
 
-    componentWillReceiveProps () {
-        console.debug(this.state);
-        if (this.props.text.length > 0) {
-            this.onChange(stateFromHTML(this.props.text));
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.text.length > 0) {
+            this.onChange(EditorState.createWithContent(convertFromHTML(nextProps.text)));
         }
     }
 
     saveData () {
-        const rawState = convertToRaw(this.state.editorState.getCurrentContent());
-        this.props.saveData(draftToHtml(rawState));
+        //const rawState = convertToRaw(this.state.editorState.getCurrentContent());
+        this.props.saveData(convertToHTML(this.state.editorState.getCurrentContent()));
     }
 
     render() {

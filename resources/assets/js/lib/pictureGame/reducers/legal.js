@@ -2,7 +2,7 @@ import * as legalTypes from "../actions/legalTypes";
 
 const initialSate = {
     id: 0,
-    CGU: "",
+    cgu: "",
     privacy_policy: "",
     rules: "",
     isFetching: false,
@@ -24,6 +24,7 @@ const legal = (state = initialSate, action) => {
             };
         case legalTypes.RECEIVE_LEGAL:
             return {
+                ...state,
                 ...action.legal,
                 isFetching: false,
                 error: ""
@@ -36,7 +37,7 @@ const legal = (state = initialSate, action) => {
         case legalTypes.CHANGE_CGU:
             return {
                 ...state,
-                CGU: action.cgu
+                cgu: action.cgu
             }
         default:
             return state;
