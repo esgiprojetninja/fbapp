@@ -28,13 +28,13 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             $now = date('Y-m-d H:i:s');
-            $endDate = Contest::where('state', "!=", 2)->value('end_date');
+            $endDate = Contest::where('state',  1)->value('end_date');
             if($now >= $endDate){
                 ContestController::sendEndContestMail();
-                Contest::where('state', "!=", 2)->update(['state'=>2]);
+                $idWinner = Participant::find(DB::table('participants')->max('nbVotes'))->value('id');
+                Contest::where('state', 1)->update(['state'=>2,'id_winner'=>$idWinner]);
             }
         })->everyMinute();
-        //dailyAt('00:00')
     }
 
     /**
