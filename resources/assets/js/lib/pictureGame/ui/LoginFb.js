@@ -16,9 +16,18 @@ export default class Loginfb extends React.PureComponent {
                     href="/"
                 />
                 {this.renderAdminButton()}
+                {this.renderArchivesButton()}
                 {this.renderLoginButton()}
                 {this.renderHelpButton()}
             </div>
+        );
+    }
+    renderArchivesButton () {
+        return (
+            <FlatButton
+                label="Archives"
+                secondary={true}
+            />
         );
     }
 

@@ -149,6 +149,12 @@ export default class AdminContests extends React.PureComponent {
                     onClick={this.props.onOpenExport}
                     style={{padding: "0 15px"}}
                 />
+                <FlatButton
+                    label="CGU"
+                    primary={true}
+                    onClick={this.props.onOpenCGU}
+                    style={{padding: "0 15px"}}
+                />
             </div>
         );
     }
@@ -576,6 +582,11 @@ export default class AdminContests extends React.PureComponent {
                       <DataExport />
                     </div>
                 </div>
+            );
+        }
+        if(this.props.openCGU) {
+            return (
+                <h1>CGU</h1>
             );
         }
     }
