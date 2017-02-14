@@ -56,6 +56,7 @@ export const storeContest = () => {
         contestApi.store(getState().contest.newContest, (response) => {
             if (!response.error) {
                 dispatch(getContests());
+                dispatch(getCurrentContest());
             } else {
                 dispatch(recieveError(response.error));
             }
@@ -108,6 +109,7 @@ export const deleteContest = (id) => {
         contestApi.delete(id, (response) => {
             if(!response.error) {
                 dispatch(getContests());
+                dispatch(getCurrentContest());
             } else {
                 dispatch(recieveError(response.error));
             }
@@ -142,6 +144,13 @@ export const recieveUISettings = (uisettings) => {
     return {
         type: actionTypes.RECIEVE_UISETTINGS,
         uisettings: uisettings
+    };
+}
+
+export const uploadFiles = (files) => {
+    return {
+        type: actionTypes.UPLOAD_FILES,
+        files
     };
 }
 

@@ -43,12 +43,39 @@ export const addPhotoToCurrentContest = (photo_id) => {
             (response) => {
                 if (response.error) {
                     dispatch(receiveNotAddedPhotoContest(response));
+                    dispatch(deleteFbPhoto(photo_id));
                 } else {
                     dispatch(receiveAddPhotoToContest(response));
                     dispatch(getCurrentContest());
                 }
             }
         )
+    }
+}
+
+const requestDeletePhoto = () => {
+    return {
+        type: types.REQUEST_DELETE_PHOTO
+    };
+}
+
+const deletePhoto = () => {
+    return {
+        type: types.DELETE_PHOTO
+    };
+}
+
+const deleteFbPhoto = (photoid) => {
+    return (dispatch) => {
+        dispatch(requestDeletePhoto());
+        const accessToken = getState().user.data.token;
+        fbApi.deleteFbPhoto(photoid, accessToken, () => {
+            if (response.success) {
+                dispatch(deletePhoto());
+            } else {
+                dispatch(receiveError("Couldn't delete fb photo."));
+            }
+        });
     }
 }
 

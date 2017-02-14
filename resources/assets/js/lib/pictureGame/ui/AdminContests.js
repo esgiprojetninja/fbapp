@@ -73,7 +73,8 @@ const colors = [
 
 const appColors = {
     default : [
-        '#00BCD4',
+        "#3B5998",
+        "#00BCD4",
         "#CD2431"
     ]
 }
@@ -231,66 +232,79 @@ export default class AdminContests extends React.PureComponent {
                 <TableRowColumn className="admin-td-eventsBtn td-actions">
                 <div>
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Edit"
-                    className="hidden-sm hidden-xs"
-                    primary={true}
-                    data-contest={contest}
-                    onTouchTap={(ev) => {
-                      this.props.onCreateModalOpenClick(ev, contest);
-                    }}
+                        style={style.actionsBtn}
+                        label="Edit"
+                        className="hidden-sm hidden-xs"
+                        primary={true}
+                        data-contest={contest}
+                        onTouchTap={(ev) => {
+                          this.props.onCreateModalOpenClick(ev, contest);
+                        }}
                     />
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Delete"
-                    className="hidden-sm hidden-xs"
-                    secondary={true}
-                    onTouchTap={() => {
-                      this.props.onDeleteContestClick(contest.id);
-                    }}
+                        style={style.actionsBtn}
+                        label="Delete"
+                        className="hidden-sm hidden-xs"
+                        secondary={true}
+                        onTouchTap={() => {
+                          this.props.onDeleteContestClick(contest.id);
+                        }}
+                    />
+                    {this.renderActivateBtn(contest, "small")}
+                    <RaisedButton
+                         icon={<EditorModeEdit />}
+                         primary={true}
+                         data-contest={contest}
+                         onTouchTap={(ev) => {
+                           this.props.onCreateModalOpenClick(ev, contest);
+                         }}
+                         style={{minWidth: "40px", margin: "0 2px"}}
+                         className="hidden-md hidden-lg"
                     />
                     <RaisedButton
-                    style={style.actionsBtn}
-                    label="Activate"
-                    className="hidden-sm hidden-xs"
-                    backgroundColor = "#e4e3e3"
-                    onTouchTap={() => {
-                      this.props.onActivateContestClick(contest.id);
-                    }}
+                         icon={<DeleteIcon />}
+                         secondary={true}
+                         onTouchTap={() => {
+                           this.props.onDeleteContestClick(contest.id);
+                         }}
+                         style={{minWidth: "40px", margin: "0 2px"}}
+                         className="hidden-md hidden-lg"
                     />
-                    <RaisedButton
-                     icon={<EditorModeEdit />}
-                     primary={true}
-                     data-contest={contest}
-                     onTouchTap={(ev) => {
-                       this.props.onCreateModalOpenClick(ev, contest);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
-                    <RaisedButton
-                     icon={<DeleteIcon />}
-                     secondary={true}
-                     onTouchTap={() => {
-                       this.props.onDeleteContestClick(contest.id);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
-                    <RaisedButton
-                     icon={<DoneIcon />}
-                     backgroundColor = "#e4e3e3"
-                     data-contest={contest}
-                     onTouchTap={(ev) => {
-                       this.props.onCreateModalOpenClick(ev, contest);
-                     }}
-                     style={{minWidth: "40px", margin: "0 2px"}}
-                     className="hidden-md hidden-lg"
-                    />
+                    {this.renderActivateBtn(contest, "big")}
                 </div>
                 </TableRowColumn>
             </TableRow>
         ));
+    }
+
+    renderActivateBtn(contest, size) {
+        {if (contest.state === 0) {
+            if (size === "big") {
+                return (
+                    <RaisedButton
+                        style={style.actionsBtn}
+                        label="Activate"
+                        className="hidden-sm hidden-xs"
+                        backgroundColor = "#e4e3e3"
+                        onTouchTap={() => {
+                            this.props.onActivateContestClick(contest.id);
+                        }}
+                    />
+                );
+            }
+            return (
+                <RaisedButton
+                     icon={<DoneIcon />}
+                     backgroundColor = "#e4e3e3"
+                     data-contest={contest}
+                     onTouchTap={(ev) => {
+                       this.props.onActivateContestClick(ev, contest);
+                     }}
+                     style={{minWidth: "40px", margin: "0 2px"}}
+                     className="hidden-md hidden-lg"
+                />
+            );
+        }}
     }
 
     renderParams () {
@@ -458,12 +472,21 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone multiple={false} accept="image/*" onDrop={
+                <Dropzone multiple={true} accept="image/*" onDrop={
                     (files, e) => {
-                        console.log(files);
+                        var reader = new FileReader();
+                        reader.readAsDataURL(files[0]);
+                        reader.onloadend = () => {
+                            let newUISettings = {};
+                            newUISettings = this.props.uisettings;
+                            newUISettings.carousel_img = reader.result;
+                            this.props.onUISettingsChange(newUISettings);
+                        }
                     }
                 }>
-                  <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}>
+                        <span>Drop ou clique pour changer l'image principal du carousel</span>
+                    </div>
                 </Dropzone>
             </div>
         );
@@ -472,8 +495,21 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsSubmenu() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone>
-                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour changer une image du sous-menu</span></div>
+                <Dropzone multiple={true} accept="image/*" onDrop={
+                    (files, e) => {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(files[0]);
+                        reader.onloadend = () => {
+                            let newUISettings = {};
+                            newUISettings = this.props.uisettings;
+                            newUISettings.submenu_img = reader.result;
+                            this.props.onUISettingsChange(newUISettings);
+                        }
+                    }
+                }>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}>
+                        <span>Drop ou clique pour changer l'image du sous-menu</span>
+                    </div>
                 </Dropzone>
             </div>
         );

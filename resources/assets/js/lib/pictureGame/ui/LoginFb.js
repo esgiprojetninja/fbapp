@@ -15,23 +15,11 @@ export default class Loginfb extends React.PureComponent {
                     label="Home"
                     href="/"
                 />
-                {this.renderJoinButton()}
                 {this.renderAdminButton()}
                 {this.renderLoginButton()}
                 {this.renderHelpButton()}
             </div>
         );
-    }
-
-    renderJoinButton () {
-        if (!this.props.isAllreadyInContect) {
-            return(
-                <FlatButton
-                label="Join"
-                onClick={(e) => this.props.onJoinClicked(this.props.isConnected)}
-                />
-            );
-        }
     }
 
     renderAdminButton () {
@@ -66,6 +54,7 @@ export default class Loginfb extends React.PureComponent {
     renderHelpButton () {
         return (
             <FlatButton
+                style={{marginTop: "-2px"}}
                 label="aide"
                 secondary={true}
                 href="conf-politics"

@@ -24,7 +24,7 @@ export default class Gallery extends React.PureComponent {
                         src={p.fb_source}
                     />
                     <div>
-                        <div className="grid-gradient" style={{background: this.props.contest.colorGallery}}>
+                        <div className="grid-gradient" style={{background: this.props.contest.uisettings.gallery_color}}>
                         </div>
                         <div className="grid-desc">
                             <span className="grid-desc-title">{p.title || "-"}</span>

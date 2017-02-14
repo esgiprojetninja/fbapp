@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/contestTypes";
 const initialSate = {
     contests: [],
     uisettings: {},
+    files: [],
     newContest: {
         start_date: new Date(),
         end_date: new Date(),
@@ -10,7 +11,7 @@ const initialSate = {
         description: "",
         title: "",
         id_winner: 0,
-        state: false
+        state: 0
     },
     currentContest: {
         participants: []
@@ -18,8 +19,8 @@ const initialSate = {
     isFetching: false,
     createModalOpen: false,
     error: false,
-    color: "#00BCD4",
-    colorGallery: "#00BCD4",
+    color: "#3B5998",
+    colorGallery: "#3B5998",
     openAdmin: false,
     openEvents: false,
     openSettings: false,
@@ -98,6 +99,12 @@ const contest = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 currentContest: action.contest
+            };
+        case actionTypes.UPLOAD_FILES:
+            return {
+                ...state,
+                isFetching: false,
+                files: action.files
             };
         case actionTypes.OPEN_SETTINGS: // TODO optimize this asap
             return {

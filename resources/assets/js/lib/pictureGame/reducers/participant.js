@@ -202,6 +202,15 @@ const participant = (state = initialSate, action) => {
                 acceptedFBPublish: false,
                 modalOpen: state.publishOriginModal === "modalOpen",
                 fileUploadModal: state.publishOriginModal === "fileUploadModal"
+        case pTypes.REQUEST_DELETE_PHOTO:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case pTypes.DELETE_PHOTO:
+            return {
+                ...state,
+                isFetching: false
             }
         default:
             return state;

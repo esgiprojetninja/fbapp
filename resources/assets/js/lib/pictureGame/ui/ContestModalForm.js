@@ -132,7 +132,7 @@ export default class CreateContestModal extends React.PureComponent {
                         onToggle={this.newContestChange.bind(this)}
                         value={this.props.newContest.state}
                         label="Active"
-                        defaultToggled={false}
+                        defaultToggled={this.props.newContest.state === 1 ? true : false}
                         name="state"
                     />
                     <br />

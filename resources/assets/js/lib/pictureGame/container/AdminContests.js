@@ -23,7 +23,8 @@ import {
     hoverReset,
     hoverFullscreen,
     getUISettings,
-    storeUISettings
+    storeUISettings,
+    uploadFiles
 } from "../actions/contestActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
@@ -102,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUISettingsChange: (newUISettings) => {
             dispatch(storeUISettings(newUISettings));
+        },
+        onUploadFiles: (files) => {
+            dispatch(uploadFiles(files));
         }
     }
 }

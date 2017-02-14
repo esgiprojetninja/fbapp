@@ -196,6 +196,17 @@ export default class FacebookLoader {
             callback(response);
         });
     }
+
+    deleteFbPhoto(photoId, accessToken, callback) {
+        const url = "/" + photoId;
+        return this.initFbScript().then(() => FB.api(
+            url,
+            "delete",
+            {access_token: accessToken},
+            callback
+        ));
+    }
+
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {
         return new Promise ((resolve, reject) => {
