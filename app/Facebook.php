@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Facebook\FacebookRequest;
-
 use Illuminate\Http\Request;
 use Socialite;
 
