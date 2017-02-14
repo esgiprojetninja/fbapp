@@ -26,6 +26,10 @@ import {
     storeUISettings,
     uploadFiles
 } from "../actions/contestActions";
+import {
+    openVotes,
+    getCurrentContestVoters
+} from "../actions/voteActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
 const mapStateToProps = (state) => {
@@ -106,6 +110,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUploadFiles: (files) => {
             dispatch(uploadFiles(files));
+        },
+        openVotes: () => {
+            dispatch(getCurrentContestVoters());
+            dispatch(openVotes());
+            dispatch(closeAdmin());
         }
     }
 }
