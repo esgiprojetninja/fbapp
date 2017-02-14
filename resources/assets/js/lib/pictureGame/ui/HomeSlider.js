@@ -80,7 +80,7 @@ export default class HomeSlider extends React.PureComponent {
 
     renderMainButton () {
         if (this.props.user.isConnected) {
-            if (!this.props.currentParticipant.id_user) {
+            if (!this.props.currentParticipant.id_user && this.props.contest.currentContest.id) {
                 return (
                     <RaisedButton
                         label="PARTICIPER AU CONCOURS"
@@ -93,17 +93,19 @@ export default class HomeSlider extends React.PureComponent {
                     />
                 )
             }
-            return (
-                <RaisedButton
-                    label="MA PHOTO EN JEU"
-                    labelPosition="before"
-                    labelColor="#fff"
-                    backgroundColor={this.props.contest.uisettings.main_color}
-                    icon={<CameraEnhance />}
-                    className="home-carousel-button"
-                    onTouchTap={this.props.toggleConsultingPostedPhoto}
-                />
-            );
+            else if (this.props.currentParticipant.id_user) {
+                return (
+                    <RaisedButton
+                        label="MA PHOTO EN JEU"
+                        labelPosition="before"
+                        labelColor="#fff"
+                        backgroundColor={this.props.contest.uisettings.main_color}
+                        icon={<CameraEnhance />}
+                        className="home-carousel-button"
+                        onTouchTap={this.props.toggleConsultingPostedPhoto}
+                    />
+                );
+            }
         }
     }
 
