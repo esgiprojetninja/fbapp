@@ -347,7 +347,6 @@ export const hoverFullscreen = () => {
 }
 
 const updateParticipantAfterVote = (participant) => {
-    console.debug("contestAction dispatching: ", participant)
     return {
         type: actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE,
         participant

@@ -6,7 +6,9 @@ const initialSate = {
     errorMsg: false,
     consultingPhoto: false,
     connected_participant: false,
-    aimed_participant: false
+    aimed_participant: false,
+    votingSuccess: false,
+    sharingSuccess: false,
 };
 
 const gallery = (state = initialSate, action) => {
@@ -17,7 +19,7 @@ const gallery = (state = initialSate, action) => {
                 ...state,
                 consultingPhoto: {...action.photo},
                 open: _open
-        };
+            };
         case gTypes.CLOSE_PHOTO:
             return {
                 ...state,
@@ -27,12 +29,29 @@ const gallery = (state = initialSate, action) => {
             return {
                 ...state,
                 isFetching: false,
+                sharingSuccess: false,
+                votingSuccess: false,
                 errorMsg: action.error
+            };
+        case gTypes.REQUEST_SHARE_PHOTO:
+            return {
+                ...state,
+                isFetching: true,
+                sharingSuccess: "ongoing",
+                open: false
+            };
+        case gTypes.RECEIVE_PHOTO_SHARED:
+            return {
+                ...state,
+                isFetching: false,
+                open: true,
+                sharingSuccess: true
             };
         case gTypes.REQUEST_SAVE_VOTE:
             return {
                 ...state,
                 isFetching: true,
+                votingSuccess: "ongoing",
                 open: false
             };
         case gTypes.RECEIVE_VOTE_SAVED:
@@ -40,6 +59,7 @@ const gallery = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 open: false,
+                votingSuccess: true,
                 connected_participant: action.connected_participant,
                 aimed_participant: action.aimed_participant
             }
@@ -48,13 +68,17 @@ const gallery = (state = initialSate, action) => {
                 ...state,
                 connected_participant: false,
                 aimed_participant: false,
-                open: false
+                votingSuccess: false,
+                sharingSuccess: false,
+                open: state.sharingSuccess
             }
         case gTypes.VOTE_FAIL_MSG_NOTICE:
             return {
                 ...state,
                 connected_participant: false,
                 aimed_participant: false,
+                votingSuccess: false,
+                sharingSuccess: false,
                 errorMsg: false,
                 open: false
             }
