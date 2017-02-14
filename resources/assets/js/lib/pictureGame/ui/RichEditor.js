@@ -1,8 +1,10 @@
 import React, {PropTypes as T} from "react";
 import ReactDOM from "react-dom";
-import {Editor, EditorState, ContentState, convertFromHTML, convertToRaw} from "draft-js";
+import {Editor, EditorState, ContentState, convertFromHTML, convertFromRaw, convertToRaw} from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import {stateFromHTML} from "draft-js-import-html";
 import RaisedButton from "material-ui/RaisedButton";
+import {convertToHTML, convertFromHTML} from "draft-convert";
 
 export default class RichEditor extends React.PureComponent {
     constructor() {
@@ -11,7 +13,14 @@ export default class RichEditor extends React.PureComponent {
         this.saveData = this.saveData.bind(this);
     }
 
-    saveData (editorState) {
+    componentWillReceiveProps () {
+        console.debug(this.state);
+        if (this.props.text.length > 0) {
+            this.onChange(stateFromHTML(this.props.text));
+        }
+    }
+
+    saveData () {
         const rawState = convertToRaw(this.state.editorState.getCurrentContent());
         this.props.saveData(draftToHtml(rawState));
     }

@@ -6,7 +6,7 @@ const initialSate = {
     privacy_policy: "",
     rules: "",
     isFetching: false,
-    erro: ""
+    error: ""
 };
 
 const legal = (state = initialSate, action) => {
@@ -24,19 +24,14 @@ const legal = (state = initialSate, action) => {
             };
         case legalTypes.RECEIVE_LEGAL:
             return {
-                ...state,
+                ...action.legal,
                 isFetching: false,
-                legal: action.legal
+                error: ""
             };
         case legalTypes.REQUEST_SAVE_LEGAL:
             return {
                 ...state,
                 isFetching: true
-            }
-        case legalTypes.RECEIVE_SAVE_LEGAL_SUCCESS:
-            return {
-                ...state,
-                legal: action.legal
             }
         case legalTypes.CHANGE_CGU:
             return {

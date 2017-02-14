@@ -17,6 +17,7 @@ const receiveError = (error) => {
 }
 
 const receiveLegal = (legal) => {
+    console.debug(legal);
     return {
         type: legalTypes.RECEIVE_LEGAL,
         legal: legal
