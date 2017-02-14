@@ -14,7 +14,8 @@ const initialSate = {
     fileUploadError: false,
     currentParticipant: {},
     acceptedFBPublish: undefined,
-    publishPreview: false
+    publishPreview: false,
+    publishOriginModal: "modalOpen"
 };
 
 const participant = (state = initialSate, action) => {
@@ -169,26 +170,38 @@ const participant = (state = initialSate, action) => {
                 publishPreview: {
                     ...state.publishPreview,
                     picture: action.src,
-                    photo_id: action.photo_id
+                    photo_id: action.photo_id,
+                    upload_msg: action.upload_msg || ""
                 }
             }
         case pTypes.DISPLAY_PUBLISH_CONFIRM_MODAL:
             return {
                 ...state,
                 acceptedFBPublish: "ongoing",
-                modalOpen: false
+                modalOpen: false,
+                fileUploadModal: false,
+                publishOriginModal: action.origin_modal
+            }
+        case pTypes.CANCEL_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: false,
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
             }
         case pTypes.CONFIRM_PUBLISH_PREVIEW:
             return {
                 ...state,
                 acceptedFBPublish: true,
-                modalOpen: false
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
             }
         case pTypes.REFUSE_PUBLISH_PREVIEW:
             return {
                 ...state,
                 acceptedFBPublish: false,
-                modalOpen: false
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
             }
         default:
             return state;

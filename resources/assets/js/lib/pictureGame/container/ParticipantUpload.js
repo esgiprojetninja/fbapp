@@ -3,10 +3,11 @@ import {
     leaveUploadDisardingChanges,
     previewImgUploaded,
     removePreviewImg,
-    validPreviewImg,
     userNoticedRegistrationInContest,
     noticedUploadPhotoNotice,
-    closeAllModals
+    changePublishPreviewSrcImage,
+    closeAllModals,
+    displayModalPublishPreview
 } from "../actions/participantActions";
 import {
   openNotice,
@@ -29,10 +30,6 @@ const mapDispatchToProps = (dispatch) => {
         removePreviewImg: () => {
             dispatch(removePreviewImg())
         },
-        validPreviewImg: (publicationMsg) => {
-            dispatch(openNotice());
-            dispatch(validPreviewImg(publicationMsg))
-        },
         noticedUploadPhotoNotice: () => {
             dispatch(closeNotice());
             dispatch(noticedUploadPhotoNotice())
@@ -43,6 +40,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         closeAllModals: () => {
             dispatch(closeAllModals());
+        },
+        changePublishPreviewSrcImage: (src, publicationMsg) => {
+            dispatch(changePublishPreviewSrcImage(src, false, publicationMsg));
+        },
+        displayModalPublishPreview: () => {
+            dispatch(displayModalPublishPreview("fileUploadModal"))
         }
     };
 }

@@ -247,17 +247,19 @@ export const getPublishPreviewData = () => {
     }
 }
 
-export const changePublishPreviewSrcImage = (src, photo_id) => {
+export const changePublishPreviewSrcImage = (src, photo_id = false, upload_msg = "") => {
     return {
         type: types.CHANGE_PUBLISH_PREVIEW_SOURCE,
         src,
-        photo_id
+        photo_id,
+        upload_msg
     }
 }
 
-export const displayModalPublishPreview = () => {
+export const displayModalPublishPreview = (origin_modal) => {
     return {
-        type: types.DISPLAY_PUBLISH_CONFIRM_MODAL
+        type: types.DISPLAY_PUBLISH_CONFIRM_MODAL,
+        origin_modal: origin_modal || "modalOpen"
     }
 }
 
@@ -270,5 +272,11 @@ export const confirmPublishPreview = () => {
 export const refusePublishPreview = () => {
     return {
         type: types.REFUSE_PUBLISH_PREVIEW
+    }
+}
+
+export const cancelPreview = () => {
+    return {
+        type: types.CANCEL_PUBLISH_PREVIEW
     }
 }

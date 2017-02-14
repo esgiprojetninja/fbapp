@@ -3,7 +3,9 @@ import PublishConfirmModalComponent from "../ui/PublishConfirmModal";
 import {
     addPhotoToCurrentContest,
     confirmPublishPreview,
-    refusePublishPreview
+    refusePublishPreview,
+    cancelPreview,
+    validPreviewImg
 } from "../actions/participantActions";
 import {
   openNotice
@@ -15,6 +17,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        cancelPreview: () => {
+            dispatch(cancelPreview());
+        },
+        validPreviewUploadImg: (publicationMsg) => {
+            dispatch(validPreviewImg(publicationMsg))
+            dispatch(openNotice());
+        },
         confirmPublishPreview: () => {
             dispatch(confirmPublishPreview());
         },

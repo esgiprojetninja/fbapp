@@ -4,18 +4,28 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import NoticePop from '../container/Notice';
+import Undo from 'material-ui/svg-icons/content/undo';
+
 
 export default class PublishConfirmModal extends React.PureComponent {
 
+    addPhotoToContestAction(){
+        // uploading binary image
+        if ( this.props.participant.publishPreview.photo_id === false ) {
+            this.props.validPreviewUploadImg(this.props.participant.publishPreview.upload_msg);
+        } else {
+            this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id);
+        }
+    }
     confirmPublishlAction() {
         this.props.confirmPublishPreview();
-        this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
+        this.addPhotoToContestAction();
+
     }
 
     refusePublishAction() {
         this.props.refusePublishPreview();
-        this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
+        this.addPhotoToContestAction();
     }
 
     renderPublishPreview() {
@@ -37,6 +47,11 @@ export default class PublishConfirmModal extends React.PureComponent {
 
     render () {
         const actions = [
+            <FlatButton
+                primary={true}
+                icon = {<Undo />}
+                onTouchTap={this.props.cancelPreview}
+            />,
             <FlatButton
               label="Non"
               primary={true}
