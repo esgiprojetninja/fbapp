@@ -207,6 +207,25 @@ export default class FacebookLoader {
         ));
     }
 
+    sharePhoto(access_token, photo, callback) {
+        console.debug("photo", photo, window.location.href);
+        return FB.ui({
+            method : 'share',
+            message: 'sortie tout droit du concours sur pardon maman',
+            picture: photo.fb_source,
+            caption: "Venez voter pour lui",
+            description: 'Un participant au concours organisé par "Pardon Maman !"',
+            name: 'un participant au concours sur Pardon Maman !',
+            href: window.location.href,
+            access_token
+          },
+          (response) => {
+              console.debug("share photo response bruh", response)
+              callback(response)
+          }
+        );
+    }
+
     /* No direct access to this method, it is "private" */
     _getAlbumCover (access_token, album_id) {
         return new Promise ((resolve, reject) => {
