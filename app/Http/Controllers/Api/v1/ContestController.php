@@ -207,7 +207,7 @@ class ContestController extends Controller
     public function getCurrentVotes()
     {
         $currentContest = Contest::where('state', 1)->value('id');
-        $participants = Participant::where('id_contest', $currentContest)->get()->toArray();
+        $participants = Participant::where('id_contest', $currentContest)->orderBy('nb_votes','DESC')->get()->toArray();
         $currentVotes = [];
         foreach($participants as $participant)
         {
