@@ -54,11 +54,23 @@ export default class Loginfb extends React.PureComponent {
     renderHelpButton () {
         return (
             <FlatButton
-                style={{marginTop: "-2px"}}
                 label="aide"
                 secondary={true}
                 href="conf-politics"
             />
+        );
+    }
+
+    renderShareButton () {
+        return (
+            <div
+                className="fb-share-button"
+                data-href="http://esgi.ninja/"
+                data-layout="button_count"
+                data-size="small"
+                data-mobile-iframe="true"
+            >
+            </div>
         );
     }
 }
