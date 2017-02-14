@@ -11,7 +11,6 @@ use App\User;
 //Email purposes
 use Illuminate\Support\Facades\Mail;
 use App\Mail\endContestMail;
-use App\Mail\endContestWinnerMail;
 
 class ContestController extends Controller
 {
@@ -187,8 +186,10 @@ class ContestController extends Controller
     public static function sendEndContestMail()
     {
         $fb = new \App\Facebook();
-        $admins = $fb->getAdminMail();
-        
+        //$admins = $fb->getAdminMail();
+
+        $admins = ['lambot.rom@gmail.com'];
+
         $winnerId = Contest::where('state',1)->value('id_winner');
         $winnerName = User::where('id',$winnerId)->value('name');
         $contestName = Contest::where('state',1)->value('title');
