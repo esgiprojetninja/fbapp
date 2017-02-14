@@ -1,8 +1,9 @@
 import * as legalTypes from "../actions/legalTypes";
 
 const initialSate = {
+    id: 0,
     CGU: "",
-    privacyPolicy: "",
+    privacy_policy: "",
     rules: "",
     isFetching: false,
     erro: ""

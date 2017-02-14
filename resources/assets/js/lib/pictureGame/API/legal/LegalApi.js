@@ -13,4 +13,14 @@ export default class LegalApi {
             callback(response);
         });
     }
+
+    save (data, callback) {
+        return $.ajax({
+            method: "POST",
+            url: this.baseUrl,
+            data
+        }).done(response => {
+            callback(response);
+        });
+    }
 }

@@ -43,7 +43,21 @@ class LegalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $legal = Legal::find($request->all()['id']);
+        if (!$legal) {
+            $legal = new legal();
+        }
+        $legal->fill($request->all());
+        try {
+            $legal->save();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e
+            ]);
+        }
+        return response()->json([
+            'legal' => $legal
+        ]);
     }
 
     /**

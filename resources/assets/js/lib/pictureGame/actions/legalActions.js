@@ -42,3 +42,16 @@ export const changeCGU = (cgu) => {
         cgu : cgu
     };
 }
+
+export const saveLegal = () => {
+    return (dispatch, getState) => {
+        dispatch(requestLegal());
+        legalApi.save(getState().legal, (response) => {
+            if (response.error) {
+                dispatch(receiveError(response.error));
+            } else {
+                dispatch(receiveLegal(response.legal));
+            }
+        })
+    }
+}

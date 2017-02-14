@@ -2,7 +2,8 @@ import {connect} from "react-redux";
 
 import {
     getLegal,
-    changeCGU
+    changeCGU,
+    saveLegal
 } from "../actions/legalActions";
 
 import CGUEditorUI from "../ui/CGUEditor";
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         saveCGU: (content) => {
             dispatch(changeCGU(content));
+            dispatch(saveLegal());
         }
     };
 }
