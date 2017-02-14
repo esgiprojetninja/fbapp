@@ -69,12 +69,12 @@ class Facebook
     */
     public static function getPublishArray($photo_source, $contest_title){
         return array(
-            'message' => 'Je participe au concours '.$contest_title . ' sur ' . env('APP_URL') . ' . Votez pour moi !',
+            'message' => 'Je participe au concours '.$contest_title.'. Venez voter pour moi !',
             'picture' => $photo_source,
             'name' => "Ma participation à ".$contest_title,
             'description' => "",
             'caption' => "Pardonne moi maman",
-            'link' => $photo_source,
+            'link' => env('FB_APP_LINK'),
         );
     }
 
