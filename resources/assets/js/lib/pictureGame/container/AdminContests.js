@@ -105,7 +105,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(storeUISettings(newUISettings));
         },
         onUploadFiles: (files) => {
-            console.log(files);
             dispatch(uploadFiles(files));
         }
     }
