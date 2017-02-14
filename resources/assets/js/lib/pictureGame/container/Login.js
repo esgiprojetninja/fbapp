@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(logout(status));
         },
         onLoginClicked: (status) => {
-            window.location.href = "auth/facebook";
+            top.location.href = "auth/facebook";
         },
         onJoinClicked: (status) => {
             window.location.href = "auth/facebook/joinContest"
