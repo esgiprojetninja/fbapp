@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contest;
 use App\Participant;
+use App\User;
+//Email purposes
+use Illuminate\Support\Facades\Mail;
+use App\Mail\endContestMail;
 
 class ContestController extends Controller
 {
@@ -125,7 +129,7 @@ class ContestController extends Controller
     {
         $contest = Contest::where('state', '1')->get()->first();
         if (!empty($contest)) {
-          $contest->participants = Participant::where('id_contest', $contest->getId())->get();
+            $contest->participants = Participant::where('id_contest', $contest->getId())->get();
         }
         if ($contest == null) {
             $contest = [
@@ -173,6 +177,25 @@ class ContestController extends Controller
         ]);
     }
 
+
+    /**
+    * Sending endContest Mail
+    *
+    * @return boolean
+    */
+    public static function sendEndContestMail()
+    {
+        $fb = new \App\Facebook();
+        $admins = $fb->getAdminMail();
+
+        $winnerId = Contest::where('state',1)->value('id_winner');
+        $winnerName = User::where('id',$winnerId)->value('name');
+        $contestName = Contest::where('state',1)->value('title');
+
+        foreach($admins as $admin){
+            Mail::to($admin)->send(new endContestMail($contestName, $winnerName));
+        }
+    }
 
     /**
     * Set active the contest by it id and put the other as inactive
