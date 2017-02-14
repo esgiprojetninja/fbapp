@@ -5,7 +5,9 @@ import {
     confirmPublishPreview,
     refusePublishPreview
 } from "../actions/participantActions";
-
+import {
+  openNotice
+} from "../actions/noticeActions";
 
 const mapStateToProps = (state) => {
     return state;
@@ -20,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(refusePublishPreview());
         },
         addPhotoToCurrentContest: (photo_id) => {
-            console.debug("diaptching mother fucker", photo_id);
             dispatch(addPhotoToCurrentContest(photo_id));
+            dispatch(openNotice())
         }
     };
 }

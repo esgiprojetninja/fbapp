@@ -16,7 +16,6 @@ export default class ParticipantApi {
     }
 
     store(photo_id, publishAuthorization = false, callback) {
-        console.debug("about to ajax the fuck out with authoraization set to :" , publishAuthorization)
         return $.ajax({
             method: "PUT",
             url: this.apiBaseUrl + photo_id + "/add",

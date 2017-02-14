@@ -1,19 +1,20 @@
 import React, {PropTypes as T} from "react";
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import NoticePop from '../container/Notice';
+
 export default class PublishConfirmModal extends React.PureComponent {
 
     confirmPublishlAction() {
-        console.debug("confirmed publish action");
-        this.props.confirmPublishPreview()
+        this.props.confirmPublishPreview();
         this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
     }
 
     refusePublishAction() {
-        console.debug("refused publish action")
-        this.props.refusePublishPreview()
+        this.props.refusePublishPreview();
         this.props.addPhotoToCurrentContest(this.props.participant.publishPreview.photo_id)
     }
 

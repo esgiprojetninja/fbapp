@@ -181,12 +181,14 @@ const participant = (state = initialSate, action) => {
         case pTypes.CONFIRM_PUBLISH_PREVIEW:
             return {
                 ...state,
-                acceptedFBPublish: true
+                acceptedFBPublish: true,
+                modalOpen: false
             }
         case pTypes.REFUSE_PUBLISH_PREVIEW:
             return {
                 ...state,
-                acceptedFBPublish: false
+                acceptedFBPublish: false,
+                modalOpen: false
             }
         default:
             return state;

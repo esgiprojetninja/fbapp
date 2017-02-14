@@ -129,6 +129,11 @@ export default class HomeCarousel extends React.PureComponent {
         else if (this.props.participant.participationCancelled === "failed" ) {
           return this.renderPostedPictureModal("Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
         }
+        else if ( !this.props.participant.modalOpen &&
+        !this.props.participant.fileUploadModal &&
+        this.props.participant.isFetching ) {
+            return this.renderPostedPictureModal("Votre participation est en cours de traitement")
+        }
     }
 
     renderModal () {
