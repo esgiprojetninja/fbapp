@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
                 ContestController::sendEndContestMail();
                 Contest::where('state', 1)->update(['state'=>2]);
             }
-        })->everyMinute();
+        })->dailyAt('00:01');
     }
 
     /**
