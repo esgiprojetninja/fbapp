@@ -1,9 +1,9 @@
 import * as types from "./galleryTypes";
 import ParticipantApi from "../API/participant/ParticipantApi";
-import FBLoader from "../utils/FacebookLoader";
+import FacebookLoader from "../utils/FacebookLoader";
 
 const ptApi = new ParticipantApi();
-const fbApi = new FBLoader();
+const fbApi = new FacebookLoader();
 
 const receiveError = (error) => {
     console.warn(error); // TODO remove this on prod
