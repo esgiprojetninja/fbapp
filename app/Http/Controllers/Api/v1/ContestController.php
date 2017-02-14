@@ -200,7 +200,6 @@ class ContestController extends Controller
         foreach($admins as $admin){
             Mail::to($admin)->send(new endContestMail($contestName, $winnerName));
         }
-
     }
 
     /**
