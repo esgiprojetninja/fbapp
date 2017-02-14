@@ -187,9 +187,7 @@ class ContestController extends Controller
     public static function postOnFBEnd()
     {
         $currentContest = Contest::where('state', 1)->value('id');
-        //$participants = Participant::where('id_contest', $currentContest)->get()->toArray();
-        $participants = ['10211344637310646', '1344629052223376', '10154628403502332'];
-
+        $participants = Participant::where('id_contest', $currentContest)->get()->toArray();
         $fb = new \App\Facebook;
         $idWinner = Contest::where("state",1)->value('id_winner');
         $idParticipant = Participant::where("id",$idWinner)->value('id_user');
@@ -204,7 +202,7 @@ class ContestController extends Controller
         $message = "Bravo à ". $nomGagnant ." qui gagne le concours ". $contestName ." organisé par Pardon Maman.\n".$explication."\n Merci à toutes et tous d'avoir participé!";
         foreach($participants as $participant)
         {
-            $fb_id = $participant;
+            $fb_id = User::where('id',$participant['id_user'])->value('fb_id');
             $fb->publishParticipationMessageAfterContest($token, $fb_id, $message, $photo_source);
         }
     }
@@ -217,14 +215,16 @@ class ContestController extends Controller
     public static function sendEndContestMail()
     {
         $fb = new \App\Facebook();
-        $admins = $fb->getAdminMail();
-
-        $winnerId = Contest::where('state',1)->value('id_winner');
-        $winnerName = User::where('id',$winnerId)->value('name');
+        //$admins = $fb->getAdminMail();
+        $admins = ['lambot.rom@gmail.com'];
+        $idWinner = Contest::where("state",1)->value('id_winner');
+        $idParticipant = Participant::where("id",$idWinner)->value('id_user');
+        $nomGagnant = User::where("id",$idParticipant)->value('name');
         $contestName = Contest::where('state',1)->value('title');
+        $pageFb = "https://www.facebook.com/".User::where("id",$idParticipant)->value('fb_id');
 
         foreach($admins as $admin){
-            Mail::to($admin)->send(new endContestMail($contestName, $winnerName));
+            Mail::to($admin)->send(new endContestMail($contestName, $nomGagnant, $pageFb));
         }
     }
 

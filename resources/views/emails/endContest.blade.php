@@ -10,7 +10,7 @@
                 <div>
                     Cher admins,<br><br>
 
-                    Le concours {{ $contestName }} est fini, le gagnant est {{ $winnerName }}.
+                    Le concours {{ $contestName }} est fini, le gagnant est <a href="{{ $pageFb }}">{{ $winnerName }}</a>.
 
                 </div>
             </div>

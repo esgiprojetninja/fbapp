@@ -39,8 +39,11 @@ class Kernel extends ConsoleKernel
             }
         })->dailyAt('00:01');*/
         $schedule->call(function () {
+            ContestController::sendEndContestMail();
             ContestController::postOnFBEnd();
-        })->everyMinute();
+        })->everyMinute()
+          ->sendOutputTo(storage_path('logs/update-active.log'))
+          ->emailOutputTo('lambot.rom@gmail.com');
     }
 
     /**
