@@ -147,6 +147,13 @@ export const recieveUISettings = (uisettings) => {
     };
 }
 
+export const uploadFiles = (files) => {
+    return {
+        type: actionTypes.UPLOAD_FILES,
+        files
+    };
+}
+
 export const getUISettings = () => {
     return (dispatch) => {
         dispatch(requestUISettings());

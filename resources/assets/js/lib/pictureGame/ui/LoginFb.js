@@ -54,6 +54,7 @@ export default class Loginfb extends React.PureComponent {
     renderHelpButton () {
         return (
             <FlatButton
+                style={{marginTop: "-2px"}}
                 label="aide"
                 secondary={true}
                 href="conf-politics"

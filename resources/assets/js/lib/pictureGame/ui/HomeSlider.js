@@ -62,9 +62,11 @@ export default class HomeSlider extends React.PureComponent {
         );
     }
 
+
+
     renderSlides () {
         const participantsArray = [
-            {fb_source: "homeCarousel.jpg"},
+            {fb_source: this.props.contest.uisettings.carousel_img},
             ...this.props.participants
         ];
         return participantsArray.map((p, i) => this.renderSlide(p, i));

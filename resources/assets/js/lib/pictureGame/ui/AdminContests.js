@@ -73,7 +73,8 @@ const colors = [
 
 const appColors = {
     default : [
-        '#00BCD4',
+        "#3B5998",
+        "#00BCD4",
         "#CD2431"
     ]
 }
@@ -471,12 +472,21 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsCarousel() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone multiple={false} accept="image/*" onDrop={
+                <Dropzone multiple={true} accept="image/*" onDrop={
                     (files, e) => {
-                        console.log(files);
+                        var reader = new FileReader();
+                        reader.readAsDataURL(files[0]);
+                        reader.onloadend = () => {
+                            let newUISettings = {};
+                            newUISettings = this.props.uisettings;
+                            newUISettings.carousel_img = reader.result;
+                            this.props.onUISettingsChange(newUISettings);
+                        }
                     }
                 }>
-                  <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour ajouter une image dans le carousel</span></div>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}>
+                        <span>Drop ou clique pour changer l'image principal du carousel</span>
+                    </div>
                 </Dropzone>
             </div>
         );
@@ -485,8 +495,21 @@ export default class AdminContests extends React.PureComponent {
     renderSettingsSubmenu() {
         return (
             <div className="full-width text-center vertical-align">
-                <Dropzone>
-                    <div className="full-height vertical-align" style={{padding: "0 10px"}}><span>Drop ou clique pour changer une image du sous-menu</span></div>
+                <Dropzone multiple={true} accept="image/*" onDrop={
+                    (files, e) => {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(files[0]);
+                        reader.onloadend = () => {
+                            let newUISettings = {};
+                            newUISettings = this.props.uisettings;
+                            newUISettings.submenu_img = reader.result;
+                            this.props.onUISettingsChange(newUISettings);
+                        }
+                    }
+                }>
+                    <div className="full-height vertical-align" style={{padding: "0 10px"}}>
+                        <span>Drop ou clique pour changer l'image du sous-menu</span>
+                    </div>
                 </Dropzone>
             </div>
         );
