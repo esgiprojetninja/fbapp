@@ -1,7 +1,9 @@
 import * as types from "./galleryTypes";
 import ParticipantApi from "../API/participant/ParticipantApi";
+import FacebookLoader from "../utils/FacebookLoader";
 
 const ptApi = new ParticipantApi();
+const fbApi = new FacebookLoader();
 
 const receiveError = (error) => {
     console.warn(error); // TODO remove this on prod
@@ -73,5 +75,41 @@ export const voteSuccessNoticed = () => {
 export const noticedVoteErrorMsg = () => {
     return {
         type: types.VOTE_FAIL_MSG_NOTICE
+    }
+}
+
+const receivePhotoShared = (response) => {
+    return {
+        type: types.RECEIVE_PHOTO_SHARED
+    }
+}
+
+const requestSharePhoto = (data) => {
+    return {
+        type: types.REQUEST_SHARE_PHOTO
+    }
+}
+
+export const sharePhoto = () => {
+    return (dispatch, getState) => {
+        dispatch(requestSharePhoto())
+        fbApi.sharePhoto(
+            getState().user.data.token,
+            getState().gallery.consultingPhoto,
+            (response) => {
+                if ( response && response.post_id ) {
+                    dispatch(receivePhotoShared(response));
+                } else {
+                  if (response === undefined){
+                      response = {
+                          error: true,
+                          error_message: "Partage annulé"
+                      };
+                  }
+                  dispatch(receiveError(response.error_message));
+                }
+
+            }
+        )
     }
 }

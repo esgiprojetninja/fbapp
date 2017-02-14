@@ -297,8 +297,8 @@ export default class AdminContests extends React.PureComponent {
                      icon={<DoneIcon />}
                      backgroundColor = "#e4e3e3"
                      data-contest={contest}
-                     onTouchTap={(ev) => {
-                       this.props.onActivateContestClick(ev, contest);
+                     onTouchTap={() => {
+                       this.props.onActivateContestClick(contest.id);
                      }}
                      style={{minWidth: "40px", margin: "0 2px"}}
                      className="hidden-md hidden-lg"

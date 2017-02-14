@@ -4,7 +4,7 @@ import {GridList, GridTile} from "material-ui/GridList";
 import FlatButton from "material-ui/FlatButton";
 import AutoNew from 'material-ui/svg-icons/action/autorenew';
 
-import UserAlbumPhoto from "./UserAlbumPhoto";
+import UserAlbumPhoto from "../container/UserAlbumPhoto";
 
 export default class UserAlbum extends React.PureComponent {
     renderTiles(){

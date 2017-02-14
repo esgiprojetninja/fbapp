@@ -5,7 +5,8 @@ import {
     openPhoto,
     voteForDisplaidPhoto,
     voteSuccessNoticed,
-    noticedVoteErrorMsg
+    noticedVoteErrorMsg,
+    sharePhoto
 } from "../actions/galleryActions";
 import {
     reloadCurrentParticipantAfterVote
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         noticedVoteErrorMsg: () => {
             dispatch(noticedVoteErrorMsg());
+        },
+        sharePhoto: () => {
+            dispatch(sharePhoto());
         }
     };
 }

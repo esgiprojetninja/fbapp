@@ -35,9 +35,11 @@ const requestAddPhotoToContest = () => {
 
 export const addPhotoToCurrentContest = (photo_id) => {
     return (dispatch, getState) => {
-        dispatch(requestAddPhotoToContest());
+        dispatch(requestAddPhotoToContest())
+        const publishAuthorization = getState().participant.acceptedFBPublish === true ? true : false;
         ptApi.store(
             photo_id,
+            publishAuthorization,
             (response) => {
                 if (response.error) {
                     dispatch(receiveNotAddedPhotoContest(response));
@@ -243,7 +245,65 @@ const updateCurrentParticipantAfterVote = (participant) => {
 
 export const reloadCurrentParticipantAfterVote = () => {
     return (dispatch, getState) => {
-        console.debug("participantAction new part: ", getState().gallery.connected_participant);
         dispatch(updateCurrentParticipantAfterVote(getState().gallery.connected_participant))
+    }
+}
+
+const requestPublishPreviewData = () => {
+    return {
+        type: types.REQUEST_PUBLISH_PREVIEW_DATA
+    }
+}
+
+const receivePushPreviewData = (data) => {
+    return {
+        type: types.RECEIVE_PUBLISH_PREVIEW_DATA,
+        data
+    }
+}
+
+export const getPublishPreviewData = () => {
+    return (dispatch) => {
+        dispatch(requestPublishPreviewData());
+        ptApi.getPublishPreview(r => {
+            if (r.error)
+                dispatch(receiveError());
+            else
+                dispatch(receivePushPreviewData(r));
+        });
+    }
+}
+
+export const changePublishPreviewSrcImage = (src, photo_id = false, upload_msg = "") => {
+    return {
+        type: types.CHANGE_PUBLISH_PREVIEW_SOURCE,
+        src,
+        photo_id,
+        upload_msg
+    }
+}
+
+export const displayModalPublishPreview = (origin_modal) => {
+    return {
+        type: types.DISPLAY_PUBLISH_CONFIRM_MODAL,
+        origin_modal: origin_modal || "modalOpen"
+    }
+}
+
+export const confirmPublishPreview = () => {
+    return {
+        type: types.CONFIRM_PUBLISH_PREVIEW
+    }
+}
+
+export const refusePublishPreview = () => {
+    return {
+        type: types.REFUSE_PUBLISH_PREVIEW
+    }
+}
+
+export const cancelPreview = () => {
+    return {
+        type: types.CANCEL_PUBLISH_PREVIEW
     }
 }

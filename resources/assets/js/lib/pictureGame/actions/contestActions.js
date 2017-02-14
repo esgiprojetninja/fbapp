@@ -123,6 +123,7 @@ export const activateContest = (id) => {
         contestApi.activate(id, (response) => {
             if(!response.error) {
                 dispatch(getContests());
+                dispatch(getCurrentContest());
             } else {
                 dispatch(recieveError(response.error));
             }
@@ -346,7 +347,6 @@ export const hoverFullscreen = () => {
 }
 
 const updateParticipantAfterVote = (participant) => {
-    console.debug("contestAction dispatching: ", participant)
     return {
         type: actionTypes.UPDATE_PARTICIPANT_AFTER_VOTE,
         participant

@@ -190,7 +190,7 @@ export default class FacebookLoader {
             type: "POST",
             data: fd,
             processData: false,
-            contentType: false,
+            contentType: "jsonp",
             cache: false,
         }).done(response => {
             callback(response);
@@ -205,6 +205,23 @@ export default class FacebookLoader {
             {access_token: accessToken},
             callback
         ));
+    }
+
+    sharePhoto(access_token, photo, callback) {
+        return FB.ui({
+            method : 'share',
+            message: 'sortie tout droit du concours sur pardon maman',
+            picture: photo.fb_source,
+            caption: "Venez voter pour lui",
+            description: 'Un participant au concours organisé par "Pardon Maman !"',
+            name: 'un participant au concours sur Pardon Maman !',
+            href: window.location.href,
+            access_token
+          },
+          (response) => {
+              callback(response)
+          }
+        );
     }
 
     /* No direct access to this method, it is "private" */

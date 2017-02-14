@@ -115,6 +115,7 @@ export default class HomeSlider extends React.PureComponent {
         if (this.props.user.photoScopeGranted) {
             this.props.toggleSubmitPhotoModal();
             this.props.getFbAlbums();
+            this.props.getPublishPreviewData();
         } else {
             // Checking for photo access permissions
             this.props.startPlaying()
@@ -133,5 +134,6 @@ HomeSlider.propTypes = {
     getFbAlbums: T.func.isRequired,
     toggleSubmitPhotoModal: T.func.isRequired,
     startPlaying: T.func.isRequired,
+    getPublishPreviewData: T.func.isRequired,
     toggleConsultingPostedPhoto: T.func.isRequired
 };

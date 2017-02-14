@@ -23,10 +23,15 @@ Route::group(['middleware' => 'api', 'prefix' => '/v1'], function () {
     Route::get('/auth/me/', 'Api\v1\AuthController@getMe');
     Route::get('/auth/logout/', 'Api\v1\AuthController@logout');
     Route::get('/auth/isAdmin/', 'Api\v1\AuthController@isAdmin');
+
+    //Mailing API routes
+    Route::get('/mail/endContest','Api\v1\ContestController@sendEndContestMail');
+
     Route::put('/participants/{id}/add', 'Api\v1\ParticipantController@store');
     Route::post('/participants/deleteFromCurrent', 'Api\v1\ParticipantController@destroyByIdUserAndIdContest');
     Route::get('/participants/current', 'Api\v1\ParticipantController@getParticipantsByContest');
     Route::get('/participants/current-participant', 'Api\v1\ParticipantController@getCurrentParticipant');
+    Route::get('/participants/publish-preview', 'Api\v1\ParticipantController@getPublishPreviewForm');
     Route::resource('uisettings', 'Api\v1\UISettingsController');
 });
 

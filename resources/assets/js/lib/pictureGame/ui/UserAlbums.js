@@ -3,7 +3,7 @@ import React, {PropTypes as T} from "react";
 import {GridList} from "material-ui/GridList";
 
 import Spinner from "./Spinner";
-import UserAlbumPhoto from "./UserAlbumPhoto";
+import UserAlbumPhoto from "../container/UserAlbumPhoto";
 
 export default class UserAlbums extends React.PureComponent {
     render () {

@@ -4,13 +4,25 @@ import ContestPicture from "../container/ContestPicture";
 import Snackbar from 'material-ui/Snackbar';
 import {RaisedButton} from "material-ui";
 import Lightbox from "react-image-lightbox";
+import Share from 'material-ui/svg-icons/social/share';
 
 export default class ContestPicture extends React.PureComponent {
+    constructor() {
+        this.style = {
+            actionButton: {
+                margin: "0 5px"
+            }
+        }
+    }
     switchToPrevImageAction() {
         this.props.openImage(this.prevPhoto.id);
     }
     switchToNextImageAction() {
         this.props.openImage(this.nextPhoto.id);
+    }
+
+    sharePhotoAction() {
+        this.props.sharePhoto();
     }
 
     getDeltaPhoto(aimedKeyDelta) {
@@ -27,8 +39,9 @@ export default class ContestPicture extends React.PureComponent {
     }
 
     renderToolbar() {
+        const actions = []
         if ( this.props.participant.currentParticipant.voted_for === 0 ) {
-            return [
+            actions.push(
                 <RaisedButton
                     label="Voter pour cette photo"
                     labelPosition="before"
@@ -36,32 +49,46 @@ export default class ContestPicture extends React.PureComponent {
                     labelColor="#fff"
                     value={0}
                     onTouchTap={this.props.voteForDisplaidPic}
+                    style={this.style.actionButton}
                 />
-            ];
+            );
         } else {
-            return [
+            actions.push(
                 <RaisedButton
                     label="Vous avez déjà voté"
                     labelPosition="before"
                     backgroundColor={this.props.contest.color}
                     labelColor="#fff"
                     value={0}
+                    style={this.style.actionButton}
                 />
-            ];
+            );
         }
+        actions.push(
+            <RaisedButton
+              backgroundColor={this.props.contest.color}
+              labelColor="#fff"
+              value={1}
+              icon={<Share/>}
+              onTouchTap={this.sharePhotoAction.bind(this)}
+              style={this.style.actionButton}
+            />
+        );
+        return actions;
     }
 
     renderVoteInProcess() {
         return (
           <Snackbar
-            message="vote en cours de traitement"
-            open={this.props.gallery.isFetching}
+            message="Vote en cours de traitement"
+            open={this.props.gallery.isFetching && this.props.gallery.votingSuccess === "ongoing" }
           />
         )
     }
 
+
     renderVoteSuccessNotice() {
-        const openCondition = this.props.gallery.errorMsg === false && this.props.gallery.isFetching === false && this.props.gallery.connected_participant !== false && this.props.gallery.aimed_participant !== false;
+        const openCondition = this.props.gallery.isFetching === false && this.props.gallery.votingSuccess === true;
         return (
             <Snackbar
               message="Votre vote est enregistré"
@@ -74,8 +101,30 @@ export default class ContestPicture extends React.PureComponent {
         )
     }
 
-    renderVoteError() {
-        const openCondition = this.props.gallery.errorMsg !== false && this.props.gallery.isFetching === false;
+    renderShareSuccess() {
+        const openCondition = this.props.gallery.isFetching === false && this.props.gallery.sharingSuccess === true;
+        return (
+            <Snackbar
+              message="Partage effectué"
+              open={openCondition}
+              onRequestClose={this.props.voteSuccessNoticed}
+              autoHideDuration={5000}
+              action="OK"
+              onActionTouchTap={this.props.voteSuccessNoticed}
+            />
+        )
+    }
+
+    renderShareInProcess() {
+        return (
+          <Snackbar
+            message="Partage en cours de traitement"
+            open={this.props.gallery.isFetching && this.props.gallery.sharingSuccess === "ongoing"}
+          />
+        )
+    }
+    renderErrorNotice() {
+        const openCondition = typeof this.props.gallery.errorMsg === "string" && this.props.gallery.isFetching === false;
         if ( !openCondition ) { return; }
         return (
             <Snackbar
@@ -119,7 +168,9 @@ export default class ContestPicture extends React.PureComponent {
                 {this.renderLightBox()}
                 {this.renderVoteInProcess()}
                 {this.renderVoteSuccessNotice()}
-                {this.renderVoteError()}
+                {this.renderErrorNotice()}
+                {this.renderShareInProcess()}
+                {this.renderShareSuccess()}
             </div>
         )
     }
@@ -135,5 +186,6 @@ ContestPicture.propTypes = {
     closeImage: T.func.isRequired,
     openImage: T.func.isRequired,
     voteSuccessNoticed: T.func.isRequired,
-    noticedVoteErrorMsg: T.func.isRequired
+    noticedVoteErrorMsg: T.func.isRequired,
+    sharePhoto: T.func.isRequired
 };

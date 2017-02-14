@@ -25,6 +25,7 @@ import UserAlbum from "./UserAlbum";
 import HomeSlider from "../container/HomeSlider";
 import NoticePop from '../container/Notice';
 import ParticipantUpload from "../container/ParticipantUpload";
+import PublishConfirmModal from "../container/PublishConfirmModal";
 
 
 export default class HomeCarousel extends React.PureComponent {
@@ -82,16 +83,6 @@ export default class HomeCarousel extends React.PureComponent {
         return this.props.user.albums.find(album => album.opened);
     }
 
-    playButtonAction () {
-        if (this.props.user.photoScopeGranted) {
-            this.props.toggleSubmitPhotoModal();
-            this.props.getFbAlbums();
-        } else {
-            // Checking for photo access permissions
-            this.props.startPlaying()
-        }
-    }
-
     cancelParticipation () {
         this.props.toggleConsultingPostedPhoto();
         this.props.cancelParticipation();
@@ -127,6 +118,11 @@ export default class HomeCarousel extends React.PureComponent {
         // Participation cancelling didn't work
         else if (this.props.participant.participationCancelled === "failed" ) {
           return this.renderPostedPictureModal("Désolé votre candidature n'a pu être annulée, n'hésitez pas à nous laisser un message si le problème persiste !", this.props.noticedCancelNotice)
+        }
+        else if ( !this.props.participant.modalOpen &&
+        !this.props.participant.fileUploadModal &&
+        this.props.participant.isFetching ) {
+            return this.renderPostedPictureModal("Votre participation est en cours de traitement")
         }
     }
 
@@ -217,6 +213,7 @@ export default class HomeCarousel extends React.PureComponent {
                 <ParticipantUpload
                   participant= {this.props.participant}
                 />
+                <PublishConfirmModal />
             </div>
         );
     }

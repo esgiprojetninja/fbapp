@@ -9,6 +9,9 @@ import PhotoReactions from "./PhotoReactions";
 
 
 export default class UserAlbumPhoto extends React.PureComponent {
+    isOneOfAlbumOpened () {
+        return typeof this.props.user.albums.find(a => a.opened === true) !== "undefined" && this.props.participant.modalOpen === true;
+    }
     render () {
         const imgSrc = this.props.picUrl || "homeCarouselHr.png";
         const imgStyle = {
@@ -50,8 +53,14 @@ export default class UserAlbumPhoto extends React.PureComponent {
         );
     }
 
-    handleClick (id) {
-        this.props.photoClicked(this.props.photoId);
+    handleClick () {
+        // About to choose a photo to participate
+        if ( this.isOneOfAlbumOpened() && this.props.participant.acceptedFBPublish !== true ) {
+            this.props.changePublishPreviewSrcImage(this.props.picUrl || "homeCarouselHr.png", this.props.photoId);
+            this.props.displayModalPublishPreview();
+        } else {
+            this.props.photoClicked(this.props.photoId);
+        }
     }
 }
 
@@ -62,5 +71,7 @@ UserAlbumPhoto.propTypes = {
     title: T.string.isRequired,
     tooltipTitle: T.string.isRequired,
     photoId: T.string.isRequired,
-    reactions: T.object
+    reactions: T.object,
+    changePublishPreviewSrcImage: T.func.isRequired,
+    displayModalPublishPreview: T.func.isRequired
 };

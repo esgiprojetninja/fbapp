@@ -12,7 +12,10 @@ const initialSate = {
     fileUploadedSource: "",
     fileUploadRequest: false,
     fileUploadError: false,
-    currentParticipant: {}
+    currentParticipant: {},
+    acceptedFBPublish: undefined,
+    publishPreview: false,
+    publishOriginModal: "modalOpen"
 };
 
 const participant = (state = initialSate, action) => {
@@ -150,6 +153,55 @@ const participant = (state = initialSate, action) => {
             return {
                 ...state,
                 currentParticipant: action.participant
+            }
+        case pTypes.REQUEST_PUBLISH_PREVIEW_DATA:
+            return {
+                ...state
+            }
+        case pTypes.RECEIVE_PUBLISH_PREVIEW_DATA:
+            return {
+                ...state,
+                publishPreview: action.data
+            }
+        case pTypes.CHANGE_PUBLISH_PREVIEW_SOURCE:
+            return {
+                ...state,
+                acceptedFBPublish: undefined,
+                publishPreview: {
+                    ...state.publishPreview,
+                    picture: action.src,
+                    photo_id: action.photo_id,
+                    upload_msg: action.upload_msg || ""
+                }
+            }
+        case pTypes.DISPLAY_PUBLISH_CONFIRM_MODAL:
+            return {
+                ...state,
+                acceptedFBPublish: "ongoing",
+                modalOpen: false,
+                fileUploadModal: false,
+                publishOriginModal: action.origin_modal
+            }
+        case pTypes.CANCEL_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: false,
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
+            }
+        case pTypes.CONFIRM_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: true,
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
+            }
+        case pTypes.REFUSE_PUBLISH_PREVIEW:
+            return {
+                ...state,
+                acceptedFBPublish: false,
+                modalOpen: state.publishOriginModal === "modalOpen",
+                fileUploadModal: state.publishOriginModal === "fileUploadModal"
             }
         case pTypes.REQUEST_DELETE_PHOTO:
             return {

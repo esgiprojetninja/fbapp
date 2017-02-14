@@ -23,6 +23,7 @@ class CreateParticipantsTable extends Migration
             $table->boolean('has_voted')->default(false);
             $table->integer('nb_votes')->default(0);
             $table->boolean('accepted_cgu');
+            $table->string('id_participation_post')->default('0');
             $table->foreign('id_user')->references('id')->on('users');
         });
     }

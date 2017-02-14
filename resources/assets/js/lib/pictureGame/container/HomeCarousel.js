@@ -19,7 +19,8 @@ import {
     cancelParticipation,
     noticedCancelNotice,
     getCurrentParticipant,
-    displayFileUploadModal
+    displayFileUploadModal,
+    getPublishPreviewData
 } from "../actions/participantActions";
 import {
   openNotice
@@ -69,7 +70,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(toggleSubmitPhotoModal());
         },
         getFbAlbums: () => {
-            dispatch(getFbAlbums())
+            dispatch(getFbAlbums());
         }
     };
 }
