@@ -245,22 +245,14 @@ export const getPublishPreviewData = () => {
     }
 }
 
-const setPublishPreviewSrc = (src) => {
+export const changePublishPreviewSrcImage = (src) => {
     return {
         type: types.CHANGE_PUBLISH_PREVIEW_SOURCE,
         src
     }
 }
 
-export const changePublishPreviewSrcImage = (src) => {
-    return (dispatch, getState) => {
-        dispatch(setPublishPreviewSrc(src));
-        dispatch(receivePushPreviewData(getState().participant.publishPreview.data));
-    }
-}
-
 export const displayModalPublishPreview = () => {
-    console.debug("action warned suckaaa")
     return {
         type: types.DISPLAY_PUBLISH_CONFIRM_MODAL
     }

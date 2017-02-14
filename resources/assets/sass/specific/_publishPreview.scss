@@ -1,0 +1,30 @@
+.publish_preview_container{
+    margin-top: 20px;
+    -webkit-box-shadow: 5px 2px 10px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 2px 10px -1px rgba(0,0,0,0.75);
+    box-shadow: 5px 2px 10px -1px rgba(0,0,0,0.75);
+    padding: 10px;
+    border-left: 1px solid rgba(0,0,0,0.15);
+    padding-bottom: 2px;
+    color: rgba(0, 0, 0, .5);
+}
+.publish_preview_profile_name{
+    color: rgba(0, 0, 0, .7);
+}
+.publish_preview_message{
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+.publish_preview_img_subtitle{
+    margin-left: 6px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: #000;
+    padding: 5px 0 2px 0;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+.publish_preview_container p.caption{
+    margin-left: 6px;
+    margin-bottom: 0;
+    padding: 6px 0;
+}
