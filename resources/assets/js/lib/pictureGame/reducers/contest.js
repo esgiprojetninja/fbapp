@@ -10,7 +10,7 @@ const initialSate = {
         description: "",
         title: "",
         id_winner: 0,
-        state: false
+        state: 0
     },
     currentContest: {
         participants: []
