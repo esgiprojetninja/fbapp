@@ -9,7 +9,8 @@ import {
 
 import {
     toggleSubmitPhotoModal,
-    toggleConsultingPostedPhoto
+    toggleConsultingPostedPhoto,
+    getPublishPreviewData
 } from "../actions/participantActions";
 
 const mapStateToProps = (state) => {
@@ -34,6 +35,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         startPlaying: () => {
             dispatch(getPhotoScope());
+        },
+        getPublishPreviewData: () => {
+            dispatch(getPublishPreviewData());
         }
     };
 }

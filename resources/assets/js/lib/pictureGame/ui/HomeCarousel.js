@@ -83,16 +83,6 @@ export default class HomeCarousel extends React.PureComponent {
         return this.props.user.albums.find(album => album.opened);
     }
 
-    playButtonAction () {
-        if (this.props.user.photoScopeGranted) {
-            this.props.toggleSubmitPhotoModal();
-            this.props.getFbAlbums();
-        } else {
-            // Checking for photo access permissions
-            this.props.startPlaying()
-        }
-    }
-
     cancelParticipation () {
         this.props.toggleConsultingPostedPhoto();
         this.props.cancelParticipation();

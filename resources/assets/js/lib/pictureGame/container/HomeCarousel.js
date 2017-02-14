@@ -36,7 +36,6 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getCurrentContest());
             dispatch(getCurrentParticipant());
-            dispatch(getPublishPreviewData());
         },
         getFbAlbumPhotos: (album_id) => {
             dispatch(getFbAlbumPhotos(album_id))
@@ -71,7 +70,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(toggleSubmitPhotoModal());
         },
         getFbAlbums: () => {
-            dispatch(getFbAlbums())
+            dispatch(getFbAlbums());
         }
     };
 }
