@@ -2,6 +2,8 @@
 
 namespace App;
 
+use DateTime;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Contest extends Model
@@ -31,9 +33,9 @@ class Contest extends Model
         return $this->id_winner;
     }
 
-    public function setDates () { // For testing purpose
-        $this->start_date = new \DateTime();
-        $this->end_date = new \DateTime();
+    public function formatDates () {
+        $this->start_date = new DateTime($this->start_date);
+        $this->end_date = new DateTime($this->end_date);
     }
 
     public static function currentlyActive(){
