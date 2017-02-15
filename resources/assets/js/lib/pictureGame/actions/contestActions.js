@@ -365,3 +365,9 @@ export const removeParticipantFromCurrentContest = (id_user) => {
         id_user
     }
 }
+
+export const openCGU = () => {
+    return {
+        type: actionTypes.OPEN_CGU
+    };
+}

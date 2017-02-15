@@ -41,4 +41,5 @@ Route::group(['middleware' => ['api', 'admin'], 'prefix' => '/v1'], function () 
     Route::resource('contests', 'Api\v1\ContestController');
     Route::resource('users', 'Api\v1\UserController');
     Route::get('/contests/current/votes', 'Api\v1\ContestController@getCurrentVotes');
+    Route::resource('legals', 'Api\v1\LegalController');
 });

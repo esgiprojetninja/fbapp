@@ -8,6 +8,7 @@ import {
     changeColorGallery,
     openAdmin,
     closeAdmin,
+    openCGU,
     openSettings,
     openEvents,
     openExport,
@@ -80,6 +81,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onOpenSettingsGallery: () => {
             dispatch(openSettingsGallery());
+        },
+        onOpenCGU: () => {
+            dispatch(openCGU());
         },
         onOpenSettingsMenu: () => {
             dispatch(openSettingsMenu());
