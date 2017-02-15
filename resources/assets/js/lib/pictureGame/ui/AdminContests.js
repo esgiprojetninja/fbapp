@@ -605,7 +605,11 @@ export default class AdminContests extends React.PureComponent {
         }
         if(this.props.openCGU) {
             return (
-                <CGUEditor />
+                <div className="full-width" style={{alignSelf: "flex-start"}}>
+                    <div>
+                      <CGUEditor />
+                    </div>
+                </div>
             );
         }
     }
@@ -645,7 +649,7 @@ export default class AdminContests extends React.PureComponent {
                             <div className="admin-sidebar-mobile hidden-md hidden-lg">
                                 {this.renderAdminSideBarMobile()}
                             </div>
-                            <div style={{width: "257px", display: "inline-block"}} className="admin-sidebar hidden-sm hidden-xs">
+                            <div style={{width: "257px", display: "inline-block", alignSelf: "flex-start"}} className="admin-sidebar hidden-sm hidden-xs">
                                 {this.renderAdminSideBar()}
                             </div>
                             {this.renderAdminBody()}

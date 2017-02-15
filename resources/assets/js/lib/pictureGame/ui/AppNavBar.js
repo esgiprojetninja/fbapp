@@ -68,7 +68,7 @@ export default class AppNavBar extends React.PureComponent {
                 iconElementRight={
                     <div>
                         <FlatButton
-                            label="Home"
+                            label="Accueil"
                             href="/"
                         />
                         <FlatButton
