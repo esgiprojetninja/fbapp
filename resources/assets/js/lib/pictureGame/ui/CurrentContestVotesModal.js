@@ -19,7 +19,8 @@ export default class CurrentContestVotesModal extends React.PureComponent {
                 minHeight: "100px"
             },
             actionsBtn : {
-                margin: "0 2px"
+                margin: "0 2px",
+                minWidth: "10px"
             }
         }
         this.removeParticipantAction = this.removeParticipantAction.bind(this);
@@ -48,7 +49,6 @@ export default class CurrentContestVotesModal extends React.PureComponent {
                             style={this.style.actionsBtn}
                             backgroundColor={this.props.contest.color}
                             icon={<DeleteIcon color={fullWhite}/>}
-                            className="hidden-sm hidden-xs"
                             primary={true}
                             onTouchTap={() => {tapAction(participant.id_user);}}
                         />
