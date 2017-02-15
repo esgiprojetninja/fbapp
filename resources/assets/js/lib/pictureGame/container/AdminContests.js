@@ -126,8 +126,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         onReceivedFbPicture: (response) => {
             dispatch(receivedFbPicture(response));
-        }
-	openVotes: () => {
+        },
+        openVotes: () => {
             dispatch(getCurrentContestVoters());
             dispatch(openVotes());
             dispatch(closeAdmin());
