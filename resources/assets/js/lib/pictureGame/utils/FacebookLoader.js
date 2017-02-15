@@ -111,6 +111,19 @@ export default class FacebookLoader {
         ));
     }
 
+    getMyPicture (access_token, user_id, callback) {
+        $.ajax({
+            url: "https://graph.facebook.com/me?access_token=" + access_token,
+            dataType: 'json',
+        }).done(response => {
+            return this.initFbScript().then(() => FB.api(
+                "/" + response.id + "/picture?type=large",
+                {access_token: access_token},
+                callback
+            ));
+        });
+    }
+
     getMyAlbums (access_token, callback) {
         const url = "/me/albums";
         return this.initFbScript().then(() => FB.api(
