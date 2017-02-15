@@ -27,8 +27,8 @@ export default class Gallery extends React.PureComponent {
                         <div className="grid-gradient" style={{background: this.props.contest.uisettings.gallery_color}}>
                         </div>
                         <div className="grid-desc">
-                            <span className="grid-desc-title">{p.title || "-"}</span>
-                            <span className="grid-desc-caption">{p.caption || "-"}</span>
+                            <span className="grid-desc-title">{p.title || ""}</span>
+                            <span className="grid-desc-caption">{p.caption || ""}</span>
                             <span className="grid-desc-author">Nombre de vote: {p.nb_votes || 0}</span>
                         </div>
                     </div>

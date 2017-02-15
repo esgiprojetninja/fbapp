@@ -33,7 +33,7 @@ export default class FacebookLoader {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
                         js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/es_LA/sdk.js";
+                        js.src = "//connect.facebook.net/fr_FR/sdk.js";
                         fjs.parentNode.insertBefore(js, fjs);
                     })(document, 'script', 'facebook-jssdk');
                 }
@@ -109,6 +109,19 @@ export default class FacebookLoader {
             {access_token: access_token},
             callback
         ));
+    }
+
+    getMyPicture (access_token, user_id, callback) {
+        $.ajax({
+            url: "https://graph.facebook.com/me?access_token=" + access_token,
+            dataType: 'json',
+        }).done(response => {
+            return this.initFbScript().then(() => FB.api(
+                "/" + response.id + "/picture?type=large",
+                {access_token: access_token},
+                callback
+            ));
+        });
     }
 
     getMyAlbums (access_token, callback) {

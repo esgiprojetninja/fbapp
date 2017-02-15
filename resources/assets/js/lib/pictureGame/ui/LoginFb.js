@@ -61,6 +61,19 @@ export default class Loginfb extends React.PureComponent {
             />
         );
     }
+
+    renderShareButton () {
+        return (
+            <div
+                className="fb-share-button"
+                data-href="http://esgi.ninja/"
+                data-layout="button_count"
+                data-size="small"
+                data-mobile-iframe="true"
+            >
+            </div>
+        );
+    }
 }
 
 Loginfb.propTypes = {

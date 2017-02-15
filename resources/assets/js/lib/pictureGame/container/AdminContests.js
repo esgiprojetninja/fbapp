@@ -25,7 +25,9 @@ import {
     hoverFullscreen,
     getUISettings,
     storeUISettings,
-    uploadFiles
+    uploadFiles,
+    getFbPicture,
+    receivedFbPicture
 } from "../actions/contestActions";
 import {
     openVotes,
@@ -34,6 +36,9 @@ import {
 import AdminContestsComponent from "../ui/AdminContests";
 
 const mapStateToProps = (state) => {
+    if(state.user){
+        state.contest.user = state.user;
+    }
     return state.contest;
 }
 
@@ -42,6 +47,7 @@ const mapDispatchToProps = (dispatch) => {
         onReady: () => {
             dispatch(getContests());
             dispatch(getUISettings());
+            dispatch(getFbPicture());
         },
         onCreateModalOpenClick: (ev, contest) => {
             dispatch(toggleCreateModal(contest));
@@ -114,6 +120,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUploadFiles: (files) => {
             dispatch(uploadFiles(files));
+        },
+        onGetFbPicture: (user_id, response) => {
+            dispatch(getFbPicture(user_id, response));
+        },
+        onReceivedFbPicture: (response) => {
+            dispatch(receivedFbPicture(response));
         },
         openVotes: () => {
             dispatch(getCurrentContestVoters());
