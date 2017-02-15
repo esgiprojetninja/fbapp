@@ -20,7 +20,8 @@ export default class CurrentContestVotesModal extends React.PureComponent {
             },
             actionsBtn : {
                 margin: "0 2px",
-                minWidth: "10px"
+                minWidth: "10px",
+                width: "100%"
             }
         }
         this.removeParticipantAction = this.removeParticipantAction.bind(this);
