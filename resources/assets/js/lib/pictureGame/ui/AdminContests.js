@@ -146,7 +146,7 @@ export default class AdminContests extends React.PureComponent {
                     style={{padding: "0 15px"}}
                 />
                 <FlatButton
-                    label="Importation"
+                    label="Export"
                     primary={true}
                     onClick={this.props.onOpenExport}
                     style={{padding: "0 15px"}}
@@ -190,6 +190,12 @@ export default class AdminContests extends React.PureComponent {
                             primaryText="Export"
                             secondaryText="Exporter la liste des utilisateurs"
                             onClick={this.props.onOpenExport}
+                        />
+                        <ListItem
+                            style={{padding: "0 15px"}}
+                            primaryText="Documents"
+                            secondaryText="Éditer les documents"
+                            onClick={this.props.onOpenCGU}
                         />
                     </List>
                 </div>
