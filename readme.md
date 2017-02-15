@@ -15,6 +15,7 @@ This is as school (but real) project.
 ```sh
 $ cd [wherever/you/cloned/this]
 $ composer install
+$ php artisan migrate
 $ npm install
 $ gulp
 ```
