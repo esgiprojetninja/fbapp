@@ -17,7 +17,6 @@ const receiveError = (error) => {
 }
 
 const receiveLegal = (legal) => {
-    console.debug(legal);
     return {
         type: legalTypes.RECEIVE_LEGAL,
         legal: legal
@@ -41,6 +40,20 @@ export const changeCGU = (cgu) => {
     return {
         type: legalTypes.CHANGE_CGU,
         cgu : cgu
+    };
+}
+
+export const changePrivacyPolicy = (privacy_policy) => {
+    return {
+        type: legalTypes.CHANGE_PRIVACY_POLICY,
+        privacy_policy : privacy_policy
+    };
+}
+
+export const changeRules = (rules) => {
+    return {
+        type: legalTypes.CHANGE_RULES,
+        rules : rules
     };
 }
 

@@ -9,15 +9,12 @@ export default class RichEditor extends React.PureComponent {
         this.state = {editorState: EditorState.createEmpty()};
         this.onChange = (editorState) => this.setState({editorState});
         this.saveData = this.saveData.bind(this);
-        // Rich example
-         this.focus = () => this.refs.editor.focus();
-         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-         this.onTab = (e) => this._onTab(e);
-         this.toggleBlockType = (type) => this._toggleBlockType(type);
-         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+        this.focus = () => this.refs.editor.focus();
+        this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+        this.onTab = (e) => this._onTab(e);
+        this.toggleBlockType = (type) => this._toggleBlockType(type);
+        this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
     }
-
-    //******************* Rich example **********************//
 
     _handleKeyCommand(command) {
         const {editorState} = this.state;
@@ -51,8 +48,6 @@ export default class RichEditor extends React.PureComponent {
             )
         );
     }
-
-    //******************* Rich example **********************//
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.text.length > 0) {
@@ -112,7 +107,6 @@ export default class RichEditor extends React.PureComponent {
 
 RichEditor.propTypes = {
     text: T.string.isRequired,
-    //textChanged: T.func.isRequired,
     saveData: T.func.isRequired
 };
 

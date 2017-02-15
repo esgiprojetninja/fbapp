@@ -39,6 +39,16 @@ const legal = (state = initialSate, action) => {
                 ...state,
                 cgu: action.cgu
             }
+        case legalTypes.CHANGE_PRIVACY_POLICY:
+            return {
+                ...state,
+                privacy_policy: action.privacy_policy
+            }
+        case legalTypes.CHANGE_RULES:
+            return {
+                ...state,
+                rules: action.rules
+            }
         default:
             return state;
     }

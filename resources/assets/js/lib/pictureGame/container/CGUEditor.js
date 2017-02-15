@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {
     getLegal,
     changeCGU,
+    changePrivacyPolicy,
+    changeRules,
     saveLegal
 } from "../actions/legalActions";
 
@@ -22,6 +24,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         saveCGU: (content) => {
             dispatch(changeCGU(content));
+            dispatch(saveLegal());
+        },
+        savePrivacyPolicy: (content) => {
+            dispatch(changePrivacyPolicy(content));
+            dispatch(saveLegal());
+        },
+        saveRules: (content) => {
+            dispatch(changeRules(content));
             dispatch(saveLegal());
         }
     };
