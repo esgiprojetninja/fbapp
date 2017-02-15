@@ -69,7 +69,7 @@ export default class ContestPicture extends React.PureComponent {
               backgroundColor={this.props.contest.color}
               labelColor="#fff"
               value={1}
-              icon={<Share/>}
+              label="Partager sur facebook"
               onTouchTap={this.sharePhotoAction.bind(this)}
               style={this.style.actionButton}
             />
@@ -146,9 +146,9 @@ export default class ContestPicture extends React.PureComponent {
                {this.props.gallery.open &&
                    <Lightbox
                        mainSrc={this.props.gallery.consultingPhoto.fb_source}
-                       imageTitle={this.props.gallery.consultingPhoto.title || "-"}
+                       imageTitle={this.props.gallery.consultingPhoto.title || ""}
                        imagePadding={35}
-                       imageCaption={this.props.gallery.consultingPhoto.caption || "--"}
+                       imageCaption={this.props.gallery.consultingPhoto.caption || ""}
                        nextSrc={this.nextPhoto.fb_source}
                        prevSrc={this.prevPhoto.fb_source}
                        onMovePrevRequest={this.switchToPrevImageAction.bind(this)}
