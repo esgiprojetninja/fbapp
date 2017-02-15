@@ -31,6 +31,11 @@ export default class CurrentContestVotesModal extends React.PureComponent {
     renderRows() {
         // name, source, nb_votes, id
         const tapAction = this.removeParticipantAction.bind(this);
+        if ( this.props.vote.participants.length === 0 ) {
+            return (
+                <div className="full-width text-left">Aucun participant à l'heure actuelle</div>
+            );
+        }
         return this.props.vote.participants.map((participant, key) => (
             <TableRow key={key}>
                 <TableRowColumn
@@ -92,7 +97,12 @@ export default class CurrentContestVotesModal extends React.PureComponent {
         );
     }
 
+    getActions() {
+
+    }
+
     render () {
+        const actions = getActions();
         return (
             <Dialog
               title={"Votes courant : " + this.props.contest.currentContest.title}
