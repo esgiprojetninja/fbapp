@@ -111,20 +111,20 @@ const requestParticipationCancelling = () => {
 }
 
 export const cancelParticipation = (user_id = false, contest_id = false) => {
-  return (dispatch, getState) => {
-    dispatch(requestParticipationCancelling())
-    ptApi.deleteFromCurrent(
-      {user_id, contest_id},
-      (response) => {
-        if (response.deleted === true) {
-          dispatch(receivedParticipationCancelling(getState().user.data.fb_id));
-          dispatch(getCurrentContest());
-        } else {
-          dispatch(errorOnParticipationCancelling(response));
-        }
-      }
-    )
-  }
+    return (dispatch, getState) => {
+        dispatch(requestParticipationCancelling())
+        ptApi.deleteFromCurrent(
+            {user_id, contest_id},
+            (response) => {
+                if (response.deleted === true) {
+                    dispatch(receivedParticipationCancelling(getState().user.data.fb_id));
+                    dispatch(getCurrentContest());
+                } else {
+                    dispatch(errorOnParticipationCancelling(response));
+                }
+            }
+        )
+    }
 }
 
 export const noticedCancelNotice = () => {

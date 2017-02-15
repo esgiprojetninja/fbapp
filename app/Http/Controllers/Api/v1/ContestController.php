@@ -214,6 +214,7 @@ class ContestController extends Controller
             $currentVotes[] = [
               'id'=>$participant['id'],
               "nb_votes"=>$participant['nb_votes'],
+              "id_user"=>$participant['id_user'],
               'name'=>User::where('id',$participant['id_user'])->value('name'),
               'fb_src'=>$participant['fb_source'],
               'id_fb_photo'=>$participant['id_fb_photo']

@@ -358,3 +358,10 @@ export const reloadContestParticipantAfterVote = () => {
         dispatch(updateParticipantAfterVote(getState().gallery.aimed_participant))
     }
 }
+
+export const removeParticipantFromCurrentContest = (id_user) => {
+    return {
+        type: actionTypes.REMOVE_PARTICIPANT_AFTER_ADMIN_REMOVE,
+        id_user
+    }
+}

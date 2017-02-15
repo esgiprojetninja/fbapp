@@ -31,6 +31,17 @@ const contest = (state = initialSate, action) => {
                 isFetching: false,
                 participants: action.data
             }
+        case voteTypes.REQUEST_PARTICIPATION_REMOVE:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case voteTypes.RECEIVED_PARTICIPATION_CANCELLING:
+            return {
+                ...state,
+                isFetching: false,
+                participants: state.participants.filter(p => p.id_user != action.id_user)
+            }
         default:
             return state;
     }

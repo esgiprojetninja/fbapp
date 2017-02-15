@@ -1,22 +1,38 @@
 import React, {PropTypes as T} from "react";
 
+import Spinner from './Spinner';
+
 import Dialog from 'material-ui/Dialog';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
 
-import Spinner from './Spinner';
+import {fullWhite} from 'material-ui/styles/colors';
+
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+
 
 export default class CurrentContestVotesModal extends React.PureComponent {
     constructor() {
         this.style = {
             table: {
                 minHeight: "100px"
+            },
+            actionsBtn : {
+                margin: "0 2px"
             }
         }
+        this.removeParticipantAction = this.removeParticipantAction.bind(this);
     }
+
+    removeParticipantAction(id_user){
+        this.props.cancelParticipation(id_user);
+    }
+
     renderRows() {
         // name, source, nb_votes, id
-        return this.props.vote.participants.map(participant => (
-            <TableRow key={participant.id}>
+        const tapAction = this.removeParticipantAction.bind(this);
+        return this.props.vote.participants.map((participant, key) => (
+            <TableRow key={key}>
                 <TableRowColumn
                   children={<img className="full-height width-auto votes_consult_row_column_img" src={participant.fb_src} />}
                 ></TableRowColumn>
@@ -25,6 +41,18 @@ export default class CurrentContestVotesModal extends React.PureComponent {
                 </TableRowColumn>
                 <TableRowColumn>
                     {participant.nb_votes}
+                </TableRowColumn>
+                <TableRowColumn>
+                    <div>
+                        <FlatButton
+                            style={this.style.actionsBtn}
+                            backgroundColor={this.props.contest.color}
+                            icon={<DeleteIcon color={fullWhite}/>}
+                            className="hidden-sm hidden-xs"
+                            primary={true}
+                            onTouchTap={() => {tapAction(participant.id_user);}}
+                        />
+                    </div>
                 </TableRowColumn>
             </TableRow>
         ));
@@ -50,7 +78,8 @@ export default class CurrentContestVotesModal extends React.PureComponent {
                     <TableRow>
                         <TableHeaderColumn>Photo</TableHeaderColumn>
                         <TableHeaderColumn>Auteur</TableHeaderColumn>
-                        <TableHeaderColumn>votes</TableHeaderColumn>
+                        <TableHeaderColumn>Votes</TableHeaderColumn>
+                        <TableHeaderColumn></TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody

@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {
-    getCurrentContestVoters
+    getCurrentContestVoters,
+    cancelParticipation
 } from "../actions/voteActions";
 import CurrentContestVotesModalComponent from "../ui/CurrentContestVotesModal";
 
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getCurrentContestVoters: () => {
             dispatch(getCurrentContestVoters())
+        },
+        cancelParticipation: (id_user) => {
+            dispatch(cancelParticipation(id_user));
         }
     }
 }

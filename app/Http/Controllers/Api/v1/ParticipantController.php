@@ -264,6 +264,7 @@ class ParticipantController extends Controller
           if ( $user->isAdmin != true ) {
             return response()->json([
               'error' => true,
+              'msg' => 'Droits d\'admin requis',
               'deleted' => false
             ]);
           }
@@ -279,6 +280,7 @@ class ParticipantController extends Controller
       }
       return response()->json([
         'error' => true,
+        'msg' => 'Erreur inconnue',
         'deleted' => false
       ]);
     }
