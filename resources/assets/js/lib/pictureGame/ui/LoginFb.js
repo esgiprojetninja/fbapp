@@ -57,7 +57,7 @@ export default class Loginfb extends React.PureComponent {
                 style={{marginTop: "-2px"}}
                 label="aide"
                 secondary={true}
-                href="conf-politics"
+                href="help"
             />
         );
     }

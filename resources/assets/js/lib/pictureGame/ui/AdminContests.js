@@ -2,9 +2,11 @@ import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
 import DataExport from "../container/DataExport";
+import CGUEditor from "../container/CGUEditor";
+
+
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-
 import AutoComplete from 'material-ui/AutoComplete';
 import Search from 'material-ui/svg-icons/action/search';
 import {List, ListItem} from 'material-ui/List';
@@ -144,9 +146,15 @@ export default class AdminContests extends React.PureComponent {
                     style={{padding: "0 15px"}}
                 />
                 <FlatButton
-                    label="Importation"
+                    label="Export"
                     primary={true}
                     onClick={this.props.onOpenExport}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Documents"
+                    primary={true}
+                    onClick={this.props.onOpenCGU}
                     style={{padding: "0 15px"}}
                 />
             </div>
@@ -182,6 +190,12 @@ export default class AdminContests extends React.PureComponent {
                             primaryText="Export"
                             secondaryText="Exporter la liste des utilisateurs"
                             onClick={this.props.onOpenExport}
+                        />
+                        <ListItem
+                            style={{padding: "0 15px"}}
+                            primaryText="Documents"
+                            secondaryText="Éditer les documents"
+                            onClick={this.props.onOpenCGU}
                         />
                     </List>
                 </div>
@@ -576,6 +590,11 @@ export default class AdminContests extends React.PureComponent {
                       <DataExport />
                     </div>
                 </div>
+            );
+        }
+        if(this.props.openCGU) {
+            return (
+                <CGUEditor />
             );
         }
     }

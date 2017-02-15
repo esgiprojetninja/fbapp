@@ -358,3 +358,9 @@ export const reloadContestParticipantAfterVote = () => {
         dispatch(updateParticipantAfterVote(getState().gallery.aimed_participant))
     }
 }
+
+export const openCGU = () => {
+    return {
+        type: actionTypes.OPEN_CGU
+    };
+}
