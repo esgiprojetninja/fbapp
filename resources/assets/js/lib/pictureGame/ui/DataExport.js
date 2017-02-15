@@ -2,6 +2,7 @@ import React, {PropTypes as T} from "react";
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Spinner from "./Spinner";
 
@@ -21,8 +22,8 @@ export default class DataExport extends React.PureComponent {
         }
         return (
             <div>
-                {this.renderTable()}
                 {this.renderActions()}
+                {this.renderTable()}
             </div>
         );
     }
@@ -54,11 +55,13 @@ export default class DataExport extends React.PureComponent {
 
     renderActions() {
         return (
-            <FlatButton
-                label="Export to csv"
-                primary={true}
-                onClick={this.exportUserList}
-            />
+            <div className="full-width text-center">
+                <RaisedButton
+                    label="Exporter en csv"
+                    primary={true}
+                    onClick={this.exportUserList}
+                />
+            </div>
         );
     }
 

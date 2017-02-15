@@ -6,7 +6,7 @@ export default class ConfPolitics extends React.PureComponent {
     render () {
         return (
             <div className="full-height">
-                <AppNavBar title="Pardon Maman: the game" noToggle={true}/>
+                <AppNavBar title="Pardon Maman" noToggle={true}/>
                 <Col md={8} mdOffset={2}>
                     <section style={{marginTop: "35px"}}>
                         <h1 style={{textAlign: "center"}}>Politique modèle de confidentialité</h1>

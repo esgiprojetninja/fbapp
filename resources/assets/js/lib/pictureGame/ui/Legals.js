@@ -12,7 +12,7 @@ export default class Legals extends React.PureComponent {
     render () {
         return (
             <div className="full-height">
-                <AppNavBar title="Pardon Maman: the game" noToggle={true}/>
+                <AppNavBar title="Pardon Maman" noToggle={true}/>
                 <Col md={8} mdOffset={2}>
                     <section style={{marginTop: "35px"}}>
                         <h1 style={{textAlign: "center"}} id="rules">Règles du jeu</h1>
