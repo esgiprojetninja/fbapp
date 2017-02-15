@@ -18,6 +18,7 @@ export default class Loginfb extends React.PureComponent {
                 {this.renderAdminButton()}
                 {this.renderLoginButton()}
                 {this.renderHelpButton()}
+                {this.renderShareButton()}
             </div>
         );
     }
