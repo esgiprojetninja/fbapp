@@ -28,22 +28,17 @@ class Kernel extends ConsoleKernel
     */
     protected function schedule(Schedule $schedule)
     {
-        /*$schedule->call(function () {
+        $schedule->call(function () {
             $now = date('Y-m-d H:i:s');
             $endDate = Contest::where('state', 1)->value('end_date');
             if($now >= $endDate){
                 $idWinner = Participant::where('nb_votes',Participant::where('id_contest',Contest::where('state', 1)->value('id'))->max('nb_votes'))->value('id');
                 Contest::where('state', 1)->update(['id_winner'=>$idWinner]);
                 ContestController::sendEndContestMail();
+                ContestController::postOnFBEnd();
                 Contest::where('state', 1)->update(['state'=>2]);
             }
-        })->dailyAt('00:01');*/
-        $schedule->call(function () {
-            ContestController::sendEndContestMail();
-            ContestController::postOnFBEnd();
-        })->everyMinute()
-          ->sendOutputTo(storage_path('logs/update-active.log'))
-          ->emailOutputTo('lambot.rom@gmail.com');
+        })->dailyAt('00:01');
     }
 
     /**

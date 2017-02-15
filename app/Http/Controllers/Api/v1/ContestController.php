@@ -195,9 +195,10 @@ class ContestController extends Controller
         $contestName = Contest::where('state',1)->value('title');
         $explication = Contest::where('state',1)->value('end_msg');
         $idPhoto = Participant::where('id',$idWinner)->value('id_fb_photo');
-        $token = Auth::user()['token'];
-        $photo_source = $fb->getPhotoById($idPhoto,$token);
-        $photo_source = $photo_source['webp_images'][0]["source"];
+
+        $token = env('FACEBOOK_APP_SECRET_ID');
+
+        $photo_source = Participant::where('id',$idWinner)->value('fb_source');
 
         $message = "Bravo à ". $nomGagnant ." qui gagne le concours ". $contestName ." organisé par Pardon Maman.\n".$explication."\n Merci à toutes et tous d'avoir participé!";
         foreach($participants as $participant)
