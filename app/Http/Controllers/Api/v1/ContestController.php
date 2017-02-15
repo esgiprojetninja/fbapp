@@ -216,8 +216,7 @@ class ContestController extends Controller
     public static function sendEndContestMail()
     {
         $fb = new \App\Facebook();
-        //$admins = $fb->getAdminMail();
-        $admins = ['lambot.rom@gmail.com'];
+        $admins = $fb->getAdminMail();
         $idWinner = Contest::where("state",1)->value('id_winner');
         $idParticipant = Participant::where("id",$idWinner)->value('id_user');
         $nomGagnant = User::where("id",$idParticipant)->value('name');
