@@ -271,6 +271,14 @@ const contest = (state = initialSate, action) => {
                     participants: state.currentContest.participants.map( (p, key) => (p.id == action.participant.id ) ? action.participant : p )
                 }
             }
+        case actionTypes.REMOVE_PARTICIPANT_AFTER_ADMIN_REMOVE:
+            return {
+                ...state,
+                currentContest: {
+                    ...state.currentContest,
+                    participants: state.currentContest.participants.filter( (p) => p.id_user != action.id_user )
+                }
+            }
         default:
             return state;
     }

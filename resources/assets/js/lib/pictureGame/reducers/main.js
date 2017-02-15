@@ -5,6 +5,7 @@ import participant from "./participant";
 import notice from "./notice";
 import dataExport from "./dataExport";
 import gallery from "./gallery";
+import vote from "./vote";
 import legal from "./legal";
 
 const Main = combineReducers({
@@ -14,6 +15,7 @@ const Main = combineReducers({
     notice,
     dataExport,
     gallery,
+    vote,
     legal
 });
 

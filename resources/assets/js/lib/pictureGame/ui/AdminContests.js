@@ -1,6 +1,7 @@
 import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
+import CurrentContestVotesModal from "../container/CurrentContestVotesModal";
 import DataExport from "../container/DataExport";
 import CGUEditor from "../container/CGUEditor";
 
@@ -59,6 +60,9 @@ const style = {
         fontSize: "14px",
         margin: "10px 0",
         display: "block"
+    },
+    topButtons: {
+        margin: '0 5px'
     }
 }
 
@@ -209,9 +213,16 @@ export default class AdminContests extends React.PureComponent {
             <div>
                 <div className="admin-table-bar">
                     <RaisedButton
-                        label="Create a new contest"
+                        label="Créer un concours"
                         onTouchTap={this.props.onCreateModalOpenClick}
                         className="admin-create"
+                        style={style.topButtons}
+                    />
+                    <RaisedButton
+                        label="Votes en cours"
+                        onTouchTap={this.props.openVotes}
+                        className="admin-create"
+                        style={style.topButtons}
                     />
                 </div>
                 <Table bodyStyle={{overflow: 'visible'}} className="admin-table">
@@ -614,7 +625,6 @@ export default class AdminContests extends React.PureComponent {
           />,
         ];
 
-
         return (
             <div className="admin initial">
                 <div className="initial">
@@ -642,7 +652,7 @@ export default class AdminContests extends React.PureComponent {
                         </div>
                     </Dialog>
                 </div>
-
+                <CurrentContestVotesModal />
             </div>
         );
     }
@@ -653,5 +663,6 @@ AdminContests.propTypes = {
         T.shape().isRequired
     ).isRequired,
     onReady: T.func.isRequired,
-    onCreateModalOpenClick: T.func.isRequired
+    onCreateModalOpenClick: T.func.isRequired,
+    openVotes: T.func.isRequired
 };

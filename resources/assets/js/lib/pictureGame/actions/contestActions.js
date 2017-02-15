@@ -359,6 +359,13 @@ export const reloadContestParticipantAfterVote = () => {
     }
 }
 
+export const removeParticipantFromCurrentContest = (id_user) => {
+    return {
+        type: actionTypes.REMOVE_PARTICIPANT_AFTER_ADMIN_REMOVE,
+        id_user
+    }
+}
+
 export const openCGU = () => {
     return {
         type: actionTypes.OPEN_CGU
