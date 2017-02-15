@@ -13,16 +13,18 @@ class endContestMail extends Mailable
 
     protected $contestName;
     protected $winnerName;
+    protected $pageFb;
 
     /**
     * Create a new message instance.
     *
     * @return void
     */
-    public function __construct($contestName, $winnerName)
+    public function __construct($contestName, $winnerName, $pageFb)
     {
         $this->contestName = $contestName;
         $this->winnerName = $winnerName;
+        $this->pageFb = $pageFb;
     }
 
     /**
@@ -36,7 +38,8 @@ class endContestMail extends Mailable
         ->subject('Résultat concours')
         ->with([
             'contestName' => $this->contestName,
-            'winnerName' => $this->winnerName
+            'winnerName' => $this->winnerName,
+            'pageFb' => $this->pageFb
         ]);
     }
 }

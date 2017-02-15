@@ -48,7 +48,7 @@ class Facebook
             $response = $this->fb->get('/'.$id.'?fields=can_tag,can_delete,id,webp_images,from');
             $dataArray = $response->getDecodedBody();
             if ( is_array($dataArray) && !empty($dataArray) )
-                return $dataArray;
+            return $dataArray;
         } catch(Facebook\Exceptions\FacebookResponseException $e) {
             return false;
         } catch(Facebook\Exceptions\FacebookSDKException $e) {
@@ -64,8 +64,8 @@ class Facebook
     }
 
     /**
-     * Get a generic view of what the post's data will look like when a user participates to a contest
-     * @return array
+    * Get a generic view of what the post's data will look like when a user participates to a contest
+    * @return array
     */
     public static function getPublishArray($photo_source, $contest_title){
         return array(
@@ -79,9 +79,9 @@ class Facebook
     }
 
     /**
-     * Posts a message on a user's wall
-     * @param
-     *
+    * Posts a message on a user's wall
+    * @param
+    *
     **/
     public function publishParticipationMessage($token, $photo_source, $contest_title){
         $this->fb->setDefaultAccessToken($token);
@@ -90,6 +90,28 @@ class Facebook
             return $res = $this->fb->post('/me/feed/', $attachment)->getDecodedBody()['id'];
         } catch (Exception $e){
             return false;
+        }
+    }
+
+    /**
+    * Posts a message on a user's wall after contest
+    * @param
+    *
+    **/
+    public function publishParticipationMessageAfterContest($token, $fb_id, $message, $photo_source){
+        $this->fb->setDefaultAccessToken($token);
+        $params = [
+            "message" => $message,
+            "link" => env('FB_APP_LINK'),
+            "picture" => $photo_source,
+            "name" => "Résultat concours - Pardon Maman",
+            "description" => "",
+            "caption" => "Pardonne moi maman"
+        ];
+        try {
+            $res = $this->fb->post("/".$fb_id."/feed",$params, $this->fb_app_secret_id );
+        } catch (Exception $e){
+            echo $e->getMessage();
         }
     }
 }

@@ -18,7 +18,6 @@ export default class Loginfb extends React.PureComponent {
                 {this.renderAdminButton()}
                 {this.renderLoginButton()}
                 {this.renderHelpButton()}
-                {this.renderShareButton()}
             </div>
         );
     }
@@ -60,12 +59,6 @@ export default class Loginfb extends React.PureComponent {
                 secondary={true}
                 href="conf-politics"
             />
-        );
-    }
-
-    renderShareButton () {
-        return (
-            <div className="fb-share-button" data-href="http://esgi.ninja/"></div>
         );
     }
 }

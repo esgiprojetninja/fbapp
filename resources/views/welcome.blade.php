@@ -4,17 +4,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- You can use Open Graph tags to customize link previews.
-        Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
-        <meta property="og:url"           content="http://esgi.ninja/" />
-        <meta property="og:type"          content="website" />
-        <meta property="og:title"         content="Pardon Maman" />
-        <meta property="og:description"   content="Pardon maman est une application de concours photographie lié au tatouage." />
-        <meta property="og:image"         content="https://image.noelshack.com/fichiers/2017/07/1487089944-ca-marche.png" />
-
-        <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
 
         <title>Laravel</title>
 

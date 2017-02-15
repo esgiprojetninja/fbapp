@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
                 $idWinner = Participant::where('nb_votes',Participant::where('id_contest',Contest::where('state', 1)->value('id'))->max('nb_votes'))->value('id');
                 Contest::where('state', 1)->update(['id_winner'=>$idWinner]);
                 ContestController::sendEndContestMail();
+                ContestController::postOnFBEnd();
                 Contest::where('state', 1)->update(['state'=>2]);
             }
         })->dailyAt('00:01');
