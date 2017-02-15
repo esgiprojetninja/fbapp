@@ -1,9 +1,11 @@
 import * as actionTypes from "./contestTypes";
 import ContestApi from "../API/contest/ContestApi";
 import UISettingsApi from "../API/UISettings/UISettingsApi";
+import FacebookLoader from "../utils/FacebookLoader";
 
 const contestApi = new ContestApi();
 const uisettingsApi = new UISettingsApi();
+const facebookLoader = new FacebookLoader();
 
 const generateFreshContest = () => {
     return {
@@ -14,6 +16,29 @@ const generateFreshContest = () => {
         title: "",
         id_winner: 0,
         active: false
+    }
+}
+
+
+export const getFbPicture = () => {
+    return (dispatch, getState) => {
+        facebookLoader.getMyPicture(
+            getState().contest.user.data.token,
+            getState().contest.user.data.fb_id,
+            (response) => {
+                if(response){
+                    dispatch(receivedFbPicture(response));
+                }
+            }
+        )
+    }
+}
+
+export const receivedFbPicture = (response) => {
+    return {
+        type: actionTypes.RECEIVED_FB_PICTURE,
+        isFetching: false,
+        picture: response.data.url
     }
 }
 

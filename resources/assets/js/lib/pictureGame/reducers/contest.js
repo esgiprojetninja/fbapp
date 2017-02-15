@@ -34,7 +34,8 @@ const initialSate = {
     hoverSettingCarousel: false,
     hoverSettingSubmenu: false,
     hoverSettingGallery: false,
-    hoverSettingFullscreen: false
+    hoverSettingFullscreen: false,
+    picture: ""
 };
 
 const contest = (state = initialSate, action) => {
@@ -44,6 +45,13 @@ const contest = (state = initialSate, action) => {
                 ...state,
                 isFetching: true,
                 error: false
+            }
+
+        case actionTypes.RECEIVED_FB_PICTURE:
+            return {
+                ...state,
+                isFetching: true,
+                picture: action.picture
             }
         case actionTypes.REQUEST_UISETTINGS:
             return {

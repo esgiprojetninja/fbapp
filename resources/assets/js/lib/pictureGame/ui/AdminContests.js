@@ -166,9 +166,9 @@ export default class AdminContests extends React.PureComponent {
             <div>
                 <div style={{marginTop: "15px"}}>
                     <div className="admin-profil img-circle">
-                        <img className="img-cover" src="profil.jpg"/>
+                        <img className="img-cover" src={this.props.picture}/>
                     </div>
-                    <span className="admin-profil-name">Teddy Meksavanh</span>
+                    <span className="admin-profil-name">>{this.props.user.data.name}</span>
                 </div>
 
                 <div>
