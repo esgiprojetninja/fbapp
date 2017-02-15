@@ -203,7 +203,8 @@ export default class FacebookLoader {
             type: "POST",
             data: fd,
             processData: false,
-            contentType: "jsonp",
+            /*######### CHANGE TO false for classic webbrowser: jsonp for app ######## */
+            contentType: false,
             cache: false,
         }).done(response => {
             callback(response);

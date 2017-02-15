@@ -46,7 +46,7 @@ export default class App extends React.PureComponent {
         }
         return (
             <div className="full-height">
-                <AppNavBar title="Pardon Maman: the game"/>
+                <AppNavBar title="Pardon Maman"/>
                 <section>
                     <HomeCarousel />
                     <SubMenu />

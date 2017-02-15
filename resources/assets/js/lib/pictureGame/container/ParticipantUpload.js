@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(closeAllModals());
         },
         changePublishPreviewSrcImage: (src, publicationMsg) => {
+            dispatch(openNotice());
             dispatch(changePublishPreviewSrcImage(src, false, publicationMsg));
         },
         displayModalPublishPreview: () => {

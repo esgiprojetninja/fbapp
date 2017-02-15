@@ -66,10 +66,24 @@ export default class AppNavBar extends React.PureComponent {
                 title={this.props.title}
                 showMenuIconButton={false}
                 iconElementRight={
-                    <FlatButton
-                        label="Home"
-                        href="/"
-                    />
+                    <div>
+                        <FlatButton
+                            label="Accueil"
+                            href="/"
+                        />
+                        <FlatButton
+                            label="Règles du jeu"
+                            href="#rules"
+                        />
+                        <FlatButton
+                            label="CGU"
+                            href="#cgu"
+                        />
+                        <FlatButton
+                            label="Confidentialité"
+                            href="#privacy"
+                        />
+                    </div>
                 }
             />
         )
@@ -103,5 +117,6 @@ export default class AppNavBar extends React.PureComponent {
 }
 
 AppNavBar.propTypes = {
-    title: T.string.isRequired
+    title: T.string.isRequired,
+    buttons: T.arrayOf(T.object)
 }

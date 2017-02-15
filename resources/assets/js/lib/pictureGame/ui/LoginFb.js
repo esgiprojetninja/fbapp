@@ -12,7 +12,7 @@ export default class Loginfb extends React.PureComponent {
         return (
             <div className="navbar-mui-right">
                 <FlatButton
-                    label="Home"
+                    label="accueil"
                     href="/"
                 />
                 {this.renderAdminButton()}
@@ -35,7 +35,7 @@ export default class Loginfb extends React.PureComponent {
         if (this.props.isConnected) {
             return (
                 <FlatButton
-                label="Logout"
+                label="Se déconnecter"
                 secondary={true}
                 className={className}
                 onClick={(e) => this.props.onLogoutClicked(this.props.isConnected)}
@@ -44,7 +44,7 @@ export default class Loginfb extends React.PureComponent {
         }
         return (
             <FlatButton
-            label="Connect with facebook"
+            label="Se connecter"
             className={className}
             onClick={(e) => this.props.onLoginClicked(this.props.isConnected)}
             />
@@ -54,9 +54,10 @@ export default class Loginfb extends React.PureComponent {
     renderHelpButton () {
         return (
             <FlatButton
-                label="aide"
+                style={{marginTop: "-2px"}}
+                label="Aide"
                 secondary={true}
-                href="conf-politics"
+                href="help"
             />
         );
     }

@@ -116,8 +116,10 @@ const contest = (state = initialSate, action) => {
         case actionTypes.OPEN_SETTINGS: // TODO optimize this asap
             return {
                 ...state,
-                openEvents: false,
                 openSettings: true,
+                openEvents: false,
+                openExport: false,
+                openCGU: false,
                 settingsCarousel: false,
                 settingsGallery: false,
                 settingsSubmenu: false,
@@ -128,15 +130,26 @@ const contest = (state = initialSate, action) => {
             return {
                 ...state,
                 openEvents: true,
-                openSettings: false
+                openSettings: false,
+                openExport: false,
+                openCGU: false
             };
-            case actionTypes.OPEN_EXPORT:
-                return {
-                    ...state,
-                    openEvents: false,
-                    openSettings: false,
-                    openExport: true
-                }
+        case actionTypes.OPEN_EXPORT: // TODO optimize this asap
+            return {
+                ...state,
+                openEvents: false,
+                openSettings: false,
+                openCGU: false,
+                openExport: true
+            }
+        case actionTypes.OPEN_CGU: // TODO optimize this asap
+            return {
+                ...state,
+                openCGU: true,
+                openEvents: false,
+                openSettings: false,
+                openExport: false
+            }
         case actionTypes.CHANGE_MAIN_COLOR:
             return {
                 ...state,
@@ -263,6 +276,14 @@ const contest = (state = initialSate, action) => {
                 currentContest: {
                     ...state.currentContest,
                     participants: state.currentContest.participants.map( (p, key) => (p.id == action.participant.id ) ? action.participant : p )
+                }
+            }
+        case actionTypes.REMOVE_PARTICIPANT_AFTER_ADMIN_REMOVE:
+            return {
+                ...state,
+                currentContest: {
+                    ...state.currentContest,
+                    participants: state.currentContest.participants.filter( (p) => p.id_user != action.id_user )
                 }
             }
         default:

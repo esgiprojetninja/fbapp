@@ -8,6 +8,7 @@ import {
     changeColorGallery,
     openAdmin,
     closeAdmin,
+    openCGU,
     openSettings,
     openEvents,
     openExport,
@@ -28,7 +29,10 @@ import {
     getFbPicture,
     receivedFbPicture
 } from "../actions/contestActions";
-
+import {
+    openVotes,
+    getCurrentContestVoters
+} from "../actions/voteActions";
 import AdminContestsComponent from "../ui/AdminContests";
 
 const mapStateToProps = (state) => {
@@ -84,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
         onOpenSettingsGallery: () => {
             dispatch(openSettingsGallery());
         },
+        onOpenCGU: () => {
+            dispatch(openCGU());
+        },
         onOpenSettingsMenu: () => {
             dispatch(openSettingsMenu());
         },
@@ -119,6 +126,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         onReceivedFbPicture: (response) => {
             dispatch(receivedFbPicture(response));
+        }
+	openVotes: () => {
+            dispatch(getCurrentContestVoters());
+            dispatch(openVotes());
+            dispatch(closeAdmin());
         }
     }
 }

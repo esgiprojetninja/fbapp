@@ -9,6 +9,7 @@ import AppNavBar from "./ui/AppNavBar";
 import App from "./container/App";
 import Admin from "./ui/Admin";
 import ConfPolitics from "./ui/ConfPolitics";
+import Legals from "./container/Legals";
 /* Material ui stuff */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -30,6 +31,7 @@ const pictureGameApp = {
                     <Router history={browserHistory}>
                         <Route path="/" component={App} />
                         <Route path="conf-politics" component={ConfPolitics} />
+                        <Route path="help" component={Legals} />
                     </Router>
                 </Provider>
             </MuiThemeProvider>,

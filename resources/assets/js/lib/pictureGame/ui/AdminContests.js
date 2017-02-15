@@ -1,10 +1,13 @@
 import React, {PropTypes as T} from "react";
 import AppNavBar from "./AppNavBar";
 import ContestModalForm from "../container/ContestModalForm";
+import CurrentContestVotesModal from "../container/CurrentContestVotesModal";
 import DataExport from "../container/DataExport";
+import CGUEditor from "../container/CGUEditor";
+
+
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-
 import AutoComplete from 'material-ui/AutoComplete';
 import Search from 'material-ui/svg-icons/action/search';
 import {List, ListItem} from 'material-ui/List';
@@ -57,6 +60,9 @@ const style = {
         fontSize: "14px",
         margin: "10px 0",
         display: "block"
+    },
+    topButtons: {
+        margin: '0 5px'
     }
 }
 
@@ -144,9 +150,15 @@ export default class AdminContests extends React.PureComponent {
                     style={{padding: "0 15px"}}
                 />
                 <FlatButton
-                    label="Importation"
+                    label="Export"
                     primary={true}
                     onClick={this.props.onOpenExport}
+                    style={{padding: "0 15px"}}
+                />
+                <FlatButton
+                    label="Documents"
+                    primary={true}
+                    onClick={this.props.onOpenCGU}
                     style={{padding: "0 15px"}}
                 />
             </div>
@@ -183,6 +195,12 @@ export default class AdminContests extends React.PureComponent {
                             secondaryText="Exporter la liste des utilisateurs"
                             onClick={this.props.onOpenExport}
                         />
+                        <ListItem
+                            style={{padding: "0 15px"}}
+                            primaryText="Documents"
+                            secondaryText="Éditer les documents"
+                            onClick={this.props.onOpenCGU}
+                        />
                     </List>
                 </div>
 
@@ -195,9 +213,16 @@ export default class AdminContests extends React.PureComponent {
             <div>
                 <div className="admin-table-bar">
                     <RaisedButton
-                        label="Create a new contest"
+                        label="Créer un concours"
                         onTouchTap={this.props.onCreateModalOpenClick}
                         className="admin-create"
+                        style={style.topButtons}
+                    />
+                    <RaisedButton
+                        label="Votes en cours"
+                        onTouchTap={this.props.openVotes}
+                        className="admin-create"
+                        style={style.topButtons}
                     />
                 </div>
                 <Table bodyStyle={{overflow: 'visible'}} className="admin-table">
@@ -578,6 +603,15 @@ export default class AdminContests extends React.PureComponent {
                 </div>
             );
         }
+        if(this.props.openCGU) {
+            return (
+                <div className="full-width" style={{alignSelf: "flex-start"}}>
+                    <div>
+                      <CGUEditor />
+                    </div>
+                </div>
+            );
+        }
     }
 
     render () {
@@ -594,7 +628,6 @@ export default class AdminContests extends React.PureComponent {
             onTouchTap={this.props.onCloseAdmin}
           />,
         ];
-
 
         return (
             <div className="admin initial">
@@ -616,14 +649,14 @@ export default class AdminContests extends React.PureComponent {
                             <div className="admin-sidebar-mobile hidden-md hidden-lg">
                                 {this.renderAdminSideBarMobile()}
                             </div>
-                            <div style={{width: "257px", display: "inline-block"}} className="admin-sidebar hidden-sm hidden-xs">
+                            <div style={{width: "257px", display: "inline-block", alignSelf: "flex-start"}} className="admin-sidebar hidden-sm hidden-xs">
                                 {this.renderAdminSideBar()}
                             </div>
                             {this.renderAdminBody()}
                         </div>
                     </Dialog>
                 </div>
-
+                <CurrentContestVotesModal />
             </div>
         );
     }
@@ -634,5 +667,6 @@ AdminContests.propTypes = {
         T.shape().isRequired
     ).isRequired,
     onReady: T.func.isRequired,
-    onCreateModalOpenClick: T.func.isRequired
+    onCreateModalOpenClick: T.func.isRequired,
+    openVotes: T.func.isRequired
 };

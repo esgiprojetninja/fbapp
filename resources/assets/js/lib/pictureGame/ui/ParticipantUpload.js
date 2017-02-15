@@ -11,6 +11,7 @@ import Undo from 'material-ui/svg-icons/content/undo';
 import Clear from 'material-ui/svg-icons/content/clear';
 import InsertImg from 'material-ui/svg-icons/editor/insert-photo';
 
+import {fullWhite} from 'material-ui/styles/colors';
 
 import Spinner from "./Spinner";
 import NoticePop from '../container/Notice';
@@ -22,27 +23,25 @@ export default class ParticipantUpload extends React.PureComponent {
         this.acceptedFiles = ['png, jpg, jpeg'];
         this.style = {
           dropzone: {
-            width: "50vw",
-            height: "75vh",
-            maxHeight: "330px",
-            maxWidth: "680px",
-            border: "2px dashed #C7C7C7"
+            width: "100%",
+            height: "200px",
+            border: "none",
+            position: "absolute",
+            zIndex: "90"
           },
           dropzoneInput:{
-            height: "100%",
+            height: "200px",
             width: "100%",
             border: "none",
-            zIndex: "99",
-            opacity: "0",
-            position: "absolute"
+            zIndex: "99"
           },
           previewImg: {
-            opacity: ".94",
+            opacity: "1",
             maxHeight: "50%",
             zIndex: "1",
             position: "fixed",
-            bottom: "calc(13%)",
-            right: "calc(3%)"
+            top: "calc(35.7%)",
+            left: "calc(29.2%)"
           },
           requestSpinner: {
             top: "0",
@@ -149,10 +148,20 @@ export default class ParticipantUpload extends React.PureComponent {
         return (
             <Dropzone
               multiple={false}
+              style={this.style.dropzoneInput}
               minSize={100}
+              className="display-flex-column"
               accept="image/*"
               onDropAccepted={this.dropAction.bind(this)}
-            />
+            >
+                <FlatButton
+                  label="poste ta photo sur facebook"
+                  style={{color: "white"}}
+                  backgroundColor={this.props.contest.color}
+                  icon={<InsertImg color={fullWhite}/>}
+                  primary={true}
+                />
+            </Dropzone>
         )
     }
 
