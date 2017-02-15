@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import {fullWhite} from 'material-ui/styles/colors';
 
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import Undo from 'material-ui/svg-icons/content/undo';
 
 
 export default class CurrentContestVotesModal extends React.PureComponent {
@@ -29,13 +30,7 @@ export default class CurrentContestVotesModal extends React.PureComponent {
     }
 
     renderRows() {
-        // name, source, nb_votes, id
         const tapAction = this.removeParticipantAction.bind(this);
-        if ( this.props.vote.participants.length === 0 ) {
-            return (
-                <div className="full-width text-left">Aucun participant à l'heure actuelle</div>
-            );
-        }
         return this.props.vote.participants.map((participant, key) => (
             <TableRow key={key}>
                 <TableRowColumn
@@ -69,6 +64,11 @@ export default class CurrentContestVotesModal extends React.PureComponent {
                 <Spinner/>
             );
         };
+        if ( this.props.vote.participants.length === 0 ){
+            return (
+                <div className="full-width text-left">Aucun participant à l'heure actuelle</div>
+            );
+        };
         return (
             <Table
               fixedHeader={true}
@@ -98,13 +98,19 @@ export default class CurrentContestVotesModal extends React.PureComponent {
     }
 
     getActions() {
-
+      return [
+          <FlatButton
+              primary={true}
+              icon={<Undo/>}
+              onTouchTap={this.props.goBack}
+          />
+      ];
     }
 
     render () {
-        const actions = getActions();
         return (
             <Dialog
+              actions={this.getActions()}
               title={"Votes courant : " + this.props.contest.currentContest.title}
               modal={false}
               autoScrollBodyContent={true}

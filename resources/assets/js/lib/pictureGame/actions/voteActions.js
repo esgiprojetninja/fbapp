@@ -48,6 +48,12 @@ export const openVotes = () => {
     }
 }
 
+export const closeModal = () => {
+    return {
+        type: types.CLOSE_MODAL
+    }
+}
+
 const receivedParticipationCancelling = (id_user) => {
     return {
         type: types.RECEIVED_PARTICIPATION_CANCELLING,

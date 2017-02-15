@@ -14,6 +14,11 @@ const contest = (state = initialSate, action) => {
                 ...state,
                 open: true
             }
+        case voteTypes.CLOSE_MODAL:
+            return {
+                ...state,
+                open: false
+            }
         case voteTypes.RECEIVE_ERROR:
             return {
                 ...state,
