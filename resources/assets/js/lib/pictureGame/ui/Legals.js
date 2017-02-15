@@ -15,15 +15,15 @@ export default class Legals extends React.PureComponent {
                 <AppNavBar title="Pardon Maman: the game" noToggle={true}/>
                 <Col md={8} mdOffset={2}>
                     <section style={{marginTop: "35px"}}>
-                        <h1 style={{textAlign: "center"}}>Règles du jeu</h1>
+                        <h1 style={{textAlign: "center"}} id="rules">Règles du jeu</h1>
                         <div dangerouslySetInnerHTML={{__html: this.props.rules}}></div>
                     </section>
                     <section style={{marginTop: "35px"}}>
-                        <h1 style={{textAlign: "center"}}>CGU</h1>
+                        <h1 style={{textAlign: "center"}} id="cgu">CGU</h1>
                         <div dangerouslySetInnerHTML={{__html: this.props.cgu}}></div>
                     </section>
                     <section style={{marginTop: "35px"}}>
-                        <h1 style={{textAlign: "center"}}>Politique de confidentialité</h1>
+                        <h1 style={{textAlign: "center"}} id="privacy">Politique de confidentialité</h1>
                         <div dangerouslySetInnerHTML={{__html: this.props.privacy_policy}}></div>
                     </section>
                 </Col>
