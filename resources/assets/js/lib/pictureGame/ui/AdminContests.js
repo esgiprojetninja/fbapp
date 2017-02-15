@@ -191,7 +191,7 @@ export default class AdminContests extends React.PureComponent {
                         />
                         <ListItem
                             style={{padding: "0 15px"}}
-                            primaryText="Utilisateurs"
+                            primaryText="Export"
                             secondaryText="Exporter la liste des utilisateurs"
                             onClick={this.props.onOpenExport}
                         />
