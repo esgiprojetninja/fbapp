@@ -152,7 +152,7 @@ export default class AdminContests extends React.PureComponent {
                     style={{padding: "0 15px"}}
                 />
                 <FlatButton
-                    label="CGU"
+                    label="Documents"
                     primary={true}
                     onClick={this.props.onOpenCGU}
                     style={{padding: "0 15px"}}
