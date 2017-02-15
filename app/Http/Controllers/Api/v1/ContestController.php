@@ -211,8 +211,112 @@ class ContestController extends Controller
         $currentVotes = [];
         foreach($participants as $participant)
         {
-            $currentVotes[] = ['id'=>User::where('id',$participant['id_user'])->value('fb_id'),"nb_votes"=>$participant['nb_votes']];
+            $currentVotes[] = [
+              'id'=>$participant['id'],
+              "nb_votes"=>$participant['nb_votes'],
+              'name'=>User::where('id',$participant['id_user'])->value('name'),
+              'fb_src'=>$participant['fb_source'],
+              'id_fb_photo'=>$participant['id_fb_photo']
+            ];
         }
+        $currentVotes[] = [
+            'id' => 45647754,
+            "nb_votes" => 18,
+            'name' => "cucu lapraline",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "5646515345343"
+        ];
+        $currentVotes[] = [
+            'id' => 75871227,
+            "nb_votes" => 2,
+            'name' => "mon cul",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "877864564"
+        ];
+        $currentVotes[] = [
+            'id' => 568278504651,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 7571414757,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 15234,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 25312,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 2185,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 7721,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 78637,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 4147,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 171717,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 3578687,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 87659825,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
+        $currentVotes[] = [
+            'id' => 56845847326651,
+            "nb_votes" => 25,
+            'name' => "mais nikltamer",
+            'fb_src' => "https://scontent.xx.fbcdn.net/v/t31.0-8/10498436_10204518331737273_7556784109909028610_o.jpg.webp?oh=84cf13cad6f175a6e0143c3e74191e40&oe=59405990",
+            'id_fb_photo' => "865745646851"
+        ];
         return response()->json([
             'currentVotes' => $currentVotes
         ]);

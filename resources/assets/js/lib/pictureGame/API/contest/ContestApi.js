@@ -50,4 +50,15 @@ export default class ContestApi {
             callback(response);
         });
     }
+
+    getCurrentVotes(callback) {
+        return $.ajax({
+            method: "GET",
+            url: this.apiBaseUrl + "current/votes"
+        }).done(response => {
+            callback(response);
+        });
+    }
+
+
 }

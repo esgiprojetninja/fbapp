@@ -5,7 +5,10 @@ import {
 import CurrentContestVotesModalComponent from "../ui/CurrentContestVotesModal";
 
 const mapStateToProps = (state) => {
-    return state;
+    return {
+        vote: state.vote,
+        contest: state.contest
+    };
 }
 
 const mapDispatchToProps = (dispatch) => {

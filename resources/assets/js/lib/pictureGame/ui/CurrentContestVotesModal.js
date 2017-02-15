@@ -6,58 +6,71 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import Spinner from './Spinner';
 
 export default class CurrentContestVotesModal extends React.PureComponent {
-
+    constructor() {
+        this.style = {
+            table: {
+                minHeight: "100px"
+            }
+        }
+    }
     renderRows() {
-      if ( this.props.isFetching ) {
-          return (
-              <Spinner/>
-          );
-      }
-      return this.props.participants.map(participant => (
-          <TableRow key={participant.id}>
-              <TableRowColumn className="admin-td admin-td-id">
-                  {participant.id}
-              </TableRowColumn>
-              <TableRowColumn className="admin-td admin-td-title">
-                  {participant.title}
-              </TableRowColumn>
-              <TableRowColumn className="admin-td admin-td-winner hidden-sm hidden-xs">
-                  {participant.id_winner}
-              </TableRowColumn>
-              <TableRowColumn className="admin-td admin-td-state">
-                  {participant.state}
-              </TableRowColumn>
-          </TableRow>
-      ));
+        // name, source, nb_votes, id
+        return this.props.vote.participants.map(participant => (
+            <TableRow key={participant.id}>
+                <TableRowColumn
+                  children={<img className="full-height width-auto votes_consult_row_column_img" src={participant.fb_src} />}
+                ></TableRowColumn>
+                <TableRowColumn>
+                    {participant.name}
+                </TableRowColumn>
+                <TableRowColumn>
+                    {participant.nb_votes}
+                </TableRowColumn>
+            </TableRow>
+        ));
     }
 
     renderTable() {
-        <Table bodyStyle={{overflow: 'visible'}} className="admin-table">
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderColumn>ID</TableHeaderColumn>
-                    <TableHeaderColumn>Title</TableHeaderColumn>
-                    <TableHeaderColumn className="hidden-sm hidden-xs">From</TableHeaderColumn>
-                    <TableHeaderColumn className="hidden-sm hidden-xs">To</TableHeaderColumn>
-                    <TableHeaderColumn className="hidden-sm hidden-xs">Winner</TableHeaderColumn>
-                    <TableHeaderColumn>Active</TableHeaderColumn>
-                    <TableHeaderColumn className="td-actions">Actions</TableHeaderColumn>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {this.renderRows()}
-            </TableBody>
-        </Table>
+        if ( this.props.vote.isFetching === true ) {
+            return (
+                <Spinner/>
+            );
+        };
+        return (
+            <Table
+              fixedHeader={true}
+              selectable={false}
+              multiSelectable={false}
+              style={this.style.table}>
+                <TableHeader
+                  displaySelectAll={false}
+                  adjustForCheckbox={false}
+                  enableSelectAll={false}
+                >
+                    <TableRow>
+                        <TableHeaderColumn>Photo</TableHeaderColumn>
+                        <TableHeaderColumn>Auteur</TableHeaderColumn>
+                        <TableHeaderColumn>votes</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody
+                  displayRowCheckbox={false}
+                  stripedRows={false}
+                >
+                    {this.renderRows()}
+                </TableBody>
+            </Table>
+        );
     }
 
     render () {
         return (
             <Dialog
-              title="Votes courant"
+              title={"Votes courant : " + this.props.contest.currentContest.title}
               modal={false}
               autoScrollBodyContent={true}
-              open={this.props.open} >
-
+              open={this.props.vote.open} >
+                {this.renderTable()}
             </Dialog>
         );
     }
