@@ -634,6 +634,7 @@ export default class AdminContests extends React.PureComponent {
                 <div className="initial">
                     <FlatButton
                         label="Admin"
+                        className="admin-main-btn"
                         onTouchTap={this.props.onOpenAdmin}
                     />
                     <Dialog

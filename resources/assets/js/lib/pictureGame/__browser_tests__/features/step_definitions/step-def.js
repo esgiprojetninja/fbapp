@@ -16,11 +16,15 @@ module.exports = function(){
     });
 
     this.Given(/^I am on Google/, function (url) {
-        browser.url("https://google.fr");
+        browser.url("https://www.google.fr");
     });
 
     this.When(/^I click on the element "([^"]*)"$/, function (selector) {
         var element = browser.click(selector);
+    });
+
+    this.When(/^I click on "([^"]*)"$/, function (selector) {
+        var element = browser.click("*=" + selector);
     });
 
     this.When(/^I click on the button "([^"]*)"$/, function (selector) {
@@ -47,8 +51,7 @@ module.exports = function(){
     });
 
     this.Then(/^I should see "([^"]*)" in a "([^"]*)"/, function (text, element) {
-        browser.screenshot();
-        browser.getText(element + "=" + text);
+        browser.getText(element + "*=" + text);
     });
 
     this.Then(/^I should see the element "([^"]*)"$/, function (selector) {
