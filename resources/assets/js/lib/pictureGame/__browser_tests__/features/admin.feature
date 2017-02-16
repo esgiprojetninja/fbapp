@@ -19,7 +19,7 @@ Feature: Admin
         Then I should see the element ".navbar-mui"
         When I click on the element ".admin-main-btn"
         When I wait 3 sec
-        When I click on the button "CRÉER UN CONCOURS"
+        When I click on "Paramètres"
         When I fill the element "#title" with "TOTO"
         When I submit "create_contest"
         Then I should see "TOTO"
