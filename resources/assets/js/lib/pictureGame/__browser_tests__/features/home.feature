@@ -1,6 +1,6 @@
-Feature: Example feature
+Feature: Home feature
     As a not logged user
-    I should be able to get the navbar
+    I should be able to log in with Facebook
 
     Scenario: Get the navbar
         Given I am on the homepage

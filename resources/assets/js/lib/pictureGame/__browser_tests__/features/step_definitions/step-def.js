@@ -15,8 +15,17 @@ module.exports = function(){
         browser.screenshot();
     });
 
+    this.Given(/^I am on Google/, function (url) {
+        browser.url("https://google.fr");
+    });
+
     this.When(/^I click on the element "([^"]*)"$/, function (selector) {
         var element = browser.click(selector);
+    });
+
+    this.When(/^I click on the button "([^"]*)"$/, function (selector) {
+        console.log(browser.element("button").element("span").getText("*=" + selector));
+        var element = browser.click('*=' + selector);
     });
 
     this.When(/^I fill the element "([^"]*)" with "([^"]*)"$/, function (selector, value) {
